@@ -1,0 +1,174 @@
+[
+    {
+        "req": "I want two meters of cotton for £2,000",
+        "res": [{"value": 2, "unit": "metre", "surface": "two meters"},
+                {"value": 2000, "unit": "pound sterling", "surface": "£2,000"}]
+    },
+    {
+        "req": "The second Lagrangian point (L2) of the Earth–Sun system is at 1,500,000 kilometres (930,000 mi) from Earth",
+        "res": [{"value": 1500000, "unit": "kilometre", "surface": "1,500,000 kilometres"},
+                {"value": 930000, "unit": "mile", "surface": "930,000 mi"}]
+    },
+    {
+        "req": "The door is 2 1/2 in thick, and it will be for at least several hundred years",
+        "res": [{"value": 2.5, "unit": "inch", "surface": "2 1/2 in"}]
+    },
+    {
+        "req": "Hubble images of the non-standard object SCP 06F6, behind galaxy cluster MACS J1149.5+6663, were sharper than any taken since the passage of Voyager 2 in 1979",
+        "res": [{"value": 2, "unit": "dimensionless", "surface": "2"},
+                {"value": 1979, "unit": "dimensionless", "surface": "1979"}]
+    },
+    {
+        "req": "The class is \"English 101\". On a second thought, I'll skip it.",
+        "res": [{"value": 101, "unit": "dimensionless", "surface": "101"}]
+    },
+    {
+        "req": "Hubble's cameras are super sharp across a 2½' (150\") field",
+        "res": [{"value": 2.5, "unit": "minute of arc", "surface": "2½'"},
+                {"value": 150, "unit": "second of arc", "surface": "150\""}]
+    },
+    {
+        "req": "Concepts for advanced 21st-century telescopes include a conceptualized 8- to 16-meter (320- to 640-inch) optical space telescope",
+        "res": [{"value": 8, "unit": "metre", "surface": "8- to 16-meter"},
+                {"value": 16, "unit": "metre", "surface": "8- to 16-meter"},
+                {"value": 320, "unit": "inch", "surface": "320- to 640-inch"},
+                {"value": 640, "unit": "inch", "surface": "320- to 640-inch"}]
+    },
+    {
+        "req": "Before the Hubble Telescope scientists predicted an age of the universe ranging from 10 to 20 billion years",
+        "res": [{"value": 1e10, "unit": "year", "surface": "10 to 20 billion years"},
+                {"value": 2e10, "unit": "year", "surface": "10 to 20 billion years"}]
+    },
+    {
+        "req": "Hubble's predicted position for six weeks' time could be in error by up to 4,000 km",
+        "res": [{"value": 6, "unit": "week", "surface": "six weeks'"},
+                {"value": 4000, "unit": "kilometre", "surface": "4,000 km"}]
+    },
+    {
+        "req": "Even though we're in the 21st century, we need an accuracy of 16.25 nanometers, about 1/40 of the wavelength of red light",
+        "res": [{"value": 16.25, "unit": "nanometre", "surface": "16.25 nanometers"},
+                {"value": 0.025, "unit": "dimensionless", "surface": "1/40"}]
+    },
+    {
+        "req": "OAO-1's battery failed after three days, terminating the mission",
+        "res": [{"value": 3, "unit": "day", "surface": "three days"}]
+    },
+    {
+        "req": "I want a hundred and two of those",
+        "res": [{"value": 102, "unit": "dimensionless", "surface": "a hundred and two"}]
+    },
+    {
+        "req": "The average density of the Earth is 5.5x10-3 kg/cm³",
+        "res": [{"value": 0.0055, "unit": "kilogram per cubic centimetre", "surface": "5.5x10-3 kg/cm³", "entity": "density", "derived": [{"base": "kilogram", "power": 1}, {"base": "centimetre", "power": -3}]}]
+    },
+    {
+        "req": "How will I look like twenty-one years and six months in the future?",
+        "res": [{"value": 21, "unit": "year", "surface": "twenty-one years"},
+                {"value": 6, "unit": "month", "surface": "six months"}]
+    },
+    {
+        "req": "One complete orbit in LEO takes about ninety minutes",
+        "res": [{"value": 90, "unit": "minute", "surface": "ninety minutes"}]
+    },
+    {
+        "req": "OPERA detected neutrinos traveling faster than light by a factor of 2.48×10−5, with 6.0-sigma significance.",
+        "res": [{"value": 0.0000248, "unit": "dimensionless", "surface": "2.48×10−5"},
+                {"value": 6.0, "unit": "dimensionless", "surface": "6.0"}]
+    },
+    {
+        "req": "Last year the LHC was deactivated for a two-year maintenance period",
+        "res": [{"value": 2, "unit": "year", "surface": "two-year"}]
+    },
+    {
+        "req": "Violet light oscillates at 4e14 s-1",
+        "res": [{"value": 4e14, "unit": "inverse second", "surface": "4e14 s-1"}]
+    },
+    {
+        "req": "It opened recently, and it's used four times per week",
+        "res": [{"value": 4, "unit": "count per week", "surface": "four times per week", "entity": "instance frequency", "derived": [{"base": "count", "power": 1}, {"base": "week", "power": -1}]}]
+    },
+    {
+        "req": "There is no difference in volume between 4km^3, 4 cubic kilometers and 4 km cubed",
+        "res": [{"value": 4, "unit": "cubic kilometre", "surface": "4km^3"},
+                {"value": 4, "unit": "cubic kilometre", "surface": "4 cubic kilometers"},
+                {"value": 4, "unit": "cubic kilometre", "surface": "4 km cubed"}]
+    },
+    {
+        "req": "In the movie, Forrest Gump keeps running for 3 years, 2 months, 14 days, and 16 hours. The estimated length Forrest covered is 30616.16 km",
+        "res": [{"value": 3, "unit": "year", "surface": "3 years"},
+                {"value": 2, "unit": "month", "surface": "2 months"},
+                {"value": 14, "unit": "day", "surface": "14 days"},
+                {"value": 16, "unit": "hour", "surface": "16 hours"},
+                {"value": 30616.16, "unit": "kilometre", "surface": "30616.16 km"}]
+    },
+    {
+        "req": "You are mixing some concrete for a home project, and you've calculated according to the directions that you need six gallons of water for your mix.",
+        "res": [{"value": 6, "unit": "gallon", "surface": "six gallons"}]
+    },
+    {
+        "req": "Amorphous silicon has a higher bandgap (1.7 eV) than crystalline silicon (c-Si) (1.1 eV)",
+        "res": [{"value": 1.7, "unit": "electronvolt", "surface": "1.7 eV"}, {"value": 1.1, "unit": "electronvolt", "surface": "1.1 eV"}]
+    },
+    {
+        "req": "Give me -1e-3 W/min, now!",
+        "res": [{"value": -0.001, "unit": "watt per minute", "surface": "-1e-3 W/min", "entity": "unknown", "derived": [{"base": "watt", "power": 1}, {"base": "minute", "power": -1}]}]
+    },
+    {
+        "req": "I would do it, but only for $15.4/hour",
+        "res": [{"value": 15.4, "unit": "dollar per hour", "surface": "$15.4/hour", "entity": "unknown", "derived": [{"base": "dollar", "power": 1}, {"base": "hour", "power": -1}]}]
+    },
+    {
+        "req": "Objects fall with an acceleration of 9.83e-3 +/- 1e-5 km/s2",
+        "res": [{"value": 0.00983, "unit": "kilometre per square second", "surface": "9.83e-3 +/- 1e-5 km/s2", "uncertainty": 1e-5, "entity": "acceleration", "derived": [{"base": "kilometre", "power": 1}, {"base": "second", "power": -2}]}]
+    },
+    {
+        "req": "I want a gallon of beer, and 3 to 4 L of wine",
+        "res": [{"value": 1, "unit": "gallon", "surface": "a gallon"},
+                {"value": 3, "unit": "litre", "surface": "3 to 4 L"},
+                {"value": 4, "unit": "litre", "surface": "3 to 4 L"}]
+    },
+    {
+        "req": "The cost of gallium metal rose from about $350 per kg to $680 per kg",
+        "res": [{"value": 350, "unit": "dollar per kilogram", "surface": "$350 per kg", "entity": "unknown", "derived": [{"base": "dollar", "power": 1}, {"base": "kilogram", "power": -1}]},
+                {"value": 680, "unit": "dollar per kilogram", "surface": "$680 per kg", "entity": "unknown", "derived": [{"base": "dollar", "power": 1}, {"base": "kilogram", "power": -1}]}]
+    },
+    {
+        "req": "I spent 20 million pounds on this!",
+        "res": [{"value": 20000000, "unit": "pound sterling", "surface": "20 million pounds"}]
+    },
+    {
+        "req": "It increased by 35% by the end of the 1960s",
+        "res": [{"value": 35, "unit": "percentage", "surface": "35%"},
+                {"value": 1960, "unit": "dimensionless", "surface": "1960"}]
+    },
+    {
+        "req": "After two proton beams circulated in the 27-kilometer ring, the LHC smashed them at 3.5–4.0 TeV",
+        "res": [{"value": 2, "unit": "dimensionless", "surface": "two"},
+                {"value": 27, "unit": "kilometre", "surface": "27-kilometer"},
+                {"value": 3.5, "unit": "teraelectronvolt", "surface": "3.5–4.0 TeV"},
+                {"value": 4.0, "unit": "teraelectronvolt", "surface": "3.5–4.0 TeV"}]
+    },
+    {
+        "req": "I have €10M in my savings account... sorry, I meant €10B",
+        "res": [{"value": 10e6, "unit": "euro", "surface": "€10M"},
+                {"value": 10e9, "unit": "euro", "surface": "€10B"}]
+    },
+    {
+        "req": "Italy covers an area of 301,338 km2 (116,347 sq mi). Its GDP is $2.174T.",
+        "res": [{"value": 301338, "unit": "square kilometre", "surface": "301,338 km2"},
+                {"value": 116347, "unit": "square mile", "surface": "116,347 sq mi"},
+                {"value": 2.174e12, "unit": "dollar", "surface": "$2.174T"}]
+    },
+    {
+        "req": "It weighs no more than 2,000.45±0.01 pounds",
+        "res": [{"value": 2000.45, "unit": "pound-mass", "surface": "2,000.45±0.01 pounds", "uncertainty": 0.01}]
+    },
+    {
+        "req": "At normal operating temperatures of 300 °C (572 °F, 573.15K), zircaloy is inert. However, above 1200 degrees Celsius, it reacts exothermically with water",
+        "res": [{"value": 300, "unit": "degree celsius", "surface": "300 °C"},
+                {"value": 572, "unit": "degree fahrenheit", "surface": "572 °F"},
+                {"value": 573.15, "unit": "kelvin", "surface": "573.15K"},
+                {"value": 1200, "unit": "degree celsius", "surface": "1200 degrees Celsius"}]
+    }
+
+]

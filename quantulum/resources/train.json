@@ -1,0 +1,21 @@
+[
+    {"text": "I weigh {quantity}, I'm heavy", "unit": "pound-mass"},
+    {"text": "She's petite, very light, she weighs {quantity}", "unit": "pound-mass"},
+    {"text": "This weighs {quantity}, even you can lift it", "unit": "pound-mass"},
+    {"text": "I spent {quantity} for that, too expensive", "unit": "pound sterling"},
+    {"text": "It costs {quantity}, pretty cheap and affordable", "unit": "pound sterling"},
+    {"text": "It's {quantity}, I don't have that kind of money to pay", "unit": "pound sterling"},
+    {"text": "At a temperature of {quantity} (0 °C, 32 °F), water freezes", "unit": "kelvin"},
+    {"text": "This hard disk can store {quantity} of data, great data storage", "unit": "kilobyte"},
+    {"text": "The F16 jet plane goes at a speed of {quantity}, super fast", "unit": "mach number"},
+    {"text": "The RMS Titanic, a British liner, traveled {quantity} before sinking in the North Atlantic Ocean", "unit": "nautical mile"},
+    {"text": "Speed and acceleration have {quantity} as a unit at their denominator", "unit": "second"},
+    {"text": "It completed the lap in {quantity}, a good time but slower than usual", "unit": "minute"},
+    {"text": "One orbit takes {quantity}", "unit": "minute"},
+    {"text": "The angle between vectors is measured in {quantity}", "unit": "minute of arc"},
+    {"text": "Cameras have lenses with a field that is measured in {quantity}", "unit": "minute of arc"},
+    {"text": "Coordinates for Area 51 are: latitude {quantity}, longitude {quantity}", "unit": "minute of arc"},
+    {"text": "Cameras have lenses with a field that is measured in {quantity}", "unit": "second of arc"},
+    {"text": "The angle between vectors is measured in {quantity}", "unit": "second of arc"},
+    {"text": "Coordinates for Area 51 are: latitude {quantity}, longitude {quantity}", "unit": "second of arc"}
+]
