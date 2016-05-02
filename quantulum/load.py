@@ -66,7 +66,7 @@ def load_entities():
     Load entities from JSON file.
     '''
 
-    path = os.path.join(TOPDIR, 'resources/entities.json')
+    path = os.path.join(TOPDIR, 'entities.json')
     entities = json.load(open(path))
     names = [i['name'] for i in entities]
 
@@ -127,7 +127,7 @@ def load_units():
     surfaces, lowers, symbols = defaultdict(list), defaultdict(list), \
                                 defaultdict(list)
 
-    for unit in json.load(open(os.path.join(TOPDIR, 'resources/units.json'))):
+    for unit in json.load(open(os.path.join(TOPDIR, 'units.json'))):
 
         try:
             assert unit['name'] not in names

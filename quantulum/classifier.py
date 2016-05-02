@@ -106,7 +106,7 @@ def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
 
     clf = SGDClassifier(**parameters).fit(matrix, train_target)
     obj = {'tfidf_model': tfidf_model, 'clf': clf, 'target_names': target_names}
-    path = os.path.join(l.TOPDIR, 'resources/clf.pickle')
+    path = os.path.join(l.TOPDIR, 'clf.pickle')
     pickle.dump(obj, open(path, 'w'))
 
 
@@ -117,7 +117,7 @@ def load_classifier():
     Train the intent classifier
     '''
 
-    path = os.path.join(l.TOPDIR, 'resources/clf.pickle')
+    path = os.path.join(l.TOPDIR, 'clf.pickle')
     obj = pickle.load(open(path, 'r'))
 
     return obj['tfidf_model'], obj['clf'], obj['target_names']

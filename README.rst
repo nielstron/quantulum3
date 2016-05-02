@@ -114,7 +114,7 @@ Soon, you'll find it `here <https://quantulum.readthedocs.org/en/latest/>`_.
 Extension
 ---------
 
-See *units.json* (quantulum/resources/units.json) for the complete list of units and *entities.json* (quantulum/resources/entities.json) for the complete list of entities. The criteria for adding units have been:
+See *units.json* for the complete list of units and *entities.json* for the complete list of entities. The criteria for adding units have been:
 
 1. the unit has (or is redirected to) a WikiPedia page
 1. the unit is in common use (e.g. not the `pre-metric Swedish units of
