@@ -2,7 +2,7 @@
 :mod:`Quantulum` init.
 '''
 
-VERSION = (0, 1, 3)
+VERSION = (0, 1, 6)
 
 __version__ = '.'.join([str(i) for i in VERSION])
 __author__ = 'Marco Lagi'

@@ -8,7 +8,7 @@ except:
     pass
 
 try:
-    from setuptools import setup
+    from setuptools import setup, find_packages
 except ImportError:
     print('Please install or upgrade setuptools or pip to continue')
     sys.exit(1)
@@ -18,9 +18,13 @@ import quantulum
 
 setup(
     name='quantulum',
-    packages=['quantulum'],
-    package_data={'quantulum': ['resources/*']},
-    include_package_data=True,
+    packages=find_packages(),
+    data_files=[('resources', ['resources/clf.pickle',
+                               'resources/entities.json',
+                               'resources/units.json',
+                               'resources/wiki.json',
+                               'resources/train.json',
+                               'resources/tests.json'])],
     description='Extract quantities from unstructured text.',
     long_description=open('README.rst').read(),
     download_url='https://github.com/marcolagi/quantulum/tarball/0.1',
