@@ -46,7 +46,7 @@ def download_wiki():
         obj['unit'] = page[0]
         objs.append(obj)
 
-    path = os.path.join(l.TOPDIR, 'resources/wiki.json')
+    path = os.path.join(l.TOPDIR, 'wiki.json')
     os.remove(path)
     json.dump(objs, open(path, 'w'), indent=4, sort_keys=True)
 
@@ -83,9 +83,9 @@ def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
     if download:
         download_wiki()
 
-    path = os.path.join(l.TOPDIR, 'resources/train.json')
+    path = os.path.join(l.TOPDIR, 'train.json')
     training_set = json.load(open(path))
-    path = os.path.join(l.TOPDIR, 'resources/wiki.json')
+    path = os.path.join(l.TOPDIR, 'wiki.json')
     wiki_set = json.load(open(path))
 
     target_names = list(set([i['unit'] for i in training_set + wiki_set]))
