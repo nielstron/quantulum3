@@ -23,7 +23,7 @@ setup(
     package_data={'quantulum': ['resources/*.json']},
     include_package_data=True,
     description='Extract quantities from unstructured text.',
-    long_description=open('README.rst').read(),
+    long_description=open('README.md').read(),
     version=quantulum.__version__,
     url=quantulum.__url__,
     author=quantulum.__author__,
