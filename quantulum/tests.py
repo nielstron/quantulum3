@@ -66,10 +66,10 @@ def wiki_test(page='CERN'):
 def load_tests():
 
     '''
-    Load all tests from resources/tests.json.
+    Load all tests from tests.json.
     '''
 
-    path = os.path.join(TOPDIR, 'resources/tests.json')
+    path = os.path.join(TOPDIR, 'tests.json')
     tests = json.load(open(path))
 
     for test in tests:
