@@ -32,6 +32,9 @@ setup(
     keywords=['information extraction', 'quantities', 'units', 'measurements',
               'nlp', 'natural language processing', 'text mining',
               'text processing'],
+    install_requires=[
+          'inflect', 'wikipedia', 'stemming', 'numpy', 'scipy', 'sklearn'
+      ],
     classifiers=[
           'Intended Audience :: Developers',
           'Intended Audience :: Science/Research',
