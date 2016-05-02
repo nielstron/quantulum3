@@ -10,9 +10,6 @@ import os
 import re
 import json
 
-# Dependences
-import wikipedia
-
 # Quantulum
 from . import load as l
 from . import parser as p
@@ -32,6 +29,8 @@ def wiki_test(page='CERN'):
         Hubble_Space_Telescope,
         Herschel_Space_Observatory
     '''
+
+    import wikipedia
 
     content = wikipedia.page(page).content
     parsed = p.parse(content)

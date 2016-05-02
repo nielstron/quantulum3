@@ -20,7 +20,7 @@ setup(
     name='quantulum',
     packages=['quantulum'],
     package_dir={'quantulum': 'quantulum'},
-    package_data={'quantulum': ['resources/*.json']},
+    package_data={'quantulum': ['quantulum/resources/*.json', 'quantulum/resources/clf.pickle']},
     include_package_data=True,
     description='Extract quantities from unstructured text.',
     long_description=open('README.rst').read(),
@@ -34,7 +34,7 @@ setup(
               'nlp', 'natural language processing', 'text mining',
               'text processing'],
     install_requires=[
-          'inflect', 'wikipedia', 'stemming', 'numpy', 'scipy', 'sklearn'
+          'inflect', 'stemming'
       ],
     classifiers=[
           'Intended Audience :: Developers',

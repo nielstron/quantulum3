@@ -8,7 +8,7 @@ Installation
 
 .. code-block:: bash
 
-    $ pip install git+git://gihub.com/marcolagi/quantulum
+    $ pip install quantulum
 
 Usage
 -----
@@ -109,7 +109,7 @@ While quantities cannot be manipulated within this library, there are many great
 Documentation
 -------------
 
-Soon, you'll find it `here <at https://quantulum.readthedocs.org/en/latest/>`_.
+Soon, you'll find it `here <https://quantulum.readthedocs.org/en/latest/>`_.
 
 Extension
 ---------
