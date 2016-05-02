@@ -19,8 +19,7 @@ import quantulum
 setup(
     name='quantulum',
     packages=['quantulum'],
-    package_dir={'quantulum': 'quantulum'},
-    package_data={'quantulum': ['quantulum/resources/*.json', 'quantulum/resources/clf.pickle']},
+    data_files=[('quantulum/resources', ['quantulum/resources/clf.pickle', 'quantulum/resources/units.json', 'quantulum/resources/entities.json', 'quantulum/resources/tests.json', 'quantulum/resources/train.json', 'quantulum/resources/wiki.json'])],
     include_package_data=True,
     description='Extract quantities from unstructured text.',
     long_description=open('README.rst').read(),
