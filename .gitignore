@@ -1,1 +1,3 @@
 *.py[co]
+dist/
+quantulum.egg-info/
