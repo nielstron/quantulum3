@@ -33,7 +33,7 @@ setup(
               'nlp', 'natural language processing', 'text mining',
               'text processing'],
     install_requires=[
-          'inflect', 'stemming'
+          'inflect', 'stemming', 'sklearn'
       ],
     classifiers=[
           'Intended Audience :: Developers',
