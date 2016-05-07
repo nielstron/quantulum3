@@ -54,7 +54,7 @@
     },
     {
         "req": "The average density of the Earth is 5.5x10-3 kg/cm³",
-        "res": [{"value": 0.0055, "unit": "kilogram per cubic centimetre", "surface": "5.5x10-3 kg/cm³", "entity": "density", "derived": [{"base": "kilogram", "power": 1}, {"base": "centimetre", "power": -3}]}]
+        "res": [{"value": 0.0055, "unit": "kilogram per cubic centimetre", "surface": "5.5x10-3 kg/cm³", "entity": "density", "dimensions": [{"base": "kilogram", "power": 1}, {"base": "centimetre", "power": -3}]}]
     },
     {
         "req": "How will I look like twenty-one years and six months in the future?",
@@ -80,7 +80,7 @@
     },
     {
         "req": "It opened recently, and it's used four times per week",
-        "res": [{"value": 4, "unit": "count per week", "surface": "four times per week", "entity": "instance frequency", "derived": [{"base": "count", "power": 1}, {"base": "week", "power": -1}]}]
+        "res": [{"value": 4, "unit": "count per week", "surface": "four times per week", "entity": "instance frequency", "dimensions": [{"base": "count", "power": 1}, {"base": "week", "power": -1}]}]
     },
     {
         "req": "There is no difference in volume between 4km^3, 4 cubic kilometers and 4 km cubed",
@@ -106,15 +106,15 @@
     },
     {
         "req": "Give me -1e-3 W/min, now!",
-        "res": [{"value": -0.001, "unit": "watt per minute", "surface": "-1e-3 W/min", "entity": "unknown", "derived": [{"base": "watt", "power": 1}, {"base": "minute", "power": -1}]}]
+        "res": [{"value": -0.001, "unit": "watt per minute", "surface": "-1e-3 W/min", "entity": "unknown", "dimensions": [{"base": "watt", "power": 1}, {"base": "minute", "power": -1}]}]
     },
     {
         "req": "I would do it, but only for $15.4/hour",
-        "res": [{"value": 15.4, "unit": "dollar per hour", "surface": "$15.4/hour", "entity": "unknown", "derived": [{"base": "dollar", "power": 1}, {"base": "hour", "power": -1}]}]
+        "res": [{"value": 15.4, "unit": "dollar per hour", "surface": "$15.4/hour", "entity": "unknown", "dimensions": [{"base": "dollar", "power": 1}, {"base": "hour", "power": -1}]}]
     },
     {
         "req": "Objects fall with an acceleration of 9.83e-3 +/- 1e-5 km/s2",
-        "res": [{"value": 0.00983, "unit": "kilometre per square second", "surface": "9.83e-3 +/- 1e-5 km/s2", "uncertainty": 1e-5, "entity": "acceleration", "derived": [{"base": "kilometre", "power": 1}, {"base": "second", "power": -2}]}]
+        "res": [{"value": 0.00983, "unit": "kilometre per square second", "surface": "9.83e-3 +/- 1e-5 km/s2", "uncertainty": 1e-5, "entity": "acceleration", "dimensions": [{"base": "kilometre", "power": 1}, {"base": "second", "power": -2}]}]
     },
     {
         "req": "I want a gallon of beer, and 3 to 4 L of wine",
@@ -124,8 +124,8 @@
     },
     {
         "req": "The cost of gallium metal rose from about $350 per kg to $680 per kg",
-        "res": [{"value": 350, "unit": "dollar per kilogram", "surface": "$350 per kg", "entity": "unknown", "derived": [{"base": "dollar", "power": 1}, {"base": "kilogram", "power": -1}]},
-                {"value": 680, "unit": "dollar per kilogram", "surface": "$680 per kg", "entity": "unknown", "derived": [{"base": "dollar", "power": 1}, {"base": "kilogram", "power": -1}]}]
+        "res": [{"value": 350, "unit": "dollar per kilogram", "surface": "$350 per kg", "entity": "unknown", "dimensions": [{"base": "dollar", "power": 1}, {"base": "kilogram", "power": -1}]},
+                {"value": 680, "unit": "dollar per kilogram", "surface": "$680 per kg", "entity": "unknown", "dimensions": [{"base": "dollar", "power": 1}, {"base": "kilogram", "power": -1}]}]
     },
     {
         "req": "I spent 20 million pounds on this!",

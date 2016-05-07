@@ -1,6 +1,6 @@
 *.py[co]
 dist/
 *.coverage*
-deploy.py
+deploy
 quantulum/todo.json
 quantulum.egg-info/

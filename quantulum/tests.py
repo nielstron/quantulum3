@@ -77,21 +77,22 @@ def load_tests():
                 try:
                     entity = item['entity']
                 except KeyError:
-                    print ('Could not find %s, provide "derived" and'
+                    print ('Could not find %s, provide "dimensions" and'
                            ' "entity"' % item['unit'])
                     return
                 if entity == 'unknown':
-                    derived = [{'base': l.NAMES[i['base']].entity.name,
-                                'power': i['power']} for i in item['derived']]
-                    entity = c.Entity(name='unknown', derived=derived)
+                    dimensions = [{'base': l.NAMES[i['base']].entity.name,
+                                  'power': i['power']} for i in
+                                  item['dimensions']]
+                    entity = c.Entity(name='unknown', dimensions=dimensions)
                 elif entity in l.ENTITIES:
                     entity = l.ENTITIES[entity]
                 else:
-                    print ('Could not find %s, provide "derived" and'
+                    print ('Could not find %s, provide "dimensions" and'
                            ' "entity"' % item['unit'])
                     return
                 unit = c.Unit(name=item['unit'],
-                              derived=item['derived'],
+                              dimensions=item['dimensions'],
                               entity=entity)
             try:
                 span = re.finditer(re.escape(item['surface']),

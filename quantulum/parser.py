@@ -136,11 +136,11 @@ def get_values(item):
 
 
 ################################################################################
-def build_unit_name(derived):
+def build_unit_name(dimensions):
     """Build the name of the unit from its dimensions."""
     name = ''
 
-    for unit in derived:
+    for unit in dimensions:
         if unit['power'] < 0:
             name += 'per '
         power = abs(unit['power'])
@@ -162,33 +162,33 @@ def build_unit_name(derived):
 
 
 ################################################################################
-def get_unit_from_dimensions(derived, text):
+def get_unit_from_dimensions(dimensions, text):
     """Reconcile a unit based on its dimensionality."""
-    key = l.get_key_from_dimensions(derived)
+    key = l.get_key_from_dimensions(dimensions)
 
     try:
         unit = l.DERIVED_UNI[key]
     except KeyError:
         logging.debug(u'\tCould not find unit for: %s', key)
-        unit = c.Unit(name=build_unit_name(derived),
-                      derived=derived,
-                      entity=get_entity_from_dimensions(derived, text))
+        unit = c.Unit(name=build_unit_name(dimensions),
+                      dimensions=dimensions,
+                      entity=get_entity_from_dimensions(dimensions, text))
 
     return unit
 
 
 ################################################################################
-def get_entity_from_dimensions(derived, text):
+def get_entity_from_dimensions(dimensions, text):
     """
     Infer the underlying entity of a unit (e.g. "volume" for "m^3").
 
     Just based on the unit's dimensionality if the classifier is disabled.
     """
-    new_derived = [{'base': l.NAMES[i['base']].entity.name,
-                    'power': i['power']} for i in derived]
+    new_dimensions = [{'base': l.NAMES[i['base']].entity.name,
+                    'power': i['power']} for i in dimensions]
 
-    final_derived = sorted(new_derived, key=lambda x: x['base'])
-    key = l.get_key_from_dimensions(final_derived)
+    final_dimensions = sorted(new_dimensions, key=lambda x: x['base'])
+    key = l.get_key_from_dimensions(final_dimensions)
 
     try:
         if clf.USE_CLF:
@@ -197,7 +197,7 @@ def get_entity_from_dimensions(derived, text):
             ent = l.DERIVED_ENT[key][0]
     except IndexError:
         logging.debug(u'\tCould not find entity for: %s', key)
-        ent = c.Entity(name='unknown', derived=new_derived)
+        ent = c.Entity(name='unknown', dimensions=new_dimensions)
 
     return ent
 
@@ -240,7 +240,7 @@ def get_unit(item, text):
     if len(item_units) == 0:
         unit = l.NAMES['dimensionless']
     else:
-        derived, slash = [], False
+        dimensions, slash = [], False
         for group in sorted(group_units + group_operators):
             if not item.group(group):
                 continue
@@ -250,11 +250,11 @@ def get_unit(item, text):
                     base = clf.disambiguate_unit(surface, text).name
                 else:
                     base = l.UNITS[surface][0].name
-                derived += [{'base': base, 'power': power}]
+                dimensions += [{'base': base, 'power': power}]
             elif not slash:
                 slash = any(i in item.group(group) for i in [u'/', u' per '])
 
-        unit = get_unit_from_dimensions(derived, text)
+        unit = get_unit_from_dimensions(dimensions, text)
 
     logging.debug(u'\tUnit: %s', unit)
     logging.debug(u'\tEntity: %s', unit.entity)
@@ -309,12 +309,13 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         return
 
     # Usually "$3T" does not stand for "dollar tesla"
-    elif unit.entity.derived and unit.entity.derived[0]['base'] == 'currency':
-        if len(unit.derived) > 1:
+    elif unit.entity.dimensions and \
+    unit.entity.dimensions[0]['base'] == 'currency':
+        if len(unit.dimensions) > 1:
             try:
                 suffix = re.findall(r'\d(K|M|B|T)\b(.*?)$', surface)[0]
                 values = [i * r.SUFFIXES[suffix[0]] for i in values]
-                unit = l.UNITS[unit.derived[0]['base']][0]
+                unit = l.UNITS[unit.dimensions[0]['base']][0]
                 if suffix[1]:
                     surface = surface[:surface.find(suffix[1])]
                     span = (span[0], span[1] - len(suffix[1]))
@@ -340,10 +341,10 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         logging.debug(u'\tCorrect for "1990s" pattern')
 
     # Usually "in" stands for the preposition, not inches
-    elif unit.derived[-1]['base'] == 'inch' and re.search(r' in$', surface) and\
-    '/' not in surface:
-        if len(unit.derived) > 1:
-            unit = get_unit_from_dimensions(unit.derived[:-1], orig_text)
+    elif unit.dimensions[-1]['base'] == 'inch' and \
+    re.search(r' in$', surface) and '/' not in surface:
+        if len(unit.dimensions) > 1:
+            unit = get_unit_from_dimensions(unit.dimensions[:-1], orig_text)
         else:
             unit = l.NAMES['dimensionless']
         surface = surface[:-3]
@@ -351,17 +352,17 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         logging.debug(u'\tCorrect for "in" pattern')
 
     elif is_quote_artifact(text, item.span()):
-        if len(unit.derived) > 1:
-            unit = get_unit_from_dimensions(unit.derived[:-1], orig_text)
+        if len(unit.dimensions) > 1:
+            unit = get_unit_from_dimensions(unit.dimensions[:-1], orig_text)
         else:
             unit = l.NAMES['dimensionless']
         surface = surface[:-1]
         span = (span[0], span[1] - 1)
         logging.debug(u'\tCorrect for quotes')
 
-    elif re.search(r' time$', surface) and len(unit.derived) > 1 and \
-    unit.derived[-1]['base'] == 'count':
-        unit = get_unit_from_dimensions(unit.derived[:-1], orig_text)
+    elif re.search(r' time$', surface) and len(unit.dimensions) > 1 and \
+    unit.dimensions[-1]['base'] == 'count':
+        unit = get_unit_from_dimensions(unit.dimensions[:-1], orig_text)
         surface = surface[:-5]
         span = (span[0], span[1] - 5)
         logging.debug(u'\tCorrect for "time"')

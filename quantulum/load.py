@@ -20,31 +20,31 @@ PLURALS = inflect.engine()
 
 
 ################################################################################
-def get_key_from_dimensions(derived):
+def get_key_from_dimensions(dimensions):
     """
     Get a key for DERIVED_UNI or DERIVED_ENT.
 
     Translate dimensionality into key for DERIVED_UNI and DERIVED_ENT
     dictionaries.
     """
-    return tuple(tuple(i.items()) for i in derived)
+    return tuple(tuple(i.items()) for i in dimensions)
 
 
 ################################################################################
-def get_dimension_permutations(entities, derived):
+def get_dimension_permutations(entities, dimensions):
     """Get all possible dimensional definitions for an entity."""
-    new_derived = defaultdict(int)
-    for item in derived:
-        new = entities[item['base']].derived
+    new_dimensions = defaultdict(int)
+    for item in dimensions:
+        new = entities[item['base']].dimensions
         if new:
             for new_item in new:
-                new_derived[new_item['base']] += new_item['power'] * \
+                new_dimensions[new_item['base']] += new_item['power'] * \
                                                  item['power']
         else:
-            new_derived[item['base']] += item['power']
+            new_dimensions[item['base']] += item['power']
 
-    final = [[{'base': i[0], 'power': i[1]} for i in new_derived.items()]]
-    final.append(derived)
+    final = [[{'base': i[0], 'power': i[1]} for i in new_dimensions.items()]]
+    final.append(dimensions)
     final = [sorted(i, key=lambda x: x['base']) for i in final]
 
     candidates = []
@@ -68,44 +68,45 @@ def load_entities():
         raise Exception('Entities with same name: %s' % [i for i in names if
                                                          names.count(i) > 1])
 
-    entities = dict((k['name'], c.Entity(name=k['name'], derived=k['derived'],
+    entities = dict((k['name'], c.Entity(name=k['name'],
+                                         dimensions=k['dimensions'],
                                          uri=k['URI'])) for k in entities)
 
-    derived_ent = defaultdict(list)
+    dimensions_ent = defaultdict(list)
     for ent in entities:
-        if not entities[ent].derived:
+        if not entities[ent].dimensions:
             continue
-        perms = get_dimension_permutations(entities, entities[ent].derived)
+        perms = get_dimension_permutations(entities, entities[ent].dimensions)
         for perm in perms:
             key = get_key_from_dimensions(perm)
-            derived_ent[key].append(entities[ent])
+            dimensions_ent[key].append(entities[ent])
 
-    return entities, derived_ent
+    return entities, dimensions_ent
 
 ENTITIES, DERIVED_ENT = load_entities()
 
 
 ################################################################################
-def get_derived_units(names):
+def get_dimensions_units(names):
     """Create dictionary of unit dimensions."""
-    derived_uni = {}
+    dimensions_uni = {}
 
     for name in names:
 
-        key = get_key_from_dimensions(names[name].derived)
-        derived_uni[key] = names[name]
-        plain_derived = [{'base': name, 'power': 1}]
-        key = get_key_from_dimensions(plain_derived)
-        derived_uni[key] = names[name]
+        key = get_key_from_dimensions(names[name].dimensions)
+        dimensions_uni[key] = names[name]
+        plain_dimensions = [{'base': name, 'power': 1}]
+        key = get_key_from_dimensions(plain_dimensions)
+        dimensions_uni[key] = names[name]
 
-        if not names[name].derived:
-            names[name].derived = plain_derived
+        if not names[name].dimensions:
+            names[name].dimensions = plain_dimensions
 
-        names[name].derived = [{'base': names[i['base']].name,
+        names[name].dimensions = [{'base': names[i['base']].name,
                                 'power': i['power']} for i in
-                               names[name].derived]
+                               names[name].dimensions]
 
-    return derived_uni
+    return dimensions_uni
 
 
 ################################################################################
@@ -125,7 +126,7 @@ def load_units():
 
         obj = c.Unit(name=unit['name'], surfaces=unit['surfaces'],
                      entity=ENTITIES[unit['entity']], uri=unit['URI'],
-                     symbols=unit['symbols'], derived=unit['derived'])
+                     symbols=unit['symbols'], dimensions=unit['dimensions'])
 
         names[unit['name']] = obj
 
@@ -154,8 +155,8 @@ def load_units():
                 surfaces[plural].append(obj)
                 lowers[plural.lower()].append(obj)
 
-    derived_uni = get_derived_units(names)
+    dimensions_uni = get_dimensions_units(names)
 
-    return names, surfaces, lowers, symbols, derived_uni
+    return names, surfaces, lowers, symbols, dimensions_uni
 
 NAMES, UNITS, LOWER_UNITS, SYMBOLS, DERIVED_UNI = load_units()

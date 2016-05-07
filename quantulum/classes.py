@@ -40,14 +40,14 @@ class Unit(object):
     """Class for a unit (e.g. "gallon")."""
 
     def __init__(self, name=None, surfaces=None, entity=None, uri=None,
-                 symbols=None, derived=None):
+                 symbols=None, dimensions=None):
         """initialization method."""
         self.name = name
         self.surfaces = surfaces
         self.entity = entity
         self.uri = uri
         self.symbols = symbols
-        self.derived = derived
+        self.dimensions = dimensions
 
     def __repr__(self):
         """representation method."""
@@ -71,10 +71,10 @@ class Unit(object):
 class Entity(object):
     """Class for an entity (e.g. "volume")."""
 
-    def __init__(self, name=None, derived=None, uri=None):
+    def __init__(self, name=None, dimensions=None, uri=None):
         """initialization method."""
         self.name = name
-        self.derived = derived
+        self.dimensions = dimensions
         self.uri = uri
 
     def __repr__(self):

@@ -76,7 +76,7 @@ All units (e.g. *litre*) and the entities they are associated to (e.g. *volume*)
     Unit(name="litre", entity=Entity("volume"), uri=https://en.wikipedia.org/wiki/Litre)
 
     >>> quants[0].unit.entity
-    Entity(name="volume", uri="https://en.wikipedia.org/wiki/Volume")
+    Entity(name="volume", uri=https://en.wikipedia.org/wiki/Volume)
 
 This library includes more than 290 units and 75 entities. It also parses spelled-out numbers, ranges and uncertainties:
 
@@ -148,12 +148,12 @@ It's easy to extend these two files to the units/entities of interest. Here is a
 
     {
         "name": "speed",
-        "derived": [{"base": "length", "power": 1}, {"base": "time", "power": -1}],
+        "dimensions": [{"base": "length", "power": 1}, {"base": "time", "power": -1}],
         "URI": "https://en.wikipedia.org/wiki/Speed"
     }
 
 - *name* and *URI* are self explanatory.
-- *derived* is the dimensionality, a list of dictionaries each having a *base* (the name of another entity) and a *power* (an integer, can be negative).
+- *dimensions* is the dimensionality, a list of dictionaries each having a *base* (the name of another entity) and a *power* (an integer, can be negative).
 
 Here is an example of an entry in *units.json*:
 
@@ -164,14 +164,14 @@ Here is an example of an entry in *units.json*:
         "surfaces": ["metre per second", "meter per second"],
         "entity": "speed",
         "URI": "https://en.wikipedia.org/wiki/Metre_per_second",
-        "derived": [{"base": "metre", "power": 1}, {"base": "second", "power": -1}],
+        "dimensions": [{"base": "metre", "power": 1}, {"base": "second", "power": -1}],
         "symbols": ["mps"]
     }
 
 - *name* and *URI* are self explanatory.
 - *surfaces* is a list of strings that refer to that unit. The library takes care of plurals, no need to specify them.
 - *entity* is the name of an entity in *entities.json*
-- *derived* follows the same schema as in *entities.json*, but the *base* is the name of another unit, not of another entity.
+- *dimensions* follows the same schema as in *entities.json*, but the *base* is the name of another unit, not of another entity.
 - *symbols* is a list of possible symbols and abbreviations for that unit.
 
 All fields are case sensitive.
