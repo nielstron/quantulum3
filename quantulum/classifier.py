@@ -13,7 +13,10 @@ import pickle
 import logging
 
 # Dependences
+import wikipedia
 from stemming.porter2 import stem
+from sklearn.linear_model import SGDClassifier
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Quantulum
 from . import load as l
@@ -24,8 +27,6 @@ def download_wiki():
     '''
     Download WikiPedia pages of ambiguous units.
     '''
-
-    import wikipedia
 
     ambiguous = [i for i in l.UNITS.items() if len(i[1]) > 1]
     ambiguous += [i for i in l.DERIVED_ENT.items() if len(i[1]) > 1]
@@ -76,9 +77,6 @@ def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
     '''
     Train the intent classifier
     '''
-
-    from sklearn.linear_model import SGDClassifier
-    from sklearn.feature_extraction.text import TfidfVectorizer
 
     if download:
         download_wiki()
