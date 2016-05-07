@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-'''
-:mod:`Quantulum` classifier functions.
-'''
+""":mod:`Quantulum` classifier functions"""
 
 # Standard library
 import re
@@ -27,11 +25,7 @@ from . import load as l
 
 ################################################################################
 def download_wiki():
-
-    '''
-    Download WikiPedia pages of ambiguous units.
-    '''
-
+    """Download WikiPedia pages of ambiguous units"""
     ambiguous = [i for i in l.UNITS.items() if len(i[1]) > 1]
     ambiguous += [i for i in l.DERIVED_ENT.items() if len(i[1]) > 1]
     pages = set([(j.name, j.uri) for i in ambiguous for j in i[1]])
@@ -60,11 +54,7 @@ def download_wiki():
 
 ################################################################################
 def clean_text(text):
-
-    '''
-    Clean text for TFIDF
-    '''
-
+    """Clean text for TFIDF"""
     new_text = re.sub(ur'\p{P}+', ' ', text)
 
     new_text = [stem(i) for i in new_text.lower().split() if not \
@@ -77,11 +67,7 @@ def clean_text(text):
 
 ################################################################################
 def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
-
-    '''
-    Train the intent classifier
-    '''
-
+    """Train the intent classifier"""
     if download:
         download_wiki()
 
@@ -114,11 +100,7 @@ def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
 
 ################################################################################
 def load_classifier():
-
-    '''
-    Train the intent classifier
-    '''
-
+    """Train the intent classifier"""
     path = os.path.join(l.TOPDIR, 'clf.pickle')
     obj = pickle.load(open(path, 'r'))
 
@@ -131,11 +113,7 @@ else:
 
 ################################################################################
 def disambiguate_entity(key, text):
-
-    '''
-    Resolve ambiguity between entities with same dimensionality.
-    '''
-
+    """Resolve ambiguity between entities with same dimensionality"""
     new_ent = l.DERIVED_ENT[key][0]
 
     if len(l.DERIVED_ENT[key]) > 1:
@@ -155,11 +133,11 @@ def disambiguate_entity(key, text):
 
 ################################################################################
 def disambiguate_unit(unit, text):
+    """
+    Resolve ambiguity.
 
-    '''
-    Resolve ambiguity between units with same names, symbols or abbreviations.
-    '''
-
+    Distinguish between units that have same names, symbols or abbreviations.
+    """
     new_unit = l.UNITS[unit]
     if not new_unit:
         new_unit = l.LOWER_UNITS[unit.lower()]

@@ -1,14 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-'''
-:mod:`Quantulum` tests.
-'''
+""":mod:`Quantulum` tests"""
 
 # Standard library
 import os
 import re
-import sys
 import json
 import unittest
 
@@ -26,28 +23,27 @@ TOPDIR = os.path.dirname(__file__) or "."
 
 ################################################################################
 def wiki_test(page='CERN'):
+    """Download a wikipedia page and test the parser on its content.
 
-    '''
-    Download a wikipedia page and test the parser on its content.
     Pages full of units:
         CERN
         Hubble_Space_Telescope,
         Herschel_Space_Observatory
-    '''
-
+    """
     content = wikipedia.page(page).content
     parsed = p.parse(content)
-    parts = int(round(len(content)*1.0/1000))
+    parts = int(round(len(content) * 1.0 / 1000))
 
     print
     end_char = 0
     for num, chunk in enumerate(range(parts)):
         _ = os.system('clear')
         print
-        qua = [j for j in parsed if chunk * 1000 < j.span[0] < (chunk+1) * 1000]
+        qua = [j for j in parsed if chunk * 1000 < j.span[0] < (chunk + 1) *
+               1000]
         beg_char = max(chunk * 1000, end_char)
         if qua:
-            end_char = max((chunk+1) * 1000, qua[-1].span[1])
+            end_char = max((chunk + 1) * 1000, qua[-1].span[1])
             text = content[beg_char:end_char]
             shift = 0
             for quantity in qua:
@@ -56,7 +52,7 @@ def wiki_test(page='CERN'):
                 text = text[0:index] + to_add + COLOR2 % text[index:]
                 shift += len(to_add) + len(COLOR2) - 6
         else:
-            text = content[beg_char:(chunk+1) * 1000]
+            text = content[beg_char:(chunk + 1) * 1000]
         print COLOR2 % text
         print
         try:
@@ -67,11 +63,7 @@ def wiki_test(page='CERN'):
 
 ################################################################################
 def load_tests():
-
-    '''
-    Load all tests from tests.json.
-    '''
-
+    """Load all tests from tests.json"""
     path = os.path.join(TOPDIR, 'tests.json')
     tests = json.load(open(path))
 
@@ -121,11 +113,14 @@ def load_tests():
 
 ################################################################################
 class EndToEndTests(unittest.TestCase):
+    """Test suite for the quantulum project"""
 
     def test_load_tests(self):
-        self.assertFalse(load_tests() == None)
+        """test for tests.load_test() function"""
+        self.assertFalse(load_tests() is None)
 
     def test_parse(self):
+        """test for parser.parse() function"""
         all_tests = load_tests()
         for test in sorted(all_tests, key=lambda x: len(x['req'])):
             self.assertEqual(p.parse(test['req']), test['res'])

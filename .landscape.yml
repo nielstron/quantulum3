@@ -1,0 +1,16 @@
+doc-warnings: yes
+test-warnings: yes
+strictness: veryhigh
+max-line-length: 80
+uses:
+    - flask
+autodetect: yes
+requirements:
+    - deps/core.txt
+    - deps/test.txt
+ignore-paths:
+    - docs/
+python-targets:
+    - 2
+pyflakes:
+  run: false

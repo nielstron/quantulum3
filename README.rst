@@ -18,6 +18,10 @@
     :target: https://coveralls.io/github/marcolagi/quantulum?branch=master
     :alt: Coverage
 
+.. image:: https://landscape.io/github/marcolagi/quantulum/master/landscape.png
+   :target: https://landscape.io/github/marcolagi/quantulum/master
+   :alt: Health
+
 quantulum
 =========
 
@@ -26,7 +30,7 @@ Python library for information extraction of quantities, measurements and their 
 Installation
 ------------
 
-First, install `sklearn <http://scikit-learn.org/stable/install.html/>`_. `quantulum` would work without it, but it wouldn't be able to use its classifier to disambiguate between units with the same name (e.g. pound as currency or pound as unit of mass).
+First, install `sklearn <http://scikit-learn.org/stable/install.html/>`_. `quantulum` would work without it, but it wouldn't be able to use its classifier to disambiguate between units with the same name (e.g. *pound* as currency or *pound* as unit of mass).
 
 Then,
 
@@ -64,7 +68,7 @@ An inline parser that embeds the parsed quantities in the text is also available
 Units and entities
 ------------------
 
-All units (e.g. litre) and the entities they are associated to (e.g. volume) are reconciled against WikiPedia:
+All units (e.g. *litre*) and the entities they are associated to (e.g. *volume*) are reconciled against WikiPedia:
 
 .. code-block:: python
 
@@ -88,7 +92,7 @@ This library includes more than 290 units and 75 entities. It also parses spelle
     >>> quant[0].uncertainty
     0.1
 
-Non standard units usually don't have a WikiPedia page. The parser will still try to guess their underlying entity based on their dimensionality:
+Non-standard units usually don't have a WikiPedia page. The parser will still try to guess their underlying entity based on their dimensionality:
 
 .. code-block:: python
 
@@ -135,8 +139,8 @@ Extension
 
 See *units.json* for the complete list of units and *entities.json* for the complete list of entities. The criteria for adding units have been:
 
-1. the unit has (or is redirected to) a WikiPedia page
-1. the unit is in common use (e.g. not the `pre-metric Swedish units of
+- the unit has (or is redirected to) a WikiPedia page
+- the unit is in common use (e.g. not the `pre-metric Swedish units of
 measurement <https://en.wikipedia.org/wiki/Swedish_units_of_measurement#Length>`_).
 
 It's easy to extend these two files to the units/entities of interest. Here is an example of an entry in *entities.json*:

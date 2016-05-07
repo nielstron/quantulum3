@@ -1,16 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-'''
-:mod:`Quantulum` classes.
-'''
+""":mod:`Quantulum` classes"""
 
 ################################################################################
 class Quantity(object):
-
-    '''
-    Class for a quantity (e.g. "4.2 gallons").
-    '''
+    """Class for a quantity (e.g. "4.2 gallons")"""
 
     def __init__(self, value=None, unit=None, surface=None, span=None,
                  uncertainty=None):
@@ -41,10 +36,7 @@ class Quantity(object):
 
 ################################################################################
 class Unit(object):
-
-    '''
-    Class for a unit (e.g. "gallon").
-    '''
+    """Class for a unit (e.g. "gallon")"""
 
     def __init__(self, name=None, surfaces=None, entity=None, uri=None,
                  symbols=None, derived=None):
@@ -76,10 +68,7 @@ class Unit(object):
 
 ################################################################################
 class Entity(object):
-
-    '''
-    Class for an entity (e.g. "volume").
-    '''
+    """Class for an entity (e.g. "volume")"""
 
     def __init__(self, name=None, derived=None, uri=None):
 

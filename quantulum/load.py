@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-'''
-:mod:`Quantulum` unit and entity loading functions.
-'''
+""":mod:`Quantulum` unit and entity loading functions"""
 
 # Standard library
 import os
@@ -22,21 +20,18 @@ PLURALS = inflect.engine()
 
 ################################################################################
 def get_key_from_dimensions(derived):
+    """
+    Get a key for DERIVED_UNI or DERIVED_ENT.
 
-    '''
-    Translate dimensionality into key for DERIVED_UNI and DERIVED_ENT dicts.
-    '''
-
+    Translate dimensionality into key for DERIVED_UNI and DERIVED_ENT
+    dictionaries.
+    """
     return tuple(tuple(i.items()) for i in derived)
 
 
 ################################################################################
 def get_dimension_permutations(entities, derived):
-
-    '''
-    Get all possible dimensional definitions for an entity.
-    '''
-
+    """Get all possible dimensional definitions for an entity"""
     new_derived = defaultdict(int)
     for item in derived:
         new = entities[item['base']].derived
@@ -61,11 +56,7 @@ def get_dimension_permutations(entities, derived):
 
 ################################################################################
 def load_entities():
-
-    '''
-    Load entities from JSON file.
-    '''
-
+    """Load entities from JSON file"""
     path = os.path.join(TOPDIR, 'entities.json')
     entities = json.load(open(path))
     names = [i['name'] for i in entities]
@@ -94,11 +85,7 @@ ENTITIES, DERIVED_ENT = load_entities()
 
 ################################################################################
 def get_derived_units(names):
-
-    '''
-    Create dictionary of unit dimensions.
-    '''
-
+    """Create dictionary of unit dimensions"""
     derived_uni = {}
 
     for name in names:
@@ -118,11 +105,7 @@ def get_derived_units(names):
 
 ################################################################################
 def load_units():
-
-    '''
-    Load units from JSON file.
-    '''
-
+    """Load units from JSON file"""
     names = {}
     surfaces, lowers, symbols = defaultdict(list), defaultdict(list), \
                                 defaultdict(list)

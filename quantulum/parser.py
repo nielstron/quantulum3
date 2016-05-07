@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-'''
-:mod:`Quantulum` parser.
-'''
+""":mod:`Quantulum` parser"""
 
 # Standard library
 import re
@@ -19,11 +17,7 @@ from . import classifier as clf
 
 ################################################################################
 def clean_surface(surface, span):
-
-    '''
-    Remove spurious characters from a quantity's surface.
-    '''
-
+    """Remove spurious characters from a quantity's surface"""
     surface = surface.replace('-', ' ')
     no_start = ['and', ' ']
     no_end = [' and', ' ']
@@ -56,11 +50,7 @@ def clean_surface(surface, span):
 
 ################################################################################
 def extract_spellout_values(text):
-
-    '''
-    Convert spelled out numbers in a given text to digits.
-    '''
-
+    """Convert spelled out numbers in a given text to digits"""
     values = []
     for item in r.REG_TXT.finditer(text):
         surface, span = clean_surface(item.group(0), item.span())
@@ -90,11 +80,7 @@ def extract_spellout_values(text):
 
 ################################################################################
 def substitute_values(text, values):
-
-    '''
-    Convert spelled out numbers in a given text to digits.
-    '''
-
+    """Convert spelled out numbers in a given text to digits"""
     shift, final_text, shifts = 0, text, defaultdict(int)
     for value in values:
         first = value['old_span'][0] + shift
@@ -112,11 +98,7 @@ def substitute_values(text, values):
 
 ################################################################################
 def get_values(item):
-
-    '''
-    Extract value from regex hit.
-    '''
-
+    """Extract value from regex hit"""
     callback = lambda pattern: ' %s' % (r.UNI_FRAC[pattern.group(0)])
     fracs = r'|'.join(r.UNI_FRAC)
 
@@ -154,11 +136,7 @@ def get_values(item):
 
 ################################################################################
 def build_unit_name(derived):
-
-    '''
-    Build the name of the unit from its dimensions.
-    '''
-
+    """Build the name of the unit from its dimensions"""
     name = ''
 
     for unit in derived:
@@ -184,11 +162,7 @@ def build_unit_name(derived):
 
 ################################################################################
 def get_unit_from_dimensions(derived, text):
-
-    '''
-    Reconcile a unit based on its dimensionality.
-    '''
-
+    """Reconcile a unit based on its dimensionality"""
     key = l.get_key_from_dimensions(derived)
 
     try:
@@ -204,12 +178,10 @@ def get_unit_from_dimensions(derived, text):
 
 ################################################################################
 def get_entity_from_dimensions(derived, text):
-
-    '''
+    """
     Infer the underlying entity of a unit (e.g. "volume" for "m^3") based on its
     dimensionality.
-    '''
-
+    """
     new_derived = [{'base': l.NAMES[i['base']].entity.name,
                     'power': i['power']} for i in derived]
 
@@ -230,11 +202,7 @@ def get_entity_from_dimensions(derived, text):
 
 ################################################################################
 def parse_unit(item, group, slash):
-
-    '''
-    Parse surface and power from unit text.
-    '''
-
+    """Parse surface and power from unit text"""
     surface = item.group(group).replace('.', '')
     power = re.findall(r'\-?[0-9%s]+' % r.SUPERSCRIPTS, surface)
 
@@ -261,11 +229,7 @@ def parse_unit(item, group, slash):
 
 ################################################################################
 def get_unit(item, text):
-
-    '''
-    Extract unit from regex hit.
-    '''
-
+    """Extract unit from regex hit"""
     group_units = [1, 4, 6, 8, 10]
     group_operators = [3, 5, 7, 9]
 
@@ -298,11 +262,7 @@ def get_unit(item, text):
 
 ################################################################################
 def get_surface(shifts, orig_text, item, text):
-
-    '''
-    Extract surface from regex hit.
-    '''
-
+    """Extract surface from regex hit"""
     span = item.span()
     logging.debug(u'\tInitial span: %s ("%s")', span, text[span[0]:span[1]])
 
@@ -324,11 +284,7 @@ def get_surface(shifts, orig_text, item, text):
 
 ################################################################################
 def is_quote_artifact(orig_text, span):
-
-    '''
-    Distinguish between quotes and units.
-    '''
-
+    """Distinguish between quotes and units"""
     res = False
     cursor = re.finditer(r'("|\')[^ .,:;?!()*+-].*?("|\')', orig_text)
 
@@ -341,11 +297,7 @@ def is_quote_artifact(orig_text, span):
 
 ################################################################################
 def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
-
-    '''
-    Build a Quantity object out of extracted information.
-    '''
-
+    """Build a Quantity object out of extracted information"""
     # Discard irrelevant txt2float extractions, cardinal numbers, codes etc.
     if surface.lower() in ['a', 'an', 'one'] or \
     re.search(r'1st|2nd|3rd|[04-9]th', surface) or \
@@ -426,11 +378,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
 
 ################################################################################
 def clean_text(text):
-
-    '''
-    Clean text before parsing.
-    '''
-
+    """Clean text before parsing"""
     # Replace a few nasty unicode characters with their ASCII equivalent
     maps = {u'×': u'x', u'–': u'-', u'−': '-'}
     for element in maps:
@@ -446,11 +394,7 @@ def clean_text(text):
 
 ################################################################################
 def parse(text, verbose=False):
-
-    '''
-    Extract all quantities from unstructured text.
-    '''
-
+    """Extract all quantities from unstructured text"""
     log_format = ('%(asctime)s --- %(message)s')
     logging.basicConfig(format=log_format)
     root = logging.getLogger()
@@ -498,11 +442,7 @@ def parse(text, verbose=False):
 
 ################################################################################
 def inline_parse(text, verbose=False):
-
-    '''
-    Extract all quantities from unstructured text.
-    '''
-
+    """Extract all quantities from unstructured text"""
     if isinstance(text, str):
         text = text.decode('utf-8')
 

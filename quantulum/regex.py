@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-'''
-:mod:`Quantulum` regex functions.
-'''
+""":mod:`Quantulum` regex functions"""
 
 # Standard library
 import re
@@ -22,11 +20,7 @@ SCALES = ['hundred', 'thousand', 'million', 'billion', 'trillion']
 
 ################################################################################
 def get_numwords():
-
-    '''
-    Convert number words to integers in a given text.
-    '''
-
+    """Convert number words to integers in a given text"""
     numwords = {'and': (1, 0), 'a': (1, 1), 'an': (1, 1)}
 
     for idx, word in enumerate(UNITS):
@@ -107,39 +101,7 @@ REG_TXT = re.compile(TXT_PATTERN, re.VERBOSE | re.IGNORECASE)
 
 ################################################################################
 def get_units_regex():
-
-    '''
-    Build a compiled regex object. Groups of the extracted items, with 4
-    repetitions, are:
-
-        0: whole surface
-        1: prefixed symbol
-        2: numerical value
-        3: first operator
-        4: first unit
-        5: second operator
-        6: second unit
-        7: third operator
-        8: third unit
-        9: fourth operator
-        10: fourth unit
-
-    Example, 'I want $20/h'
-
-        0: $20/h
-        1: $
-        2: 20
-        3: /
-        4: h
-        5: None
-        6: None
-        7: None
-        8: None
-        9: None
-        10: None
-
-    '''
-
+    """Build a compiled regex object"""
     op_keys = sorted(OPERATORS.keys(), key=len, reverse=True)
     unit_keys = sorted(l.UNITS.keys(), key=len, reverse=True)
     symbol_keys = sorted(l.SYMBOLS.keys(), key=len, reverse=True)
