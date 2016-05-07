@@ -3,9 +3,11 @@ language: python
 python:
   - "2.7"
 
+virtualenv:
+  system_site_packages: true
+
 before_install:
-  - sudo apt-get install python-numpy
-  - sudo apt-get install python-scipy
+  - sudo apt-get install -qq python-numpy python-scipy
 
 install:
   - pip install coverage
