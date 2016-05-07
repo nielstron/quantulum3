@@ -499,7 +499,7 @@ def inline_parse(text, verbose=False):
     if isinstance(text, str):
         text = text.decode('utf-8')
 
-    parsed = parse(text)
+    parsed = parse(text, verbose=verbose)
 
     shift = 0
     for quantity in parsed:
@@ -509,7 +509,4 @@ def inline_parse(text, verbose=False):
         shift += len(to_add)
 
     return text
-
-
-
 

@@ -1,3 +1,5 @@
 *.py[co]
 dist/
+*.coverage*
+quantulum/todo.json
 quantulum.egg-info/

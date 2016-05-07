@@ -8,7 +8,9 @@
 # Standard library
 import os
 import re
+import sys
 import json
+import unittest
 
 # Quantulum
 from . import load as l
@@ -117,33 +119,18 @@ def load_tests():
 
 
 ################################################################################
-def run():
+class EndToEndTests(unittest.TestCase):
 
-    '''
-    Run all tests.
-    '''
+    def test_load_tests(self):
+        self.assertFalse(load_tests() == None)
 
-    print
+    def test_parse(self):
+        all_tests = load_tests()
+        for test in sorted(all_tests, key=lambda x: len(x['req'])):
+            self.assertEqual(p.parse(test['req']), test['res'])
 
-    all_tests = load_tests()
-    if all_tests is None:
-        return
 
-    good, bad = 0, 0
-    for test in sorted(all_tests, key=lambda x: len(x['req'])):
-        res = p.parse(test['req'])
-        try:
-            assert res == test['res']
-            print COLOR1 % '---> "%s" passed!' % test['req'].encode('utf-8')
-            good += 1
-        except AssertionError:
-            to_fix = [i for i in test['res'] if i not in res]
-            to_fix += [i for i in res if i not in test['res']]
-            msg = ('---> "%s" wrongly recognized:\n\tWrong: %s\n\tCorrect: '
-                   '%s\n\tTo fix: %s') % (test['req'].encode('utf-8'), res,
-                                          test['res'], to_fix[0])
-            print COLOR2 % msg
-            bad += 1
+################################################################################
+if __name__ == '__main__':
 
-    print COLOR2 % ('\nBad: %d' % bad)
-    print COLOR1 % ('Good: %d\n' % good)
+    unittest.main()

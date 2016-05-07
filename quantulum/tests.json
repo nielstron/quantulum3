@@ -35,11 +35,6 @@
                 {"value": 640, "unit": "inch", "surface": "320- to 640-inch"}]
     },
     {
-        "req": "Before the Hubble Telescope scientists predicted an age of the universe ranging from 10 to 20 billion years",
-        "res": [{"value": 1e10, "unit": "year", "surface": "10 to 20 billion years"},
-                {"value": 2e10, "unit": "year", "surface": "10 to 20 billion years"}]
-    },
-    {
         "req": "Hubble's predicted position for six weeks' time could be in error by up to 4,000 km",
         "res": [{"value": 6, "unit": "week", "surface": "six weeks'"},
                 {"value": 4000, "unit": "kilometre", "surface": "4,000 km"}]

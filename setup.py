@@ -19,7 +19,7 @@ import quantulum
 setup(
     name='quantulum',
     packages=['quantulum'],
-    package_data={'quantulum': ['clf.pickle', 'units.json', 'entities.json']},
+    package_data={'quantulum': ['clf.pickle', 'units.json', 'entities.json', 'tests.json', 'train.json', 'wiki.json']},
     description='Extract quantities from unstructured text.',
     long_description=open('README.rst').read(),
     download_url='https://github.com/marcolagi/quantulum/tarball/0.1',
@@ -28,6 +28,7 @@ setup(
     author=quantulum.__author__,
     author_email=quantulum.__author_email__,
     license=quantulum.__license__,
+    test_suite='quantulum.tests.EndToEndTests',
     keywords=['information extraction', 'quantities', 'units', 'measurements',
               'nlp', 'natural language processing', 'text mining',
               'text processing'],
