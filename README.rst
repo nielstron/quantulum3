@@ -140,8 +140,7 @@ Extension
 See *units.json* for the complete list of units and *entities.json* for the complete list of entities. The criteria for adding units have been:
 
 - the unit has (or is redirected to) a WikiPedia page
-- the unit is in common use (e.g. not the `premetric Swedish units of
-measurement <https://en.wikipedia.org/wiki/Swedish_units_of_measurement#Length>`_).
+- the unit is in common use (e.g. not the `premetric Swedish units of measurement <https://en.wikipedia.org/wiki/Swedish_units_of_measurement#Length>`_).
 
 It's easy to extend these two files to the units/entities of interest. Here is an example of an entry in *entities.json*:
 
