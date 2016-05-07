@@ -30,7 +30,7 @@ Python library for information extraction of quantities, measurements and their 
 Installation
 ------------
 
-First, install `sklearn <http://scikit-learn.org/stable/install.html/>`_. `quantulum` would work without it, but it wouldn't be able to use its classifier to disambiguate between units with the same name (e.g. *pound* as currency or *pound* as unit of mass).
+First, install `sklearn <http://scikit-learn.org/stable/install.html/>`_. Quantulum would still work without it, but it wouldn't be able to disambiguate between units with the same name (e.g. *pound* as currency or as unit of mass).
 
 Then,
 
@@ -140,7 +140,7 @@ Extension
 See *units.json* for the complete list of units and *entities.json* for the complete list of entities. The criteria for adding units have been:
 
 - the unit has (or is redirected to) a WikiPedia page
-- the unit is in common use (e.g. not the `pre-metric Swedish units of
+- the unit is in common use (e.g. not the `premetric Swedish units of
 measurement <https://en.wikipedia.org/wiki/Swedish_units_of_measurement#Length>`_).
 
 It's easy to extend these two files to the units/entities of interest. Here is an example of an entry in *entities.json*:

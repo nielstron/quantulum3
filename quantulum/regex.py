@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""":mod:`Quantulum` regex functions"""
+"""quantulum regex functions."""
 
 # Standard library
 import re
@@ -18,9 +18,10 @@ TENS = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy',
 
 SCALES = ['hundred', 'thousand', 'million', 'billion', 'trillion']
 
+
 ################################################################################
 def get_numwords():
-    """Convert number words to integers in a given text"""
+    """Convert number words to integers in a given text."""
     numwords = {'and': (1, 0), 'a': (1, 1), 'an': (1, 1)}
 
     for idx, word in enumerate(UNITS):
@@ -54,8 +55,8 @@ ALL_NUM, NUMWORDS = get_numwords()
 FRACTIONS = re.escape(''.join(UNI_FRAC.keys()))
 SUPERSCRIPTS = re.escape(''.join(UNI_SUPER.keys()))
 
-MULTIPLIERS = r'|'.join(ur'%s' % re.escape(i) for i in OPERATORS if \
-              OPERATORS[i] == ' ')
+MULTIPLIERS = r'|'.join(ur'%s' % re.escape(i) for i in OPERATORS if
+                        OPERATORS[i] == ' ')
 
 NUM_PATTERN = ur'''            # Pattern for extracting a digit-based number
 
@@ -95,13 +96,14 @@ TXT_PATTERN = ur'''            # Pattern for extracting mixed digit-spelled num
     [ -]?(?:%s)
     [ -]?(?:%s)?[ -]?(?:%s)?[ -]?(?:%s)?
     [ -]?(?:%s)?[ -]?(?:%s)?[ -]?(?:%s)?
-''' % tuple([NUM_PATTERN] + 7*[ALL_NUM])
+''' % tuple([NUM_PATTERN] + 7 * [ALL_NUM])
 
 REG_TXT = re.compile(TXT_PATTERN, re.VERBOSE | re.IGNORECASE)
 
+
 ################################################################################
 def get_units_regex():
-    """Build a compiled regex object"""
+    """Build a compiled regex object."""
     op_keys = sorted(OPERATORS.keys(), key=len, reverse=True)
     unit_keys = sorted(l.UNITS.keys(), key=len, reverse=True)
     symbol_keys = sorted(l.SYMBOLS.keys(), key=len, reverse=True)
@@ -122,11 +124,10 @@ def get_units_regex():
         (?:(?P<operator3>%s)?(?P<unit3>(?:%s)%s)?)    # Operator + Unit (3)
         (?:(?P<operator4>%s)?(?P<unit4>(?:%s)%s)?)    # Operator + Unit (4)
 
-    ''' % tuple([all_symbols, RAN_PATTERN] + 4*[all_ops, all_units, exponent])
+    ''' % tuple([all_symbols, RAN_PATTERN] + 4 * [all_ops, all_units, exponent])
 
     regex = re.compile(pattern, re.VERBOSE | re.IGNORECASE)
 
     return regex
 
 REG_DIM = get_units_regex()
-

@@ -1,4 +1,4 @@
-""":mod:`Quantulum` init"""
+"""quantulum init."""
 
 VERSION = (0, 1, 13)
 

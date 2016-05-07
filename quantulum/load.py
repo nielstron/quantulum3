@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""":mod:`Quantulum` unit and entity loading functions"""
+"""quantulum unit and entity loading functions."""
 
 # Standard library
 import os
@@ -18,6 +18,7 @@ TOPDIR = os.path.dirname(__file__) or "."
 
 PLURALS = inflect.engine()
 
+
 ################################################################################
 def get_key_from_dimensions(derived):
     """
@@ -31,7 +32,7 @@ def get_key_from_dimensions(derived):
 
 ################################################################################
 def get_dimension_permutations(entities, derived):
-    """Get all possible dimensional definitions for an entity"""
+    """Get all possible dimensional definitions for an entity."""
     new_derived = defaultdict(int)
     for item in derived:
         new = entities[item['base']].derived
@@ -56,7 +57,7 @@ def get_dimension_permutations(entities, derived):
 
 ################################################################################
 def load_entities():
-    """Load entities from JSON file"""
+    """Load entities from JSON file."""
     path = os.path.join(TOPDIR, 'entities.json')
     entities = json.load(open(path))
     names = [i['name'] for i in entities]
@@ -64,8 +65,8 @@ def load_entities():
     try:
         assert len(set(names)) == len(entities)
     except AssertionError:
-        raise Exception('Entities with same name: %s' % [i for i in names if \
-                         names.count(i) > 1])
+        raise Exception('Entities with same name: %s' % [i for i in names if
+                                                         names.count(i) > 1])
 
     entities = dict((k['name'], c.Entity(name=k['name'], derived=k['derived'],
                                          uri=k['URI'])) for k in entities)
@@ -83,29 +84,33 @@ def load_entities():
 
 ENTITIES, DERIVED_ENT = load_entities()
 
+
 ################################################################################
 def get_derived_units(names):
-    """Create dictionary of unit dimensions"""
+    """Create dictionary of unit dimensions."""
     derived_uni = {}
 
     for name in names:
+
         key = get_key_from_dimensions(names[name].derived)
         derived_uni[key] = names[name]
         plain_derived = [{'base': name, 'power': 1}]
         key = get_key_from_dimensions(plain_derived)
         derived_uni[key] = names[name]
+
         if not names[name].derived:
             names[name].derived = plain_derived
+
         names[name].derived = [{'base': names[i['base']].name,
-                                'power': i['power']} for i in \
-                                 names[name].derived]
+                                'power': i['power']} for i in
+                               names[name].derived]
 
     return derived_uni
 
 
 ################################################################################
 def load_units():
-    """Load units from JSON file"""
+    """Load units from JSON file."""
     names = {}
     surfaces, lowers, symbols = defaultdict(list), defaultdict(list), \
                                 defaultdict(list)
@@ -140,9 +145,9 @@ def load_units():
             elif 'degree ' in surface:
                 index = split.index('degree')
             if index is not None:
-                plural = ' '.join([i if num != index else \
-                         PLURALS.plural(split[index]) for num, i in \
-                         enumerate(split)])
+                plural = ' '.join([i if num != index else
+                                   PLURALS.plural(split[index]) for num, i in
+                                   enumerate(split)])
             else:
                 plural = PLURALS.plural(surface)
             if plural != surface:

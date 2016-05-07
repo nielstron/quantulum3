@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""":mod:`Quantulum` tests"""
+"""quantulum tests."""
 
 # Standard library
 import os
@@ -20,6 +20,7 @@ from . import classes as c
 COLOR1 = '\033[94m%s\033[0m'
 COLOR2 = '\033[91m%s\033[0m'
 TOPDIR = os.path.dirname(__file__) or "."
+
 
 ################################################################################
 def wiki_test(page='CERN'):
@@ -63,7 +64,7 @@ def wiki_test(page='CERN'):
 
 ################################################################################
 def load_tests():
-    """Load all tests from tests.json"""
+    """Load all tests from tests.json."""
     path = os.path.join(TOPDIR, 'tests.json')
     tests = json.load(open(path))
 
@@ -113,14 +114,14 @@ def load_tests():
 
 ################################################################################
 class EndToEndTests(unittest.TestCase):
-    """Test suite for the quantulum project"""
+    """Test suite for the quantulum project."""
 
     def test_load_tests(self):
-        """test for tests.load_test() function"""
+        """test for tests.load_test() function."""
         self.assertFalse(load_tests() is None)
 
     def test_parse(self):
-        """test for parser.parse() function"""
+        """test for parser.parse() function."""
         all_tests = load_tests()
         for test in sorted(all_tests, key=lambda x: len(x['req'])):
             self.assertEqual(p.parse(test['req']), test['res'])
