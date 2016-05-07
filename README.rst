@@ -26,7 +26,7 @@ Python library for information extraction of quantities, measurements and their 
 Installation
 ------------
 
-First, install [scikit-learn](http://scikit-learn.org/stable/install.html). `quantulum` would work without it, but it wouldn't be able to use its classifier to disambiguate between units with the same name (e.g. pound as currency or pound as unit of mass).
+First, install `sklearn <http://scikit-learn.org/stable/install.html/>`_. `quantulum` would work without it, but it wouldn't be able to use its classifier to disambiguate between units with the same name (e.g. pound as currency or pound as unit of mass).
 
 Then,
 
@@ -126,9 +126,9 @@ Manipulation
 
 While quantities cannot be manipulated within this library, there are many great options out there:
 
-- `Pint <https://pint.readthedocs.org/en/latest/>`_
-- `Natu <http://kdavies4.github.io/natu/>`_
-- `Quantities <http://python-quantities.readthedocs.org/en/latest/>`_
+- `pint <https://pint.readthedocs.org/en/latest/>`_
+- `natu <http://kdavies4.github.io/natu/>`_
+- `quantities <http://python-quantities.readthedocs.org/en/latest/>`_
 
 Extension
 ---------
