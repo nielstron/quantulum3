@@ -26,6 +26,10 @@ Python library for information extraction of quantities, measurements and their 
 Installation
 ------------
 
+First, install [scikit-learn](http://scikit-learn.org/stable/install.html). `quantulum` would work without it, but it wouldn't be able to use its classifier to disambiguate between units with the same name (e.g. pound as currency or pound as unit of mass).
+
+Then,
+
 .. code-block:: bash
 
     $ pip install quantulum

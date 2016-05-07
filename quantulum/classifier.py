@@ -15,8 +15,12 @@ import logging
 # Dependences
 import wikipedia
 from stemming.porter2 import stem
-from sklearn.linear_model import SGDClassifier
-from sklearn.feature_extraction.text import TfidfVectorizer
+try:
+    from sklearn.linear_model import SGDClassifier
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    USE_CLF = True
+except ImportError:
+    USE_CLF = False
 
 # Quantulum
 from . import load as l
@@ -120,7 +124,10 @@ def load_classifier():
 
     return obj['tfidf_model'], obj['clf'], obj['target_names']
 
-TFIDF_MODEL, CLF, TARGET_NAMES = load_classifier()
+if USE_CLF:
+    TFIDF_MODEL, CLF, TARGET_NAMES = load_classifier()
+else:
+    TFIDF_MODEL, CLF, TARGET_NAMES = None, None, None
 
 ################################################################################
 def disambiguate_entity(key, text):

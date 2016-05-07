@@ -217,12 +217,16 @@ def get_entity_from_dimensions(derived, text):
     key = l.get_key_from_dimensions(final_derived)
 
     try:
-        ent = clf.disambiguate_entity(key, text)
+        if clf.USE_CLF:
+            ent = clf.disambiguate_entity(key, text)
+        else:
+            ent = l.DERIVED_ENT[key][0]
     except IndexError:
         logging.debug(u'\tCould not find entity for: %s', key)
         ent = c.Entity(name='unknown', derived=new_derived)
 
     return ent
+
 
 ################################################################################
 def parse_unit(item, group, slash):
@@ -276,7 +280,10 @@ def get_unit(item, text):
                 continue
             if group in group_units:
                 surface, power = parse_unit(item, group, slash)
-                base = clf.disambiguate_unit(surface, text).name
+                if clf.USE_CLF:
+                    base = clf.disambiguate_unit(surface, text).name
+                else:
+                    base = l.UNITS[surface][0].name
                 derived += [{'base': base, 'power': power}]
             elif not slash:
                 slash = any(i in item.group(group) for i in [u'/', u' per '])

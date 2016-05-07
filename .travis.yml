@@ -6,6 +6,9 @@ python:
 install:
   - pip install coverage
   - pip install coveralls
+  - pip install numpy
+  - pip install scipy
+  - pip install scikit-learn
   - pip install quantulum
 
 script:
