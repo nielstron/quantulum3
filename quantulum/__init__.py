@@ -1,6 +1,6 @@
 """quantulum init."""
 
-VERSION = (0, 1, 14)
+VERSION = (0, 1, 15)
 
 __version__ = '.'.join([str(i) for i in VERSION])
 __author__ = 'Marco Lagi'

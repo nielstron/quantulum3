@@ -86,9 +86,9 @@ def substitute_values(text, values):
     for value in values:
         first = value['old_span'][0] + shift
         second = value['old_span'][1] + shift
-        final_text = final_text[0:first] + value['new_surface']
-        final_text += final_text[second:]
-        shift += len(value['new_surface']) - len(value['old_surface'])
+        new_s = value['new_surface']
+        final_text = final_text[0:first] + new_s + final_text[second:]
+        shift += len(new_s) - len(value['old_surface'])
         for char in range(first + 1, len(final_text)):
             shifts[char] = shift
 
