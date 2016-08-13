@@ -8,7 +8,7 @@ import os
 import json
 from collections import defaultdict
 
-# Dependences
+# Dependencies
 import inflect
 
 # Quantulum
@@ -19,7 +19,7 @@ TOPDIR = os.path.dirname(__file__) or "."
 PLURALS = inflect.engine()
 
 
-################################################################################
+###############################################################################
 def get_key_from_dimensions(dimensions):
     """
     Get a key for DERIVED_UNI or DERIVED_ENT.
@@ -30,7 +30,7 @@ def get_key_from_dimensions(dimensions):
     return tuple(tuple(i.items()) for i in dimensions)
 
 
-################################################################################
+###############################################################################
 def get_dimension_permutations(entities, dimensions):
     """Get all possible dimensional definitions for an entity."""
     new_dimensions = defaultdict(int)
@@ -55,7 +55,7 @@ def get_dimension_permutations(entities, dimensions):
     return candidates
 
 
-################################################################################
+###############################################################################
 def load_entities():
     """Load entities from JSON file."""
     path = os.path.join(TOPDIR, 'entities.json')
@@ -86,7 +86,7 @@ def load_entities():
 ENTITIES, DERIVED_ENT = load_entities()
 
 
-################################################################################
+###############################################################################
 def get_dimensions_units(names):
     """Create dictionary of unit dimensions."""
     dimensions_uni = {}
@@ -103,19 +103,19 @@ def get_dimensions_units(names):
             names[name].dimensions = plain_dimensions
 
         names[name].dimensions = [{'base': names[i['base']].name,
-                                'power': i['power']} for i in
-                               names[name].dimensions]
+                                   'power': i['power']} for i in
+                                  names[name].dimensions]
 
     return dimensions_uni
 
 
-################################################################################
+###############################################################################
 def load_units():
     """Load units from JSON file."""
     names = {}
-    surfaces, lowers, symbols = defaultdict(list), defaultdict(list), \
-                                defaultdict(list)
-
+    lowers = defaultdict(list)
+    symbols = defaultdict(list)
+    surfaces = defaultdict(list)
     for unit in json.load(open(os.path.join(TOPDIR, 'units.json'))):
 
         try:

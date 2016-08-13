@@ -22,15 +22,25 @@
    :target: https://landscape.io/github/marcolagi/quantulum/master
    :alt: Health
 
+.. image:: https://badge.waffle.io/marcolagi/quantulum.png?label=ready&title=Ready
+   :target: https://waffle.io/marcolagi/quantulum
+   :alt: Tasks
+
 quantulum
 =========
 
 Python library for information extraction of quantities, measurements and their units from unstructured text.
 
+Demo
+----
+
+Try it `here <http://52.38.222.108:5000>`_.
+
+
 Installation
 ------------
 
-First, install `sklearn <http://scikit-learn.org/stable/install.html/>`_. Quantulum would still work without it, but it wouldn't be able to disambiguate between units with the same name (e.g. *pound* as currency or as unit of mass).
+First, install `sklearn <http://scikit-learn.org/stable/install.html>`_. Quantulum would still work without it, but it wouldn't be able to disambiguate between units with the same name (e.g. *pound* as currency or as unit of mass).
 
 Then,
 

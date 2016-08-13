@@ -10,7 +10,7 @@ import json
 import pickle
 import logging
 
-# Dependences
+# Dependencies
 import wikipedia
 from stemming.porter2 import stem
 try:
@@ -24,7 +24,7 @@ except ImportError:
 from . import load as l
 
 
-################################################################################
+###############################################################################
 def download_wiki():
     """Download WikiPedia pages of ambiguous units."""
     ambiguous = [i for i in l.UNITS.items() if len(i[1]) > 1]
@@ -53,7 +53,7 @@ def download_wiki():
     print '\n---> All done.\n'
 
 
-################################################################################
+###############################################################################
 def clean_text(text):
     """Clean text for TFIDF."""
     new_text = re.sub(ur'\p{P}+', ' ', text)
@@ -66,7 +66,7 @@ def clean_text(text):
     return new_text
 
 
-################################################################################
+###############################################################################
 def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
     """Train the intent classifier."""
     if download:
@@ -94,12 +94,14 @@ def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
                       'alpha': 0.00001, 'fit_intercept': True}
 
     clf = SGDClassifier(**parameters).fit(matrix, train_target)
-    obj = {'tfidf_model': tfidf_model, 'clf': clf, 'target_names': target_names}
+    obj = {'tfidf_model': tfidf_model,
+           'clf': clf,
+           'target_names': target_names}
     path = os.path.join(l.TOPDIR, 'clf.pickle')
     pickle.dump(obj, open(path, 'w'))
 
 
-################################################################################
+###############################################################################
 def load_classifier():
     """Train the intent classifier."""
     path = os.path.join(l.TOPDIR, 'clf.pickle')
@@ -113,7 +115,7 @@ else:
     TFIDF_MODEL, CLF, TARGET_NAMES = None, None, None
 
 
-################################################################################
+###############################################################################
 def disambiguate_entity(key, text):
     """Resolve ambiguity between entities with same dimensionality."""
     new_ent = l.DERIVED_ENT[key][0]
@@ -133,7 +135,7 @@ def disambiguate_entity(key, text):
     return new_ent
 
 
-################################################################################
+###############################################################################
 def disambiguate_unit(unit, text):
     """
     Resolve ambiguity.

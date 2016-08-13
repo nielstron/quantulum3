@@ -17,7 +17,7 @@ setup(
     name='quantulum',
     packages=['quantulum'],
     package_data={'quantulum': ['clf.pickle', 'units.json', 'entities.json',
-    'tests.json', 'train.json', 'wiki.json']},
+                                'tests.json', 'train.json', 'wiki.json']},
     description='Extract quantities from unstructured text.',
     long_description=open('README.rst').read(),
     download_url='https://github.com/marcolagi/quantulum/tarball/0.1',
@@ -30,22 +30,16 @@ setup(
     keywords=['information extraction', 'quantities', 'units', 'measurements',
               'nlp', 'natural language processing', 'text mining',
               'text processing'],
-    install_requires=[
-          'inflect', 'stemming', 'wikipedia'
-      ],
-    classifiers=[
-          'Intended Audience :: Developers',
-          'Intended Audience :: Science/Research',
-          'Operating System :: MacOS :: MacOS X',
-          'Operating System :: Microsoft :: Windows',
-          'Operating System :: POSIX',
-          'License :: OSI Approved :: MIT License',
-          'Programming Language :: Python',
-          'Programming Language :: Python :: 2.7',
-          'Development Status :: 3 - Alpha',
-          'Natural Language :: English',
-          'Topic :: Software Development :: Libraries :: Python Modules',
-          'Topic :: Text Processing :: Linguistic',
-          'Topic :: Scientific/Engineering'
-    ]
-)
+    install_requires=['inflect', 'stemming', 'wikipedia'],
+    classifiers=['Intended Audience :: Developers',
+                 'Intended Audience :: Science/Research',
+                 'Operating System :: MacOS :: MacOS X',
+                 'Operating System :: Microsoft :: Windows',
+                 'Operating System :: POSIX',
+                 'License :: OSI Approved :: MIT License',
+                 'Programming Language :: Python',
+                 'Programming Language :: Python :: 2.7',
+                 'Development Status :: 3 - Alpha',
+                 'Natural Language :: English',
+                 'Topic :: Text Processing :: Linguistic',
+                 'Topic :: Scientific/Engineering'])

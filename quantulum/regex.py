@@ -19,7 +19,7 @@ TENS = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy',
 SCALES = ['hundred', 'thousand', 'million', 'billion', 'trillion']
 
 
-################################################################################
+###############################################################################
 def get_numwords():
     """Convert number words to integers in a given text."""
     numwords = {'and': (1, 0), 'a': (1, 1), 'an': (1, 1)}
@@ -36,7 +36,7 @@ def get_numwords():
     return all_numbers, numwords
 
 
-################################################################################
+###############################################################################
 
 SUFFIXES = {'K': 1e3, 'M': 1e6, 'B': 1e9, 'T': 1e12}
 
@@ -101,7 +101,7 @@ TXT_PATTERN = ur'''            # Pattern for extracting mixed digit-spelled num
 REG_TXT = re.compile(TXT_PATTERN, re.VERBOSE | re.IGNORECASE)
 
 
-################################################################################
+###############################################################################
 def get_units_regex():
     """Build a compiled regex object."""
     op_keys = sorted(OPERATORS.keys(), key=len, reverse=True)
@@ -124,7 +124,8 @@ def get_units_regex():
         (?:(?P<operator3>%s)?(?P<unit3>(?:%s)%s)?)    # Operator + Unit (3)
         (?:(?P<operator4>%s)?(?P<unit4>(?:%s)%s)?)    # Operator + Unit (4)
 
-    ''' % tuple([all_symbols, RAN_PATTERN] + 4 * [all_ops, all_units, exponent])
+    ''' % tuple([all_symbols, RAN_PATTERN] + 4 * [all_ops, all_units,
+                                                  exponent])
 
     regex = re.compile(pattern, re.VERBOSE | re.IGNORECASE)
 

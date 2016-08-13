@@ -3,4 +3,7 @@ dist/
 *.coverage*
 deploy
 quantulum/todo.json
+quantulum/deploy.py
+quantulum/pylint.conf
+quantulum/server/
 quantulum.egg-info/

@@ -16,7 +16,7 @@ from . import classes as c
 from . import classifier as clf
 
 
-################################################################################
+###############################################################################
 def clean_surface(surface, span):
     """Remove spurious characters from a quantity's surface."""
     surface = surface.replace('-', ' ')
@@ -42,14 +42,14 @@ def clean_surface(surface, span):
 
     split = surface.lower().split()
     if split[0] in ['one', 'a', 'an'] and len(split) > 1 and split[1] in \
-    r.UNITS + r.TENS:
+            r.UNITS + r.TENS:
         span = (span[0] + len(surface.split()[0]) + 1, span[1])
         surface = ' '.join(surface.split()[1:])
 
     return surface, span
 
 
-################################################################################
+###############################################################################
 def extract_spellout_values(text):
     """Convert spelled out numbers in a given text to digits."""
     values = []
@@ -79,15 +79,15 @@ def extract_spellout_values(text):
     return sorted(values, key=lambda x: x['old_span'][0])
 
 
-################################################################################
+###############################################################################
 def substitute_values(text, values):
     """Convert spelled out numbers in a given text to digits."""
     shift, final_text, shifts = 0, text, defaultdict(int)
     for value in values:
         first = value['old_span'][0] + shift
         second = value['old_span'][1] + shift
-        final_text = final_text[0:first] + value['new_surface'] + \
-                     final_text[second:]
+        final_text = final_text[0:first] + value['new_surface']
+        final_text += final_text[second:]
         shift += len(value['new_surface']) - len(value['old_surface'])
         for char in range(first + 1, len(final_text)):
             shifts[char] = shift
@@ -97,10 +97,15 @@ def substitute_values(text, values):
     return final_text, shifts
 
 
-################################################################################
+###############################################################################
+def callback(pattern):
+    """Regex callback function."""
+    return ' %s' % (r.UNI_FRAC[pattern.group(0)])
+
+
+###############################################################################
 def get_values(item):
     """Extract value from regex hit."""
-    callback = lambda pattern: ' %s' % (r.UNI_FRAC[pattern.group(0)])
     fracs = r'|'.join(r.UNI_FRAC)
 
     value = item.group(2)
@@ -135,7 +140,7 @@ def get_values(item):
     return uncertainty, values
 
 
-################################################################################
+###############################################################################
 def build_unit_name(dimensions):
     """Build the name of the unit from its dimensions."""
     name = ''
@@ -161,7 +166,7 @@ def build_unit_name(dimensions):
     return name
 
 
-################################################################################
+###############################################################################
 def get_unit_from_dimensions(dimensions, text):
     """Reconcile a unit based on its dimensionality."""
     key = l.get_key_from_dimensions(dimensions)
@@ -177,7 +182,7 @@ def get_unit_from_dimensions(dimensions, text):
     return unit
 
 
-################################################################################
+###############################################################################
 def get_entity_from_dimensions(dimensions, text):
     """
     Infer the underlying entity of a unit (e.g. "volume" for "m^3").
@@ -185,7 +190,7 @@ def get_entity_from_dimensions(dimensions, text):
     Just based on the unit's dimensionality if the classifier is disabled.
     """
     new_dimensions = [{'base': l.NAMES[i['base']].entity.name,
-                    'power': i['power']} for i in dimensions]
+                       'power': i['power']} for i in dimensions]
 
     final_dimensions = sorted(new_dimensions, key=lambda x: x['base'])
     key = l.get_key_from_dimensions(final_dimensions)
@@ -202,7 +207,7 @@ def get_entity_from_dimensions(dimensions, text):
     return ent
 
 
-################################################################################
+###############################################################################
 def parse_unit(item, group, slash):
     """Parse surface and power from unit text."""
     surface = item.group(group).replace('.', '')
@@ -229,7 +234,7 @@ def parse_unit(item, group, slash):
     return surface, new_power
 
 
-################################################################################
+###############################################################################
 def get_unit(item, text):
     """Extract unit from regex hit."""
     group_units = [1, 4, 6, 8, 10]
@@ -262,7 +267,7 @@ def get_unit(item, text):
     return unit
 
 
-################################################################################
+###############################################################################
 def get_surface(shifts, orig_text, item, text):
     """Extract surface from regex hit."""
     span = item.span()
@@ -284,7 +289,7 @@ def get_surface(shifts, orig_text, item, text):
     return surface, real_span
 
 
-################################################################################
+###############################################################################
 def is_quote_artifact(orig_text, span):
     """Distinguish between quotes and units."""
     res = False
@@ -297,20 +302,20 @@ def is_quote_artifact(orig_text, span):
     return res
 
 
-################################################################################
+###############################################################################
 def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     """Build a Quantity object out of extracted information."""
     # Discard irrelevant txt2float extractions, cardinal numbers, codes etc.
     if surface.lower() in ['a', 'an', 'one'] or \
-    re.search(r'1st|2nd|3rd|[04-9]th', surface) or \
-    re.search(r'\d+[A-Z]+\d+', surface) or \
-    re.search(r'\ba second\b', surface, re.IGNORECASE):
+            re.search(r'1st|2nd|3rd|[04-9]th', surface) or \
+            re.search(r'\d+[A-Z]+\d+', surface) or \
+            re.search(r'\ba second\b', surface, re.IGNORECASE):
         logging.debug(u'\tMeaningless quantity ("%s"), discard', surface)
         return
 
     # Usually "$3T" does not stand for "dollar tesla"
     elif unit.entity.dimensions and \
-    unit.entity.dimensions[0]['base'] == 'currency':
+            unit.entity.dimensions[0]['base'] == 'currency':
         if len(unit.dimensions) > 1:
             try:
                 suffix = re.findall(r'\d(K|M|B|T)\b(.*?)$', surface)[0]
@@ -338,11 +343,11 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         unit = l.NAMES['dimensionless']
         surface = surface[:-1]
         span = (span[0], span[1] - 1)
-        logging.debug(u'\tCorrect for "1990s" pattern')
+        logging.debug(u'\tCorrect for decade pattern')
 
     # Usually "in" stands for the preposition, not inches
     elif unit.dimensions[-1]['base'] == 'inch' and \
-    re.search(r' in$', surface) and '/' not in surface:
+            re.search(r' in$', surface) and '/' not in surface:
         if len(unit.dimensions) > 1:
             unit = get_unit_from_dimensions(unit.dimensions[:-1], orig_text)
         else:
@@ -361,7 +366,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         logging.debug(u'\tCorrect for quotes')
 
     elif re.search(r' time$', surface) and len(unit.dimensions) > 1 and \
-    unit.dimensions[-1]['base'] == 'count':
+            unit.dimensions[-1]['base'] == 'count':
         unit = get_unit_from_dimensions(unit.dimensions[:-1], orig_text)
         surface = surface[:-5]
         span = (span[0], span[1] - 5)
@@ -379,7 +384,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     return objs
 
 
-################################################################################
+###############################################################################
 def clean_text(text):
     """Clean text before parsing."""
     # Replace a few nasty unicode characters with their ASCII equivalent
@@ -395,7 +400,7 @@ def clean_text(text):
     return text
 
 
-################################################################################
+###############################################################################
 def parse(text, verbose=False):
     """Extract all quantities from unstructured text."""
     log_format = ('%(asctime)s --- %(message)s')
@@ -443,7 +448,7 @@ def parse(text, verbose=False):
     return quantities
 
 
-################################################################################
+###############################################################################
 def inline_parse(text, verbose=False):
     """Extract all quantities from unstructured text."""
     if isinstance(text, str):
