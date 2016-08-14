@@ -35,7 +35,8 @@ def embed_text(quants, beg_char, chunk, content):
             text = text[0:index] + to_add + COLOR2 % text[index:]
             shift += len(to_add) + len(COLOR2) - 6
     else:
-        text = content[beg_char:(chunk + 1) * 1000]
+        end_char = (chunk + 1) * 1000
+        text = content[beg_char:end_char]
 
     return text, end_char
 

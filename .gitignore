@@ -2,7 +2,8 @@
 dist/
 *.coverage*
 deploy
-quantulum/todo.json
+deploy.py
+quantulum/todo.txt
 quantulum/deploy.py
 quantulum/pylint.conf
 quantulum/server/
