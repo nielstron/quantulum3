@@ -1,28 +1,28 @@
-.. image:: https://img.shields.io/pypi/v/quantulum.svg
+.. .. image:: https://img.shields.io/pypi/v/quantulum.svg
     :target: https://pypi.python.org/pypi/quantulum
     :alt: Latest Version
 
-.. image:: https://img.shields.io/pypi/l/quantulum.svg
+.. .. image:: https://img.shields.io/pypi/l/quantulum.svg
     :target: https://pypi.python.org/pypi/quantulum
     :alt: License
 
-.. image:: https://img.shields.io/pypi/pyversions/quantulum.svg
+.. .. image:: https://img.shields.io/pypi/pyversions/quantulum.svg
     :target: https://pypi.python.org/pypi/quantulum
     :alt: Python Versions
 
-.. image:: https://travis-ci.org/marcolagi/quantulum.svg?branch=master
+.. .. image:: https://travis-ci.org/marcolagi/quantulum.svg?branch=master
     :target: https://travis-ci.org/marcolagi/quantulum
     :alt: CI
 
-.. image:: https://coveralls.io/repos/github/marcolagi/quantulum/badge.svg?branch=master
+.. .. image:: https://coveralls.io/repos/github/marcolagi/quantulum/badge.svg?branch=master
     :target: https://coveralls.io/github/marcolagi/quantulum?branch=master
     :alt: Coverage
 
-.. image:: https://landscape.io/github/marcolagi/quantulum/master/landscape.png
+.. .. image:: https://landscape.io/github/marcolagi/quantulum/master/landscape.png
    :target: https://landscape.io/github/marcolagi/quantulum/master
    :alt: Health
 
-.. image:: https://badge.waffle.io/marcolagi/quantulum.png?label=ready&title=Ready
+.. .. image:: https://badge.waffle.io/marcolagi/quantulum.png?label=ready&title=Ready
    :target: https://waffle.io/marcolagi/quantulum
    :alt: Tasks
 
