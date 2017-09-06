@@ -31,7 +31,7 @@ def download_wiki():
     ambiguous += [i for i in l.DERIVED_ENT.items() if len(i[1]) > 1]
     pages = set([(j.name, j.uri) for i in ambiguous for j in i[1]])
 
-    print
+    print()
     objs = []
     for num, page in enumerate(pages):
 
@@ -39,8 +39,8 @@ def download_wiki():
         obj['_id'] = obj['url'].replace('https://en.wikipedia.org/wiki/', '')
         obj['clean'] = obj['_id'].replace('_', ' ')
 
-        print '---> Downloading %s (%d of %d)' % \
-              (obj['clean'], num + 1, len(pages))
+        print('---> Downloading %s (%d of %d)' % \
+              (obj['clean'], num + 1, len(pages)))
 
         obj['text'] = wikipedia.page(obj['clean']).content
         obj['unit'] = page[0]
@@ -50,13 +50,13 @@ def download_wiki():
     os.remove(path)
     json.dump(objs, open(path, 'w'), indent=4, sort_keys=True)
 
-    print '\n---> All done.\n'
+    print('\n---> All done.\n')
 
 
 ###############################################################################
 def clean_text(text):
     """Clean text for TFIDF."""
-    new_text = re.sub(ur'\p{P}+', ' ', text)
+    new_text = re.sub(r'\p{P}+', ' ', text)
 
     new_text = [stem(i) for i in new_text.lower().split() if not
                 re.findall(r'[0-9]', i)]

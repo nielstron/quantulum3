@@ -9,7 +9,7 @@ import re
 # Quantulum
 from . import load as l
 
-UNITS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven',
+UNITS = ['zero', 'one', 'two', 'three', 'for', 'five', 'six', 'seven',
          'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen',
          'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen']
 
@@ -31,7 +31,7 @@ def get_numwords():
     for idx, word in enumerate(SCALES):
         numwords[word] = (10 ** (idx * 3 or 2), 0)
 
-    all_numbers = ur'|'.join(ur'\b%s\b' % i for i in numwords.keys() if i)
+    all_numbers = r'|'.join(r'\b%s\b' % i for i in numwords.keys() if i)
 
     return all_numbers, numwords
 
@@ -55,10 +55,10 @@ ALL_NUM, NUMWORDS = get_numwords()
 FRACTIONS = re.escape(''.join(UNI_FRAC.keys()))
 SUPERSCRIPTS = re.escape(''.join(UNI_SUPER.keys()))
 
-MULTIPLIERS = r'|'.join(ur'%s' % re.escape(i) for i in OPERATORS if
+MULTIPLIERS = r'|'.join(r'%s' % re.escape(i) for i in OPERATORS if
                         OPERATORS[i] == ' ')
 
-NUM_PATTERN = ur'''            # Pattern for extracting a digit-based number
+NUM_PATTERN = r'''            # Pattern for extracting a digit-based number
 
     (?:                        # required number
         [+-]?                  #   optional sign
@@ -76,7 +76,7 @@ NUM_PATTERN = ur'''            # Pattern for extracting a digit-based number
 
 ''' % (MULTIPLIERS, SUPERSCRIPTS, FRACTIONS)
 
-RAN_PATTERN = ur'''                        # Pattern for a range of numbers
+RAN_PATTERN = r'''                        # Pattern for a range of numbers
 
     (?:                                    # First number
         (?<![a-zA-Z0-9+.-])                # lookbehind, avoid "Area51"
@@ -88,7 +88,7 @@ RAN_PATTERN = ur'''                        # Pattern for a range of numbers
 
 ''' % (NUM_PATTERN, NUM_PATTERN)
 
-TXT_PATTERN = ur'''            # Pattern for extracting mixed digit-spelled num
+TXT_PATTERN = r'''            # Pattern for extracting mixed digit-spelled num
     (?:
         (?<![a-zA-Z0-9+.-])    # lookbehind, avoid "Area51"
         %s
@@ -108,14 +108,14 @@ def get_units_regex():
     unit_keys = sorted(l.UNITS.keys(), key=len, reverse=True)
     symbol_keys = sorted(l.SYMBOLS.keys(), key=len, reverse=True)
 
-    exponent = ur'(?:(?:\^?\-?[0-9%s]*)(?:\ cubed|\ squared)?)(?![a-zA-Z])' % \
+    exponent = r'(?:(?:\^?\-?[0-9%s]*)(?:\ cubed|\ squared)?)(?![a-zA-Z])' % \
                SUPERSCRIPTS
 
     all_ops = '|'.join([r'%s' % re.escape(i) for i in op_keys])
-    all_units = '|'.join([ur'%s' % re.escape(i) for i in unit_keys])
-    all_symbols = '|'.join([ur'%s' % re.escape(i) for i in symbol_keys])
+    all_units = '|'.join([r'%s' % re.escape(i) for i in unit_keys])
+    all_symbols = '|'.join([r'%s' % re.escape(i) for i in symbol_keys])
 
-    pattern = ur'''
+    pattern = r'''
 
         (?P<prefix>(?:%s)(?![a-zA-Z]))?         # Currencies, mainly
         (?P<value>%s)-?                           # Number

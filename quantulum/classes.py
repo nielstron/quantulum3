@@ -21,7 +21,7 @@ class Quantity(object):
         """Representation method."""
         msg = u'Quantity(%g, "%s")'
         msg = msg % (self.value, self.unit.name)
-        return msg.encode('utf-8')
+        return msg
 
     def __eq__(self, other):
         """Equality method."""
@@ -53,7 +53,7 @@ class Unit(object):
         """Representation method."""
         msg = u'Unit(name="%s", entity=Entity("%s"), uri=%s)'
         msg = msg % (self.name, self.entity.name, self.uri)
-        return msg.encode('utf-8')
+        return msg
 
     def __eq__(self, other):
         """Equality method."""
@@ -81,7 +81,7 @@ class Entity(object):
         """Representation method."""
         msg = u'Entity(name="%s", uri=%s)'
         msg = msg % (self.name, self.uri)
-        return msg.encode('utf-8')
+        return msg
 
     def __eq__(self, other):
         """Equality method."""

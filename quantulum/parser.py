@@ -109,13 +109,13 @@ def get_values(item):
     fracs = r'|'.join(r.UNI_FRAC)
 
     value = item.group(2)
-    value = re.sub(ur'(?<=\d)(%s)10' % r.MULTIPLIERS, 'e', value)
+    value = re.sub(r'(?<=\d)(%s)10' % r.MULTIPLIERS, 'e', value)
     value = re.sub(fracs, callback, value, re.IGNORECASE)
     value = re.sub(' +', ' ', value)
 
-    range_separator = re.findall(ur'\d+ ?(-|and|(?:- ?)?to) ?\d', value)
-    uncer_separator = re.findall(ur'\d+ ?(\+/-|±) ?\d', value)
-    fract_separator = re.findall(ur'\d+/\d+', value)
+    range_separator = re.findall(r'\d+ ?(-|and|(?:- ?)?to) ?\d', value)
+    uncer_separator = re.findall(r'\d+ ?(\+/-|±) ?\d', value)
+    fract_separator = re.findall(r'\d+/\d+', value)
 
     uncertainty = None
     if range_separator:
@@ -412,9 +412,9 @@ def parse(text, verbose=False):
         root.setLevel(logging.DEBUG)
         logging.debug(u'Verbose mode')
 
-    if isinstance(text, str):
-        text = text.decode('utf-8')
-        logging.debug(u'Converted string to unicode (assume utf-8 encoding)')
+    # if isinstance(text, str):
+    #     text = text.decode('utf-8')
+    #     logging.debug(u'Converted string to unicode (assume utf-8 encoding)')
 
     orig_text = text
     logging.debug(u'Original text: "%s"', orig_text)
