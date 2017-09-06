@@ -321,7 +321,7 @@
     },
     {
         "name": "ångström",
-        "surfaces": ["ångström", "ångstrom", "angström", "angstrom"],
+        "surfaces": ["Angstrom", "ångström", "ångstrom", "angström", "angstrom"],
         "entity": "length",
         "URI": "https://en.wikipedia.org/wiki/Ångström",
         "dimensions": [],

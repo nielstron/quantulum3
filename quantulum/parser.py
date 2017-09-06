@@ -69,12 +69,12 @@ def extract_spellout_values(text):
                 curr = 0.0
         values.append({'old_surface': surface,
                        'old_span': span,
-                       'new_surface': unicode(result + curr)})
+                       'new_surface': str(result + curr)})
 
     for item in re.finditer(r'\d+(,\d{3})+', text):
         values.append({'old_surface': item.group(0),
                        'old_span': item.span(),
-                       'new_surface': unicode(item.group(0).replace(',', ''))})
+                       'new_surface': str(item.group(0).replace(',', ''))})
 
     return sorted(values, key=lambda x: x['old_span'][0])
 
@@ -459,7 +459,7 @@ def inline_parse(text, verbose=False):
     shift = 0
     for quantity in parsed:
         index = quantity.span[1] + shift
-        to_add = u' {' + unicode(quantity) + u'}'
+        to_add = u' {' + str(quantity) + u'}'
         text = text[0:index] + to_add + text[index:]
         shift += len(to_add)
 
