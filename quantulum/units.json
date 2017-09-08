@@ -1353,7 +1353,7 @@
     },
     {
         "name": "microsecond",
-        "surfaces": ["microsecond"],
+        "surfaces": ["µs", "microsecond"],
         "entity": "time",
         "URI": "https://en.wikipedia.org/wiki/Microsecond",
         "dimensions": [],
