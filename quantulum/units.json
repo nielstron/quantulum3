@@ -1005,7 +1005,7 @@
         "entity": "pressure",
         "URI": "https://en.wikipedia.org/wiki/Technical_atmosphere",
         "dimensions": [],
-        "symbols": ["at"]
+        "symbols": []
     },
     {
         "name": "barye",
