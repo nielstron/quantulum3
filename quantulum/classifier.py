@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 # -*- coding: utf-8 -*-
 
 """quantulum classifier functions."""
@@ -14,9 +14,10 @@ import logging
 import wikipedia
 from stemming.porter2 import stem
 try:
-    from sklearn.linear_model import SGDClassifier
-    from sklearn.feature_extraction.text import TfidfVectorizer
-    USE_CLF = True
+    raise ImportError
+#     from sklearn.linear_model import SGDClassifier
+#     from sklearn.feature_extraction.text import TfidfVectorizer
+#      USE_CLF = True
 except ImportError:
     USE_CLF = False
 
