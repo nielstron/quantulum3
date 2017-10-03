@@ -1864,6 +1864,14 @@
         "symbols": ["A", "amp"]
     },
     {
+        "name": "milliampere",
+        "surfaces": ["milliampere"],
+        "entity": "current",
+        "URI": "https://en.wikipedia.org/wiki/Ampere",
+        "dimensions": [],
+        "symbols": ["mA"]
+    },
+    {
         "name": "statvolt",
         "surfaces": ["statvolt"],
         "entity": "electric potential",
