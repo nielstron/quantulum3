@@ -9,7 +9,7 @@ import re
 # Quantulum
 from . import load as l
 
-UNITS = ['zero', 'one', 'two', 'three', 'for', 'five', 'six', 'seven',
+UNITS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven',
          'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen',
          'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen']
 
@@ -22,7 +22,7 @@ SCALES = ['hundred', 'thousand', 'million', 'billion', 'trillion']
 ###############################################################################
 def get_numwords():
     """Convert number words to integers in a given text."""
-    numwords = {'and': (1, 0), 'a': (1, 1), 'an': (1, 1)}
+    numwords = {'and': (1, 0),}# 'a': (1, 1), 'an': (1, 1)}
 
     for idx, word in enumerate(UNITS):
         numwords[word] = (1, idx)
@@ -49,7 +49,7 @@ UNI_FRAC = {u'¼': '1/4', u'½': '1/2', u'¾': '3/4', u'⅐': '1/7', u'⅑': '1/
             u'⅜': '3/8', u'⅝': '5/8', u'⅞': '7/8'}
 
 OPERATORS = {u'/': u' per ', u' per ': u' per ', u' a ': ' per ',
-             u'*': u' ', u' ': u' ', u'·': u' ', u'x': u' '}
+             u'*': u' ', u' ': u' ', u'·': u' ',} # u'x': u' '}
 
 ALL_NUM, NUMWORDS = get_numwords()
 FRACTIONS = re.escape(''.join(UNI_FRAC.keys()))
