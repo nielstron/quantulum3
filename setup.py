@@ -7,8 +7,8 @@ import sys
 
 try:
     from setuptools import setup
-except ImportError:
-    print 'Please install or upgrade setuptools or pip to continue'
+except ImportError as e:
+    print('Please install or upgrade setuptools or pip to continue', e)
     sys.exit(1)
 
 import quantulum
