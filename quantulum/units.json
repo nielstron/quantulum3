@@ -1,4 +1,11 @@
-[
+[   {
+        "name": "unk",
+        "surfaces": ["unk"],
+        "entity": "dimensionless",
+        "URI": "https://en.wikipedia.org/wiki/Dimensionless_quantity",
+        "dimensions": [],
+        "symbols": []
+    },
     {
         "name": "dimensionless",
         "surfaces": ["dimensionless"],
@@ -369,7 +376,7 @@
     },
     {
         "name": "kilogram",
-        "surfaces": ["kilogram", "kilogramme", "kilo"],
+        "surfaces": ["kilogram", "kilogramme", "kilo", "kg", "kgs"],
         "entity": "mass",
         "URI": "https://en.wikipedia.org/wiki/Kilogram",
         "dimensions": [],
@@ -413,7 +420,7 @@
         "entity": "mass",
         "URI": "https://en.wikipedia.org/wiki/Pound_(mass)",
         "dimensions": [],
-        "symbols": ["lb", "lbm"]
+        "symbols": ["lb", "lbm", "lbs"]
     },
     {
         "name": "ounce",
