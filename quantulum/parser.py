@@ -254,7 +254,12 @@ def get_unit(item, text):
                 if clf.USE_CLF:
                     base = clf.disambiguate_unit(surface, text).name
                 else:
-                    base = l.UNITS[surface][0].name
+                    if surface in l.UNITS:
+                        base = l.UNITS[surface][0].name
+                    elif surface.lower() in l.UNITS:
+                        base = l.UNITS[surface.lower()][0].name
+                    else:
+                        base = 'unk'
                 dimensions += [{'base': base, 'power': power}]
             elif not slash:
                 slash = any(i in item.group(group) for i in [u'/', u' per '])
