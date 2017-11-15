@@ -59,14 +59,17 @@ def extract_spellout_values(text):
             continue
         curr = result = 0.0
         for word in surface.split():
+            scale = None
             try:
                 scale, increment = 1, float(word.lower())
             except ValueError:
-                scale, increment = r.NUMWORDS[word.lower()]
-            curr = curr * scale + increment
-            if scale > 100:
-                result += curr
-                curr = 0.0
+                if word.lower() in r.NUMWORDS:
+                    scale, increment = r.NUMWORDS[word.lower()]
+            if scale is not None:
+                curr = curr * scale + increment
+                if scale > 100:
+                    result += curr
+                    curr = 0.0
         values.append({'old_surface': surface,
                        'old_span': span,
                        'new_surface': str(result + curr)})
