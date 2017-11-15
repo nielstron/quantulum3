@@ -437,15 +437,15 @@ def parse(text, verbose=False):
 
         try:
             uncert, values = get_values(item)
+            
+            unit = get_unit(item, text)
+            surface, span = get_surface(shifts, orig_text, item, text)
+            objs = build_quantity(orig_text, text, item, values, unit, surface,
+                                span, uncert)
+            if objs is not None:
+                quantities += objs
         except ValueError as err:
             logging.debug(u'Could not parse quantity: %s', err)
-
-        unit = get_unit(item, text)
-        surface, span = get_surface(shifts, orig_text, item, text)
-        objs = build_quantity(orig_text, text, item, values, unit, surface,
-                              span, uncert)
-        if objs is not None:
-            quantities += objs
 
     if verbose:
         root.level = level
