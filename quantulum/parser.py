@@ -132,8 +132,10 @@ def get_values(item):
         values = value.split()
         if len(values) > 1:
             values = [float(values[0]) + float(Fraction(values[1]))]
-        else:
+        elif not values[0].endswith('/0'):
             values = [float(Fraction(values[0]))]
+        else:
+            raise ValueError('{} is not a number'.format(values[0]))
     else:
         values = [float(re.sub(r'-$', '', value))]
 
@@ -440,11 +442,11 @@ def parse(text, verbose=False):
 
         try:
             uncert, values = get_values(item)
-            
+
             unit = get_unit(item, text)
             surface, span = get_surface(shifts, orig_text, item, text)
             objs = build_quantity(orig_text, text, item, values, unit, surface,
-                                span, uncert)
+                                  span, uncert)
             if objs is not None:
                 quantities += objs
         except ValueError as err:
