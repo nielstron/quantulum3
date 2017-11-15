@@ -15,6 +15,22 @@
         "symbols": []
     },
     {
+        "name": "pair",
+        "surfaces": ["pair"],
+        "entity": "dimensionless",
+        "URI": "https://en.wikipedia.org/wiki/2",
+        "dimensions": [],
+        "symbols": []
+    },
+    {
+        "name": "set",
+        "surfaces": ["set", "pack"],
+        "entity": "dimensionless",
+        "URI": "https://en.wikipedia.org/wiki/Set_(mathematics)",
+        "dimensions": [],
+        "symbols": []
+    },
+    {
         "name": "percentage",
         "surfaces": ["percentage", "percent"],
         "entity": "dimensionless",
@@ -253,14 +269,6 @@
         "URI": "https://en.wikipedia.org/wiki/Mile",
         "dimensions": [],
         "symbols": ["mi"]
-    },
-    {
-        "name": "nautical mile",
-        "surfaces": ["nautical mile"],
-        "entity": "length",
-        "URI": "https://en.wikipedia.org/wiki/Nautical_mile",
-        "dimensions": [],
-        "symbols": ["M", "NM", "nmi"]
     },
     {
         "name": "ell",
@@ -1525,14 +1533,6 @@
         "URI": "https://en.wikipedia.org/wiki/Miles_per_hour",
         "dimensions": [{"base": "mile", "power": 1}, {"base": "hour", "power": -1}],
         "symbols": ["MPH", "mph"]
-    },
-    {
-        "name": "mach number",
-        "surfaces": ["mach", "mach number"],
-        "entity": "speed",
-        "URI": "https://en.wikipedia.org/wiki/Mach_number",
-        "dimensions": [],
-        "symbols": ["M", "Ma"]
     },
     {
         "name": "degree angle",
