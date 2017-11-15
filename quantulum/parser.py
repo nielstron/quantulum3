@@ -129,13 +129,14 @@ def get_values(item):
         uncertainty = values[1]
         values = [values[0]]
     elif fract_separator:
-        values = value.split()
-        if len(values) > 1:
-            values = [float(values[0]) + float(Fraction(values[1]))]
-        elif not values[0].endswith('/0'):
-            values = [float(Fraction(values[0]))]
-        else:
-            raise ValueError('{} is not a number'.format(values[0]))
+        try:
+            values = value.split()
+            if len(values) > 1:
+                values = [float(values[0]) + float(Fraction(values[1]))]
+            else:
+                values = [float(Fraction(values[0]))]
+        except ZeroDivisionError as e:
+            raise ValueError('{} is not a number'.format(values[0]), e)
     else:
         values = [float(re.sub(r'-$', '', value))]
 
