@@ -24,7 +24,7 @@
     },
     {
         "name": "set",
-        "surfaces": ["set", "pack"],
+        "surfaces": ["set", "pack", "piece", "pc"],
         "entity": "dimensionless",
         "URI": "https://en.wikipedia.org/wiki/Set_(mathematics)",
         "dimensions": [],
@@ -231,14 +231,6 @@
         "symbols": ["fm"]
     },
     {
-        "name": "parsec",
-        "surfaces": ["parsec"],
-        "entity": "length",
-        "URI": "https://en.wikipedia.org/wiki/Parsec",
-        "dimensions": [],
-        "symbols": ["pc"]
-    },
-    {
         "name": "light-year",
         "surfaces": ["light-year", "light year"],
         "entity": "length",
@@ -332,7 +324,7 @@
         "entity": "length",
         "URI": "https://en.wikipedia.org/wiki/Inch",
         "dimensions": [],
-        "symbols": ["in", "\"", "″"]
+        "symbols": ["in", "\"", "″", "”"]
     },
     {
         "name": "ångström",
@@ -708,7 +700,7 @@
         "entity": "volume",
         "URI": "https://en.wikipedia.org/wiki/Fluid_ounce",
         "dimensions": [],
-        "symbols": ["fl oz", "oz fl", "floz", "ozfl"]
+        "symbols": ["fl oz", "oz fl", "floz", "ozfl", "fl. oz"]
     },
     {
         "name": "tablespoon",
@@ -1396,7 +1388,7 @@
         "entity": "time",
         "URI": "https://en.wikipedia.org/wiki/Hour",
         "dimensions": [],
-        "symbols": ["h", "hr"]
+        "symbols": ["h", "hr", "hs"]
     },
     {
         "name": "day",
@@ -1876,7 +1868,7 @@
         "entity": "current",
         "URI": "https://en.wikipedia.org/wiki/Ampere",
         "dimensions": [],
-        "symbols": ["mA"]
+        "symbols": ["mA", "mAh"]
     },
     {
         "name": "statvolt",
