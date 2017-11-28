@@ -59,7 +59,7 @@ def get_dimension_permutations(entities, dimensions):
 def load_entities():
     """Load entities from JSON file."""
     path = os.path.join(TOPDIR, 'entities.json')
-    entities = json.load(open(path))
+    entities = json.load(open(path, encoding='UTF-8'))
     names = [i['name'] for i in entities]
 
     try:
@@ -116,7 +116,7 @@ def load_units():
     lowers = defaultdict(list)
     symbols = defaultdict(list)
     surfaces = defaultdict(list)
-    for unit in json.load(open(os.path.join(TOPDIR, 'units.json'))):
+    for unit in json.load(open(os.path.join(TOPDIR, 'units.json'), encoding='UTF-8')):
 
         try:
             assert unit['name'] not in names
