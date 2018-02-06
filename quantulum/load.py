@@ -46,7 +46,7 @@ def get_dimension_permutations(entities, derived):
 
     new_derived = defaultdict(int)
     for item in derived:
-        new = entities[item['base']].derived
+        new = entities[item['base']].dimensions
         if new:
             for new_item in new:
                 new_derived[new_item['base']] += new_item['power'] * \
@@ -85,14 +85,14 @@ def load_entities():
         raise Exception('Entities with same name: %s' % [i for i in names if \
                          names.count(i) > 1])
 
-    entities = dict((k['name'], c.Entity(name=k['name'], derived=k['derived'],
+    entities = dict((k['name'], c.Entity(name=k['name'], dimensions=k['dimensions'],
                                          uri=k['URI'])) for k in entities)
 
     derived_ent = defaultdict(list)
     for ent in entities:
-        if not entities[ent].derived:
+        if not entities[ent].dimensions:
             continue
-        perms = get_dimension_permutations(entities, entities[ent].derived)
+        perms = get_dimension_permutations(entities, entities[ent].dimensions)
         for perm in perms:
             key = get_key_from_dimensions(perm)
             derived_ent[key].append(entities[ent])
@@ -111,16 +111,16 @@ def get_derived_units(names):
     derived_uni = {}
 
     for name in names:
-        key = get_key_from_dimensions(names[name].derived)
+        key = get_key_from_dimensions(names[name].dimensions)
         derived_uni[key] = names[name]
         plain_derived = [{'base': name, 'power': 1}]
         key = get_key_from_dimensions(plain_derived)
         derived_uni[key] = names[name]
-        if not names[name].derived:
-            names[name].derived = plain_derived
-        names[name].derived = [{'base': names[i['base']].name,
+        if not names[name].dimensions:
+            names[name].dimensions = plain_derived
+        names[name].dimensions = [{'base': names[i['base']].name,
                                 'power': i['power']} for i in \
-                                 names[name].derived]
+                                 names[name].dimensions]
 
     return derived_uni
 
@@ -148,7 +148,7 @@ def load_units():
 
         obj = c.Unit(name=unit['name'], surfaces=unit['surfaces'],
                      entity=ENTITIES[unit['entity']], uri=unit['URI'],
-                     symbols=unit['symbols'], derived=unit['derived'])
+                     symbols=unit['symbols'], dimensions=unit['dimensions'])
 
         names[unit['name']] = obj
 

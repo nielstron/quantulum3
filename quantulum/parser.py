@@ -355,12 +355,12 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         return
 
     # Usually "$3T" does not stand for "dollar tesla"
-    elif unit.entity.derived and unit.entity.derived[0]['base'] == 'currency':
-        if len(unit.derived) > 1:
+    elif unit.entity.dimensions and unit.entity.dimensions[0]['base'] == 'currency':
+        if len(unit.dimensions) > 1:
             try:
                 suffix = re.findall(r'\d(K|M|B|T)\b(.*?)$', surface)[0]
                 values = [i * r.SUFFIXES[suffix[0]] for i in values]
-                unit = l.UNITS[unit.derived[0]['base']][0]
+                unit = l.UNITS[unit.dimensions[0]['base']][0]
                 if suffix[1]:
                     surface = surface[:surface.find(suffix[1])]
                     span = (span[0], span[1] - len(suffix[1]))
@@ -386,10 +386,10 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         logging.debug('\tCorrect for "1990s" pattern')
 
     # Usually "in" stands for the preposition, not inches
-    elif unit.derived[-1]['base'] == 'inch' and re.search(r' in$', surface) and\
+    elif unit.dimensions[-1]['base'] == 'inch' and re.search(r' in$', surface) and\
     '/' not in surface:
-        if len(unit.derived) > 1:
-            unit = get_unit_from_dimensions(unit.derived[:-1], orig_text)
+        if len(unit.dimensions) > 1:
+            unit = get_unit_from_dimensions(unit.dimensions[:-1], orig_text)
         else:
             unit = l.NAMES['dimensionless']
         surface = surface[:-3]
@@ -397,8 +397,8 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         logging.debug('\tCorrect for "in" pattern')
 
     elif is_quote_artifact(text, item.span()):
-        if len(unit.derived) > 1:
-            unit = get_unit_from_dimensions(unit.derived[:-1], orig_text)
+        if len(unit.dimensions) > 1:
+            unit = get_unit_from_dimensions(unit.dimensions[:-1], orig_text)
         else:
             unit = l.NAMES['dimensionless']
         surface = surface[:-1]
