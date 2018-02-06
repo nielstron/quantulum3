@@ -29,7 +29,7 @@
 quantulum
 =========
 
-Python library for information extraction of quantities, measurements and their units from unstructured text.
+Python3 library for information extraction of quantities, measurements and their units from unstructured text.
 
 Demo
 ----
