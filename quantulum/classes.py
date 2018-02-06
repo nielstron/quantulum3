@@ -60,7 +60,7 @@ class Unit(object):
 
         msg = 'Unit(name="%s", entity=Entity("%s"), uri=%s)'
         msg = msg % (self.name, self.entity.name, self.uri)
-        return msg.encode('utf-8')
+        return msg
 
     def __eq__(self, other):
 
@@ -91,7 +91,7 @@ class Entity(object):
 
         msg = 'Entity(name="%s", uri=%s)'
         msg = msg % (self.name, self.uri)
-        return msg.encode('utf-8')
+        return msg
 
     def __eq__(self, other):
 
