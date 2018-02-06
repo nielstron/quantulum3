@@ -29,7 +29,7 @@
 quantulum
 =========
 
-Python library for information extraction of quantities, measurements and their units from unstructured text.
+Python3 library for information extraction of quantities, measurements and their units from unstructured text.
 
 Demo
 ----
@@ -46,7 +46,8 @@ Then,
 
 .. code-block:: bash
 
-    $ pip install quantulum
+    $ git config --global core.autocrlf input
+    $ pip install git+https://github.com/sohrabtowfighi/quantulum
 
 Usage
 -----
