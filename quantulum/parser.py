@@ -183,27 +183,27 @@ def build_unit_name(derived):
 
 
 ################################################################################
-def get_unit_from_dimensions(derived, text):
+def get_unit_from_dimensions(dimensions, text):
 
     '''
     Reconcile a unit based on its dimensionality.
     '''
 
-    key = l.get_key_from_dimensions(derived)
+    key = l.get_key_from_dimensions(dimensions)
 
     try:
         unit = l.DERIVED_UNI[key]
     except KeyError:
         logging.debug('\tCould not find unit for: %s', key)
-        unit = c.Unit(name=build_unit_name(derived),
-                      derived=derived,
-                      entity=get_entity_from_dimensions(derived, text))
+        unit = c.Unit(name=build_unit_name(dimensions),
+                      dimensions=dimensions,
+                      entity=get_entity_from_dimensions(dimensions, text))
 
     return unit
 
 
 ################################################################################
-def get_entity_from_dimensions(derived, text):
+def get_entity_from_dimensions(dimensions, text):
 
     '''
     Infer the underlying entity of a unit (e.g. "volume" for "m^3") based on its
@@ -211,7 +211,7 @@ def get_entity_from_dimensions(derived, text):
     '''
 
     new_derived = [{'base': l.NAMES[i['base']].entity.name,
-                    'power': i['power']} for i in derived]
+                    'power': i['power']} for i in dimensions]
 
     final_derived = sorted(new_derived, key=lambda x: x['base'])
     key = l.get_key_from_dimensions(final_derived)
@@ -223,7 +223,7 @@ def get_entity_from_dimensions(derived, text):
             ent = l.DERIVED_ENT[key][0]
     except IndexError:
         logging.debug('\tCould not find entity for: %s', key)
-        ent = c.Entity(name='unknown', derived=new_derived)
+        ent = c.Entity(name='unknown', dimensions=new_derived)
 
     return ent
 
