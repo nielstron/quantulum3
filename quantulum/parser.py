@@ -153,7 +153,7 @@ def get_values(item):
 
 
 ################################################################################
-def build_unit_name(derived):
+def build_unit_name(dimensions):
 
     '''
     Build the name of the unit from its dimensions.
@@ -161,7 +161,7 @@ def build_unit_name(derived):
 
     name = ''
 
-    for unit in derived:
+    for unit in dimensions:
         if unit['power'] < 0:
             name += 'per '
         power = abs(unit['power'])
@@ -405,9 +405,9 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         span = (span[0], span[1] - 1)
         logging.debug('\tCorrect for quotes')
 
-    elif re.search(r' time$', surface) and len(unit.derived) > 1 and \
-    unit.derived[-1]['base'] == 'count':
-        unit = get_unit_from_dimensions(unit.derived[:-1], orig_text)
+    elif re.search(r' time$', surface) and len(unit.dimensions) > 1 and \
+    unit.dimensions[-1]['base'] == 'count':
+        unit = get_unit_from_dimensions(unit.dimensions[:-1], orig_text)
         surface = surface[:-5]
         span = (span[0], span[1] - 5)
         logging.debug('\tCorrect for "time"')
