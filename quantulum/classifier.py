@@ -6,11 +6,12 @@
 '''
 
 # Standard library
-import re
 import os
 import json
 import pickle
 import logging
+import re
+import string
 
 # Dependences
 import wikipedia
@@ -64,8 +65,8 @@ def clean_text(text):
     '''
     Clean text for TFIDF
     '''
-
-    new_text = re.sub(r'\p{P}+', ' ', text)
+    my_regex = re.compile('[%s]' % re.escape(string.punctuation))
+    new_text = my_regex.sub(' ', text)
 
     new_text = [stem(i) for i in new_text.lower().split() if not \
                 re.findall(r'[0-9]', i)]
@@ -84,7 +85,6 @@ def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
 
     if download:
         download_wiki()
-
     path = os.path.join(l.TOPDIR, 'train.json')
     string_json = ''.join(open(path,encoding='utf-8').readlines())
     training_set = json.loads(string_json)
