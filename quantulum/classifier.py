@@ -111,7 +111,7 @@ def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
     clf = SGDClassifier(**parameters).fit(matrix, train_target)
     obj = {'tfidf_model': tfidf_model, 'clf': clf, 'target_names': target_names}
     path = os.path.join(l.TOPDIR, 'clf.pickle')
-    pickle.dump(obj, open(path, 'w'))
+    pickle.dump(obj, open(path, 'wb'))
 
 
 ################################################################################
