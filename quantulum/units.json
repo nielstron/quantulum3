@@ -1860,7 +1860,7 @@
         "surfaces": ["milliampere-hour", "milliampere hour", "milliamp-hour"],
         "entity": "charge",
         "URI": "https://en.wikipedia.org/wiki/Coulomb",
-        "dimensions": [{"base": "milliampere", "power": 1}, {"base": "hour", "power": 1}],
+        "dimensions": [{"base": "ampere", "power": 1}, {"base": "hour", "power": 1}],
         "symbols": ["mAh", "mah"]
     },
     {
