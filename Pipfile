@@ -11,6 +11,7 @@ wikipedia = "*"
 [dev-packages]
 scipy = "*"
 numpy = "*"
+scikit-learn = "*"
 
 [requires]
 python_version = "3.6"
