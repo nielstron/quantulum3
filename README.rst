@@ -1,6 +1,11 @@
 quantulum3
 ==========
 
+.. figure:: https://travis-ci.com/nielstron/quantulum3.svg?branch=master
+   :alt: Travis build state
+
+   Travis build state
+
 Python library for information extraction of quantities, measurements
 and their units from unstructured text. It is a fork of `recastrodiaz'
 fork <https://github.com/recastrodiaz/quantulum>`__ of `grhawks'
