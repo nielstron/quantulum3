@@ -73,7 +73,7 @@ def get_quantity(test, item):
         try:
             entity = item['entity']
         except KeyError:
-            print ('Could not find %s, provide "dimensions" and'
+            print('Could not find %s, provide "dimensions" and'
                    ' "entity"' % item['unit'])
             return
         if entity == 'unknown':
@@ -84,7 +84,7 @@ def get_quantity(test, item):
         elif entity in l.ENTITIES:
             entity = l.ENTITIES[entity]
         else:
-            print ('Could not find %s, provide "dimensions" and'
+            print('Could not find %s, provide "dimensions" and'
                    ' "entity"' % item['unit'])
             return
         unit = c.Unit(name=item['unit'],
@@ -94,7 +94,7 @@ def get_quantity(test, item):
         span = re.finditer(re.escape(item['surface']),
                            test['req']).next().span()
     except StopIteration:
-        print 'Surface mismatch for "%s"' % test['req']
+        print('Surface mismatch for "%s"' % test['req'])
         return
 
     uncert = None
