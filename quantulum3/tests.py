@@ -54,21 +54,14 @@ def wiki_test(page='CERN'):
     parsed = p.parse(content)
     parts = int(round(len(content) * 1.0 / 1000))
 
-    print
     end_char = 0
     for num, chunk in enumerate(range(parts)):
         _ = os.system('clear')
-        print
         quants = [j for j in parsed if chunk * 1000 < j.span[0] < (chunk + 1) *
                   1000]
         beg_char = max(chunk * 1000, end_char)
         text, end_char = embed_text(quants, beg_char, chunk, content)
-        print COLOR2 % text
-        print
-        try:
-            _ = raw_input('--------- End part %d of %d\n' % (num + 1, parts))
-        except (KeyboardInterrupt, EOFError):
-            return
+        print(COLOR2 % text)
 
 
 ###############################################################################

@@ -3,6 +3,8 @@
 
 """quantulum3 unit and entity loading functions."""
 
+from builtins import open
+
 # Standard library
 import os
 import json
