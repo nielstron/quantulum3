@@ -26,16 +26,11 @@
    :target: https://waffle.io/marcolagi/quantulum
    :alt: Tasks
 
-quantulum
-=========
+quantulum3
+==========
 
 Python library for information extraction of quantities, measurements and their units from unstructured text.
-
-Demo
-----
-
-Try it `here <http://52.38.222.108:5000>`_.
-
+It is a fork of `recastrodiaz' fork <https://github.com/recastrodiaz/quantulum>`_ of `grhawks' fork <https://github.com/grhawk/quantulum>`_ of `the original by Marco Lagi <https://github.com/marcolagi/quantulum>`_ that works with Python 3.
 
 Installation
 ------------
@@ -46,14 +41,14 @@ Then,
 
 .. code-block:: bash
 
-    $ pip install quantulum
+    $ pip install quantulum3
 
 Usage
 -----
 
 .. code-block:: python
 
-    >>> from quantulum import parser
+    >>> from quantulum3 import parser
     >>> quants = parser.parse('I want 2 liters of wine')
     >>> quants
     [Quantity(2, 'litre')]
@@ -186,3 +181,11 @@ Here is an example of an entry in *units.json*:
 
 All fields are case sensitive.
 
+TODO
+----
+
+ * Ensure python 3 compatability
+ * Implement comprehensive tests
+ * Conversion/ Compatability to quantities by other tools (like pint)
+ * Parsing dates
+ * Comprehensive dimension use

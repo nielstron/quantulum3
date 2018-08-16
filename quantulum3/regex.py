@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""quantulum regex functions."""
+"""quantulum3 regex functions."""
 
 # Standard library
 import re

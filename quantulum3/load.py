@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""quantulum unit and entity loading functions."""
+"""quantulum3 unit and entity loading functions."""
 
 # Standard library
 import os

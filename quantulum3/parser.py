@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""quantulum parser."""
+"""quantulum3 parser."""
 
 # Standard library
 import re

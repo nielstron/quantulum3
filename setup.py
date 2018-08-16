@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""quantulum setup file."""
+"""quantulum3 setup file."""
 
 import sys
 
@@ -11,22 +11,22 @@ except ImportError as e:
     print('Please install or upgrade setuptools or pip to continue', e)
     sys.exit(1)
 
-import quantulum
+import quantulum3
 
 setup(
-    name='quantulum',
-    packages=['quantulum'],
-    package_data={'quantulum': ['clf.pickle', 'units.json', 'entities.json',
+    name='quantulum3',
+    packages=['quantulum3'],
+    package_data={'quantulum3': ['clf.pickle', 'units.json', 'entities.json',
                                 'tests.json', 'train.json', 'wiki.json']},
     description='Extract quantities from unstructured text.',
     long_description=open('README.rst').read(),
-    download_url='https://github.com/marcolagi/quantulum/tarball/0.1',
-    version=quantulum.__version__,
-    url=quantulum.__url__,
-    author=quantulum.__author__,
-    author_email=quantulum.__author_email__,
-    license=quantulum.__license__,
-    test_suite='quantulum.tests.EndToEndTests',
+    download_url='https://github.com/marcolagi/quantulum3/tarball/0.1',
+    version=quantulum3.__version__,
+    url=quantulum3.__url__,
+    author=quantulum3.__author__,
+    author_email=quantulum3.__author_email__,
+    license=quantulum3.__license__,
+    test_suite='quantulum3.tests.EndToEndTests',
     keywords=['information extraction', 'quantities', 'units', 'measurements',
               'nlp', 'natural language processing', 'text mining',
               'text processing'],

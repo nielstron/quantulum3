@@ -13,10 +13,10 @@ install:
   - pip install coverage
   - pip install coveralls
   - pip install scikit-learn
-  - pip install quantulum
+  - pip install quantulum3
 
 script:
-  - coverage run --source=quantulum --omit="*test*" setup.py test
+  - coverage run --source=quantulum3 --omit="*test*" setup.py test
   - coverage report
 
 after_success:

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""quantulum tests."""
+"""quantulum3 tests."""
 
 # Standard library
 import os
@@ -137,7 +137,7 @@ def load_tests():
 
 ###############################################################################
 class EndToEndTests(unittest.TestCase):
-    """Test suite for the quantulum project."""
+    """Test suite for the quantulum3 project."""
 
     def test_load_tests(self):
         """Test for tests.load_test() function."""

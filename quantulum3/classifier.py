@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-"""quantulum classifier functions."""
+"""quantulum3 classifier functions."""
 
 # Standard library
 import re
