@@ -91,8 +91,8 @@ def get_quantity(test, item):
                       dimensions=item['dimensions'],
                       entity=entity)
     try:
-        span = re.finditer(re.escape(item['surface']),
-                           test['req']).next().span()
+        span = next(re.finditer(re.escape(item['surface']),
+                           test['req'])).span()
     except StopIteration:
         print('Surface mismatch for "%s"' % test['req'])
         return

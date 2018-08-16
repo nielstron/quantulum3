@@ -7,6 +7,8 @@ name = "pypi"
 inflect = "*"
 stemming = "*"
 wikipedia = "*"
+coveralls = "*"
+coverage = "*"
 
 [dev-packages]
 scipy = "*"
