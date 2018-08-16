@@ -9,6 +9,7 @@ quantulum/pylint.conf
 quantulum/server/
 quantulum.egg-info/
 .idea
+Pipfile.lock
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
