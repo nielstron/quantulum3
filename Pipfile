@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+inflect = "*"
+stemming = "*"
+wikipedia = "*"
+
+[dev-packages]
+scipy = "*"
+numpy = "*"
+
+[requires]
+python_version = "3.6"
