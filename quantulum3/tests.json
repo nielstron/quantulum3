@@ -31,7 +31,7 @@
     },
     {
         "req": "Hubble's predicted position for six weeks' time could be in error by up to 4,000 km",
-        "res": [{"value": 6, "unit": "week", "surface": "six weeks' time"},
+        "res": [{"value": 6, "unit": "week", "surface": "six weeks'"},
                 {"value": 4000, "unit": "kilometre", "surface": "4,000 km"}]
     },
     {

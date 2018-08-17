@@ -94,25 +94,42 @@ SUPERSCRIPTS = re.escape(''.join(UNI_SUPER.keys()))
 MULTIPLIERS = r'|'.join(
     r'%s' % re.escape(i) for i in OPERATORS if OPERATORS[i] == ' ')
 
-NON_NORM_EXP = r'[%s]?(10|2)\^?' % MULTIPLIERS
-
 NUM_PATTERN = r'''            # Pattern for extracting a digit-based number
 
-    (?:                        # required number
+    (?:                      # required number
         [+-]?                  #   optional sign
         \.?\d+                 #   required digits
         (?:\.\d+)?             #   optional decimals
     )
-    (?:                        # optional exponent
+    (?:                      # optional exponent
         (?:%s)?                #   multiplicative operators
-        (?:E|e|(10|2)\^?)          #   required exponent prefix
+        (?:E|e|\d+)\^?         #   required exponent prefix
         (?:[+-]?\d+|[%s])      #   required exponent, superscript or normal
     )?
-    (?:                        # optional fraction
+    (?:                      # optional fraction
         \ \d+/\d+|\ ?[%s]|/\d+
     )?
 
 ''' % (MULTIPLIERS, SUPERSCRIPTS, FRACTIONS)
+
+NUM_PATTERN_GROUPS = r'''            # Pattern for extracting a digit-based number
+
+    (?P<number>              # required number
+        [+-]?                  #   optional sign
+        \.?\d+                 #   required digits
+        (?P<decimals>\.\d+)?   #   optional decimals
+    )
+    (?P<scale>               # optional exponent
+        (?:%s)?                #   multiplicative operators
+        (?P<base>E|e|(?:\d+)\^?) #   required exponent prefix
+        (?P<exponent>[+-]?\d+|[%s]) #   required exponent, superscript or normal
+    )?
+    (?P<fraction>            # optional fraction
+        \ \d+/\d+|\ ?[%s]|/\d+
+    )?
+
+''' % (MULTIPLIERS, SUPERSCRIPTS, FRACTIONS)
+
 
 RAN_PATTERN = r'''                        # Pattern for a range of numbers
 

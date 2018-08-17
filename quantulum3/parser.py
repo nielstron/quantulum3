@@ -7,6 +7,7 @@ import re
 import logging
 from fractions import Fraction
 from collections import defaultdict
+from math import pow
 
 # Quantulum
 from . import load as l
@@ -114,9 +115,11 @@ def get_values(item):
     """Extract value from regex hit."""
     fracs = r'|'.join(r.UNI_FRAC)
 
-    value = item.group(2)
+    value = item.group('value')
     # Replace unusual exponents by e
     value = re.sub(r'(?<=\d)(%s)10\^?' % r.MULTIPLIERS, 'e', value)
+    # calculate other exponents later on
+
     value = re.sub(fracs, callback, value, re.IGNORECASE)
     value = re.sub(' +', ' ', value)
 
@@ -148,6 +151,31 @@ def get_values(item):
     logging.debug(u'\tValues: %s', values)
 
     return uncertainty, values
+
+
+###############################################################################
+def resolve_exponents(value):
+    """Resolve unusual exponents (like 2^4) and return substituted string and factor
+
+    Params:
+        value: str, string with only one value
+    Returns:
+        str, string with basis and exponent removed
+        float, factor for multiplication
+
+    """
+    for item in re.finditer(r.NUM_PATTERN, value):
+        if item.group('scale') is not None:
+            exp = item.group('exponent')
+            if exp in ['e', 'E']:
+                exp = '10'
+            base = item.group('base')
+            exp = float(exp)
+            base = float(base)
+            factor = pow(base, exp)
+            stripped = str(value).replace(item.group('scale'), '')
+            return stripped, factor
+    return value, 1
 
 
 ###############################################################################
