@@ -12,12 +12,11 @@ import logging
 import wikipedia
 from stemming.porter2 import stem
 try:
-    raise ImportError
-#     from sklearn.linear_model import SGDClassifier
-#     from sklearn.feature_extraction.text import TfidfVectorizer
-#      USE_CLF = True
+     from sklearn.linear_model import SGDClassifier
+     from sklearn.feature_extraction.text import TfidfVectorizer
+     USE_CLF = True
 except ImportError:
-    USE_CLF = False
+     USE_CLF = False
 
 # Quantulum
 from . import load as l
@@ -131,12 +130,11 @@ def disambiguate_entity(key, text):
     if len(l.DERIVED_ENT[key]) > 1:
         transformed = TFIDF_MODEL.transform([text])
         scores = CLF.predict_proba(transformed).tolist()[0]
-        scores = sorted(
-            zip(scores, TARGET_NAMES), key=lambda x: x[0], reverse=True)
+        scores = zip(scores, TARGET_NAMES)
         names = [i.name for i in l.DERIVED_ENT[key]]
         scores = [i for i in scores if i[1] in names]
         try:
-            new_ent = l.ENTITIES[scores[0][1]]
+            new_ent = l.ENTITIES[max(scores, key=lambda x: x[0])[1]]
         except IndexError:
             logging.debug('\tAmbiguity not resolved for "%s"', str(key))
 
