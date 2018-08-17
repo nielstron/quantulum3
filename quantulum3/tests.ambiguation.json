@@ -128,6 +128,10 @@
                 {"value": 680, "unit": "dollar per kilogram", "surface": "$680 per kg", "entity": "unknown", "dimensions": [{"base": "dollar", "power": 1}, {"base": "kilogram", "power": -1}]}]
     },
     {
+        "req": "I spent 20 million pounds on this!",
+        "res": [{"value": 20000000, "unit": "pound sterling", "surface": "20 million pounds"}]
+    },
+    {
         "req": "It increased by 35% by the end of the 1960s",
         "res": [{"value": 35, "unit": "percentage", "surface": "35%"},
                 {"value": 1960, "unit": "dimensionless", "surface": "1960"}]

@@ -12,11 +12,12 @@ import logging
 import wikipedia
 from stemming.porter2 import stem
 try:
-     from sklearn.linear_model import SGDClassifier
-     from sklearn.feature_extraction.text import TfidfVectorizer
-     USE_CLF = True
+    raise ImportError  # Disabled because sklearn seems not to be compatible with python3
+    from sklearn.linear_model import SGDClassifier
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    USE_CLF = True
 except ImportError:
-     USE_CLF = False
+    USE_CLF = False
 
 # Quantulum
 from . import load as l
