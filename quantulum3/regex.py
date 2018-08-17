@@ -84,7 +84,8 @@ OPERATORS = {
     u'*': u' ',
     u' ': u' ',
     u'·': u' ',
-}  # u'x': u' '}
+    u'x': u' '
+}
 
 ALL_NUM, NUMWORDS = get_numwords()
 FRACTIONS = re.escape(''.join(UNI_FRAC.keys()))
@@ -92,6 +93,8 @@ SUPERSCRIPTS = re.escape(''.join(UNI_SUPER.keys()))
 
 MULTIPLIERS = r'|'.join(
     r'%s' % re.escape(i) for i in OPERATORS if OPERATORS[i] == ' ')
+
+NON_NORM_EXP = r'[%s]?(10|2)\^?' % MULTIPLIERS
 
 NUM_PATTERN = r'''            # Pattern for extracting a digit-based number
 
@@ -102,7 +105,7 @@ NUM_PATTERN = r'''            # Pattern for extracting a digit-based number
     )
     (?:                        # optional exponent
         (?:%s)?                #   multiplicative operators
-        (?:E|e|10\^?)          #   required exponent prefix
+        (?:E|e|(10|2)\^?)          #   required exponent prefix
         (?:[+-]?\d+|[%s])      #   required exponent, superscript or normal
     )?
     (?:                        # optional fraction

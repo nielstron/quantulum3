@@ -23,11 +23,6 @@
         "res": [{"value": 101, "unit": "dimensionless", "surface": "101"}]
     },
     {
-        "req": "Hubble's cameras are super sharp across a 2½' (150\") field",
-        "res": [{"value": 2.5, "unit": "minute of arc", "surface": "2½'"},
-                {"value": 150, "unit": "second of arc", "surface": "150\""}]
-    },
-    {
         "req": "Concepts for advanced 21st-century telescopes include a conceptualized 8- to 16-meter (320- to 640-inch) optical space telescope",
         "res": [{"value": 8, "unit": "metre", "surface": "8- to 16-meter"},
                 {"value": 16, "unit": "metre", "surface": "8- to 16-meter"},
@@ -36,7 +31,7 @@
     },
     {
         "req": "Hubble's predicted position for six weeks' time could be in error by up to 4,000 km",
-        "res": [{"value": 6, "unit": "week", "surface": "six weeks'"},
+        "res": [{"value": 6, "unit": "week", "surface": "six weeks' time"},
                 {"value": 4000, "unit": "kilometre", "surface": "4,000 km"}]
     },
     {
