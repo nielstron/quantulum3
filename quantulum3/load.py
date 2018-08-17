@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """quantulum3 unit and entity loading functions."""
 
 from builtins import open
@@ -67,12 +66,13 @@ def load_entities():
     try:
         assert len(set(names)) == len(entities)
     except AssertionError:
-        raise Exception('Entities with same name: %s' % [i for i in names if
-                                                         names.count(i) > 1])
+        raise Exception('Entities with same name: %s' %
+                        [i for i in names if names.count(i) > 1])
 
-    entities = dict((k['name'], c.Entity(name=k['name'],
-                                         dimensions=k['dimensions'],
-                                         uri=k['URI'])) for k in entities)
+    entities = dict(
+        (k['name'],
+         c.Entity(name=k['name'], dimensions=k['dimensions'], uri=k['URI']))
+        for k in entities)
 
     dimensions_ent = defaultdict(list)
     for ent in entities:
@@ -84,6 +84,7 @@ def load_entities():
             dimensions_ent[key].append(entities[ent])
 
     return entities, dimensions_ent
+
 
 ENTITIES, DERIVED_ENT = load_entities()
 
@@ -104,9 +105,10 @@ def get_dimensions_units(names):
         if not names[name].dimensions:
             names[name].dimensions = plain_dimensions
 
-        names[name].dimensions = [{'base': names[i['base']].name,
-                                   'power': i['power']} for i in
-                                  names[name].dimensions]
+        names[name].dimensions = [{
+            'base': names[i['base']].name,
+            'power': i['power']
+        } for i in names[name].dimensions]
 
     return dimensions_uni
 
@@ -118,7 +120,8 @@ def load_units():
     lowers = defaultdict(list)
     symbols = defaultdict(list)
     surfaces = defaultdict(list)
-    for unit in json.load(open(os.path.join(TOPDIR, 'units.json'), encoding='UTF-8')):
+    for unit in json.load(
+            open(os.path.join(TOPDIR, 'units.json'), encoding='UTF-8')):
 
         try:
             assert unit['name'] not in names
@@ -126,9 +129,13 @@ def load_units():
             msg = 'Two units with same name in units.json: %s' % unit['name']
             raise Exception(msg)
 
-        obj = c.Unit(name=unit['name'], surfaces=unit['surfaces'],
-                     entity=ENTITIES[unit['entity']], uri=unit['URI'],
-                     symbols=unit['symbols'], dimensions=unit['dimensions'])
+        obj = c.Unit(
+            name=unit['name'],
+            surfaces=unit['surfaces'],
+            entity=ENTITIES[unit['entity']],
+            uri=unit['URI'],
+            symbols=unit['symbols'],
+            dimensions=unit['dimensions'])
 
         names[unit['name']] = obj
 
@@ -148,9 +155,10 @@ def load_units():
             elif 'degree ' in surface:
                 index = split.index('degree')
             if index is not None:
-                plural = ' '.join([i if num != index else
-                                   PLURALS.plural(split[index]) for num, i in
-                                   enumerate(split)])
+                plural = ' '.join([
+                    i if num != index else PLURALS.plural(split[index])
+                    for num, i in enumerate(split)
+                ])
             else:
                 plural = PLURALS.plural(surface)
             if plural != surface:
@@ -160,5 +168,6 @@ def load_units():
     dimensions_uni = get_dimensions_units(names)
 
     return names, surfaces, lowers, symbols, dimensions_uni
+
 
 NAMES, UNITS, LOWER_UNITS, SYMBOLS, DERIVED_UNI = load_units()

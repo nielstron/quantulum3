@@ -1,6 +1,4 @@
-
 # -*- coding: utf-8 -*-
-
 """quantulum3 classifier functions."""
 
 # Standard library
@@ -59,8 +57,10 @@ def clean_text(text):
     """Clean text for TFIDF."""
     new_text = re.sub(r'\p{P}+', ' ', text)
 
-    new_text = [stem(i) for i in new_text.lower().split() if not
-                re.findall(r'[0-9]', i)]
+    new_text = [
+        stem(i) for i in new_text.lower().split()
+        if not re.findall(r'[0-9]', i)
+    ]
 
     new_text = ' '.join(new_text)
 
@@ -84,20 +84,26 @@ def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
         train_data.append(clean_text(example['text']))
         train_target.append(target_names.index(example['unit']))
 
-    tfidf_model = TfidfVectorizer(sublinear_tf=True,
-                                  ngram_range=ngram_range,
-                                  stop_words='english')
+    tfidf_model = TfidfVectorizer(
+        sublinear_tf=True, ngram_range=ngram_range, stop_words='english')
 
     matrix = tfidf_model.fit_transform(train_data)
 
     if parameters is None:
-        parameters = {'loss': 'log', 'penalty': 'l2', 'n_iter': 50,
-                      'alpha': 0.00001, 'fit_intercept': True}
+        parameters = {
+            'loss': 'log',
+            'penalty': 'l2',
+            'n_iter': 50,
+            'alpha': 0.00001,
+            'fit_intercept': True
+        }
 
     clf = SGDClassifier(**parameters).fit(matrix, train_target)
-    obj = {'tfidf_model': tfidf_model,
-           'clf': clf,
-           'target_names': target_names}
+    obj = {
+        'tfidf_model': tfidf_model,
+        'clf': clf,
+        'target_names': target_names
+    }
     path = os.path.join(l.TOPDIR, 'clf.pickle')
     pickle.dump(obj, open(path, 'w'))
 
@@ -109,6 +115,7 @@ def load_classifier():
     obj = pickle.load(open(path, 'r'))
 
     return obj['tfidf_model'], obj['clf'], obj['target_names']
+
 
 if USE_CLF:
     TFIDF_MODEL, CLF, TARGET_NAMES = load_classifier()
@@ -124,8 +131,8 @@ def disambiguate_entity(key, text):
     if len(l.DERIVED_ENT[key]) > 1:
         transformed = TFIDF_MODEL.transform([text])
         scores = CLF.predict_proba(transformed).tolist()[0]
-        scores = sorted(zip(scores, TARGET_NAMES), key=lambda x: x[0],
-                        reverse=True)
+        scores = sorted(
+            zip(scores, TARGET_NAMES), key=lambda x: x[0], reverse=True)
         names = [i.name for i in l.DERIVED_ENT[key]]
         scores = [i for i in scores if i[1] in names]
         try:
@@ -152,8 +159,8 @@ def disambiguate_unit(unit, text):
     if len(new_unit) > 1:
         transformed = TFIDF_MODEL.transform([clean_text(text)])
         scores = CLF.predict_proba(transformed).tolist()[0]
-        scores = sorted(zip(scores, TARGET_NAMES), key=lambda x: x[0],
-                        reverse=True)
+        scores = sorted(
+            zip(scores, TARGET_NAMES), key=lambda x: x[0], reverse=True)
         names = [i.name for i in new_unit]
         scores = [i for i in scores if i[1] in names]
         try:

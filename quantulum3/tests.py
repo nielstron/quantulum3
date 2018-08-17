@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """quantulum3 tests."""
 
 # Standard library
@@ -57,8 +56,9 @@ def wiki_test(page='CERN'):
     end_char = 0
     for num, chunk in enumerate(range(parts)):
         _ = os.system('clear')
-        quants = [j for j in parsed if chunk * 1000 < j.span[0] < (chunk + 1) *
-                  1000]
+        quants = [
+            j for j in parsed if chunk * 1000 < j.span[0] < (chunk + 1) * 1000
+        ]
         beg_char = max(chunk * 1000, end_char)
         text, end_char = embed_text(quants, beg_char, chunk, content)
         print(COLOR2 % text)
@@ -74,25 +74,25 @@ def get_quantity(test, item):
             entity = item['entity']
         except KeyError:
             print('Could not find %s, provide "dimensions" and'
-                   ' "entity"' % item['unit'])
+                  ' "entity"' % item['unit'])
             return
         if entity == 'unknown':
-            dimensions = [{'base': l.NAMES[i['base']].entity.name,
-                          'power': i['power']} for i in
-                          item['dimensions']]
+            dimensions = [{
+                'base': l.NAMES[i['base']].entity.name,
+                'power': i['power']
+            } for i in item['dimensions']]
             entity = c.Entity(name='unknown', dimensions=dimensions)
         elif entity in l.ENTITIES:
             entity = l.ENTITIES[entity]
         else:
             print('Could not find %s, provide "dimensions" and'
-                   ' "entity"' % item['unit'])
+                  ' "entity"' % item['unit'])
             return
-        unit = c.Unit(name=item['unit'],
-                      dimensions=item['dimensions'],
-                      entity=entity)
+        unit = c.Unit(
+            name=item['unit'], dimensions=item['dimensions'], entity=entity)
     try:
         span = next(re.finditer(re.escape(item['surface']),
-                           test['req'])).span()
+                                test['req'])).span()
     except StopIteration:
         print('Surface mismatch for "%s"' % test['req'])
         return
@@ -101,11 +101,12 @@ def get_quantity(test, item):
     if 'uncertainty' in item:
         uncert = item['uncertainty']
 
-    quantity = c.Quantity(value=item['value'],
-                          unit=unit,
-                          surface=item['surface'],
-                          span=span,
-                          uncertainty=uncert)
+    quantity = c.Quantity(
+        value=item['value'],
+        unit=unit,
+        surface=item['surface'],
+        span=span,
+        uncertainty=uncert)
 
     return quantity
 

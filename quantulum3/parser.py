@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """quantulum3 parser."""
 
 # Standard library
@@ -70,14 +69,18 @@ def extract_spellout_values(text):
                 if scale > 100:
                     result += curr
                     curr = 0.0
-        values.append({'old_surface': surface,
-                       'old_span': span,
-                       'new_surface': str(result + curr)})
+        values.append({
+            'old_surface': surface,
+            'old_span': span,
+            'new_surface': str(result + curr)
+        })
 
     for item in re.finditer(r'\d+(,\d{3})+', text):
-        values.append({'old_surface': item.group(0),
-                       'old_span': item.span(),
-                       'new_surface': str(item.group(0).replace(',', ''))})
+        values.append({
+            'old_surface': item.group(0),
+            'old_span': item.span(),
+            'new_surface': str(item.group(0).replace(',', ''))
+        })
 
     return sorted(values, key=lambda x: x['old_span'][0])
 
@@ -181,9 +184,10 @@ def get_unit_from_dimensions(dimensions, text):
         unit = l.DERIVED_UNI[key]
     except KeyError:
         logging.debug(u'\tCould not find unit for: %s', key)
-        unit = c.Unit(name=build_unit_name(dimensions),
-                      dimensions=dimensions,
-                      entity=get_entity_from_dimensions(dimensions, text))
+        unit = c.Unit(
+            name=build_unit_name(dimensions),
+            dimensions=dimensions,
+            entity=get_entity_from_dimensions(dimensions, text))
 
     return unit
 
@@ -195,8 +199,10 @@ def get_entity_from_dimensions(dimensions, text):
 
     Just based on the unit's dimensionality if the classifier is disabled.
     """
-    new_dimensions = [{'base': l.NAMES[i['base']].entity.name,
-                       'power': i['power']} for i in dimensions]
+    new_dimensions = [{
+        'base': l.NAMES[i['base']].entity.name,
+        'power': i['power']
+    } for i in dimensions]
 
     final_dimensions = sorted(new_dimensions, key=lambda x: x['base'])
     key = l.get_key_from_dimensions(final_dimensions)
@@ -220,8 +226,7 @@ def parse_unit(item, group, slash):
     power = re.findall(r'\-?[0-9%s]+' % r.SUPERSCRIPTS, surface)
 
     if power:
-        power = [r.UNI_SUPER[i] if i in r.UNI_SUPER else i for i
-                 in power]
+        power = [r.UNI_SUPER[i] if i in r.UNI_SUPER else i for i in power]
         power = ''.join(power)
         new_power = (-1 * int(power) if slash else int(power))
         surface = re.sub(r'\^?\-?[0-9%s]+' % r.SUPERSCRIPTS, '', surface)
@@ -385,11 +390,12 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
 
     objs = []
     for value in values:
-        obj = c.Quantity(value=value,
-                         unit=unit,
-                         surface=surface,
-                         span=span,
-                         uncertainty=uncert)
+        obj = c.Quantity(
+            value=value,
+            unit=unit,
+            surface=surface,
+            span=span,
+            uncertainty=uncert)
         objs.append(obj)
 
     return objs
@@ -437,8 +443,8 @@ def parse(text, verbose=False):
     quantities = []
     for item in r.REG_DIM.finditer(text):
 
-        groups = dict([i for i in item.groupdict().items() if i[1] and
-                       i[1].strip()])
+        groups = dict(
+            [i for i in item.groupdict().items() if i[1] and i[1].strip()])
         logging.debug(u'Quantity found: %s', groups)
 
         try:

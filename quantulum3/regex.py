@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """quantulum3 regex functions."""
 
 # Standard library
@@ -9,12 +8,16 @@ import re
 # Quantulum
 from . import load as l
 
-UNITS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven',
-         'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen',
-         'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen']
+UNITS = [
+    'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight',
+    'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen',
+    'sixteen', 'seventeen', 'eighteen', 'nineteen'
+]
 
-TENS = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy',
-        'eighty', 'ninety']
+TENS = [
+    '', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty',
+    'ninety'
+]
 
 SCALES = ['hundred', 'thousand', 'million', 'billion', 'trillion']
 
@@ -22,14 +25,16 @@ SCALES = ['hundred', 'thousand', 'million', 'billion', 'trillion']
 ###############################################################################
 def get_numwords():
     """Convert number words to integers in a given text."""
-    numwords = {'and': (1, 0),}# 'a': (1, 1), 'an': (1, 1)}
+    numwords = {
+        'and': (1, 0),
+    }  # 'a': (1, 1), 'an': (1, 1)}
 
     for idx, word in enumerate(UNITS):
         numwords[word] = (1, idx)
     for idx, word in enumerate(TENS):
         numwords[word] = (1, idx * 10)
     for idx, word in enumerate(SCALES):
-        numwords[word] = (10 ** (idx * 3 or 2), 0)
+        numwords[word] = (10**(idx * 3 or 2), 0)
 
     all_numbers = r'|'.join(r'\b%s\b' % i for i in numwords.keys() if i)
 
@@ -40,23 +45,55 @@ def get_numwords():
 
 SUFFIXES = {'K': 1e3, 'M': 1e6, 'B': 1e9, 'T': 1e12}
 
-UNI_SUPER = {u'¹': '1', u'²': '2', u'³': '3', u'⁴': '4', u'⁵': '5',
-             u'⁶': '6', u'⁷': '7', u'⁸': '8', u'⁹': '9', u'⁰': '0'}
+UNI_SUPER = {
+    u'¹': '1',
+    u'²': '2',
+    u'³': '3',
+    u'⁴': '4',
+    u'⁵': '5',
+    u'⁶': '6',
+    u'⁷': '7',
+    u'⁸': '8',
+    u'⁹': '9',
+    u'⁰': '0'
+}
 
-UNI_FRAC = {u'¼': '1/4', u'½': '1/2', u'¾': '3/4', u'⅐': '1/7', u'⅑': '1/9',
-            u'⅒': '1/10', u'⅓': '1/3', u'⅔': '2/3', u'⅕': '1/5', u'⅖': '2/5',
-            u'⅗': '3/5', u'⅘': '4/5', u'⅙': '1/6', u'⅚': '5/6', u'⅛': '1/8',
-            u'⅜': '3/8', u'⅝': '5/8', u'⅞': '7/8'}
+UNI_FRAC = {
+    u'¼': '1/4',
+    u'½': '1/2',
+    u'¾': '3/4',
+    u'⅐': '1/7',
+    u'⅑': '1/9',
+    u'⅒': '1/10',
+    u'⅓': '1/3',
+    u'⅔': '2/3',
+    u'⅕': '1/5',
+    u'⅖': '2/5',
+    u'⅗': '3/5',
+    u'⅘': '4/5',
+    u'⅙': '1/6',
+    u'⅚': '5/6',
+    u'⅛': '1/8',
+    u'⅜': '3/8',
+    u'⅝': '5/8',
+    u'⅞': '7/8'
+}
 
-OPERATORS = {u'/': u' per ', u' per ': u' per ', u' a ': ' per ',
-             u'*': u' ', u' ': u' ', u'·': u' ',} # u'x': u' '}
+OPERATORS = {
+    u'/': u' per ',
+    u' per ': u' per ',
+    u' a ': ' per ',
+    u'*': u' ',
+    u' ': u' ',
+    u'·': u' ',
+}  # u'x': u' '}
 
 ALL_NUM, NUMWORDS = get_numwords()
 FRACTIONS = re.escape(''.join(UNI_FRAC.keys()))
 SUPERSCRIPTS = re.escape(''.join(UNI_SUPER.keys()))
 
-MULTIPLIERS = r'|'.join(r'%s' % re.escape(i) for i in OPERATORS if
-                        OPERATORS[i] == ' ')
+MULTIPLIERS = r'|'.join(
+    r'%s' % re.escape(i) for i in OPERATORS if OPERATORS[i] == ' ')
 
 NUM_PATTERN = r'''            # Pattern for extracting a digit-based number
 
@@ -124,11 +161,12 @@ def get_units_regex():
         (?:(?P<operator3>%s)?(?P<unit3>(?:%s)%s)?)    # Operator + Unit (3)
         (?:(?P<operator4>%s)?(?P<unit4>(?:%s)%s)?)    # Operator + Unit (4)
 
-    ''' % tuple([all_symbols, RAN_PATTERN] + 4 * [all_ops, all_units,
-                                                  exponent])
+    ''' % tuple([all_symbols, RAN_PATTERN] +
+                4 * [all_ops, all_units, exponent])
 
     regex = re.compile(pattern, re.VERBOSE | re.IGNORECASE)
 
     return regex
+
 
 REG_DIM = get_units_regex()

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """quantulum3 classes."""
 
 
@@ -8,7 +7,11 @@
 class Quantity(object):
     """Class for a quantity (e.g. "4.2 gallons")."""
 
-    def __init__(self, value=None, unit=None, surface=None, span=None,
+    def __init__(self,
+                 value=None,
+                 unit=None,
+                 surface=None,
+                 span=None,
                  uncertainty=None):
         """Initialization method."""
         self.value = value
@@ -39,8 +42,13 @@ class Quantity(object):
 class Unit(object):
     """Class for a unit (e.g. "gallon")."""
 
-    def __init__(self, name=None, surfaces=None, entity=None, uri=None,
-                 symbols=None, dimensions=None):
+    def __init__(self,
+                 name=None,
+                 surfaces=None,
+                 entity=None,
+                 uri=None,
+                 symbols=None,
+                 dimensions=None):
         """Initialization method."""
         self.name = name
         self.surfaces = surfaces
