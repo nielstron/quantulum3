@@ -25,9 +25,7 @@ SCALES = ['hundred', 'thousand', 'million', 'billion', 'trillion']
 ###############################################################################
 def get_numwords():
     """Convert number words to integers in a given text."""
-    numwords = {
-        'and': (1, 0),
-    }  # 'a': (1, 1), 'an': (1, 1)}
+    numwords = {'and': (1, 0), 'a': (1, 1), 'an': (1, 1)}
 
     for idx, word in enumerate(UNITS):
         numwords[word] = (1, idx)

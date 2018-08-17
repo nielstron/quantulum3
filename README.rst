@@ -63,6 +63,14 @@ available (especially useful for debugging):
    >>> print parser.inline_parse('I want 2 liters of wine')
    I want 2 liters {Quantity(2, "litre")} of wine
 
+As the parser is also able to parse dimensionless numbers, this library
+can also be used for simple number extraction.
+
+.. code:: python
+
+   >>> print parser.parse('I want two')
+   [Quantity(2, 'dimensionless')]
+
 Units and entities
 ------------------
 
