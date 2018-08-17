@@ -11,6 +11,6 @@ requirements:
 ignore-paths:
     - docs/
 python-targets:
-    - 2
+    - 3
 pyflakes:
   run: false
