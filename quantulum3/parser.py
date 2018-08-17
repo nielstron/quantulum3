@@ -119,6 +119,7 @@ def get_values(item):
     # Replace unusual exponents by e
     value = re.sub(r'(?<=\d)(%s)10\^?' % r.MULTIPLIERS, 'e', value)
     # calculate other exponents later on
+    value, factor = resolve_exponents(value)
 
     value = re.sub(fracs, callback, value, re.IGNORECASE)
     value = re.sub(' +', ' ', value)
@@ -164,8 +165,9 @@ def resolve_exponents(value):
         float, factor for multiplication
 
     """
-    for item in re.finditer(r.NUM_PATTERN, value):
-        if item.group('scale') is not None:
+    matches = re.finditer(r.NUM_PATTERN_GROUPS, value, re.IGNORECASE | re.VERBOSE)
+    for item in matches:
+        try:
             exp = item.group('exponent')
             if exp in ['e', 'E']:
                 exp = '10'
@@ -175,6 +177,8 @@ def resolve_exponents(value):
             factor = pow(base, exp)
             stripped = str(value).replace(item.group('scale'), '')
             return stripped, factor
+        except IndexError:
+            continue
     return value, 1
 
 
