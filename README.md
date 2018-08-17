@@ -1,6 +1,7 @@
 quantulum3
 ==========
-![Travis build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=dev "Travis build state")
+[![Travis build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=master "Travis build state")](https://travis-ci.com/neilstron/quantulum3)
+[![Code Health](https://landscape.io/github/nielstron/quantulum3/master/landscape.svg?style=flat)](https://landscape.io/github/nielstron/quantulum3/master)
 
 Python library for information extraction of quantities, measurements
 and their units from unstructured text. It is a fork of [recastrodiaz\'
