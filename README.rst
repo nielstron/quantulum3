@@ -28,6 +28,14 @@ Then,
 
    $ pip install quantulum3
 
+Contributing
+------------
+
+If you’d like to contribute follow these steps: 1. Clone a fork of this
+project into your workspace 2. ``pip install pipenv yapf`` 3. Inside the
+project folder run ``pipenv install`` 4. Make your changes 5. Run
+``format.sh`` 6. Create a Pull Request when having commited your changes
+
 Usage
 -----
 
