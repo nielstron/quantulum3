@@ -1,9 +1,5 @@
-quantulum3
-==========
-
-`Travis build state <https://travis-ci.com/neilstron/quantulum3>`__
-`Code
-Health <https://landscape.io/github/nielstron/quantulum3/master>`__
+quantulum3 `Travis master build state <https://travis-ci.com/nielstron/quantulum3>`__
+=====================================================================================
 
 Python library for information extraction of quantities, measurements
 and their units from unstructured text. It is a fork of `recastrodiaz'
@@ -34,6 +30,10 @@ If you’d like to contribute follow these steps: 1. Clone a fork of this
 project into your workspace 2. ``pip install pipenv yapf`` 3. Inside the
 project folder run ``pipenv install`` 4. Make your changes 5. Run
 ``format.sh`` 6. Create a Pull Request when having commited your changes
+
+``dev`` build:
+
+`Travis dev build state <https://travis-ci.com/nielstron/quantulum3>`__
 
 Usage
 -----
