@@ -150,8 +150,8 @@ def disambiguate_entity(key, text):
     if len(l.DERIVED_ENT[key]) > 1:
         transformed = TFIDF_MODEL.transform([text])
         scores = CLF.predict_proba(transformed).tolist()[0]
-        scores = sorted(zip(scores, TARGET_NAMES), key=lambda x: x[0],
-                        reverse=True)
+        scores = sorted(
+            zip(scores, TARGET_NAMES), key=lambda x: x[0], reverse=True)
         names = [i.name for i in l.DERIVED_ENT[key]]
         scores = [i for i in scores if i[1] in names]
         try:
