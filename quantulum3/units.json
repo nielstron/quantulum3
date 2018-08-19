@@ -1646,6 +1646,13 @@
         "dimensions": [],
         "symbols": ["TB"]
     },
+    {   "name": "kibibyte",
+        "surfaces": ["kibibyte"],
+        "entity": "data storage",
+        "URI":"https://en.wikipedia.org/wiki/Kibibyte",
+        "dimensions": [],
+        "symbols": ["KiB"]
+    },
     {
         "name": "gal",
         "surfaces": ["gal", "galileo"],

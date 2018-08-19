@@ -121,7 +121,7 @@ NUM_PATTERN_GROUPS = r'''            # Pattern for extracting a digit-based numb
     )
     (?P<scale>               # optional exponent
         (?:%s)?                #   multiplicative operators
-        (?P<base>E|e|(?:\d+)?)\^? #   required exponent prefix
+        (?P<base>E|e|(?:\d+)?\^?) #   required exponent prefix
         (?P<exponent>[+-]?\d+|[%s]) #   required exponent, superscript or normal
     )?
     (?P<fraction>            # optional fraction
@@ -129,7 +129,6 @@ NUM_PATTERN_GROUPS = r'''            # Pattern for extracting a digit-based numb
     )?
 
 ''' % (MULTIPLIERS, SUPERSCRIPTS, FRACTIONS)
-
 
 RAN_PATTERN = r'''                        # Pattern for a range of numbers
 

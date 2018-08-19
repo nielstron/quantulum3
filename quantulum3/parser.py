@@ -116,10 +116,11 @@ def get_values(item):
     fracs = r'|'.join(r.UNI_FRAC)
 
     value = item.group('value')
-    # Replace unusual exponents by e
-    value = re.sub(r'(?<=\d)(%s)10\^?' % r.MULTIPLIERS, 'e', value)
-    # calculate other exponents later on
-    value, factor = resolve_exponents(value)
+    # Replace unusual exponents by e (including e)
+    value = re.sub(r'(?<=\d)(%s)(e|E|10)\^?' % r.MULTIPLIERS, 'e', value)
+    # calculate other exponents
+    value, factors = resolve_exponents(value)
+    logging.debug("After exponent resolution: {}".format(value))
 
     value = re.sub(fracs, callback, value, re.IGNORECASE)
     value = re.sub(' +', ' ', value)
@@ -131,22 +132,24 @@ def get_values(item):
     uncertainty = None
     if range_separator:
         values = value.split(range_separator[0])
-        values = [float(re.sub(r'-$', '', i)) for i in values]
+        values = [float(re.sub(r'-$', '', value)) * factors[index] for index, value in values]
     elif uncer_separator:
         values = [float(i) for i in value.split(uncer_separator[0])]
-        uncertainty = values[1]
-        values = [values[0]]
+        uncertainty = values[1] * factors[1]
+        values = [values[0] * factors[0]]
     elif fract_separator:
         try:
             values = value.split()
             if len(values) > 1:
-                values = [float(values[0]) + float(Fraction(values[1]))]
+                values = [
+                    float(values[0]) * factors[0] + float(Fraction(values[1]))
+                ]
             else:
                 values = [float(Fraction(values[0]))]
         except ZeroDivisionError as e:
             raise ValueError('{} is not a number'.format(values[0]), e)
     else:
-        values = [float(re.sub(r'-$', '', value))]
+        values = [float(re.sub(r'-$', '', value)) * factors[0]]
 
     logging.debug(u'\tUncertainty: %s', uncertainty)
     logging.debug(u'\tValues: %s', values)
@@ -162,24 +165,35 @@ def resolve_exponents(value):
         value: str, string with only one value
     Returns:
         str, string with basis and exponent removed
-        float, factor for multiplication
+        array of float, factors for multiplication
 
     """
-    matches = re.finditer(r.NUM_PATTERN_GROUPS, value, re.IGNORECASE | re.VERBOSE)
+    factors = []
+    matches = re.finditer(r.NUM_PATTERN_GROUPS, value,
+                          re.IGNORECASE | re.VERBOSE)
     for item in matches:
+        print(item)
         try:
-            exp = item.group('exponent')
-            if exp in ['e', 'E']:
-                exp = '10'
             base = item.group('base')
+            if base in ['e', 'E']:
+                # already handled by float
+                factors.append(1)
+                continue
+                # exp = '10'
+            exp = item.group('exponent')
+            for superscript, substitute in r.UNI_SUPER.items():
+                exp.replace(superscript, substitute)
             exp = float(exp)
-            base = float(base)
+            base = float(base.replace('^', ''))
             factor = pow(base, exp)
             stripped = str(value).replace(item.group('scale'), '')
-            return stripped, factor
-        except IndexError:
+            value = stripped
+            factors.append(factor)
+            logging.debug("Replaced {} by factor {}".format(item.group('scale'), factor))
+        except (IndexError, AttributeError):
+            factors.append(1)
             continue
-    return value, 1
+    return value, factors
 
 
 ###############################################################################
