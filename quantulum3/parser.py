@@ -525,9 +525,9 @@ def parse(text, verbose=False):
         root.setLevel(logging.DEBUG)
         logging.debug('Verbose mode')
 
-    if isinstance(text, str):
-        text = str(text, encoding='utf-8')
-        logging.debug('Converted string to unicode (assume utf-8 encoding)')
+    # if isinstance(text, str):
+    #    text = str(text, encoding='utf-8')
+    #    logging.debug('Converted string to unicode (assume utf-8 encoding)')
 
     orig_text = text
     logging.debug('Original text: "%s"', orig_text)

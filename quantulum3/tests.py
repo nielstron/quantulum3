@@ -90,8 +90,8 @@ def load_tests():
                     return
                 if entity == 'unknown':
                     derived = [{'base': l.NAMES[i['base']].entity.name,
-                                'power': i['power']} for i in item['derived']]
-                    entity = c.Entity(name='unknown', derived=derived)
+                                'power': i['power']} for i in item['dimensions']]
+                    entity = c.Entity(name='unknown', dimensions=derived)
                 elif entity in l.ENTITIES:
                     entity = l.ENTITIES[entity]
                 else:
@@ -99,7 +99,7 @@ def load_tests():
                            ' "entity"' % item['unit']))
                     return
                 unit = c.Unit(name=item['unit'],
-                              derived=item['derived'],
+                              dimensions=item['dimensions'],
                               entity=entity)
             try:
                 span = next(re.finditer(re.escape(item['surface']),
