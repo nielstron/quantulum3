@@ -123,16 +123,20 @@ def get_values(item):
     logging.debug("After exponent resolution: {}".format(value))
 
     value = re.sub(fracs, callback, value, re.IGNORECASE)
-    value = re.sub(' +', ' ', value)
 
     range_separator = re.findall(r'\d+ ?(-|and|(?:- ?)?to) ?\d', value)
     uncer_separator = re.findall(r'\d+ ?(\+/-|±) ?\d', value)
     fract_separator = re.findall(r'\d+/\d+', value)
 
+    value = re.sub(' +', ' ', value)
     uncertainty = None
     if range_separator:
+        # TODO this should be uncertainty
         values = value.split(range_separator[0])
-        values = [float(re.sub(r'-$', '', value)) * factors[index] for index, value in values]
+        values = [
+            float(re.sub(r'-$', '', v)) * factors[i]
+            for i, v in enumerate(values)
+        ]
     elif uncer_separator:
         values = [float(i) for i in value.split(uncer_separator[0])]
         uncertainty = values[1] * factors[1]
@@ -172,7 +176,6 @@ def resolve_exponents(value):
     matches = re.finditer(r.NUM_PATTERN_GROUPS, value,
                           re.IGNORECASE | re.VERBOSE)
     for item in matches:
-        print(item)
         try:
             base = item.group('base')
             if base in ['e', 'E']:
@@ -189,7 +192,8 @@ def resolve_exponents(value):
             stripped = str(value).replace(item.group('scale'), '')
             value = stripped
             factors.append(factor)
-            logging.debug("Replaced {} by factor {}".format(item.group('scale'), factor))
+            logging.debug("Replaced {} by factor {}".format(
+                item.group('scale'), factor))
         except (IndexError, AttributeError):
             factors.append(1)
             continue
