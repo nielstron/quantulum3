@@ -5,4 +5,4 @@
 
 from quantulum3.classifier import train_classifier
 
-train_classifier(False)
+train_classifier()

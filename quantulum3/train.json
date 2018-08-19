@@ -19,5 +19,6 @@
     {"text": "The angle between vectors is measured in {quantity}", "unit": "second of arc"},
     {"text": "Coordinates for Area 51 are: latitude {quantity}, longitude {quantity}", "unit": "second of arc"},
     {"text": "The density of lead is {quantity}", "unit": "density"},
+    {"text": "The density of earth is {quantity}", "unit": "density"},
     {"text": "The concentration of CO2 in breathing air is {quantity}", "unit":"concentration"}
 ]
