@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 '''
 :mod:`Quantulum` parser.
 '''
@@ -18,9 +17,9 @@ from . import regex as r
 from . import classes as c
 from . import classifier as clf
 
+
 ################################################################################
 def clean_surface(surface, span):
-
     '''
     Remove spurious characters from a quantity's surface.
     '''
@@ -57,7 +56,6 @@ def clean_surface(surface, span):
 
 ################################################################################
 def extract_spellout_values(text):
-
     '''
     Convert spelled out numbers in a given text to digits.
     '''
@@ -78,21 +76,24 @@ def extract_spellout_values(text):
             if scale > 100:
                 result += curr
                 curr = 0.0
-        values.append({'old_surface': surface,
-                       'old_span': span,
-                       'new_surface': str(result + curr)})
+        values.append({
+            'old_surface': surface,
+            'old_span': span,
+            'new_surface': str(result + curr)
+        })
 
     for item in re.finditer(r'\d+(,\d{3})+', text):
-        values.append({'old_surface': item.group(0),
-                       'old_span': item.span(),
-                       'new_surface': str(item.group(0).replace(',', ''))})
+        values.append({
+            'old_surface': item.group(0),
+            'old_span': item.span(),
+            'new_surface': str(item.group(0).replace(',', ''))
+        })
 
     return sorted(values, key=lambda x: x['old_span'][0])
 
 
 ################################################################################
 def substitute_values(text, values):
-
     '''
     Convert spelled out numbers in a given text to digits.
     '''
@@ -114,7 +115,6 @@ def substitute_values(text, values):
 
 ################################################################################
 def get_values(item):
-
     '''
     Extract value from regex hit.
     '''
@@ -209,7 +209,6 @@ def resolve_exponents(value):
 
 ###############################################################################
 def build_unit_name(dimensions):
-
     '''
     Build the name of the unit from its dimensions.
     '''
@@ -239,7 +238,6 @@ def build_unit_name(dimensions):
 
 ################################################################################
 def get_unit_from_dimensions(dimensions, text):
-
     '''
     Reconcile a unit based on its dimensionality.
     '''
@@ -270,8 +268,10 @@ def get_entity_from_dimensions(dimensions, text):
         'power': i['power']
     } for i in dimensions]
 
-    new_derived = [{'base': l.NAMES[i['base']].entity.name,
-                    'power': i['power']} for i in dimensions]
+    new_derived = [{
+        'base': l.NAMES[i['base']].entity.name,
+        'power': i['power']
+    } for i in dimensions]
 
     final_derived = sorted(new_derived, key=lambda x: x['base'])
     key = l.get_key_from_dimensions(final_derived)
@@ -290,7 +290,6 @@ def get_entity_from_dimensions(dimensions, text):
 
 ################################################################################
 def parse_unit(item, group, slash):
-
     '''
     Parse surface and power from unit text.
     '''
@@ -320,7 +319,6 @@ def parse_unit(item, group, slash):
 
 ################################################################################
 def get_unit(item, text):
-
     '''
     Extract unit from regex hit.
     '''
@@ -362,7 +360,6 @@ def get_unit(item, text):
 
 ################################################################################
 def get_surface(shifts, orig_text, item, text):
-
     '''
     Extract surface from regex hit.
     '''
@@ -388,7 +385,6 @@ def get_surface(shifts, orig_text, item, text):
 
 ################################################################################
 def is_quote_artifact(orig_text, span):
-
     '''
     Distinguish between quotes and units.
     '''
@@ -405,7 +401,6 @@ def is_quote_artifact(orig_text, span):
 
 ################################################################################
 def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
-
     '''
     Build a Quantity object out of extracted information.
     '''
@@ -491,7 +486,6 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
 
 ################################################################################
 def clean_text(text):
-
     '''
     Clean text before parsing.
     '''
@@ -511,7 +505,6 @@ def clean_text(text):
 
 ################################################################################
 def parse(text, verbose=False):
-
     '''
     Extract all quantities from unstructured text.
     '''
@@ -563,7 +556,6 @@ def parse(text, verbose=False):
 
 ################################################################################
 def inline_parse(text, verbose=False):
-
     '''
     Extract all quantities from unstructured text.
     '''
@@ -581,4 +573,3 @@ def inline_parse(text, verbose=False):
         shift += len(to_add)
 
     return text
-

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 '''
 :mod:`Quantulum` unit and entity loading functions.
 '''
@@ -23,15 +22,16 @@ TOPDIR = os.path.dirname(__file__) or "."
 
 PLURALS = inflect.engine()
 
+
 def get_string_json(raw_json_text):
     text = raw_json_text
     text = bytes(text, 'utf-8').decode('ascii', 'ignore')
     text = re.sub(r'[^\x00-\x7f]', r'', text)
     return text
 
+
 ################################################################################
 def get_key_from_dimensions(derived):
-
     '''
     Translate dimensionality into key for DERIVED_UNI and DERIVED_ENT dicts.
     '''
@@ -41,7 +41,6 @@ def get_key_from_dimensions(derived):
 
 ################################################################################
 def get_dimension_permutations(entities, derived):
-
     '''
     Get all possible dimensional definitions for an entity.
     '''
@@ -56,7 +55,10 @@ def get_dimension_permutations(entities, derived):
         else:
             new_derived[item['base']] += item['power']
 
-    final = [[{'base': i[0], 'power': i[1]} for i in list(new_derived.items())]]
+    final = [[{
+        'base': i[0],
+        'power': i[1]
+    } for i in list(new_derived.items())]]
     final.append(derived)
     final = [sorted(i, key=lambda x: x['base']) for i in final]
 
@@ -70,13 +72,12 @@ def get_dimension_permutations(entities, derived):
 
 ################################################################################
 def load_entities():
-
     '''
     Load entities from JSON file.
     '''
 
     path = os.path.join(TOPDIR, 'entities.json')
-    string_json = ''.join(open(path,encoding='utf-8').readlines())
+    string_json = ''.join(open(path, encoding='utf-8').readlines())
     string_json = get_string_json(string_json)
     entities = json.loads(string_json)
     names = [i['name'] for i in entities]
@@ -87,8 +88,10 @@ def load_entities():
         raise Exception('Entities with same name: %s' % [i for i in names if \
                          names.count(i) > 1])
 
-    entities = dict((k['name'], c.Entity(name=k['name'], dimensions=k['dimensions'],
-                                         uri=k['URI'])) for k in entities)
+    entities = dict(
+        (k['name'],
+         c.Entity(name=k['name'], dimensions=k['dimensions'], uri=k['URI']))
+        for k in entities)
 
     derived_ent = defaultdict(list)
     for ent in entities:
@@ -104,9 +107,9 @@ def load_entities():
 
 ENTITIES, DERIVED_ENT = load_entities()
 
+
 ################################################################################
 def get_derived_units(names):
-
     '''
     Create dictionary of unit dimensions.
     '''
@@ -130,7 +133,6 @@ def get_derived_units(names):
 
 ################################################################################
 def load_units():
-
     '''
     Load units from JSON file.
     '''
@@ -140,7 +142,7 @@ def load_units():
                                 defaultdict(list)
 
     path = os.path.join(TOPDIR, 'units.json')
-    string_json = ''.join(open(path,encoding='utf-8').readlines())
+    string_json = ''.join(open(path, encoding='utf-8').readlines())
     for unit in json.loads(string_json):
 
         try:

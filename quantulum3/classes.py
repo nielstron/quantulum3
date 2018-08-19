@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 '''
 :mod:`Quantulum` classes.
 '''
 
+
 ################################################################################
 class Quantity(object):
-
     '''
     Class for a quantity (e.g. "4.2 gallons").
     '''
@@ -45,7 +44,6 @@ class Quantity(object):
 
 ################################################################################
 class Unit(object):
-
     '''
     Class for a unit (e.g. "gallon").
     '''
@@ -85,7 +83,6 @@ class Unit(object):
 
 ################################################################################
 class Entity(object):
-
     '''
     Class for an entity (e.g. "volume").
     '''
@@ -112,4 +109,3 @@ class Entity(object):
     def __ne__(self, other):
 
         return not self.__eq__(other)
-

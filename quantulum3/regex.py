@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 '''
 :mod:`Quantulum` regex functions.
 '''
@@ -24,9 +23,9 @@ TENS = [
 
 SCALES = ['hundred', 'thousand', 'million', 'billion', 'trillion']
 
+
 ################################################################################
 def get_numwords():
-
     '''
     Convert number words to integers in a given text.
     '''
@@ -156,13 +155,13 @@ TXT_PATTERN = r'''            # Pattern for extracting mixed digit-spelled num
     [ -]?(?:%s)
     [ -]?(?:%s)?[ -]?(?:%s)?[ -]?(?:%s)?
     [ -]?(?:%s)?[ -]?(?:%s)?[ -]?(?:%s)?
-''' % tuple([NUM_PATTERN] + 7*[ALL_NUM])
+''' % tuple([NUM_PATTERN] + 7 * [ALL_NUM])
 
 REG_TXT = re.compile(TXT_PATTERN, re.VERBOSE | re.IGNORECASE)
 
+
 ################################################################################
 def get_units_regex():
-
     '''
     Build a compiled regex object. Groups of the extracted items, with 4
     repetitions, are:
@@ -223,4 +222,3 @@ def get_units_regex():
 
 
 REG_DIM = get_units_regex()
-

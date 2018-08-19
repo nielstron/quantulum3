@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 '''
 :mod:`Quantulum` classifier functions.
 '''
@@ -25,9 +24,9 @@ except ImportError:
 # Quantulum
 from . import load as l
 
+
 ################################################################################
 def download_wiki():
-
     '''
     Download WikiPedia pages of ambiguous units.
     '''
@@ -76,7 +75,6 @@ def clean_text(text):
 
 ################################################################################
 def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
-
     '''
     Train the intent classifier
     '''
@@ -84,12 +82,12 @@ def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
     if download:
         download_wiki()
     path = os.path.join(l.TOPDIR, 'train.json')
-    string_json = ''.join(open(path,encoding='utf-8').readlines())
+    string_json = ''.join(open(path, encoding='utf-8').readlines())
     training_set = json.loads(string_json)
     path = os.path.join(l.TOPDIR, 'wiki.json')
-    string_json = ''.join(open(path,encoding='utf-8').readlines())
+    string_json = ''.join(open(path, encoding='utf-8').readlines())
     wiki_set = json.loads(string_json)
-    
+
     target_names = list(set([i['unit'] for i in training_set + wiki_set]))
     train_data, train_target = [], []
     for example in training_set + wiki_set:
@@ -122,7 +120,6 @@ def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
 
 ################################################################################
 def load_classifier():
-
     '''
     Train the intent classifier
     '''
@@ -139,9 +136,9 @@ if USE_CLF:
 else:
     TFIDF_MODEL, CLF, TARGET_NAMES = None, None, None
 
+
 ################################################################################
 def disambiguate_entity(key, text):
-
     '''
     Resolve ambiguity between entities with same dimensionality.
     '''
@@ -164,7 +161,6 @@ def disambiguate_entity(key, text):
 
 ################################################################################
 def disambiguate_unit(unit, text):
-
     '''
     Resolve ambiguity between units with same names, symbols or abbreviations.
     '''
@@ -192,4 +188,3 @@ def disambiguate_unit(unit, text):
         final = new_unit[0]
 
     return final
-
