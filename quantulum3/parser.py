@@ -138,12 +138,15 @@ def get_values(item):
     value = re.sub(' +', ' ', value)
     uncertainty = None
     if range_separator:
-        # TODO this should be uncertainty
+        # A range just describes an uncertain quantity
         values = value.split(range_separator[0])
         values = [
             float(re.sub(r'-$', '', v)) * factors[i]
             for i, v in enumerate(values)
         ]
+        mean = sum(values) / len(values)
+        uncertainty = mean - min(values)
+        values = [mean]
     elif uncer_separator:
         values = [float(i) for i in value.split(uncer_separator[0])]
         uncertainty = values[1] * factors[1]

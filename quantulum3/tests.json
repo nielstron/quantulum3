@@ -68,24 +68,16 @@
     "req": "Concepts for advanced 21st-century telescopes include a conceptualized 8- to 16-meter (320- to 640-inch) optical space telescope",
     "res": [
       {
-        "value": 8,
+        "value": 12,
         "unit": "metre",
-        "surface": "8- to 16-meter"
+        "surface": "8- to 16-meter",
+        "uncertainty": 4
       },
       {
-        "value": 16,
-        "unit": "metre",
-        "surface": "8- to 16-meter"
-      },
-      {
-        "value": 320,
+        "value": 480,
         "unit": "inch",
-        "surface": "320- to 640-inch"
-      },
-      {
-        "value": 640,
-        "unit": "inch",
-        "surface": "320- to 640-inch"
+        "surface": "320- to 640-inch",
+        "uncertainty": 160
       }
     ]
   },
@@ -368,14 +360,10 @@
         "surface": "a gallon"
       },
       {
-        "value": 3,
+        "value": 3.5,
         "unit": "litre",
-        "surface": "3 to 4 L"
-      },
-      {
-        "value": 4,
-        "unit": "litre",
-        "surface": "3 to 4 L"
+        "surface": "3 to 4 L",
+        "uncertainty": 0.5
       }
     ]
   },
@@ -445,14 +433,10 @@
         "surface": "27-kilometer"
       },
       {
-        "value": 3.5,
+        "value": 3.75,
         "unit": "teraelectronvolt",
-        "surface": "3.5–4.0 TeV"
-      },
-      {
-        "value": 4.0,
-        "unit": "teraelectronvolt",
-        "surface": "3.5–4.0 TeV"
+        "surface": "3.5–4.0 TeV",
+        "uncertainty": 0.25
       }
     ]
   },
