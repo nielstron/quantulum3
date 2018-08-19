@@ -1,6 +1,6 @@
 """quantulum3 init."""
 
-VERSION = (0, 1, 16)
+VERSION = (0, 2, 0)
 
 __version__ = '.'.join([str(i) for i in VERSION])
 __author__ = 'Marco Lagi, grhawk and Rodrigo Castro'
