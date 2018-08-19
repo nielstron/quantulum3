@@ -476,6 +476,22 @@
     ]
   },
   {
+    "req": "Google holds somewhere around 10-15 exabytes of data, which equals a tower of 3 miles height made of of punch cards.",
+    "res": [
+      {
+        "value": 12.5,
+        "unit": "exabyte",
+        "surface": "10-15 exabytes",
+        "uncertainty": 2.5
+      },
+      {
+        "value": 3,
+        "unit": "mile",
+        "surface": "3 miles"
+      }
+    ]
+  },
+  {
     "req": "It weighs no more than 2,000.45±0.01 pounds",
     "res": [
       {
