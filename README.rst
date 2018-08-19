@@ -5,8 +5,8 @@ Python library for information extraction of quantities, measurements
 and their units from unstructured text. It is Python 3 compatible fork
 of\ `recastrodiaz' fork <https://github.com/recastrodiaz/quantulum>`__
 of `grhawks' fork <https://github.com/grhawk/quantulum>`__ of `the
-original by Marco Lagi <https://github.com/marcolagi/quantulum>`__. Also
-included is the fork of
+original by Marco Lagi <https://github.com/marcolagi/quantulum>`__. The
+compatability with the newest version of sklearn is based on the fork of
 `sohrabtowfighi <https://github.com/sohrabtowfighi/quantulum>`__.
 
 Installation

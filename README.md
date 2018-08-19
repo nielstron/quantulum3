@@ -6,7 +6,8 @@ and their units from unstructured text. It is Python 3 compatible fork of[recast
 fork](https://github.com/recastrodiaz/quantulum) of [grhawks\'
 fork](https://github.com/grhawk/quantulum) of [the original by Marco
 Lagi](https://github.com/marcolagi/quantulum).
-Also included is the fork of [sohrabtowfighi](https://github.com/sohrabtowfighi/quantulum).
+The compatability with the newest version of sklearn is based on
+the fork of [sohrabtowfighi](https://github.com/sohrabtowfighi/quantulum).
 
 Installation
 ------------
