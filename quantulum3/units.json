@@ -1663,7 +1663,7 @@
     {   "name": "gibibyte",
         "surfaces": ["gibibyte"],
         "entity": "data storage",
-        "URI":"https://en.wikipedia.org/wiki/Kibibyte",
+        "URI":"https://en.wikipedia.org/wiki/Gibibyte",
         "dimensions": [],
         "symbols": ["GiB"]
     },
