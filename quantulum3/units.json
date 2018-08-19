@@ -1628,7 +1628,7 @@
         "entity": "data storage",
         "URI": "https://en.wikipedia.org/wiki/Megabyte",
         "dimensions": [],
-        "symbols": ["MB", "MByte"]
+        "symbols": ["MB", "MByte", "mb"]
     },
     {
         "name": "gigabyte",
@@ -1636,7 +1636,7 @@
         "entity": "data storage",
         "URI": "https://en.wikipedia.org/wiki/Gigabyte",
         "dimensions": [],
-        "symbols": ["GB"]
+        "symbols": ["GB", "gb"]
     },
     {
         "name": "terabyte",
@@ -1644,7 +1644,7 @@
         "entity": "data storage",
         "URI": "https://en.wikipedia.org/wiki/Terabyte",
         "dimensions": [],
-        "symbols": ["TB"]
+        "symbols": ["TB", "tb"]
     },
     {   "name": "kibibyte",
         "surfaces": ["kibibyte"],
@@ -1860,6 +1860,14 @@
         "URI": "https://en.wikipedia.org/wiki/Coulomb",
         "dimensions": [{"base": "ampere", "power": 1}, {"base": "hour", "power": 1}],
         "symbols": ["Ah"]
+    },
+    {
+        "name": "milliampere-hour",
+        "surfaces": ["milliampere-hour", "milliampere hour", "milliamp-hour"],
+        "entity": "charge",
+        "URI": "https://en.wikipedia.org/wiki/Coulomb",
+        "dimensions": [{"base": "ampere", "power": 1}, {"base": "hour", "power": 1}],
+        "symbols": ["mAh", "mah"]
     },
     {
         "name": "ampere",

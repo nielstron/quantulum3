@@ -3,11 +3,6 @@ dist/
 *.coverage*
 deploy
 deploy.py
-quantulum/todo.txt
-quantulum/deploy.py
-quantulum/pylint.conf
-quantulum/server/
-quantulum.egg-info/
 .idea
 Pipfile.lock
 
