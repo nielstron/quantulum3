@@ -2,7 +2,7 @@ quantulum3 [![Travis master build state](https://travis-ci.com/nielstron/quantul
 ==========
 
 Python library for information extraction of quantities, measurements
-and their units from unstructured text. It is Python 3 compatible fork of[recastrodiaz\'
+and their units from unstructured text. It is Python 3 compatible fork of [recastrodiaz\'
 fork](https://github.com/recastrodiaz/quantulum) of [grhawks\'
 fork](https://github.com/grhawk/quantulum) of [the original by Marco
 Lagi](https://github.com/marcolagi/quantulum).
