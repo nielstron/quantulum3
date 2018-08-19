@@ -104,7 +104,7 @@ def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
         parameters = {
             'loss': 'log',
             'penalty': 'l2',
-            'n_iter': 50,
+            'max_iter': 50,
             'alpha': 0.00001,
             'fit_intercept': True
         }
