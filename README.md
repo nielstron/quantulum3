@@ -19,7 +19,6 @@ or as unit of mass).
 Then,
 
 ``` {.sourceCode .bash}
-$ git config --global core.autocrlf input
 $ pip install quantulum3
 ```
 
