@@ -62,7 +62,7 @@ def clean_text(text):
     '''
     Clean text for TFIDF
     '''
-    my_regex = re.compile('[%s]' % re.escape(string.punctuation))
+    my_regex = re.compile(r'[%s]' % re.escape(string.punctuation))
     new_text = my_regex.sub(' ', text)
 
     new_text = [stem(i) for i in new_text.lower().split() if not \
@@ -115,13 +115,14 @@ def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
         'target_names': target_names
     }
     path = os.path.join(l.TOPDIR, 'clf.pickle')
-    pickle.dump(obj, open(path, 'wb'))
+    with open(path, 'wb') as file:
+        pickle.dump(obj, file)
 
 
 ################################################################################
 def load_classifier():
     '''
-    Train the intent classifier
+    Load the intent classifier
     '''
 
     path = os.path.join(l.TOPDIR, 'clf.pickle')

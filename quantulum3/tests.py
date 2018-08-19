@@ -137,8 +137,10 @@ class EndToEndTests(unittest.TestCase):
         all_tests = load_tests()
         for test in sorted(all_tests, key=lambda x: len(x['req'])):
             quants = p.parse(test['req'])
-            self.assertEqual(quants, test['res'],
-                             "{} \n {}".format([quant.__dict__ for quant in quants], [quant.__dict__ for quant in test['res']]))
+            self.assertEqual(
+                quants, test['res'],
+                "{} \n {}".format([quant.__dict__ for quant in quants],
+                                  [quant.__dict__ for quant in test['res']]))
 
 
 ################################################################################

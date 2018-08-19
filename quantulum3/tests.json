@@ -546,5 +546,30 @@
         "surface": "one thousand bytes"
       }
     ]
+  },
+  {
+    "req": "Hubble's cameras are super sharp across a 2½' (150\") field",
+    "res": [
+      {
+        "value": 2.5,
+        "unit": "minute of arc",
+        "surface": "2½'"
+      },
+      {
+        "value": 150,
+        "unit": "second of arc",
+        "surface": "150\""
+      }
+    ]
+  },
+  {
+    "req": "I spent 20 million pounds on this!",
+    "res": [
+      {
+        "value": 20000000,
+        "unit": "pound sterling",
+        "surface": "20 million pounds"
+      }
+    ]
   }
 ]
