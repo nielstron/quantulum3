@@ -1,18 +1,21 @@
 # -*- coding: utf-8 -*-
-"""quantulum3 classifier functions."""
+
+'''
+:mod:`Quantulum` classifier functions.
+'''
 
 # Standard library
-import re
 import os
 import json
 import pickle
 import logging
+import re
+import string
 
-# Dependencies
+# Dependences
 import wikipedia
 from stemming.porter2 import stem
 try:
-    raise ImportError  # Disabled because sklearn seems not to be compatible with python3
     from sklearn.linear_model import SGDClassifier
     from sklearn.feature_extraction.text import TfidfVectorizer
     USE_CLF = True
@@ -22,12 +25,15 @@ except ImportError:
 # Quantulum
 from . import load as l
 
-
-###############################################################################
+################################################################################
 def download_wiki():
-    """Download WikiPedia pages of ambiguous units."""
-    ambiguous = [i for i in l.UNITS.items() if len(i[1]) > 1]
-    ambiguous += [i for i in l.DERIVED_ENT.items() if len(i[1]) > 1]
+
+    '''
+    Download WikiPedia pages of ambiguous units.
+    '''
+
+    ambiguous = [i for i in list(l.UNITS.items()) if len(i[1]) > 1]
+    ambiguous += [i for i in list(l.DERIVED_ENT.items()) if len(i[1]) > 1]
     pages = set([(j.name, j.uri) for i in ambiguous for j in i[1]])
 
     print()
@@ -52,32 +58,38 @@ def download_wiki():
     print('\n---> All done.\n')
 
 
-###############################################################################
+################################################################################
 def clean_text(text):
-    """Clean text for TFIDF."""
-    new_text = re.sub(r'\p{P}+', ' ', text)
+    '''
+    Clean text for TFIDF
+    '''
+    my_regex = re.compile('[%s]' % re.escape(string.punctuation))
+    new_text = my_regex.sub(' ', text)
 
-    new_text = [
-        stem(i) for i in new_text.lower().split()
-        if not re.findall(r'[0-9]', i)
-    ]
+    new_text = [stem(i) for i in new_text.lower().split() if not \
+                re.findall(r'[0-9]', i)]
 
     new_text = ' '.join(new_text)
 
     return new_text
 
 
-###############################################################################
+################################################################################
 def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
-    """Train the intent classifier."""
+
+    '''
+    Train the intent classifier
+    '''
+
     if download:
         download_wiki()
-
     path = os.path.join(l.TOPDIR, 'train.json')
-    training_set = json.load(open(path))
+    string_json = ''.join(open(path,encoding='utf-8').readlines())
+    training_set = json.loads(string_json)
     path = os.path.join(l.TOPDIR, 'wiki.json')
-    wiki_set = json.load(open(path))
-
+    string_json = ''.join(open(path,encoding='utf-8').readlines())
+    wiki_set = json.loads(string_json)
+    
     target_names = list(set([i['unit'] for i in training_set + wiki_set]))
     train_data, train_target = [], []
     for example in training_set + wiki_set:
@@ -105,14 +117,19 @@ def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
         'target_names': target_names
     }
     path = os.path.join(l.TOPDIR, 'clf.pickle')
-    pickle.dump(obj, open(path, 'w'))
+    pickle.dump(obj, open(path, 'wb'))
 
 
-###############################################################################
+################################################################################
 def load_classifier():
-    """Train the intent classifier."""
+
+    '''
+    Train the intent classifier
+    '''
+
     path = os.path.join(l.TOPDIR, 'clf.pickle')
-    obj = pickle.load(open(path, 'r'))
+    file = open(path, 'rb')
+    obj = pickle.load(file, encoding='latin1')
 
     return obj['tfidf_model'], obj['clf'], obj['target_names']
 
@@ -122,10 +139,13 @@ if USE_CLF:
 else:
     TFIDF_MODEL, CLF, TARGET_NAMES = None, None, None
 
-
-###############################################################################
+################################################################################
 def disambiguate_entity(key, text):
-    """Resolve ambiguity between entities with same dimensionality."""
+
+    '''
+    Resolve ambiguity between entities with same dimensionality.
+    '''
+
     new_ent = l.DERIVED_ENT[key][0]
 
     if len(l.DERIVED_ENT[key]) > 1:
@@ -142,13 +162,13 @@ def disambiguate_entity(key, text):
     return new_ent
 
 
-###############################################################################
+################################################################################
 def disambiguate_unit(unit, text):
-    """
-    Resolve ambiguity.
 
-    Distinguish between units that have same names, symbols or abbreviations.
-    """
+    '''
+    Resolve ambiguity between units with same names, symbols or abbreviations.
+    '''
+
     new_unit = l.UNITS[unit]
     if not new_unit:
         new_unit = l.LOWER_UNITS[unit.lower()]
@@ -172,3 +192,4 @@ def disambiguate_unit(unit, text):
         final = new_unit[0]
 
     return final
+

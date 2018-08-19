@@ -21,6 +21,7 @@ Then,
 
 .. code:: bash
 
+   $ git config --global core.autocrlf input
    $ pip install quantulum3
 
 Contributing
