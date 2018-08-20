@@ -326,8 +326,8 @@ def get_unit(item, text):
     Extract unit from regex hit.
     '''
 
-    group_units = [1, 4, 6, 8, 10]
-    group_operators = [3, 5, 7, 9]
+    group_units = ['prefix', 'unit1', 'unit2', 'unit3', 'unit4']
+    group_operators = ['operator1', 'operator2', 'operator3', 'operator4']
 
     item_units = [item.group(i) for i in group_units if item.group(i)]
 

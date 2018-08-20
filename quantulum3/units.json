@@ -2159,7 +2159,7 @@
       "megawatt"
     ],
     "entity": "power",
-    "URI": "https://en.wikipedia.org/wiki/Watt",
+    "URI": "https://en.wikipedia.org/wiki/Megawatt",
     "dimensions": [],
     "symbols": [
       "MW"
@@ -2171,10 +2171,34 @@
       "gigawatt"
     ],
     "entity": "power",
-    "URI": "https://en.wikipedia.org/wiki/Watt",
+    "URI": "https://en.wikipedia.org/wiki/Gigawatt",
     "dimensions": [],
     "symbols": [
       "GW"
+    ]
+  },
+  {
+    "name": "terawatt",
+    "surfaces": [
+      "terawatt"
+    ],
+    "entity": "power",
+    "URI": "https://en.wikipedia.org/wiki/Terawatt",
+    "dimensions": [],
+    "symbols": [
+      "TW"
+    ]
+  },
+  {
+    "name": "Petawatt",
+    "surfaces": [
+      "Petawatt"
+    ],
+    "entity": "power",
+    "URI": "https://en.wikipedia.org/wiki/Petawatt",
+    "dimensions": [],
+    "symbols": [
+      "PW"
     ]
   },
   {
