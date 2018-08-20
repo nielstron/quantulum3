@@ -205,16 +205,16 @@ def get_units_regex():
     all_units = '|'.join([r'%s' % re.escape(i) for i in unit_keys])
     all_symbols = '|'.join([r'%s' % re.escape(i) for i in symbol_keys])
 
-    # TODO do not allow spaces in between unit symbols
+    # TODO do not allow spaces in between unit symbols => currently handled inside parser.py
     pattern = r'''
-
+        (?<!\w)                                     # "begin" of word
         (?P<prefix>(?:%s)(?![a-zA-Z]))?         # Currencies, mainly
         (?P<value>%s)-?                           # Number
         (?:(?P<operator1>%s)?(?P<unit1>(?:%s)%s)?)    # Operator + Unit (1)
         (?:(?P<operator2>%s)?(?P<unit2>(?:%s)%s)?)    # Operator + Unit (2)
         (?:(?P<operator3>%s)?(?P<unit3>(?:%s)%s)?)    # Operator + Unit (3)
         (?:(?P<operator4>%s)?(?P<unit4>(?:%s)%s)?)    # Operator + Unit (4)
-
+        (?!\w)                                      # "end" of word
     ''' % tuple([all_symbols, RAN_PATTERN] +
                 4 * [all_ops, all_units, exponent])
     regex = re.compile(pattern, re.VERBOSE | re.IGNORECASE)

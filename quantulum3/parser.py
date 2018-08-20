@@ -339,13 +339,15 @@ def get_unit(item, text):
         derived, slash = [], False
         for index in range(0, 5):
             unit = item.group(group_units[index])
-            operator = None if index < 1 else item.group(group_operators[index-1])
+            operator_index = group_operators[index-1]
+            operator = None if index < 1 else item.group(operator_index)
 
             # disallow spaces as operators in units expressed in their symbols
             symbol_unit = unit in l.UNIT_SYMBOLS
             if symbol_unit and index > 1 and isinstance(operator, str) and operator.isspace():
-                unit_shortening = len(text) - item.start(group_operators[index-1])
-                logging.debug("Because a symbol unit, cut from operator: '{}', new surface: {}".format(operator, text[:-unit_shortening]))
+                # Remove (original length - new end) characters
+                unit_shortening = item.end() - item.start(operator_index)
+                logging.debug("Because a symbol unit, cut from operator: '{}', new surface: {}".format(operator, text[item.start():item.end() - unit_shortening]))
                 break
 
             if operator and not slash:
@@ -378,9 +380,8 @@ def get_surface(shifts, orig_text, item, text, unit_shortening=0):
     Extract surface from regex hit.
     '''
 
-    span = item.span()
     # handle cut end
-    span = (span[0], span[1] - unit_shortening)
+    span = (item.start(), item.end() - unit_shortening)
 
     logging.debug('\tInitial span: %s ("%s")', span, text[span[0]:span[1]])
 

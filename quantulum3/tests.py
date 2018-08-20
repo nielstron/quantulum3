@@ -139,7 +139,7 @@ class EndToEndTests(unittest.TestCase):
             quants = p.parse(test['req'])
             self.assertEqual(
                 quants, test['res'],
-                "{} \n {}".format([quant.__dict__ for quant in quants],
+                "\nExcpected: {1} \nGot: {0}".format([quant.__dict__ for quant in quants],
                                   [quant.__dict__ for quant in test['res']]))
 
 
