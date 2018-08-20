@@ -292,12 +292,12 @@ def get_entity_from_dimensions(dimensions, text):
 
 
 ################################################################################
-def parse_unit(item, group, slash):
+def parse_unit(item, unit, slash):
     '''
     Parse surface and power from unit text.
     '''
 
-    surface = item.group(group).replace('.', '')
+    surface = unit.replace('.', '')
     power = re.findall(r'\-?[0-9%s]+' % r.SUPERSCRIPTS, surface)
 
     if power:
@@ -328,6 +328,8 @@ def get_unit(item, text):
 
     group_units = ['prefix', 'unit1', 'unit2', 'unit3', 'unit4']
     group_operators = ['operator1', 'operator2', 'operator3', 'operator4']
+    # How much of the end is removed because of an "incorrect" regex match
+    unit_shortening = 0
 
     item_units = [item.group(i) for i in group_units if item.group(i)]
 
@@ -335,39 +337,51 @@ def get_unit(item, text):
         unit = l.NAMES['dimensionless']
     else:
         derived, slash = [], False
-        for group in sorted(group_units + group_operators):
-            if not item.group(group):
-                continue
-            if group in group_units:
-                surface, power = parse_unit(item, group, slash)
+        for index in range(0, 5):
+            unit = item.group(group_units[index])
+            operator = None if index < 1 else item.group(group_operators[index-1])
+
+            # disallow spaces as operators in units expressed in their symbols
+            symbol_unit = unit in l.UNIT_SYMBOLS
+            if symbol_unit and index > 1 and isinstance(operator, str) and operator.isspace():
+                unit_shortening = len(text) - item.start(group_operators[index-1])
+                logging.debug("Because a symbol unit, cut from operator: '{}', new surface: {}".format(operator, text[:-unit_shortening]))
+                break
+
+            if operator and not slash:
+                slash = any(i in operator for i in ['/', ' per '])
+            if unit:
+                unit_surface, power = parse_unit(item, unit, slash)
                 if clf.USE_CLF:
-                    base = clf.disambiguate_unit(surface, text).name
+                    base = clf.disambiguate_unit(unit_surface, text).name
                 else:
-                    if surface in l.UNITS:
-                        base = l.UNITS[surface][0].name
-                    elif surface.lower() in l.UNITS:
-                        base = l.UNITS[surface.lower()][0].name
+                    # TODO make sure that this is tested at some point
+                    if unit_surface in l.UNITS or unit_surface in l.UNIT_SYMBOLS:
+                        base = l.UNITS[unit_surface][0].name
+                    elif unit_surface.lower() in l.UNITS or unit_surface.lower() in l.UNIT_SYMBOLS:
+                        base = l.UNITS[unit_surface.lower()][0].name
                     else:
                         base = 'unk'
                 derived += [{'base': base, 'power': power}]
-            elif not slash:
-                slash = any(i in item.group(group) for i in ['/', ' per '])
 
         unit = get_unit_from_dimensions(derived, text)
 
     logging.debug('\tUnit: %s', unit)
     logging.debug('\tEntity: %s', unit.entity)
 
-    return unit
+    return unit, unit_shortening
 
 
 ################################################################################
-def get_surface(shifts, orig_text, item, text):
+def get_surface(shifts, orig_text, item, text, unit_shortening=0):
     '''
     Extract surface from regex hit.
     '''
 
     span = item.span()
+    # handle cut end
+    span = (span[0], span[1] - unit_shortening)
+
     logging.debug('\tInitial span: %s ("%s")', span, text[span[0]:span[1]])
 
     real_span = (span[0] - shifts[span[0]], span[1] - shifts[span[1] - 1])
@@ -542,8 +556,8 @@ def parse(text, verbose=False):
         try:
             uncert, values = get_values(item)
 
-            unit = get_unit(item, text)
-            surface, span = get_surface(shifts, orig_text, item, text)
+            unit, unit_shortening = get_unit(item, text)
+            surface, span = get_surface(shifts, orig_text, item, text, unit_shortening)
             objs = build_quantity(orig_text, text, item, values, unit, surface,
                                   span, uncert)
             if objs is not None:

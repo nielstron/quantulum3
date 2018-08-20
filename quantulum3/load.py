@@ -138,8 +138,8 @@ def load_units():
     '''
 
     names = {}
-    surfaces, lowers, symbols = defaultdict(list), defaultdict(list), \
-                                defaultdict(list)
+    unit_symbols, surfaces, lowers, symbols = defaultdict(list), defaultdict(list), \
+                                defaultdict(list), defaultdict(list)
 
     path = os.path.join(TOPDIR, 'units.json')
     string_json = ''.join(open(path, encoding='utf-8').readlines())
@@ -162,8 +162,7 @@ def load_units():
         names[unit['name']] = obj
 
         for symbol in unit['symbols']:
-            surfaces[symbol].append(obj)
-            lowers[symbol.lower()].append(obj)
+            unit_symbols[symbol].append(obj)
             if unit['entity'] == 'currency':
                 symbols[symbol].append(obj)
 
@@ -188,7 +187,7 @@ def load_units():
 
     derived_uni = get_derived_units(names)
 
-    return names, surfaces, lowers, symbols, derived_uni
+    return names, unit_symbols, surfaces, lowers, symbols, derived_uni
 
 
-NAMES, UNITS, LOWER_UNITS, SYMBOLS, DERIVED_UNI = load_units()
+NAMES, UNIT_SYMBOLS, UNITS, LOWER_UNITS, PREFIX_SYMBOLS, DERIVED_UNI = load_units()

@@ -168,7 +168,7 @@ def disambiguate_unit(unit, text):
     Resolve ambiguity between units with same names, symbols or abbreviations.
     '''
 
-    new_unit = l.UNITS[unit]
+    new_unit = l.UNIT_SYMBOLS[unit] or l.UNITS[unit]
     if not new_unit:
         new_unit = l.LOWER_UNITS[unit.lower()]
         if not new_unit:

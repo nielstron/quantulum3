@@ -195,8 +195,8 @@ def get_units_regex():
     '''
 
     op_keys = sorted(list(OPERATORS.keys()), key=len, reverse=True)
-    unit_keys = sorted(list(l.UNITS.keys()), key=len, reverse=True)
-    symbol_keys = sorted(list(l.SYMBOLS.keys()), key=len, reverse=True)
+    unit_keys = sorted(list(l.UNITS.keys()) + list(l.UNIT_SYMBOLS.keys()), key=len, reverse=True)
+    symbol_keys = sorted(list(l.PREFIX_SYMBOLS.keys()), key=len, reverse=True)
 
     exponent = r'(?:(?:\^?\-?[0-9%s]*)(?:\ cubed|\ squared)?)' % \
                SUPERSCRIPTS
@@ -205,6 +205,7 @@ def get_units_regex():
     all_units = '|'.join([r'%s' % re.escape(i) for i in unit_keys])
     all_symbols = '|'.join([r'%s' % re.escape(i) for i in symbol_keys])
 
+    # TODO do not allow spaces in between unit symbols
     pattern = r'''
 
         (?P<prefix>(?:%s)(?![a-zA-Z]))?         # Currencies, mainly
