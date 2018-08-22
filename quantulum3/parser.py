@@ -281,12 +281,12 @@ def get_entity_from_dimensions(dimensions, text):
 
 
 ################################################################################
-def parse_unit(item, group, slash):
+def parse_unit(item, unit, slash):
     '''
     Parse surface and power from unit text.
     '''
 
-    surface = item.group(group).replace('.', '')
+    surface = unit.replace('.', '')
     power = re.findall(r'\-?[0-9%s]+' % r.SUPERSCRIPTS, surface)
 
     if power:
@@ -315,8 +315,10 @@ def get_unit(item, text):
     Extract unit from regex hit.
     '''
 
-    group_units = [1, 4, 6, 8, 10]
-    group_operators = [3, 5, 7, 9]
+    group_units = ['prefix', 'unit1', 'unit2', 'unit3', 'unit4']
+    group_operators = ['operator1', 'operator2', 'operator3', 'operator4']
+    # How much of the end is removed because of an "incorrect" regex match
+    unit_shortening = 0
 
     item_units = [item.group(i) for i in group_units if item.group(i)]
 
@@ -324,39 +326,89 @@ def get_unit(item, text):
         unit = l.NAMES['dimensionless']
     else:
         derived, slash = [], False
-        for group in sorted(group_units + group_operators):
-            if not item.group(group):
-                continue
-            if group in group_units:
-                surface, power = parse_unit(item, group, slash)
-                if clf.USE_CLF:
-                    base = clf.disambiguate_unit(surface, text).name
+        multiplication_operator, division_operator = False, False
+        for index in range(0, 5):
+            unit = item.group(group_units[index])
+            operator_index = None if index < 1 else group_operators[index - 1]
+            operator = None if index < 1 else item.group(operator_index)
+
+            # disallow spaces as operators in units expressed in their symbols
+            # Enforce consistency among multiplication and division operators
+            # Single exceptions are colloquial number abbreviations (5k miles)
+            _cut_inconsistent_operator = False
+            if operator in r.MULTIPLICATION_OPERATORS or (
+                    operator is None and unit
+                    and not (index == 1 and unit in r.SUFFIXES)):
+                if multiplication_operator != operator and not (
+                        index == 1 and str(operator).isspace()):
+                    if multiplication_operator is False:
+                        multiplication_operator = operator
+                    else:
+                        _cut_inconsistent_operator = True
+            elif operator in r.DIVISION_OPERATORS:
+                if division_operator != operator and division_operator is not False:
+                    _cut_inconsistent_operator = True
                 else:
-                    if len(l.UNITS.get(surface)) > 0:
-                        base = l.UNITS[surface][0].name
-                    elif len(l.LOWER_UNITS.get(surface.lower())) > 0:
-                        base = l.LOWER_UNITS[surface.lower()][0].name
+                    division_operator = operator
+            if _cut_inconsistent_operator:
+                # Cut if inconsistent multiplication operator
+                # treat the None operator differently - remove the whole word of it
+                if operator is None:
+                    # For this, use the last consistent operator (before the current) with a space
+                    # which should always be the preceding operator
+                    derived.pop()
+                    operator_index = group_operators[index - 2]
+                # Remove (original length - new end) characters
+                unit_shortening = item.end() - item.start(operator_index)
+                logging.debug(
+                    "Because operator inconsistency, cut from operator: '{}', new surface: {}".
+                    format(operator,
+                           text[item.start():item.end() - unit_shortening]))
+                break
+
+            # Determine whether a negative power has to be applied to following units
+            if operator and not slash:
+                slash = any(i in operator for i in ['/', ' per '])
+            # Determine which unit follows
+            if unit:
+                unit_surface, power = parse_unit(item, unit, slash)
+                if clf.USE_CLF:
+                    base = clf.disambiguate_unit(unit_surface, text).name
+                else:
+                    if len(l.UNIT_SYMBOLS[unit_surface]) > 0:
+                        base = l.UNIT_SYMBOLS[unit_surface][0].name
+                    elif len(l.UNITS[unit_surface]) > 0:
+                        base = l.UNITS[unit_surface][0].name
+                    elif len(l.UNIT_SYMBOLS_LOWER[unit_surface.lower()]) > 0:
+                        base = l.UNIT_SYMBOLS_LOWER[unit_surface.lower()][
+                            0].name
+                    elif len(l.LOWER_UNITS[unit_surface.lower()]) > 0:
+                        base = l.LOWER_UNITS[unit_surface.lower()][0].name
                     else:
                         base = 'unk'
-                derived += [{'base': base, 'power': power, 'surface': surface}]
-            elif not slash:
-                slash = any(i in item.group(group) for i in ['/', ' per '])
+                derived += [{
+                    'base': base,
+                    'power': power,
+                    'surface': unit_surface
+                }]
 
         unit = get_unit_from_dimensions(derived, text)
 
     logging.debug('\tUnit: %s', unit)
     logging.debug('\tEntity: %s', unit.entity)
 
-    return unit
+    return unit, unit_shortening
 
 
 ################################################################################
-def get_surface(shifts, orig_text, item, text):
+def get_surface(shifts, orig_text, item, text, unit_shortening=0):
     '''
     Extract surface from regex hit.
     '''
 
-    span = item.span()
+    # handle cut end
+    span = (item.start(), item.end() - unit_shortening)
+
     logging.debug('\tInitial span: %s ("%s")', span, text[span[0]:span[1]])
 
     real_span = (span[0] - shifts[span[0]], span[1] - shifts[span[1] - 1])
@@ -385,8 +437,9 @@ def is_quote_artifact(orig_text, span):
     cursor = re.finditer(r'("|\')[^ .,:;?!()*+-].*?("|\')', orig_text)
 
     for item in cursor:
-        if item.span()[1] == span[1]:
-            res = True
+        if item.span()[1] <= span[1] and item.span()[1] >= span[0]:
+            res = item
+            break
 
     return res
 
@@ -396,6 +449,8 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     '''
     Build a Quantity object out of extracted information.
     '''
+    # Re parse unit if a change occurred
+    dimension_change = False
 
     # Discard irrelevant txt2float extractions, cardinal numbers, codes etc.
     if surface.lower() in ['a', 'an', 'one'] or \
@@ -405,40 +460,13 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         logging.debug('\tMeaningless quantity ("%s"), discard', surface)
         return
 
-    # # Usually "$3T" does not stand for "dollar tesla"
-    # elif unit.entity.dimensions and unit.entity.dimensions[0]['base'] == 'currency':
-    #     suffix_group = r'({})'.format(r'|'.join(r.SUFFIXES.keys()))
-    #     if len(unit.dimensions) > 1:
-    #         try:
-    #             suffix = re.findall(r'\d%s\b(.*?)$' % suffix_group, surface)[0]
-    #             values = [i * r.SUFFIXES[suffix[0]] for i in values]
-    #             unit = l.UNITS[unit.dimensions[0]['base']][0]
-    #             if suffix[1]:
-    #                 surface = surface[:surface.find(suffix[1])]
-    #                 span = (span[0], span[1] - len(suffix[1]))
-    #             logging.debug('\tCorrect for "$3T" pattern')
-    #         except IndexError:
-    #             pass
-    #     else:
-    #         try:
-    #             suffix = re.findall(r'%s%s\b' % (re.escape(surface), suffix_group),
-    #                                 orig_text)[0]
-    #             surface += suffix
-    #             span = (span[0], span[1] + 1)
-    #             values = [i * r.SUFFIXES[suffix] for i in values]
-    #             logging.debug('\tCorrect for "$3T" pattern')
-    #         except IndexError:
-    #             pass
-
     # Usually "$3T" does not stand for "dollar tesla"
     # this holds as well for "3k miles"
     # TODO use classifier to decide if 3K is 3 thousand or 3 Kelvin
     if unit.entity.dimensions:
-        dimension_change = False
-        if len(
-                unit.entity.dimensions
-        ) > 1 and unit.entity.dimensions[0]['base'] == 'currency' and unit.dimensions[1]['surface'] in r.SUFFIXES.keys(
-        ):
+        if (len(unit.entity.dimensions) > 1
+                and unit.entity.dimensions[0]['base'] == 'currency'
+                and unit.dimensions[1]['surface'] in r.SUFFIXES.keys()):
             suffix = unit.dimensions[1]['surface']
             # Only apply if at least last value is suffixed by k, M, etc
             if re.search(r'\d{}\b'.format(suffix), text):
@@ -459,46 +487,74 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
                 unit.dimensions = unit.dimensions[1:]
                 dimension_change = True
 
-        if dimension_change:
-            if len(unit.dimensions) > 1:
-                unit.infer_name()
-            else:
-                assert (len(l.UNITS[unit.dimensions[0]['base']]) == 1)
-                unit = l.UNITS[unit.dimensions[0]['base']][0]
-
     # Usually "1990s" stands for the decade, not the amount of seconds
     elif re.match(r'[1-2]\d\d0s', surface):
-        unit = l.NAMES['dimensionless']
+        unit.dimensions = []
+        dimension_change = True
         surface = surface[:-1]
         span = (span[0], span[1] - 1)
         logging.debug('\tCorrect for "1990s" pattern')
 
+    # check if a unit, combined only from symbols
+    # and without operators, actually is a common 4-letter-word
+    if unit.dimensions:
+        candidates = [(u.get('surface') in l.ALL_UNIT_SYMBOLS
+                       and u['power'] == 1) for u in unit.dimensions]
+        for start in range(0, len(unit.dimensions)):
+            for end in reversed(range(start + 1, len(unit.dimensions) + 1)):
+                # Try to match a combination of consecutive surfaces with a common 4 letter word
+                if not all(candidates[start:end]):
+                    continue
+                combination = ''.join(
+                    u['surface'] for u in unit.dimensions[start:end])
+                # Combination has to be inside the surface
+                if combination not in surface:
+                    continue
+                # Combination has to be a common word of at least two letters
+                if len(combination
+                       ) <= 1 or combination not in l.FOUR_LETTER_WORDS[len(
+                           combination)]:
+                    continue
+                # Cut the combination from the surface and everything that follows
+                # as it is a word, it will be preceded by a space
+                match = re.search(r'\s%s\b' % combination, surface)
+                span = (span[0], span[0] + match.start())
+                surface = surface[:match.start()]
+                unit.dimensions = unit.dimensions[:start]
+                dimension_change = True
+
     # Usually "in" stands for the preposition, not inches
-    if (unit.dimensions[-1]['base'] == 'inch' and re.search(r' in$', surface)
-            and '/' not in surface):
-        if len(unit.dimensions) > 1:
-            unit = get_unit_from_dimensions(unit.dimensions[:-1], orig_text)
-        else:
-            unit = l.NAMES['dimensionless']
+    if unit.dimensions and (unit.dimensions[-1]['base'] == 'inch'
+                            and re.search(r' in$', surface)
+                            and '/' not in surface):
+        unit.dimensions = unit.dimensions[:-1]
+        dimension_change = True
         surface = surface[:-3]
         span = (span[0], span[1] - 3)
         logging.debug('\tCorrect for "in" pattern')
 
-    if is_quote_artifact(text, item.span()):
-        if len(unit.dimensions) > 1:
-            unit = get_unit_from_dimensions(unit.dimensions[:-1], orig_text)
-        else:
-            unit = l.NAMES['dimensionless']
+    match = is_quote_artifact(text, item.span())
+    if match:
         surface = surface[:-1]
         span = (span[0], span[1] - 1)
+        if unit.dimensions and (unit.dimensions[-1]['base'] == 'inch'):
+            unit.dimensions = unit.dimensions[:-1]
+            dimension_change = True
         logging.debug('\tCorrect for quotes')
 
-    elif re.search(r' time$', surface) and len(unit.dimensions) > 1 and \
+    if re.search(r' time$', surface) and len(unit.dimensions) > 1 and \
             unit.dimensions[-1]['base'] == 'count':
-        unit = get_unit_from_dimensions(unit.dimensions[:-1], orig_text)
+        unit.dimensions = unit.dimensions[:-1]
+        dimension_change = True
         surface = surface[:-5]
         span = (span[0], span[1] - 5)
         logging.debug('\tCorrect for "time"')
+
+    if dimension_change:
+        if len(unit.dimensions) >= 1:
+            unit = get_unit_from_dimensions(unit.dimensions, orig_text)
+        else:
+            unit = l.NAMES['dimensionless']
 
     objs = []
     for value in values:
@@ -568,8 +624,9 @@ def parse(text, verbose=False):
         try:
             uncert, values = get_values(item)
 
-            unit = get_unit(item, text)
-            surface, span = get_surface(shifts, orig_text, item, text)
+            unit, unit_shortening = get_unit(item, text)
+            surface, span = get_surface(shifts, orig_text, item, text,
+                                        unit_shortening)
             objs = build_quantity(orig_text, text, item, values, unit, surface,
                                   span, uncert)
             if objs is not None:
