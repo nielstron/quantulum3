@@ -18,6 +18,7 @@ import wikipedia
 from . import load as l
 from . import parser as p
 from . import classes as c
+from . import classifier as clf
 
 COLOR1 = '\033[94m%s\033[0m'
 COLOR2 = '\033[91m%s\033[0m'
@@ -67,12 +68,12 @@ def wiki_test(page='CERN'):
 
 
 ################################################################################
-def load_tests():
+def load_tests(ambiguity = True):
     '''
     Load all tests from tests.json.
     '''
 
-    path = os.path.join(TOPDIR, 'tests.json')
+    path = os.path.join(TOPDIR, 'tests.ambiguity.json' if ambiguity else 'tests.json')
     with open(path, 'r') as test_file:
         tests = json.load(test_file)
 
@@ -133,8 +134,21 @@ class EndToEndTests(unittest.TestCase):
     def test_load_tests(self):
         self.assertFalse(load_tests() == None)
 
-    def test_parse(self):
-        all_tests = load_tests()
+    def test_parse_classifier(self):
+        all_tests = load_tests(False) + load_tests(True)
+        # forcedly activate classifier
+        clf.USE_CLF = True
+        for test in sorted(all_tests, key=lambda x: len(x['req'])):
+            quants = p.parse(test['req'])
+            self.assertEqual(
+                quants, test['res'],
+                "{} \n {}".format([quant.__dict__ for quant in quants],
+                                  [quant.__dict__ for quant in test['res']]))
+
+    def test_parse_no_classifier(self):
+        all_tests = load_tests(False)
+        # forcedly deactivate classifier
+        clf.USE_CLF = False
         for test in sorted(all_tests, key=lambda x: len(x['req'])):
             quants = p.parse(test['req'])
             self.assertEqual(
