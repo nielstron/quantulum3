@@ -170,11 +170,12 @@ def disambiguate_unit(unit, text):
     Resolve ambiguity between units with same names, symbols or abbreviations.
     '''
 
-    new_unit = l.UNITS[unit]
+    new_unit = l.UNIT_SYMBOLS.get(unit) or l.UNITS.get(unit)
     if not new_unit:
-        new_unit = l.LOWER_UNITS[unit.lower()]
+        new_unit = l.LOWER_UNITS.get(unit.lower()) or l.UNIT_SYMBOLS_LOWER.get(
+            unit.lower())
         if not new_unit:
-            raise KeyError('Could not find unit "%s"' % unit)
+            raise KeyError('Could not find unit "%s" from "%s"' % (unit, text))
 
     if len(new_unit) > 1:
         transformed = TFIDF_MODEL.transform([clean_text(text)])

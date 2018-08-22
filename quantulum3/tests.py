@@ -153,9 +153,13 @@ class EndToEndTests(unittest.TestCase):
         for test in sorted(all_tests, key=lambda x: len(x['req'])):
             quants = p.parse(test['req'])
             self.assertEqual(
-                quants, test['res'],
-                "{} \n {}".format([quant.__dict__ for quant in quants],
-                                  [quant.__dict__ for quant in test['res']]))
+                quants, test['res'], "\nExcpected: {1} \nGot: {0}".format(
+                    [quant.__dict__ for quant in quants],
+                    [quant.__dict__ for quant in test['res']]))
+
+    def test_training(self):
+        clf.train_classifier(False)
+        clf.train_classifier(True)
 
 
 ################################################################################
