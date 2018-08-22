@@ -329,15 +329,18 @@ def get_unit(item, text):
         multiplication_operator, division_operator = False, False
         for index in range(0, 5):
             unit = item.group(group_units[index])
-            operator_index = None if index < 1 else group_operators[index-1]
+            operator_index = None if index < 1 else group_operators[index - 1]
             operator = None if index < 1 else item.group(operator_index)
 
             # disallow spaces as operators in units expressed in their symbols
             # Enforce consistency among multiplication and division operators
             # Single exceptions are colloquial number abbreviations (5k miles)
             _cut_inconsistent_operator = False
-            if operator in r.MULTIPLICATION_OPERATORS or (operator is None and unit and not (index == 1 and unit in r.SUFFIXES)):
-                if multiplication_operator != operator and not (index == 1 and str(operator).isspace()):
+            if operator in r.MULTIPLICATION_OPERATORS or (
+                    operator is None and unit
+                    and not (index == 1 and unit in r.SUFFIXES)):
+                if multiplication_operator != operator and not (
+                        index == 1 and str(operator).isspace()):
                     if multiplication_operator is False:
                         multiplication_operator = operator
                     else:
@@ -354,10 +357,13 @@ def get_unit(item, text):
                     # For this, use the last consistent operator (before the current) with a space
                     # which should always be the preceding operator
                     derived.pop()
-                    operator_index = group_operators[index-2]
+                    operator_index = group_operators[index - 2]
                 # Remove (original length - new end) characters
                 unit_shortening = item.end() - item.start(operator_index)
-                logging.debug("Because operator inconsistency, cut from operator: '{}', new surface: {}".format(operator, text[item.start():item.end() - unit_shortening]))
+                logging.debug(
+                    "Because operator inconsistency, cut from operator: '{}', new surface: {}".
+                    format(operator,
+                           text[item.start():item.end() - unit_shortening]))
                 break
 
             # Determine whether a negative power has to be applied to following units
@@ -374,12 +380,17 @@ def get_unit(item, text):
                     elif len(l.UNITS[unit_surface]) > 0:
                         base = l.UNITS[unit_surface][0].name
                     elif len(l.UNIT_SYMBOLS_LOWER[unit_surface.lower()]) > 0:
-                        base = l.UNIT_SYMBOLS_LOWER[unit_surface.lower()][0].name
+                        base = l.UNIT_SYMBOLS_LOWER[unit_surface.lower()][
+                            0].name
                     elif len(l.LOWER_UNITS[unit_surface.lower()]) > 0:
                         base = l.LOWER_UNITS[unit_surface.lower()][0].name
                     else:
                         base = 'unk'
-                derived += [{'base': base, 'power': power, 'surface': unit_surface}]
+                derived += [{
+                    'base': base,
+                    'power': power,
+                    'surface': unit_surface
+                }]
 
         unit = get_unit_from_dimensions(derived, text)
 
@@ -453,11 +464,9 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     # this holds as well for "3k miles"
     # TODO use classifier to decide if 3K is 3 thousand or 3 Kelvin
     if unit.entity.dimensions:
-        if (
-                len(unit.entity.dimensions) > 1 and
-                unit.entity.dimensions[0]['base'] == 'currency' and
-                unit.dimensions[1]['surface'] in r.SUFFIXES.keys()
-        ):
+        if (len(unit.entity.dimensions) > 1
+                and unit.entity.dimensions[0]['base'] == 'currency'
+                and unit.dimensions[1]['surface'] in r.SUFFIXES.keys()):
             suffix = unit.dimensions[1]['surface']
             # Only apply if at least last value is suffixed by k, M, etc
             if re.search(r'\d{}\b'.format(suffix), text):
@@ -489,18 +498,22 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     # check if a unit, combined only from symbols
     # and without operators, actually is a common 4-letter-word
     if unit.dimensions:
-        candidates = [(u.get('surface') in l.ALL_UNIT_SYMBOLS and u['power'] == 1) for u in unit.dimensions]
+        candidates = [(u.get('surface') in l.ALL_UNIT_SYMBOLS
+                       and u['power'] == 1) for u in unit.dimensions]
         for start in range(0, len(unit.dimensions)):
-            for end in reversed(range(start+1, len(unit.dimensions)+1)):
+            for end in reversed(range(start + 1, len(unit.dimensions) + 1)):
                 # Try to match a combination of consecutive surfaces with a common 4 letter word
                 if not all(candidates[start:end]):
                     continue
-                combination = ''.join(u['surface'] for u in unit.dimensions[start:end])
+                combination = ''.join(
+                    u['surface'] for u in unit.dimensions[start:end])
                 # Combination has to be inside the surface
                 if not combination in surface:
                     continue
                 # Combination has to be a common word of at least two letters
-                if len(combination) <= 1 or not combination in l.FOUR_LETTER_WORDS[len(combination)]:
+                if len(combination
+                       ) <= 1 or not combination in l.FOUR_LETTER_WORDS[len(
+                           combination)]:
                     continue
                 # Cut the combination from the surface and everything that follows
                 # as it is a word, it will be preceded by a space
@@ -510,10 +523,10 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
                 unit.dimensions = unit.dimensions[:start]
                 dimension_change = True
 
-
     # Usually "in" stands for the preposition, not inches
-    if unit.dimensions and (unit.dimensions[-1]['base'] == 'inch' and re.search(r' in$', surface)
-            and '/' not in surface):
+    if unit.dimensions and (unit.dimensions[-1]['base'] == 'inch'
+                            and re.search(r' in$', surface)
+                            and '/' not in surface):
         unit.dimensions = unit.dimensions[:-1]
         dimension_change = True
         surface = surface[:-3]
@@ -612,7 +625,8 @@ def parse(text, verbose=False):
             uncert, values = get_values(item)
 
             unit, unit_shortening = get_unit(item, text)
-            surface, span = get_surface(shifts, orig_text, item, text, unit_shortening)
+            surface, span = get_surface(shifts, orig_text, item, text,
+                                        unit_shortening)
             objs = build_quantity(orig_text, text, item, values, unit, surface,
                                   span, uncert)
             if objs is not None:

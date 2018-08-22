@@ -82,12 +82,7 @@ UNI_FRAC = {
     u'⅞': '7/8'
 }
 
-MULTIPLICATION_OPERATORS = {
-    u'*': u' ',
-    u' ': u' ',
-    u'·': u' ',
-    u'x': u' '
-}
+MULTIPLICATION_OPERATORS = {u'*': u' ', u' ': u' ', u'·': u' ', u'x': u' '}
 
 DIVISION_OPERATORS = {
     u'/': u' per ',
@@ -101,8 +96,7 @@ ALL_NUM, NUMWORDS = get_numwords()
 FRACTIONS = re.escape(''.join(list(UNI_FRAC.keys())))
 SUPERSCRIPTS = re.escape(''.join(list(UNI_SUPER.keys())))
 
-MULTIPLIERS = r'|'.join(
-    r'%s' % re.escape(i) for i in MULTIPLICATION_OPERATORS)
+MULTIPLIERS = r'|'.join(r'%s' % re.escape(i) for i in MULTIPLICATION_OPERATORS)
 
 NUM_PATTERN = r'''            # Pattern for extracting a digit-based number
 
@@ -200,7 +194,10 @@ def get_units_regex():
     '''
 
     op_keys = sorted(list(OPERATORS.keys()), key=len, reverse=True)
-    unit_keys = sorted(list(l.UNITS.keys()) + list(l.UNIT_SYMBOLS.keys()), key=len, reverse=True)
+    unit_keys = sorted(
+        list(l.UNITS.keys()) + list(l.UNIT_SYMBOLS.keys()),
+        key=len,
+        reverse=True)
     symbol_keys = sorted(list(l.PREFIX_SYMBOLS.keys()), key=len, reverse=True)
 
     exponent = r'(?:(?:\^?\-?[0-9%s]+)?(?:\ cubed|\ squared)?)' % \

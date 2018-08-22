@@ -140,7 +140,7 @@ def load_units():
 
     names = {}
     unit_symbols, unit_symbols_lower, surfaces, lowers, symbols = defaultdict(list), defaultdict(list), \
-                                defaultdict(list), defaultdict(list), defaultdict(list)
+        defaultdict(list), defaultdict(list), defaultdict(list)
 
     path = os.path.join(TOPDIR, 'units.json')
     string_json = ''.join(open(path, encoding='utf-8').readlines())
@@ -193,14 +193,17 @@ def load_units():
     return names, unit_symbols, unit_symbols_lower, surfaces, lowers, symbols, derived_uni
 
 
-NAMES, UNIT_SYMBOLS, UNIT_SYMBOLS_LOWER, UNITS, LOWER_UNITS, PREFIX_SYMBOLS, DERIVED_UNI = load_units()
+NAMES, UNIT_SYMBOLS, UNIT_SYMBOLS_LOWER, UNITS, LOWER_UNITS, PREFIX_SYMBOLS, DERIVED_UNI = load_units(
+)
 ALL_UNIT_SYMBOLS = {**UNIT_SYMBOLS, **UNIT_SYMBOLS_LOWER}
 ALL_UNITS = {**UNITS, **LOWER_UNITS}
 
 ################################################################################
+
+
 def load_4_letter_words():
     path = os.path.join(TOPDIR, 'common-4-letter-words.txt')
-    words = defaultdict(list) # Collect words based on length
+    words = defaultdict(list)  # Collect words based on length
     with open(path, 'r', encoding='utf-8') as file:
         for line in file:
             if line.startswith('#'):
@@ -211,5 +214,6 @@ def load_4_letter_words():
                 words[len(line)].append(line)
 
     return words
+
 
 FOUR_LETTER_WORDS = load_4_letter_words()
