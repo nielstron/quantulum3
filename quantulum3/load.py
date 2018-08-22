@@ -36,7 +36,7 @@ def get_key_from_dimensions(derived):
     Translate dimensionality into key for DERIVED_UNI and DERIVED_ENT dicts.
     '''
 
-    return tuple(tuple(i.items()) for i in derived)
+    return tuple((i['base'], i['power']) for i in derived)
 
 
 ################################################################################
