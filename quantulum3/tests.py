@@ -157,6 +157,10 @@ class EndToEndTests(unittest.TestCase):
                 "{} \n {}".format([quant.__dict__ for quant in quants],
                                   [quant.__dict__ for quant in test['res']]))
 
+    def test_training(self):
+        clf.train_classifier(False)
+        clf.train_classifier(True)
+
 
 ################################################################################
 if __name__ == '__main__':
