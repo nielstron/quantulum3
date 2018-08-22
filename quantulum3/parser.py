@@ -235,7 +235,6 @@ def get_unit_from_dimensions(dimensions, text):
     key = l.get_key_from_dimensions(dimensions)
 
     try:
-        print(key)
         unit = l.DERIVED_UNI[key]
         # carry on surfaces
         unit.dimensions = dimensions
@@ -327,28 +326,35 @@ def get_unit(item, text):
         unit = l.NAMES['dimensionless']
     else:
         derived, slash = [], False
-        multiplication_operator, division_operator = None, None
+        multiplication_operator, division_operator = False, False
         for index in range(0, 5):
             unit = item.group(group_units[index])
-            operator_index = group_operators[index-1]
+            operator_index = None if index < 1 else group_operators[index-1]
             operator = None if index < 1 else item.group(operator_index)
 
             # disallow spaces as operators in units expressed in their symbols
             # Enforce consistency among multiplication and division operators
+            # Single exceptions are colloquial number abbreviations (5k miles)
             _cut_inconsistent_operator = False
-            if operator in r.MULTIPLICATION_OPERATORS:
-                if multiplication_operator != operator and not (index == 1 and operator.isspace()):
-                    if multiplication_operator is None:
+            if operator in r.MULTIPLICATION_OPERATORS or (operator is None and unit and not (index == 1 and unit in r.SUFFIXES)):
+                if multiplication_operator != operator and not (index == 1 and str(operator).isspace()):
+                    if multiplication_operator is False:
                         multiplication_operator = operator
                     else:
                         _cut_inconsistent_operator = True
             elif operator in r.DIVISION_OPERATORS:
-                if division_operator != operator and not division_operator is None:
+                if division_operator != operator and division_operator is not False:
                     _cut_inconsistent_operator = True
                 else:
                     division_operator = operator
             if _cut_inconsistent_operator:
                 # Cut if inconsistent multiplication operator
+                # treat the None operator differently - remove the whole word of it
+                if operator is None:
+                    # For this, use the last consistent operator (before the current) with a space
+                    # which should always be the preceding operator
+                    derived.pop()
+                    operator_index = group_operators[index-2]
                 # Remove (original length - new end) characters
                 unit_shortening = item.end() - item.start(operator_index)
                 logging.debug("Because operator inconsistency, cut from operator: '{}', new surface: {}".format(operator, text[item.start():item.end() - unit_shortening]))
@@ -440,39 +446,15 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         logging.debug('\tMeaningless quantity ("%s"), discard', surface)
         return
 
-    # # Usually "$3T" does not stand for "dollar tesla"
-    # elif unit.entity.dimensions and unit.entity.dimensions[0]['base'] == 'currency':
-    #     suffix_group = r'({})'.format(r'|'.join(r.SUFFIXES.keys()))
-    #     if len(unit.dimensions) > 1:
-    #         try:
-    #             suffix = re.findall(r'\d%s\b(.*?)$' % suffix_group, surface)[0]
-    #             values = [i * r.SUFFIXES[suffix[0]] for i in values]
-    #             unit = l.UNITS[unit.dimensions[0]['base']][0]
-    #             if suffix[1]:
-    #                 surface = surface[:surface.find(suffix[1])]
-    #                 span = (span[0], span[1] - len(suffix[1]))
-    #             logging.debug('\tCorrect for "$3T" pattern')
-    #         except IndexError:
-    #             pass
-    #     else:
-    #         try:
-    #             suffix = re.findall(r'%s%s\b' % (re.escape(surface), suffix_group),
-    #                                 orig_text)[0]
-    #             surface += suffix
-    #             span = (span[0], span[1] + 1)
-    #             values = [i * r.SUFFIXES[suffix] for i in values]
-    #             logging.debug('\tCorrect for "$3T" pattern')
-    #         except IndexError:
-    #             pass
-
     # Usually "$3T" does not stand for "dollar tesla"
     # this holds as well for "3k miles"
     # TODO use classifier to decide if 3K is 3 thousand or 3 Kelvin
     if unit.entity.dimensions:
         dimension_change = False
-        if len(
-                unit.entity.dimensions
-        ) > 1 and unit.entity.dimensions[0]['base'] == 'currency' and unit.dimensions[1]['surface'] in r.SUFFIXES.keys(
+        if (
+                len(unit.entity.dimensions) > 1 and
+                unit.entity.dimensions[0]['base'] == 'currency' and
+                unit.dimensions[1]['surface'] in r.SUFFIXES.keys()
         ):
             suffix = unit.dimensions[1]['surface']
             # Only apply if at least last value is suffixed by k, M, etc
@@ -511,7 +493,26 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     # check if a unit, combined only from symbols
     # and without operators, actually is a common 4-letter-word
     # TODO
-
+    if unit.dimensions:
+        candidates = [(u.get('surface') in l.ALL_UNIT_SYMBOLS and u['power'] == 1) for u in unit.dimensions]
+        for start in range(0, len(unit.dimensions)-2):
+            for end in range(start+2, len(unit.dimensions)):
+                # Try to match a combination of consecutive surfaces with a common 4 letter word
+                if not all(candidates[start:end]):
+                    continue
+                combination = ''.join(u['surface'] for u in unit.dimensions[start:end])
+                # Combination has to be inside the surface
+                if not combination in surface:
+                    continue
+                # Combination has to be a common word
+                length = start - end
+                if not combination in l.FOUR_LETTER_WORDS[length]:
+                    continue
+                # Cut the combination from the surface and everything that follows
+                # as it is a word, it will be preceded by a space
+                match = re.search(r'\s%s\b' % combination)
+                span = (span[0], match.start())
+                surface = surface[:match.start()]
     # Usually "in" stands for the preposition, not inches
     if (unit.dimensions[-1]['base'] == 'inch' and re.search(r' in$', surface)
             and '/' not in surface):

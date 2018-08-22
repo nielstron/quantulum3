@@ -203,14 +203,13 @@ def get_units_regex():
     unit_keys = sorted(list(l.UNITS.keys()) + list(l.UNIT_SYMBOLS.keys()), key=len, reverse=True)
     symbol_keys = sorted(list(l.PREFIX_SYMBOLS.keys()), key=len, reverse=True)
 
-    exponent = r'(?:(?:\^?\-?[0-9%s]*)(?:\ cubed|\ squared)?)' % \
+    exponent = r'(?:(?:\^?\-?[0-9%s]+)?(?:\ cubed|\ squared)?)' % \
                SUPERSCRIPTS
 
     all_ops = '|'.join([r'%s' % re.escape(i) for i in op_keys])
     all_units = '|'.join([r'%s' % re.escape(i) for i in unit_keys])
     all_symbols = '|'.join([r'%s' % re.escape(i) for i in symbol_keys])
 
-    # TODO do not allow spaces in between unit symbols => currently handled inside parser.py
     pattern = r'''
         (?<!\w)                                     # "begin" of word
         (?P<prefix>(?:%s)(?![a-zA-Z]))?         # Currencies, mainly

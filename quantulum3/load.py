@@ -194,3 +194,18 @@ def load_units():
 
 
 NAMES, UNIT_SYMBOLS, UNIT_SYMBOLS_LOWER, UNITS, LOWER_UNITS, PREFIX_SYMBOLS, DERIVED_UNI = load_units()
+ALL_UNIT_SYMBOLS = {**UNIT_SYMBOLS, **UNIT_SYMBOLS_LOWER}
+ALL_UNITS = {**UNITS, **LOWER_UNITS}
+
+################################################################################
+def load_4_letter_words():
+    path = os.path.join(TOPDIR, 'common-4-letter-words.txt')
+    words = defaultdict(list) # Collect words based on lenght
+    with open(path, 'r', encoding='utf-8') as file:
+        for line in file:
+            if not line.startswith('#'):
+                words[len(line)].append(line)
+
+    return words
+
+FOUR_LETTER_WORDS = load_4_letter_words()
