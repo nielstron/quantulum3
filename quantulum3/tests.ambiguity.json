@@ -1,0 +1,51 @@
+[
+  {
+    "req": "I spent 20 million pounds on this!",
+    "res": [
+      {
+        "value": 20000000,
+        "unit": "pound sterling",
+        "surface": "20 million pounds"
+      }
+    ]
+  },
+  {
+    "req": "The average density of the Earth is 5.5x10-3 kg/cm³",
+    "res": [
+      {
+        "value": 0.0055,
+        "unit": "kilogram per cubic centimetre",
+        "surface": "5.5x10-3 kg/cm³",
+        "entity": "density",
+        "dimensions": [
+          {
+            "base": "kilogram",
+            "power": 1,
+            "surface": "kg"
+          },
+          {
+            "base": "centimetre",
+            "power": -3,
+            "surface": "cm³"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "Hubble's cameras are super sharp across a 2½' (150\") field",
+    "res": [
+      {
+        "value": 2.5,
+        "unit": "minute of arc",
+        "surface": "2½'"
+      },
+      {
+        "value": 150,
+        "unit": "second of arc",
+        "surface": "150\""
+      }
+    ]
+  }
+]
+

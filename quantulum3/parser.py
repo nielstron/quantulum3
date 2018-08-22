@@ -332,10 +332,10 @@ def get_unit(item, text):
                 if clf.USE_CLF:
                     base = clf.disambiguate_unit(surface, text).name
                 else:
-                    if surface in l.UNITS:
+                    if len(l.UNITS.get(surface)) > 0:
                         base = l.UNITS[surface][0].name
-                    elif surface.lower() in l.UNITS:
-                        base = l.UNITS[surface.lower()][0].name
+                    elif len(l.LOWER_UNITS.get(surface.lower())) > 0:
+                        base = l.LOWER_UNITS[surface.lower()][0].name
                     else:
                         base = 'unk'
                 derived += [{'base': base, 'power': power, 'surface': surface}]

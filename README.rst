@@ -1,5 +1,5 @@
-quantulum3 `Travis master build state <https://travis-ci.com/nielstron/quantulum3>`__
-=====================================================================================
+quantulum3 `Travis master build state <https://travis-ci.com/nielstron/quantulum3>`__ `Coverage Status <https://coveralls.io/github/nielstron/quantulum3?branch=master>`__
+==========================================================================================================================================================================
 
 Python library for information extraction of quantities, measurements
 and their units from unstructured text. It is Python 3 compatible fork
@@ -35,6 +35,8 @@ project folder run ``pipenv install`` 4. Make your changes 5. Run
 ``dev`` build:
 
 `Travis dev build state <https://travis-ci.com/nielstron/quantulum3>`__
+`Coverage
+Status <https://coveralls.io/github/nielstron/quantulum3?branch=dev>`__
 
 Usage
 -----
