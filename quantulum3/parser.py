@@ -49,7 +49,7 @@ def clean_surface(surface, span):
 
     split = surface.lower().split()
     if split[0] in ['one', 'a', 'an'] and len(split) > 1 and split[1] in \
-    r.UNITS + r.TENS:
+            r.UNITS + r.TENS:
         span = (span[0] + len(surface.split()[0]) + 1, span[1])
         surface = ' '.join(surface.split()[1:])
 
@@ -105,7 +105,7 @@ def substitute_values(text, values):
         first = value['old_span'][0] + shift
         second = value['old_span'][1] + shift
         final_text = final_text[0:first] + value['new_surface'] + \
-                     final_text[second:]
+            final_text[second:]
         shift += len(value['new_surface']) - len(value['old_surface'])
         for char in range(first + 1, len(final_text)):
             shifts[char] = shift
@@ -121,7 +121,9 @@ def get_values(item):
     Extract value from regex hit.
     '''
 
-    callback = lambda pattern: ' %s' % (r.UNI_FRAC[pattern.group(0)])
+    def callback(pattern):
+        return ' %s' % (r.UNI_FRAC[pattern.group(0)])
+
     fracs = r'|'.join(r.UNI_FRAC)
 
     value = item.group('value')
@@ -397,9 +399,9 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
 
     # Discard irrelevant txt2float extractions, cardinal numbers, codes etc.
     if surface.lower() in ['a', 'an', 'one'] or \
-    re.search(r'1st|2nd|3rd|[04-9]th', surface) or \
-    re.search(r'\d+[A-Z]+\d+', surface) or \
-    re.search(r'\ba second\b', surface, re.IGNORECASE):
+            re.search(r'1st|2nd|3rd|[04-9]th', surface) or \
+            re.search(r'\d+[A-Z]+\d+', surface) or \
+            re.search(r'\ba second\b', surface, re.IGNORECASE):
         logging.debug('\tMeaningless quantity ("%s"), discard', surface)
         return
 
@@ -492,7 +494,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         logging.debug('\tCorrect for quotes')
 
     elif re.search(r' time$', surface) and len(unit.dimensions) > 1 and \
-    unit.dimensions[-1]['base'] == 'count':
+            unit.dimensions[-1]['base'] == 'count':
         unit = get_unit_from_dimensions(unit.dimensions[:-1], orig_text)
         surface = surface[:-5]
         span = (span[0], span[1] - 5)
