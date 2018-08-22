@@ -43,8 +43,8 @@ def download_wiki():
         obj['_id'] = obj['url'].replace('https://en.wikipedia.org/wiki/', '')
         obj['clean'] = obj['_id'].replace('_', ' ')
 
-        print('---> Downloading %s (%d of %d)' % \
-              (obj['clean'], num + 1, len(pages)))
+        print('---> Downloading %s (%d of %d)' % (obj['clean'], num + 1,
+                                                  len(pages)))
 
         obj['text'] = wikipedia.page(obj['clean']).content
         obj['unit'] = page[0]
@@ -65,8 +65,10 @@ def clean_text(text):
     my_regex = re.compile(r'[%s]' % re.escape(string.punctuation))
     new_text = my_regex.sub(' ', text)
 
-    new_text = [stem(i) for i in new_text.lower().split() if not \
-                re.findall(r'[0-9]', i)]
+    new_text = [
+        stem(i) for i in new_text.lower().split()
+        if not re.findall(r'[0-9]', i)
+    ]
 
     new_text = ' '.join(new_text)
 

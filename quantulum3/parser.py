@@ -12,6 +12,8 @@ from collections import defaultdict
 from math import pow
 
 # Quantulum
+from scipy._lib.decorator import getfullargspec
+
 from . import load as l
 from . import regex as r
 from . import classes as c
@@ -47,7 +49,7 @@ def clean_surface(surface, span):
 
     split = surface.lower().split()
     if split[0] in ['one', 'a', 'an'] and len(split) > 1 and split[1] in \
-    r.UNITS + r.TENS:
+            r.UNITS + r.TENS:
         span = (span[0] + len(surface.split()[0]) + 1, span[1])
         surface = ' '.join(surface.split()[1:])
 
@@ -103,7 +105,7 @@ def substitute_values(text, values):
         first = value['old_span'][0] + shift
         second = value['old_span'][1] + shift
         final_text = final_text[0:first] + value['new_surface'] + \
-                     final_text[second:]
+            final_text[second:]
         shift += len(value['new_surface']) - len(value['old_surface'])
         for char in range(first + 1, len(final_text)):
             shifts[char] = shift
@@ -119,7 +121,9 @@ def get_values(item):
     Extract value from regex hit.
     '''
 
-    callback = lambda pattern: ' %s' % (r.UNI_FRAC[pattern.group(0)])
+    def callback(pattern):
+        return ' %s' % (r.UNI_FRAC[pattern.group(0)])
+
     fracs = r'|'.join(r.UNI_FRAC)
 
     value = item.group('value')
@@ -215,24 +219,7 @@ def build_unit_name(dimensions):
     '''
     Build the name of the unit from its dimensions.
     '''
-
-    name = ''
-
-    for unit in dimensions:
-        if unit['power'] < 0:
-            name += 'per '
-        power = abs(unit['power'])
-        if power == 1:
-            name += unit['base']
-        elif power == 2:
-            name += 'square ' + unit['base']
-        elif power == 3:
-            name += 'cubic ' + unit['base']
-        elif power > 3:
-            name += unit['base'] + ' to the %g' % power
-        name += ' '
-
-    name = name.strip()
+    name = c.Unit.name_from_dimensions(dimensions)
 
     logging.debug('\tUnit inferred name: %s', name)
 
@@ -249,6 +236,8 @@ def get_unit_from_dimensions(dimensions, text):
 
     try:
         unit = l.DERIVED_UNI[key]
+        # carry on surfaces
+        unit.dimensions = dimensions
     except KeyError:
         logging.debug(u'\tCould not find unit for: %s', key)
         unit = c.Unit(
@@ -343,13 +332,13 @@ def get_unit(item, text):
                 if clf.USE_CLF:
                     base = clf.disambiguate_unit(surface, text).name
                 else:
-                    if surface in l.UNITS:
+                    if len(l.UNITS.get(surface)) > 0:
                         base = l.UNITS[surface][0].name
-                    elif surface.lower() in l.UNITS:
-                        base = l.UNITS[surface.lower()][0].name
+                    elif len(l.LOWER_UNITS.get(surface.lower())) > 0:
+                        base = l.LOWER_UNITS[surface.lower()][0].name
                     else:
                         base = 'unk'
-                derived += [{'base': base, 'power': power}]
+                derived += [{'base': base, 'power': power, 'surface': surface}]
             elif not slash:
                 slash = any(i in item.group(group) for i in ['/', ' per '])
 
@@ -410,35 +399,72 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
 
     # Discard irrelevant txt2float extractions, cardinal numbers, codes etc.
     if surface.lower() in ['a', 'an', 'one'] or \
-    re.search(r'1st|2nd|3rd|[04-9]th', surface) or \
-    re.search(r'\d+[A-Z]+\d+', surface) or \
-    re.search(r'\ba second\b', surface, re.IGNORECASE):
+            re.search(r'1st|2nd|3rd|[04-9]th', surface) or \
+            re.search(r'\d+[A-Z]+\d+', surface) or \
+            re.search(r'\ba second\b', surface, re.IGNORECASE):
         logging.debug('\tMeaningless quantity ("%s"), discard', surface)
         return
 
+    # # Usually "$3T" does not stand for "dollar tesla"
+    # elif unit.entity.dimensions and unit.entity.dimensions[0]['base'] == 'currency':
+    #     suffix_group = r'({})'.format(r'|'.join(r.SUFFIXES.keys()))
+    #     if len(unit.dimensions) > 1:
+    #         try:
+    #             suffix = re.findall(r'\d%s\b(.*?)$' % suffix_group, surface)[0]
+    #             values = [i * r.SUFFIXES[suffix[0]] for i in values]
+    #             unit = l.UNITS[unit.dimensions[0]['base']][0]
+    #             if suffix[1]:
+    #                 surface = surface[:surface.find(suffix[1])]
+    #                 span = (span[0], span[1] - len(suffix[1]))
+    #             logging.debug('\tCorrect for "$3T" pattern')
+    #         except IndexError:
+    #             pass
+    #     else:
+    #         try:
+    #             suffix = re.findall(r'%s%s\b' % (re.escape(surface), suffix_group),
+    #                                 orig_text)[0]
+    #             surface += suffix
+    #             span = (span[0], span[1] + 1)
+    #             values = [i * r.SUFFIXES[suffix] for i in values]
+    #             logging.debug('\tCorrect for "$3T" pattern')
+    #         except IndexError:
+    #             pass
+
     # Usually "$3T" does not stand for "dollar tesla"
-    elif unit.entity.dimensions and unit.entity.dimensions[0]['base'] == 'currency':
-        if len(unit.dimensions) > 1:
-            try:
-                suffix = re.findall(r'\d(K|M|B|T)\b(.*?)$', surface)[0]
-                values = [i * r.SUFFIXES[suffix[0]] for i in values]
+    # this holds as well for "3k miles"
+    # TODO use classifier to decide if 3K is 3 thousand or 3 Kelvin
+    if unit.entity.dimensions:
+        dimension_change = False
+        if len(
+                unit.entity.dimensions
+        ) > 1 and unit.entity.dimensions[0]['base'] == 'currency' and unit.dimensions[1]['surface'] in r.SUFFIXES.keys(
+        ):
+            suffix = unit.dimensions[1]['surface']
+            # Only apply if at least last value is suffixed by k, M, etc
+            if re.search(r'\d{}\b'.format(suffix), text):
+                values = [value * r.SUFFIXES[suffix] for value in values]
+                unit.dimensions = [unit.dimensions[0]] + unit.dimensions[2:]
+                dimension_change = True
+
+        elif unit.dimensions[0]['surface'] in r.SUFFIXES.keys():
+            # k/M etc is only applied if non-symbolic surfaces of other units (because colloquial)
+            # or currency units
+            symbolic = all(
+                any(dim['surface'] in unit.symbols
+                    for unit in l.UNITS[dim['base']])
+                for dim in unit.dimensions[1:])
+            if not symbolic:
+                suffix = unit.dimensions[0]['surface']
+                values = [value * r.SUFFIXES[suffix] for value in values]
+                unit.dimensions = unit.dimensions[1:]
+                dimension_change = True
+
+        if dimension_change:
+            if len(unit.dimensions) > 1:
+                unit.infer_name()
+            else:
+                assert (len(l.UNITS[unit.dimensions[0]['base']]) == 1)
                 unit = l.UNITS[unit.dimensions[0]['base']][0]
-                if suffix[1]:
-                    surface = surface[:surface.find(suffix[1])]
-                    span = (span[0], span[1] - len(suffix[1]))
-                logging.debug('\tCorrect for "$3T" pattern')
-            except IndexError:
-                pass
-        else:
-            try:
-                suffix = re.findall(r'%s(K|M|B|T)\b' % re.escape(surface),
-                                    orig_text)[0]
-                surface += suffix
-                span = (span[0], span[1] + 1)
-                values = [i * r.SUFFIXES[suffix] for i in values]
-                logging.debug('\tCorrect for "$3T" pattern')
-            except IndexError:
-                pass
 
     # Usually "1990s" stands for the decade, not the amount of seconds
     elif re.match(r'[1-2]\d\d0s', surface):
@@ -448,8 +474,8 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         logging.debug('\tCorrect for "1990s" pattern')
 
     # Usually "in" stands for the preposition, not inches
-    elif unit.dimensions[-1]['base'] == 'inch' and re.search(r' in$', surface) and\
-    '/' not in surface:
+    if (unit.dimensions[-1]['base'] == 'inch' and re.search(r' in$', surface)
+            and '/' not in surface):
         if len(unit.dimensions) > 1:
             unit = get_unit_from_dimensions(unit.dimensions[:-1], orig_text)
         else:
@@ -458,7 +484,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         span = (span[0], span[1] - 3)
         logging.debug('\tCorrect for "in" pattern')
 
-    elif is_quote_artifact(text, item.span()):
+    if is_quote_artifact(text, item.span()):
         if len(unit.dimensions) > 1:
             unit = get_unit_from_dimensions(unit.dimensions[:-1], orig_text)
         else:
@@ -468,7 +494,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         logging.debug('\tCorrect for quotes')
 
     elif re.search(r' time$', surface) and len(unit.dimensions) > 1 and \
-    unit.dimensions[-1]['base'] == 'count':
+            unit.dimensions[-1]['base'] == 'count':
         unit = get_unit_from_dimensions(unit.dimensions[:-1], orig_text)
         surface = surface[:-5]
         span = (span[0], span[1] - 5)
