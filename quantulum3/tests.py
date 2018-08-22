@@ -133,7 +133,7 @@ class EndToEndTests(unittest.TestCase):
     """Test suite for the quantulum3 project."""
 
     def test_load_tests(self):
-        self.assertFalse(load_tests() == None)
+        self.assertFalse(load_tests() is None)
 
     def test_parse_classifier(self):
         all_tests = load_tests(False) + load_tests(True)
