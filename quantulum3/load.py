@@ -51,7 +51,7 @@ def get_dimension_permutations(entities, derived):
         if new:
             for new_item in new:
                 new_derived[new_item['base']] += new_item['power'] * \
-                                                 item['power']
+                    item['power']
         else:
             new_derived[item['base']] += item['power']
 
@@ -85,8 +85,8 @@ def load_entities():
     try:
         assert len(set(names)) == len(entities)
     except AssertionError:
-        raise Exception('Entities with same name: %s' % [i for i in names if \
-                         names.count(i) > 1])
+        raise Exception('Entities with same name: %s' %
+                        [i for i in names if names.count(i) > 1])
 
     entities = dict(
         (k['name'],
@@ -124,9 +124,10 @@ def get_derived_units(names):
         derived_uni[key] = names[name]
         if not names[name].dimensions:
             names[name].dimensions = plain_derived
-        names[name].dimensions = [{'base': names[i['base']].name,
-                                'power': i['power']} for i in \
-                                 names[name].dimensions]
+        names[name].dimensions = [{
+            'base': names[i['base']].name,
+            'power': i['power']
+        } for i in names[name].dimensions]
 
     return derived_uni
 
@@ -177,9 +178,10 @@ def load_units():
             elif 'degree ' in surface:
                 index = split.index('degree')
             if index is not None:
-                plural = ' '.join([i if num != index else \
-                         PLURALS.plural(split[index]) for num, i in \
-                         enumerate(split)])
+                plural = ' '.join([
+                    i if num != index else PLURALS.plural(split[index])
+                    for num, i in enumerate(split)
+                ])
             else:
                 plural = PLURALS.plural(surface)
             if plural != surface:

@@ -6,14 +6,14 @@ name = "pypi"
 [packages]
 inflect = "*"
 stemming = "*"
-wikipedia = "*"
-coveralls = "*"
-coverage = "*"
 
 [dev-packages]
 scipy = "*"
 numpy = "*"
 scikit-learn = "*"
+wikipedia = "*"
+yapf = "*"
+autopep8 = "*"
 
 [requires]
 python_version = "3.6"
