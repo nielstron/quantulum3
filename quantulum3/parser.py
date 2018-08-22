@@ -508,11 +508,11 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
                 combination = ''.join(
                     u['surface'] for u in unit.dimensions[start:end])
                 # Combination has to be inside the surface
-                if not combination in surface:
+                if combination not in surface:
                     continue
                 # Combination has to be a common word of at least two letters
                 if len(combination
-                       ) <= 1 or not combination in l.FOUR_LETTER_WORDS[len(
+                       ) <= 1 or combination not in l.FOUR_LETTER_WORDS[len(
                            combination)]:
                     continue
                 # Cut the combination from the surface and everything that follows
