@@ -602,5 +602,45 @@
         "surface": "50"
       }
     ]
+  },
+  {
+    "req": "He will be 30 by the end of the year",
+    "res": [
+      {
+        "value": 30,
+        "unit": "dimensionless",
+        "surface": "30"
+      }
+    ]
+  },
+  {
+    "req": "The answer is 42, at the end of times",
+    "res": [
+      {
+        "value": 42,
+        "unit": "dimensionless",
+        "surface": "42"
+      }
+    ]
+  },
+  {
+    "req": "I told him: \"one hundred and two\" at the time",
+    "res": [
+      {
+        "value": 102,
+        "unit": "dimensionless",
+        "surface": "one hundred and two"
+      }
+    ]
+  },
+  {
+    "req": "42 is the answer, believe me!",
+    "res": [
+      {
+        "value": 42,
+        "unit": "dimensionless",
+        "surface": "42"
+      }
+    ]
   }
 ]
