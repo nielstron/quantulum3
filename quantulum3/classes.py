@@ -33,11 +33,10 @@ class Quantity(object):
     def __eq__(self, other):
 
         if isinstance(other, self.__class__):
-            return (self.value == other.value and
-                    self.unit == other.unit and
-                    self.surface == other.surface and
-                    self.span == other.span and
-                    self.uncertainty == other.uncertainty)
+            return (self.value == other.value and self.unit == other.unit
+                    and self.surface == other.surface
+                    and self.span == other.span
+                    and self.uncertainty == other.uncertainty)
         else:
             return False
 
@@ -100,7 +99,8 @@ class Unit(object):
         Set own name based on dimensions
         :return: new name of this unit
         '''
-        self.name = self.name_from_dimensions(self.dimensions) if self.dimensions else None
+        self.name = self.name_from_dimensions(
+            self.dimensions) if self.dimensions else None
         return self.name
 
     def __repr__(self):
@@ -112,12 +112,13 @@ class Unit(object):
     def __eq__(self, other):
 
         if isinstance(other, self.__class__):
-            return (self.name == other.name and
-                    self.surfaces == other.surfaces and
-                    self.entity == other.entity and
-                    self.uri == other.uri and
-                    self.symbols == other.symbols and
-                    all(dim1['base'] == dim2['base'] and dim1['power'] == dim2['power'] for dim1, dim2 in zip(self.dimensions, other.dimensions)))
+            return (
+                self.name == other.name and self.surfaces == other.surfaces
+                and self.entity == other.entity and self.uri == other.uri
+                and self.symbols == other.symbols and all(
+                    dim1['base'] == dim2['base']
+                    and dim1['power'] == dim2['power']
+                    for dim1, dim2 in zip(self.dimensions, other.dimensions)))
         else:
             return False
 
@@ -147,9 +148,9 @@ class Entity(object):
     def __eq__(self, other):
 
         if isinstance(other, self.__class__):
-            return (self.name == other.name and
-                    self.dimensions == other.dimensions and
-                    self.uri == other.uri)
+            return (self.name == other.name
+                    and self.dimensions == other.dimensions
+                    and self.uri == other.uri)
         else:
             return False
 

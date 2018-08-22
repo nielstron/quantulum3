@@ -336,7 +336,7 @@ def get_unit(item, text):
                         base = l.UNITS[surface.lower()][0].name
                     else:
                         base = 'unk'
-                derived += [{'base': base, 'power': power, 'surface':surface}]
+                derived += [{'base': base, 'power': power, 'surface': surface}]
             elif not slash:
                 slash = any(i in item.group(group) for i in ['/', ' per '])
 
@@ -433,7 +433,10 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     # TODO use classifier to decide if 3K is 3 thousand or 3 Kelvin
     if unit.entity.dimensions:
         dimension_change = False
-        if len(unit.entity.dimensions) > 1 and unit.entity.dimensions[0]['base'] == 'currency' and unit.dimensions[1]['surface'] in r.SUFFIXES.keys():
+        if len(
+                unit.entity.dimensions
+        ) > 1 and unit.entity.dimensions[0]['base'] == 'currency' and unit.dimensions[1]['surface'] in r.SUFFIXES.keys(
+        ):
             suffix = unit.dimensions[1]['surface']
             # Only apply if at least last value is suffixed by k, M, etc
             if re.search(r'\d{}\b'.format(suffix), text):
@@ -444,9 +447,10 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         elif unit.dimensions[0]['surface'] in r.SUFFIXES.keys():
             # k/M etc is only applied if non-symbolic surfaces of other units (because colloquial)
             # or currency units
-            symbolic = all(any(dim['surface'] in
-                           unit.symbols for unit in l.UNITS[dim['base']])
-                           for dim in unit.dimensions[1:])
+            symbolic = all(
+                any(dim['surface'] in unit.symbols
+                    for unit in l.UNITS[dim['base']])
+                for dim in unit.dimensions[1:])
             if not symbolic:
                 suffix = unit.dimensions[0]['surface']
                 values = [value * r.SUFFIXES[suffix] for value in values]
@@ -454,11 +458,11 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
                 dimension_change = True
 
         if dimension_change:
-           if len(unit.dimensions) > 1:
-               unit.infer_name()
-           else:
-               assert(len(l.UNITS[unit.dimensions[0]['base']]) == 1)
-               unit = l.UNITS[unit.dimensions[0]['base']][0]
+            if len(unit.dimensions) > 1:
+                unit.infer_name()
+            else:
+                assert (len(l.UNITS[unit.dimensions[0]['base']]) == 1)
+                unit = l.UNITS[unit.dimensions[0]['base']][0]
 
     # Usually "1990s" stands for the decade, not the amount of seconds
     elif re.match(r'[1-2]\d\d0s', surface):
@@ -468,8 +472,8 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         logging.debug('\tCorrect for "1990s" pattern')
 
     # Usually "in" stands for the preposition, not inches
-    if unit.dimensions[-1]['base'] == 'inch' and re.search(r' in$', surface) and\
-    '/' not in surface:
+    if (unit.dimensions[-1]['base'] == 'inch' and re.search(r' in$', surface)
+            and '/' not in surface):
         if len(unit.dimensions) > 1:
             unit = get_unit_from_dimensions(unit.dimensions[:-1], orig_text)
         else:
