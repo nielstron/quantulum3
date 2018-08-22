@@ -82,22 +82,27 @@ UNI_FRAC = {
     u'⅞': '7/8'
 }
 
-OPERATORS = {
-    u'/': u' per ',
-    u' per ': u' per ',
-    u' a ': ' per ',
+MULTIPLICATION_OPERATORS = {
     u'*': u' ',
     u' ': u' ',
     u'·': u' ',
     u'x': u' '
 }
 
+DIVISION_OPERATORS = {
+    u'/': u' per ',
+    u' per ': u' per ',
+    u' a ': ' per ',
+}
+
+OPERATORS = {**MULTIPLICATION_OPERATORS, **DIVISION_OPERATORS}
+
 ALL_NUM, NUMWORDS = get_numwords()
 FRACTIONS = re.escape(''.join(list(UNI_FRAC.keys())))
 SUPERSCRIPTS = re.escape(''.join(list(UNI_SUPER.keys())))
 
 MULTIPLIERS = r'|'.join(
-    r'%s' % re.escape(i) for i in OPERATORS if OPERATORS[i] == ' ')
+    r'%s' % re.escape(i) for i in MULTIPLICATION_OPERATORS)
 
 NUM_PATTERN = r'''            # Pattern for extracting a digit-based number
 
