@@ -642,5 +642,28 @@
         "surface": "42"
       }
     ]
+  },
+  {
+    "req": "The solar production of this year is 7.3 MWh",
+    "res": [
+      {
+        "value": 7.3,
+        "unit": "megawatt hour",
+        "surface": "7.3 MWh",
+        "entity": "unknown",
+        "dimensions": [
+          {
+            "base": "megawatt",
+            "power": 1,
+            "surface": "MW"
+          },
+          {
+            "base": "hour",
+            "power": 1,
+            "surface": "h"
+          }
+        ]
+      }
+    ]
   }
 ]
