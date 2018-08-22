@@ -36,7 +36,7 @@ def get_key_from_dimensions(derived):
     Translate dimensionality into key for DERIVED_UNI and DERIVED_ENT dicts.
     '''
 
-    return tuple(tuple(i.items()) for i in derived)
+    return tuple((i['base'], i['power']) for i in derived)
 
 
 ################################################################################
@@ -138,8 +138,8 @@ def load_units():
     '''
 
     names = {}
-    unit_symbols, surfaces, lowers, symbols = defaultdict(list), defaultdict(list), \
-                                defaultdict(list), defaultdict(list)
+    unit_symbols, unit_symbols_lower, surfaces, lowers, symbols = defaultdict(list), defaultdict(list), \
+                                defaultdict(list), defaultdict(list), defaultdict(list)
 
     path = os.path.join(TOPDIR, 'units.json')
     string_json = ''.join(open(path, encoding='utf-8').readlines())
@@ -163,6 +163,7 @@ def load_units():
 
         for symbol in unit['symbols']:
             unit_symbols[symbol].append(obj)
+            unit_symbols_lower[symbol.lower()].append(obj)
             if unit['entity'] == 'currency':
                 symbols[symbol].append(obj)
 
@@ -187,7 +188,7 @@ def load_units():
 
     derived_uni = get_derived_units(names)
 
-    return names, unit_symbols, surfaces, lowers, symbols, derived_uni
+    return names, unit_symbols, unit_symbols_lower, surfaces, lowers, symbols, derived_uni
 
 
-NAMES, UNIT_SYMBOLS, UNITS, LOWER_UNITS, PREFIX_SYMBOLS, DERIVED_UNI = load_units()
+NAMES, UNIT_SYMBOLS, UNIT_SYMBOLS_LOWER, UNITS, LOWER_UNITS, PREFIX_SYMBOLS, DERIVED_UNI = load_units()
