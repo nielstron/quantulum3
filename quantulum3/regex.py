@@ -82,22 +82,21 @@ UNI_FRAC = {
     u'⅞': '7/8'
 }
 
-OPERATORS = {
+MULTIPLICATION_OPERATORS = {u'*': u' ', u' ': u' ', u'·': u' ', u'x': u' '}
+
+DIVISION_OPERATORS = {
     u'/': u' per ',
     u' per ': u' per ',
     u' a ': ' per ',
-    u'*': u' ',
-    u' ': u' ',
-    u'·': u' ',
-    u'x': u' '
 }
+
+OPERATORS = {**MULTIPLICATION_OPERATORS, **DIVISION_OPERATORS}
 
 ALL_NUM, NUMWORDS = get_numwords()
 FRACTIONS = re.escape(''.join(list(UNI_FRAC.keys())))
 SUPERSCRIPTS = re.escape(''.join(list(UNI_SUPER.keys())))
 
-MULTIPLIERS = r'|'.join(
-    r'%s' % re.escape(i) for i in OPERATORS if OPERATORS[i] == ' ')
+MULTIPLIERS = r'|'.join(r'%s' % re.escape(i) for i in MULTIPLICATION_OPERATORS)
 
 NUM_PATTERN = r'''            # Pattern for extracting a digit-based number
 
@@ -195,10 +194,13 @@ def get_units_regex():
     '''
 
     op_keys = sorted(list(OPERATORS.keys()), key=len, reverse=True)
-    unit_keys = sorted(list(l.UNITS.keys()), key=len, reverse=True)
-    symbol_keys = sorted(list(l.SYMBOLS.keys()), key=len, reverse=True)
+    unit_keys = sorted(
+        list(l.UNITS.keys()) + list(l.UNIT_SYMBOLS.keys()),
+        key=len,
+        reverse=True)
+    symbol_keys = sorted(list(l.PREFIX_SYMBOLS.keys()), key=len, reverse=True)
 
-    exponent = r'(?:(?:\^?\-?[0-9%s]*)(?:\ cubed|\ squared)?)(?![a-zA-Z])' % \
+    exponent = r'(?:(?:\^?\-?[0-9%s]+)?(?:\ cubed|\ squared)?)' % \
                SUPERSCRIPTS
 
     all_ops = '|'.join([r'%s' % re.escape(i) for i in op_keys])
@@ -206,14 +208,14 @@ def get_units_regex():
     all_symbols = '|'.join([r'%s' % re.escape(i) for i in symbol_keys])
 
     pattern = r'''
-
+        (?<!\w)                                     # "begin" of word
         (?P<prefix>(?:%s)(?![a-zA-Z]))?         # Currencies, mainly
         (?P<value>%s)-?                           # Number
         (?:(?P<operator1>%s)?(?P<unit1>(?:%s)%s)?)    # Operator + Unit (1)
         (?:(?P<operator2>%s)?(?P<unit2>(?:%s)%s)?)    # Operator + Unit (2)
         (?:(?P<operator3>%s)?(?P<unit3>(?:%s)%s)?)    # Operator + Unit (3)
         (?:(?P<operator4>%s)?(?P<unit4>(?:%s)%s)?)    # Operator + Unit (4)
-
+        (?!\w)                                      # "end" of word
     ''' % tuple([all_symbols, RAN_PATTERN] +
                 4 * [all_ops, all_units, exponent])
     regex = re.compile(pattern, re.VERBOSE | re.IGNORECASE)
