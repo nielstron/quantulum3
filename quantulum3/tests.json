@@ -569,5 +569,38 @@
         "entity": "length"
       }
     ]
+  },
+  {
+    "req": "We produced solid 50 Wh today",
+    "res": [
+      {
+        "value": 50,
+        "unit": "watt hour",
+        "surface": "50 Wh",
+        "entity": "unknown",
+        "dimensions": [
+          {
+            "base": "watt",
+            "power": 1,
+            "surface": "W"
+          },
+          {
+            "base": "hour",
+            "power": 1,
+            "surface": "h"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "In this pit, 50 cars are stored",
+    "res": [
+      {
+        "value": 50,
+        "unit": "dimensionless",
+        "surface": "50"
+      }
+    ]
   }
 ]

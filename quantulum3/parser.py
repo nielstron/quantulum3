@@ -426,8 +426,9 @@ def is_quote_artifact(orig_text, span):
     cursor = re.finditer(r'("|\')[^ .,:;?!()*+-].*?("|\')', orig_text)
 
     for item in cursor:
-        if item.span()[1] == span[1]:
-            res = True
+        if item.span()[1] <= span[1] and item.span()[1] >= span[0]:
+            res = item
+            break
 
     return res
 
@@ -437,6 +438,8 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     '''
     Build a Quantity object out of extracted information.
     '''
+    # Re parse unit if a change occurred
+    dimension_change = False
 
     # Discard irrelevant txt2float extractions, cardinal numbers, codes etc.
     if surface.lower() in ['a', 'an', 'one'] or \
@@ -450,7 +453,6 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     # this holds as well for "3k miles"
     # TODO use classifier to decide if 3K is 3 thousand or 3 Kelvin
     if unit.entity.dimensions:
-        dimension_change = False
         if (
                 len(unit.entity.dimensions) > 1 and
                 unit.entity.dimensions[0]['base'] == 'currency' and
@@ -476,27 +478,20 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
                 unit.dimensions = unit.dimensions[1:]
                 dimension_change = True
 
-        if dimension_change:
-            if len(unit.dimensions) > 1:
-                unit.infer_name()
-            else:
-                assert (len(l.UNITS[unit.dimensions[0]['base']]) == 1)
-                unit = l.UNITS[unit.dimensions[0]['base']][0]
-
     # Usually "1990s" stands for the decade, not the amount of seconds
     elif re.match(r'[1-2]\d\d0s', surface):
-        unit = l.NAMES['dimensionless']
+        unit.dimensions = []
+        dimension_change = True
         surface = surface[:-1]
         span = (span[0], span[1] - 1)
         logging.debug('\tCorrect for "1990s" pattern')
 
     # check if a unit, combined only from symbols
     # and without operators, actually is a common 4-letter-word
-    # TODO
     if unit.dimensions:
         candidates = [(u.get('surface') in l.ALL_UNIT_SYMBOLS and u['power'] == 1) for u in unit.dimensions]
-        for start in range(0, len(unit.dimensions)-2):
-            for end in range(start+2, len(unit.dimensions)):
+        for start in range(0, len(unit.dimensions)):
+            for end in reversed(range(start+1, len(unit.dimensions)+1)):
                 # Try to match a combination of consecutive surfaces with a common 4 letter word
                 if not all(candidates[start:end]):
                     continue
@@ -504,41 +499,49 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
                 # Combination has to be inside the surface
                 if not combination in surface:
                     continue
-                # Combination has to be a common word
-                length = start - end
-                if not combination in l.FOUR_LETTER_WORDS[length]:
+                # Combination has to be a common word of at least two letters
+                if len(combination) <= 1 or not combination in l.FOUR_LETTER_WORDS[len(combination)]:
                     continue
                 # Cut the combination from the surface and everything that follows
                 # as it is a word, it will be preceded by a space
-                match = re.search(r'\s%s\b' % combination)
-                span = (span[0], match.start())
+                match = re.search(r'\s%s\b' % combination, surface)
+                span = (span[0], span[0] + match.start())
                 surface = surface[:match.start()]
+                unit.dimensions = unit.dimensions[:start]
+                dimension_change = True
+
+
     # Usually "in" stands for the preposition, not inches
-    if (unit.dimensions[-1]['base'] == 'inch' and re.search(r' in$', surface)
+    if unit.dimensions and (unit.dimensions[-1]['base'] == 'inch' and re.search(r' in$', surface)
             and '/' not in surface):
-        if len(unit.dimensions) > 1:
-            unit = get_unit_from_dimensions(unit.dimensions[:-1], orig_text)
-        else:
-            unit = l.NAMES['dimensionless']
+        unit.dimensions = unit.dimensions[:-1]
+        dimension_change = True
         surface = surface[:-3]
         span = (span[0], span[1] - 3)
         logging.debug('\tCorrect for "in" pattern')
 
-    if is_quote_artifact(text, item.span()):
-        if len(unit.dimensions) > 1:
-            unit = get_unit_from_dimensions(unit.dimensions[:-1], orig_text)
-        else:
-            unit = l.NAMES['dimensionless']
+    match = is_quote_artifact(text, item.span())
+    if match:
         surface = surface[:-1]
         span = (span[0], span[1] - 1)
+        if unit.dimensions and (unit.dimensions[-1]['base'] == 'inch'):
+            unit.dimensions = unit.dimensions[:-1]
+            dimension_change = True
         logging.debug('\tCorrect for quotes')
 
-    elif re.search(r' time$', surface) and len(unit.dimensions) > 1 and \
+    if re.search(r' time$', surface) and len(unit.dimensions) > 1 and \
             unit.dimensions[-1]['base'] == 'count':
-        unit = get_unit_from_dimensions(unit.dimensions[:-1], orig_text)
+        unit.dimensions = unit.dimensions[:-1]
+        dimension_change = True
         surface = surface[:-5]
         span = (span[0], span[1] - 5)
         logging.debug('\tCorrect for "time"')
+
+    if dimension_change:
+        if len(unit.dimensions) >= 1:
+            unit = get_unit_from_dimensions(unit.dimensions, orig_text)
+        else:
+            unit = l.NAMES['dimensionless']
 
     objs = []
     for value in values:

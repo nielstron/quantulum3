@@ -200,10 +200,14 @@ ALL_UNITS = {**UNITS, **LOWER_UNITS}
 ################################################################################
 def load_4_letter_words():
     path = os.path.join(TOPDIR, 'common-4-letter-words.txt')
-    words = defaultdict(list) # Collect words based on lenght
+    words = defaultdict(list) # Collect words based on length
     with open(path, 'r', encoding='utf-8') as file:
         for line in file:
-            if not line.startswith('#'):
+            if line.startswith('#'):
+                continue
+            line = line.rstrip()
+            # TODO don't do this comparison at every start up, use a build script
+            if line not in ALL_UNITS and line not in ALL_UNIT_SYMBOLS:
                 words[len(line)].append(line)
 
     return words
