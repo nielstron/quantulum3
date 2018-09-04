@@ -51,6 +51,7 @@ class Quantity(object):
 
         return '{} {}'.format(self.value, self.unit.name)
 
+
 ################################################################################
 class Unit(object):
     '''
