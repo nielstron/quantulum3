@@ -656,3 +656,22 @@ def inline_parse(text, verbose=False):
         shift += len(to_add)
 
     return text
+
+
+################################################################################
+def inline_parse_and_replace(text, verbose=False):
+    '''
+    Parse text and replace with the standardised quantities as string
+    '''
+
+    parsed = parse(text, verbose=verbose)
+
+    shift = 0
+    for quantity in parsed:
+        index_start = quantity.span[0] + shift
+        index_end = quantity.span[1] + shift
+        to_add = quantity.as_string()
+        text = text[0:index_start] + to_add + text[index_end:]
+        shift += len(to_add) - (quantity.span[1] - quantity.span[0])
+
+    return text

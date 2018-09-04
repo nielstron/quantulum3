@@ -44,6 +44,12 @@ class Quantity(object):
 
         return not self.__eq__(other)
 
+    def as_string(self):
+        """
+        Express the quantity as a normal string
+        """
+
+        return '{} {}'.format(self.value, self.unit.name)
 
 ################################################################################
 class Unit(object):
