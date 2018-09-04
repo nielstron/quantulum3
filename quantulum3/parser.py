@@ -11,9 +11,6 @@ from fractions import Fraction
 from collections import defaultdict
 from math import pow
 
-# Quantulum
-from scipy._lib.decorator import getfullargspec
-
 from . import load as l
 from . import regex as r
 from . import classes as c
