@@ -157,7 +157,9 @@ class EndToEndTests(unittest.TestCase):
                     [quant.__dict__ for quant in quants],
                     [quant.__dict__ for quant in test['res']]))
 
+    @unittest.skip('Do not retrain classifiers, as currently overwrites clf.pickle and wiki.json files.')
     def test_training(self):
+        # TODO - update test to not overwirte existing clf.pickle and wiki.json files.
         clf.train_classifier(False)
         clf.train_classifier(True)
 
