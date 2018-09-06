@@ -34,7 +34,7 @@ If you'd like to contribute follow these steps:
 2. `pip install pipenv`
 3. Inside the project folder run `pipenv install --dev`
 4. Make your changes
-5. Run `scripts/format.sh`. If you changed `README.md` too, run `scripts/format_readme.sh`
+5. Run `scripts/format.sh`
 6. Test your changes with `coverage run --source=quantulum3 --omit="*test*" setup.py test` 
 (Optional, will be done automatically after pushing)
 7. Create a Pull Request when having commited and pushed your changes

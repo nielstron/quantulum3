@@ -22,7 +22,8 @@ setup(
         ]
     },
     description='Extract quantities from unstructured text.',
-    long_description=open('README.rst').read(),
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
     download_url='https://github.com/marcolagi/quantulum3/tarball/0.1',
     version=quantulum3.__version__,
     url=quantulum3.__url__,
