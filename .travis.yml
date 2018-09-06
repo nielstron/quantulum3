@@ -11,6 +11,7 @@ install:
   - pip install scipy
   - pip install scikit-learn
   - pip install wikipedia
+  - pip install stemming
   - pip install .
 
 script:
