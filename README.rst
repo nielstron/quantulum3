@@ -1,5 +1,5 @@
-quantulum3 `Travis master build state <https://travis-ci.com/nielstron/quantulum3>`__ `Coverage Status <https://coveralls.io/github/nielstron/quantulum3?branch=master>`__
-==========================================================================================================================================================================
+quantulum3 |Travis master build state| |Coverage Status|
+========================================================
 
 Python library for information extraction of quantities, measurements
 and their units from unstructured text. It is Python 3 compatible fork
@@ -34,9 +34,7 @@ project folder run ``pipenv install`` 4. Make your changes 5. Run
 
 ``dev`` build:
 
-`Travis dev build state <https://travis-ci.com/nielstron/quantulum3>`__
-`Coverage
-Status <https://coveralls.io/github/nielstron/quantulum3?branch=dev>`__
+|Travis dev build state| |Coverage Status|
 
 Usage
 -----
@@ -197,3 +195,12 @@ Here is an example of an entry in *units.json*:
    unit.
 
 All fields are case sensitive.
+
+.. |Travis master build state| image:: https://travis-ci.com/nielstron/quantulum3.svg?branch=master
+   :target: https://travis-ci.com/nielstron/quantulum3
+.. |Coverage Status| image:: https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=master
+   :target: https://coveralls.io/github/nielstron/quantulum3?branch=master
+.. |Travis dev build state| image:: https://travis-ci.com/nielstron/quantulum3.svg?branch=dev
+   :target: https://travis-ci.com/nielstron/quantulum3
+.. |Coverage Status| image:: https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=dev
+   :target: https://coveralls.io/github/nielstron/quantulum3?branch=dev

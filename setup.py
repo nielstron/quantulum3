@@ -18,7 +18,7 @@ setup(
     package_data={
         'quantulum3': [
             'clf.pickle', 'units.json', 'entities.json', 'tests.json',
-            'train.json', 'wiki.json'
+            'train.json', 'wiki.json', 'common-4-letter-words.txt'
         ]
     },
     description='Extract quantities from unstructured text.',
