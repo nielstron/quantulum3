@@ -514,7 +514,9 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
                     continue
                 # Cut the combination from the surface and everything that follows
                 # as it is a word, it will be preceded by a space
-                match = re.search(r'\s%s\b' % combination, surface)
+                match = re.search(r'[-\s]%s\b' % combination, surface)
+                if not match:
+                    continue
                 span = (span[0], span[0] + match.start())
                 surface = surface[:match.start()]
                 unit.dimensions = unit.dimensions[:start]
