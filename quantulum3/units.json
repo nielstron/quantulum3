@@ -3048,9 +3048,7 @@
     "URI": "https://en.wikipedia.org/wiki/Kilobyte",
     "dimensions": [],
     "symbols": [
-      "kB",
-      "K",
-      "KB"
+      "kB"
     ]
   },
   {
@@ -3150,7 +3148,9 @@
     "URI": "https://en.wikipedia.org/wiki/Kibibyte",
     "dimensions": [],
     "symbols": [
-      "KiB"
+      "KiB",
+      "K",
+      "KB"
     ]
   },
   {
