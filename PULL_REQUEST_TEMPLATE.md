@@ -1,6 +1,7 @@
-**Fixed issue:** (Insert link via #<issue number>)
+**Fixed issues:** 
+(Insert link via #<issue number>)
 
 
 **Included changes:**
 
-**Breaking changes
+**Breaking changes:**
