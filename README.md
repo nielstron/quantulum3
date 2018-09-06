@@ -12,7 +12,7 @@ the fork of [sohrabtowfighi](https://github.com/sohrabtowfighi/quantulum).
 Installation
 ------------
 
-First, install [sklearn](http://scikit-learn.org/stable/install.html).
+First, install [`numpy`](https://pypi.org/project/numpy/), [`scipy`](https://www.scipy.org/install.html) and [`sklearn`](http://scikit-learn.org/stable/install.html).
 Quantulum would still work without it, but it wouldn\'t be able to
 disambiguate between units with the same name (e.g. *pound* as currency
 or as unit of mass).
@@ -28,11 +28,13 @@ Contributing
 
 If you'd like to contribute follow these steps:
 1. Clone a fork of this project into your workspace
-2. `pip install pipenv yapf`
-3. Inside the project folder run `pipenv install`
+2. `pip install pipenv`
+3. Inside the project folder run `pipenv install --dev`
 4. Make your changes
-5. Run `format.sh` 
-6. Create a Pull Request when having commited your changes
+5. Run `scripts/format.sh`. If you changed `README.md` too, run `scripts/format_readme.sh`
+6. Test your changes with `coverage run --source=quantulum3 --omit="*test*" setup.py test` 
+(Optional, will be done automatically after pushing)
+7. Create a Pull Request when having commited and pushed your changes
 
 `dev` build: 
 

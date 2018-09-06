@@ -5,4 +5,3 @@
 # TODO make this a python file
 autopep8 -i -r .
 yapf -i -r .
-pandoc README.md -o README.rst

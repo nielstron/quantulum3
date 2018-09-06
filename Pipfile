@@ -5,15 +5,16 @@ name = "pypi"
 
 [packages]
 inflect = "*"
+numpy = "*"
+scipy = "*"
+sklearn = "*"
+wikipedia = "*"
 stemming = "*"
 
 [dev-packages]
-scipy = "*"
-numpy = "*"
-scikit-learn = "*"
-wikipedia = "*"
 yapf = "*"
 autopep8 = "*"
+coverage = "*"
 
 [requires]
 python_version = "3.6"

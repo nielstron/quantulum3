@@ -1,5 +1,5 @@
-quantulum3 |Travis master build state| |Coverage Status|
-========================================================
+quantulum3 `Travis master build state <https://travis-ci.com/nielstron/quantulum3>`__ `Coverage Status <https://coveralls.io/github/nielstron/quantulum3?branch=master>`__
+==========================================================================================================================================================================
 
 Python library for information extraction of quantities, measurements
 and their units from unstructured text. It is Python 3 compatible fork
@@ -12,8 +12,9 @@ compatability with the newest version of sklearn is based on the fork of
 Installation
 ------------
 
-First, install
-`sklearn <http://scikit-learn.org/stable/install.html>`__. Quantulum
+First, install ```numpy`` <https://pypi.org/project/numpy/>`__,
+```scipy`` <https://www.scipy.org/install.html>`__ and
+```sklearn`` <http://scikit-learn.org/stable/install.html>`__. Quantulum
 would still work without it, but it wouldn't be able to disambiguate
 between units with the same name (e.g. *pound* as currency or as unit of
 mass).
@@ -28,13 +29,19 @@ Contributing
 ------------
 
 If you’d like to contribute follow these steps: 1. Clone a fork of this
-project into your workspace 2. ``pip install pipenv yapf`` 3. Inside the
-project folder run ``pipenv install`` 4. Make your changes 5. Run
-``format.sh`` 6. Create a Pull Request when having commited your changes
+project into your workspace 2. ``pip install pipenv`` 3. Inside the
+project folder run ``pipenv install --dev`` 4. Make your changes 5. Run
+``scripts/format.sh``. If you changed ``README.md`` too, run
+``scripts/format_readme.sh`` 6. Test your changes with
+``coverage run --source=quantulum3 --omit="*test*" setup.py test``
+(Optional, will be done automatically after pushing) 7. Create a Pull
+Request when having commited and pushed your changes
 
 ``dev`` build:
 
-|Travis dev build state| |Coverage Status|
+`Travis dev build state <https://travis-ci.com/nielstron/quantulum3>`__
+`Coverage
+Status <https://coveralls.io/github/nielstron/quantulum3?branch=dev>`__
 
 Usage
 -----
@@ -195,12 +202,3 @@ Here is an example of an entry in *units.json*:
    unit.
 
 All fields are case sensitive.
-
-.. |Travis master build state| image:: https://travis-ci.com/nielstron/quantulum3.svg?branch=master
-   :target: https://travis-ci.com/nielstron/quantulum3
-.. |Coverage Status| image:: https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=master
-   :target: https://coveralls.io/github/nielstron/quantulum3?branch=master
-.. |Travis dev build state| image:: https://travis-ci.com/nielstron/quantulum3.svg?branch=dev
-   :target: https://travis-ci.com/nielstron/quantulum3
-.. |Coverage Status| image:: https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=dev
-   :target: https://coveralls.io/github/nielstron/quantulum3?branch=dev

@@ -34,7 +34,7 @@ setup(
         'information extraction', 'quantities', 'units', 'measurements', 'nlp',
         'natural language processing', 'text mining', 'text processing'
     ],
-    install_requires=['inflect', 'stemming', 'wikipedia'],
+    install_requires=['inflect'],
     classifiers=[
         'Intended Audience :: Developers',
         'Intended Audience :: Science/Research',
