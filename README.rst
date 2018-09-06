@@ -25,6 +25,11 @@ Then,
 
    $ pip install quantulum3
 
+If you want to train the classifier yourself, in addition to the
+packages above, you’ll also need the packages ``stemming`` and
+``wikipedia``. Use the method ``train`` in ``quantulum3.classifier`` to
+train the classifier.
+
 Contributing
 ------------
 
