@@ -10,6 +10,7 @@ import logging
 from fractions import Fraction
 from collections import defaultdict
 from math import pow
+import num2words
 
 from . import load as l
 from . import regex as r
@@ -677,3 +678,5 @@ def inline_parse_and_replace(text, verbose=False):
         shift += len(to_add) - (quantity.span[1] - quantity.span[0])
 
     return text
+
+

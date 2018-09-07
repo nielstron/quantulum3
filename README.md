@@ -154,6 +154,17 @@ many great options out there:
 -   [natu](http://kdavies4.github.io/natu/)
 -   [quantities](http://python-quantities.readthedocs.org/en/latest/)
 
+Spoken version
+--------------
+
+Quantulum classes include methods to convert them to a speakable unit.
+On Unit or quantity objects, run `to_spoken` for a spoken version of the unit.
+
+```python
+>>> parser.parse("Gimme 10e9 GW now!")[0].to_spoken()
+ten billion gigawatts
+```
+
 Extension
 ---------
 
