@@ -158,11 +158,12 @@ Spoken version
 --------------
 
 Quantulum classes include methods to convert them to a speakable unit.
-On Unit or quantity objects, run `to_spoken` for a spoken version of the unit.
 
 ```python
 >>> parser.parse("Gimme 10e9 GW now!")[0].to_spoken()
 ten billion gigawatts
+>>> parser.inline_parse_and_expand("Gimme $1e10 now and also 1 TW and 0.5 J!")
+Gimme ten billion dollars now and also one terawatt and zero point five joules!
 ```
 
 Extension

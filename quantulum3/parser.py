@@ -10,7 +10,6 @@ import logging
 from fractions import Fraction
 from collections import defaultdict
 from math import pow
-import num2words
 
 from . import load as l
 from . import regex as r
@@ -679,4 +678,21 @@ def inline_parse_and_replace(text, verbose=False):
 
     return text
 
+
+################################################################################
+def inline_parse_and_expand(text, verbose=False):
+    '''
+    Parse text and replace qunatities with speakable version
+    '''
+    parsed = parse(text, verbose=verbose)
+
+    shift = 0
+    for quantity in parsed:
+        index_start = quantity.span[0] + shift
+        index_end = quantity.span[1] + shift
+        to_add = quantity.to_spoken()
+        text = text[0:index_start] + to_add + text[index_end:]
+        shift += len(to_add) - (quantity.span[1] - quantity.span[0])
+
+    return text
 

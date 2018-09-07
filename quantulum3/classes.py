@@ -4,7 +4,6 @@
 :mod:`Quantulum` classes.
 '''
 
-from num2words import num2words
 from . import load as l
 
 ################################################################################
@@ -58,9 +57,12 @@ class Quantity(object):
         Express quantity as a speakable string
         :return: Speakable version of this quantity
         '''
+        count = self.value
+        if count.is_integer():
+            count = int(count)
         return '{} {}'.format(
-            num2words(self.value),
-            self.unit.to_spoken(self.value)
+            l.PLURALS.number_to_words(count),
+            self.unit.to_spoken(count)
         )
 
 
