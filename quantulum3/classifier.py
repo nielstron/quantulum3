@@ -62,6 +62,8 @@ def clean_text(text):
     '''
     Clean text for TFIDF
     '''
+    from stemming.porter2 import stem
+
     my_regex = re.compile(r'[%s]' % re.escape(string.punctuation))
     new_text = my_regex.sub(' ', text)
 
@@ -81,11 +83,9 @@ def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
     Train the intent classifier
     TODO auto invoke if sklearn version is new or first install or sth
     '''
-
-    from stemming.porter2 import stem
-
     if download:
         download_wiki()
+
     path = os.path.join(l.TOPDIR, 'train.json')
     string_json = ''.join(open(path, encoding='utf-8').readlines())
     training_set = json.loads(string_json)
