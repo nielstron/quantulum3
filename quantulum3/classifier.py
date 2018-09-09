@@ -12,8 +12,6 @@ import re
 import string
 
 # Dependences
-import wikipedia
-from stemming.porter2 import stem
 try:
     from sklearn.linear_model import SGDClassifier
     from sklearn.feature_extraction.text import TfidfVectorizer
@@ -30,6 +28,7 @@ def download_wiki():
     '''
     Download WikiPedia pages of ambiguous units.
     '''
+    import wikipedia
 
     ambiguous = [i for i in list(l.UNITS.items()) if len(i[1]) > 1]
     ambiguous += [i for i in list(l.DERIVED_ENT.items()) if len(i[1]) > 1]
@@ -55,6 +54,7 @@ def download_wiki():
     json.dump(objs, open(path, 'w'), indent=4, sort_keys=True)
 
     print('\n---> All done.\n')
+    return False
 
 
 ################################################################################
@@ -81,6 +81,8 @@ def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
     Train the intent classifier
     TODO auto invoke if sklearn version is new or first install or sth
     '''
+
+    from stemming.porter2 import stem
 
     if download:
         download_wiki()
@@ -120,6 +122,7 @@ def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
     path = os.path.join(l.TOPDIR, 'clf.pickle')
     with open(path, 'wb') as file:
         pickle.dump(obj, file)
+    return True
 
 
 ################################################################################
