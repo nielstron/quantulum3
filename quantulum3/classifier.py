@@ -12,8 +12,6 @@ import re
 import string
 
 # Dependences
-import wikipedia
-from stemming.porter2 import stem
 try:
     from sklearn.linear_model import SGDClassifier
     from sklearn.feature_extraction.text import TfidfVectorizer
@@ -30,6 +28,7 @@ def download_wiki():
     '''
     Download WikiPedia pages of ambiguous units.
     '''
+    import wikipedia
 
     ambiguous = [i for i in list(l.UNITS.items()) if len(i[1]) > 1]
     ambiguous += [i for i in list(l.DERIVED_ENT.items()) if len(i[1]) > 1]
@@ -55,6 +54,7 @@ def download_wiki():
     json.dump(objs, open(path, 'w'), indent=4, sort_keys=True)
 
     print('\n---> All done.\n')
+    return False
 
 
 ################################################################################
@@ -62,6 +62,8 @@ def clean_text(text):
     '''
     Clean text for TFIDF
     '''
+    from stemming.porter2 import stem
+
     my_regex = re.compile(r'[%s]' % re.escape(string.punctuation))
     new_text = my_regex.sub(' ', text)
 
@@ -81,9 +83,9 @@ def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
     Train the intent classifier
     TODO auto invoke if sklearn version is new or first install or sth
     '''
-
     if download:
         download_wiki()
+
     path = os.path.join(l.TOPDIR, 'train.json')
     string_json = ''.join(open(path, encoding='utf-8').readlines())
     training_set = json.loads(string_json)
@@ -120,6 +122,7 @@ def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
     path = os.path.join(l.TOPDIR, 'clf.pickle')
     with open(path, 'wb') as file:
         pickle.dump(obj, file)
+    return True
 
 
 ################################################################################

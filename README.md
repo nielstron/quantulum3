@@ -1,4 +1,4 @@
-quantulum3 [![Travis master build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=master "Travis master build state")](https://travis-ci.com/nielstron/quantulum3)  [![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=master)](https://coveralls.io/github/nielstron/quantulum3?branch=master)
+quantulum3 [![Travis master build state](https://travis-ci.com/nielstron/quantulum4.svg?branch=master "Travis master build state")](https://travis-ci.com/nielstron/quantulum3)  [![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=master)](https://coveralls.io/github/nielstron/quantulum3?branch=master) [![PyPI version](https://badge.fury.io/py/quantulum3.svg)](https://pypi.org/project/quantulum3/) ![ Supported python versions](https://img.shields.io/badge/python-3.6-red.svg)
 ==========
 
 Python library for information extraction of quantities, measurements
@@ -25,6 +25,9 @@ $ pip install quantulum3
 
 If you want to train the classifier yourself, in addition to the packages above, you'll also need
 the packages `stemming` and `wikipedia`. Use the method `train` in `quantulum3.classifier` to train the classifier.
+
+You could also [download requirements_classifier.txt](https://raw.githubusercontent.com/nielstron/quantulum3/dev/requirements_classifier.txt)
+and run `pip install requirements_classifier.txt`.
 
 Contributing
 ------------
