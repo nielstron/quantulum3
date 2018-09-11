@@ -99,7 +99,7 @@ SUPERSCRIPTS = re.escape(''.join(list(UNI_SUPER.keys())))
 MULTIPLIERS = r'|'.join(r'%s' % re.escape(i) for i in MULTIPLICATION_OPERATORS)
 
 # Pattern for extracting a digit-based number
-NUM_PATTERN = r'''            
+NUM_PATTERN = r'''
 
     (?:                      # required number
         [+-]?                  #   optional sign

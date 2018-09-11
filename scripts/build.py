@@ -14,7 +14,7 @@ if not os.path.isdir('./quantulum3') or not os.path.exists('./README.md'):
 
 sys.path.append(os.path.abspath('.'))
 from quantulum3 import load as l
-''' 
+'''
 Build script, to be run before pushing changes if certain files are affected
 Make sure to run this from the project root folder
 

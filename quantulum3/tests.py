@@ -74,8 +74,8 @@ def load_tests(ambiguity=True):
     Load all tests from tests.json.
     """
 
-    path = os.path.join(TOPDIR, 'tests.ambiguity.json'
-                        if ambiguity else 'tests.json')
+    path = os.path.join(TOPDIR,
+                        'tests.ambiguity.json' if ambiguity else 'tests.json')
     with open(path, 'r') as test_file:
         tests = json.load(test_file)
 

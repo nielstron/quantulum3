@@ -208,7 +208,7 @@ def load_4_letter_words():
     try:
         with open(path, 'r', encoding='utf-8') as file:
             dumped = json.load(file)
-    except FileNotFoundError:
+    except OSError:
         pass
 
     words = defaultdict(list)  # Collect words based on length
