@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-'''
+"""
 :mod:`Quantulum` tests.
-'''
+"""
 
 # Standard library
 import os
@@ -10,6 +10,7 @@ import re
 import sys
 import json
 import unittest
+from collections import defaultdict
 
 # Dependences
 import wikipedia
@@ -27,13 +28,13 @@ TOPDIR = os.path.dirname(__file__) or "."
 
 ################################################################################
 def wiki_test(page='CERN'):
-    '''
+    """
     Download a wikipedia page and test the parser on its content.
     Pages full of units:
         CERN
         Hubble_Space_Telescope,
         Herschel_Space_Observatory
-    '''
+    """
 
     content = wikipedia.page(page).content
     parsed = p.parse(content)
@@ -69,12 +70,12 @@ def wiki_test(page='CERN'):
 
 ################################################################################
 def load_tests(ambiguity=True):
-    '''
+    """
     Load all tests from tests.json.
-    '''
+    """
 
-    path = os.path.join(TOPDIR, 'tests.ambiguity.json'
-                        if ambiguity else 'tests.json')
+    path = os.path.join(TOPDIR,
+                        'tests.ambiguity.json' if ambiguity else 'tests.json')
     with open(path, 'r') as test_file:
         tests = json.load(test_file)
 
@@ -133,9 +134,11 @@ class EndToEndTests(unittest.TestCase):
     """Test suite for the quantulum3 project."""
 
     def test_load_tests(self):
+        """ Test that loading tests works """
         self.assertFalse(load_tests() is None)
 
     def test_parse_classifier(self):
+        """ Test that parsing works with classifier usage """
         all_tests = load_tests(False) + load_tests(True)
         # forcedly activate classifier
         clf.USE_CLF = True
@@ -147,6 +150,7 @@ class EndToEndTests(unittest.TestCase):
                                   [quant.__dict__ for quant in test['res']]))
 
     def test_parse_no_classifier(self):
+        """ Test that parsing works without classifier usage """
         all_tests = load_tests(False)
         # forcedly deactivate classifier
         clf.USE_CLF = False
@@ -161,9 +165,28 @@ class EndToEndTests(unittest.TestCase):
         'Do not retrain classifiers, as overwrites clf.pickle and wiki.json files.'
     )
     def test_training(self):
+        """ Test that classifier training works """
         # TODO - update test to not overwirte existing clf.pickle and wiki.json files.
         clf.train_classifier(False)
         clf.train_classifier(True)
+
+    def test_build_script(self):
+        """ Test that the build script has run correctly """
+        # Read raw 4 letter file
+        path = os.path.join(l.TOPDIR, 'common-4-letter-words.txt')
+        words = defaultdict(list)  # Collect words based on length
+        with open(path, 'r', encoding='utf-8') as file:
+            for line in file:
+                if line.startswith('#'):
+                    continue
+                line = line.rstrip()
+                # TODO don't do this comparison at every start up, use a build script
+                if line not in l.ALL_UNITS and line not in l.ALL_UNIT_SYMBOLS:
+                    words[len(line)].append(line)
+        for length, word_list in words.items():
+            self.assertEqual(
+                l.FOUR_LETTER_WORDS[length], word_list,
+                "Build script has not been run since change to critical files")
 
 
 ################################################################################
