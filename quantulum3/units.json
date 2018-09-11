@@ -906,6 +906,16 @@
     ]
   },
   {
+    "name": "Rappen",
+    "surfaces": [
+      "rappen"
+    ],
+    "entity": "currency",
+    "URI": "https://en.wikipedia.org/wiki/Rappen",
+    "dimensions": [],
+    "symbols": []
+  },
+  {
     "name": "south african rand",
     "surfaces": [
       "south african rand",
@@ -4494,6 +4504,52 @@
       "mJy",
       "mfu",
       "m.f.u."
+    ]
+  },
+  {
+    "name": "penny",
+    "surfaces": [
+      "penny"
+    ],
+    "entity": "currency",
+    "URI": "https://en.wikipedia.org/wiki/Penny",
+    "dimensions": [],
+    "symbols": [
+      "p",
+      "d."
+    ]
+  },
+  {
+    "name": "cent",
+    "surfaces": [
+      "cent"
+    ],
+    "entity": "currency",
+    "URI": "https://en.wikipedia.org/wiki/Cent_(currency)",
+    "dimensions": [],
+    "symbols": [
+      "¢",
+      "c",
+      "cts",
+      "Ct."
+    ]
+  },
+  {
+    "name": "centavo",
+    "surfaces": [
+      "centavo"
+    ],
+    "entity": "currency",
+    "URI": "https://en.wikipedia.org/wiki/Centavo",
+    "dimensions": [],
+    "symbols": [
+      "¢",
+      "c",
+      "cts",
+      "ctvs",
+      "cvs",
+      "C",
+      "CT"
     ]
   }
 ]

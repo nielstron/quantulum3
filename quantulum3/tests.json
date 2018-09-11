@@ -682,5 +682,27 @@
         "entity": "unknown"
       }
     ]
+  },
+  {
+    "req": "Oh look, a penny!",
+    "res": [
+      {
+        "value": 1,
+        "unit": "penny",
+        "surface": "a penny",
+        "entity": "currency"
+      }
+    ]
+  },
+  {
+    "req": "Quite a lot of currencies have cents, where one hundred cents equal the basic unit",
+    "res": [
+      {
+        "value": 100,
+        "unit": "cent",
+        "surface": "one hundred cents",
+        "entity": "currency"
+      }
+    ]
   }
 ]
