@@ -25,7 +25,7 @@ def clean_surface(surface, span):
 
     surface = surface.replace('-', ' ')
     no_start = ['and', ' ']
-    no_end = [' and', ' ']
+    no_end = [' '] + [' {}'.format(misc) for misc in r.MISCNUM]
 
     found = True
     while found:
@@ -45,7 +45,7 @@ def clean_surface(surface, span):
         return None, None
 
     split = surface.lower().split()
-    if split[0] in ['one', 'a', 'an'] and len(split) > 1 and split[1] in \
+    if split[0] in r.MISCNUM and len(split) > 1 and split[1] in \
             r.UNITS + r.TENS:
         span = (span[0] + len(surface.split()[0]) + 1, span[1])
         surface = ' '.join(surface.split()[1:])
@@ -507,9 +507,8 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
                 # Combination has to be inside the surface
                 if combination not in surface:
                     continue
-                # Combination has to be a common word of at least two letters
-                if len(combination
-                       ) <= 1 or combination not in l.FOUR_LETTER_WORDS[len(
+                # Combination has to be a common word
+                if combination not in l.FOUR_LETTER_WORDS[len(
                            combination)]:
                     continue
                 # Cut the combination from the surface and everything that follows

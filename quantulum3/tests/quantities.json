@@ -704,5 +704,49 @@
         "entity": "currency"
       }
     ]
+  },
+  {
+    "req": "The probability of a fair dice showing a certain face is exactly one sixth.",
+    "res": [
+      {
+        "value": 0.16666666666666666666666666666,
+        "unit": "dimensionless",
+        "surface": "one sixth",
+        "entity": "unknown"
+      }
+    ]
+  },
+  {
+    "req": "I'd like two thirds of the cake.",
+    "res": [
+      {
+        "value": 0.666666666666666666666666666666,
+        "unit": "dimensionless",
+        "surface": "two thirds",
+        "entity": "unknown"
+      }
+    ]
+  },
+  {
+    "req": "Is three halves a fraction?",
+    "res": [
+      {
+        "value": 1.5,
+        "unit": "dimensionless",
+        "surface": "three halves",
+        "entity": "unknown"
+      }
+    ]
+  },
+  {
+    "req": "approximately one-half miles east",
+    "res": [
+      {
+        "value": 0.5,
+        "unit": "mile",
+        "surface": "one-half miles",
+        "entity": "length"
+      }
+    ]
   }
 ]

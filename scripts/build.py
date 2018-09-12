@@ -34,7 +34,7 @@ def build_four_letter_words():
                 continue
             line = line.rstrip()
             # TODO don't do this comparison at every start up, use a build script
-            if line not in l.ALL_UNITS and line not in l.ALL_UNIT_SYMBOLS:
+            if line not in l.ALL_UNITS and line not in l.UNIT_SYMBOLS:
                 words[len(line)].append(line)
     # Create ready to parse json dict out of it
     buildfile = os.path.join(l.TOPDIR, 'common-4-letter-words.json')
