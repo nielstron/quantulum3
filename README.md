@@ -1,4 +1,4 @@
-quantulum3 [![Travis master build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=master "Travis master build state")](https://travis-ci.com/nielstron/quantulum3)  [![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=master)](https://coveralls.io/github/nielstron/quantulum3?branch=master)
+quantulum3 [![Travis master build state](https://travis-ci.com/nielstron/quantulum4.svg?branch=master "Travis master build state")](https://travis-ci.com/nielstron/quantulum3)  [![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=master)](https://coveralls.io/github/nielstron/quantulum3?branch=master) [![PyPI version](https://badge.fury.io/py/quantulum3.svg)](https://pypi.org/project/quantulum3/) ![ Supported python versions](https://img.shields.io/badge/python-3.6-red.svg)
 ==========
 
 Python library for information extraction of quantities, measurements
@@ -26,6 +26,9 @@ $ pip install quantulum3
 If you want to train the classifier yourself, in addition to the packages above, you'll also need
 the packages `stemming` and `wikipedia`. Use the method `train` in `quantulum3.classifier` to train the classifier.
 
+You could also [download requirements_classifier.txt](https://raw.githubusercontent.com/nielstron/quantulum3/dev/requirements_classifier.txt)
+and run `pip install requirements_classifier.txt`.
+
 Contributing
 ------------
 
@@ -34,7 +37,7 @@ If you'd like to contribute follow these steps:
 2. `pip install pipenv`
 3. Inside the project folder run `pipenv install --dev`
 4. Make your changes
-5. Run `scripts/format.sh`
+5. Run `scripts/format.sh` and `scripts/build.py` from the package root directory.
 6. Test your changes with `coverage run --source=quantulum3 --omit="*test*" setup.py test` 
 (Optional, will be done automatically after pushing)
 7. Create a Pull Request when having commited and pushed your changes
