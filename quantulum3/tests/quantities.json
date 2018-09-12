@@ -763,5 +763,26 @@
         "entity": "unknown"
       }
     ]
+  },
+  {
+    "req": "4,500 tpd",
+    "res": [
+      {
+        "value": 4500,
+        "unit": "ton per day",
+        "surface": "4,500 tpd",
+        "entity": "mass flow rate",
+        "dimensions": [
+          {
+            "base": "ton",
+            "power": 1
+          },
+          {
+            "base": "day",
+            "power": -1
+          }
+        ]
+      }
+    ]
   }
 ]
