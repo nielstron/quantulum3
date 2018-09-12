@@ -190,7 +190,7 @@ class EndToEndTests(unittest.TestCase):
     def test_build_script(self):
         """ Test that the build script has run correctly """
         # Read raw 4 letter file
-        path = os.path.join(l.TOPDIR, 'common-4-letter-words.txt')
+        path = os.path.join(l.TOPDIR, 'common-words.txt')
         words = defaultdict(list)  # Collect words based on length
         with open(path, 'r', encoding='utf-8') as file:
             for line in file:
@@ -202,7 +202,7 @@ class EndToEndTests(unittest.TestCase):
                     words[len(line)].append(line)
         for length, word_list in words.items():
             self.assertEqual(
-                l.FOUR_LETTER_WORDS[length], word_list,
+                l.COMMON_WORDS[length], word_list,
                 "Build script has not been run since change to critical files")
 
 
