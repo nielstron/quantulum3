@@ -16,10 +16,10 @@ from collections import defaultdict
 import wikipedia
 
 # Quantulum
-from . import load as l
-from . import parser as p
-from . import classes as c
-from . import classifier as clf
+from quantulum3 import load as l
+from quantulum3 import parser as p
+from quantulum3 import classes as c
+from quantulum3 import classifier as clf
 
 COLOR1 = '\033[94m%s\033[0m'
 COLOR2 = '\033[91m%s\033[0m'
@@ -69,64 +69,74 @@ def wiki_test(page='CERN'):
 
 
 ################################################################################
-def load_tests(ambiguity=True):
-    """
-    Load all tests from tests.json.
-    """
+def load_quantity_tests(ambiguity=True):
+    '''
+    Load all tests from quantities.json.
+    '''
 
-    path = os.path.join(TOPDIR,
-                        'tests.ambiguity.json' if ambiguity else 'tests.json')
-    with open(path, 'r') as test_file:
-        tests = json.load(test_file)
+    path = os.path.join(
+        TOPDIR,
+        'quantities.ambiguity.json' if ambiguity else 'quantities.json')
+    with open(path, 'r', encoding='UTF-8') as testfile:
+        tests = json.load(testfile)
 
-        for test in tests:
-            res = []
-            for item in test['res']:
+    for test in tests:
+        res = []
+        for item in test['res']:
+            try:
+                unit = l.NAMES[item['unit']]
+            except KeyError:
                 try:
-                    unit = l.NAMES[item['unit']]
+                    entity = item['entity']
                 except KeyError:
-                    try:
-                        entity = item['entity']
-                    except KeyError:
-                        print(('Could not find %s, provide "derived" and'
-                               ' "entity"' % item['unit']))
-                        return
-                    if entity == 'unknown':
-                        derived = [{
-                            'base': l.NAMES[i['base']].entity.name,
-                            'power': i['power']
-                        } for i in item['dimensions']]
-                        entity = c.Entity(name='unknown', dimensions=derived)
-                    elif entity in l.ENTITIES:
-                        entity = l.ENTITIES[entity]
-                    else:
-                        print(('Could not find %s, provide "derived" and'
-                               ' "entity"' % item['unit']))
-                        return
-                    unit = c.Unit(
-                        name=item['unit'],
-                        dimensions=item['dimensions'],
-                        entity=entity)
-                try:
-                    span = next(
-                        re.finditer(re.escape(item['surface']),
-                                    test['req'])).span()
-                except StopIteration:
-                    print('Surface mismatch for "%s"' % test['req'])
+                    print(('Could not find %s, provide "derived" and'
+                           ' "entity"' % item['unit']))
                     return
-                uncert = None
-                if 'uncertainty' in item:
-                    uncert = item['uncertainty']
-                res.append(
-                    c.Quantity(
-                        value=item['value'],
-                        unit=unit,
-                        surface=item['surface'],
-                        span=span,
-                        uncertainty=uncert))
-            test['res'] = [i for i in res]
+                if entity == 'unknown':
+                    derived = [{
+                        'base': l.NAMES[i['base']].entity.name,
+                        'power': i['power']
+                    } for i in item['dimensions']]
+                    entity = c.Entity(name='unknown', dimensions=derived)
+                elif entity in l.ENTITIES:
+                    entity = l.ENTITIES[entity]
+                else:
+                    print(('Could not find %s, provide "derived" and'
+                           ' "entity"' % item['unit']))
+                    return
+                unit = c.Unit(
+                    name=item['unit'],
+                    dimensions=item['dimensions'],
+                    entity=entity)
+            try:
+                span = next(
+                    re.finditer(re.escape(item['surface']),
+                                test['req'])).span()
+            except StopIteration:
+                print('Surface mismatch for "%s"' % test['req'])
+                return
+            uncert = None
+            if 'uncertainty' in item:
+                uncert = item['uncertainty']
+            res.append(
+                c.Quantity(
+                    value=item['value'],
+                    unit=unit,
+                    surface=item['surface'],
+                    span=span,
+                    uncertainty=uncert))
+        test['res'] = [i for i in res]
 
-        return tests
+    return tests
+
+
+################################################################################
+def load_expand_tests():
+    with open(
+            os.path.join(TOPDIR, 'expand.json'), 'r',
+            encoding='utf-8') as testfile:
+        tests = json.load(testfile)
+    return tests
 
 
 ################################################################################
@@ -135,11 +145,12 @@ class EndToEndTests(unittest.TestCase):
 
     def test_load_tests(self):
         """ Test that loading tests works """
-        self.assertFalse(load_tests() is None)
+        self.assertFalse(load_quantity_tests() is None)
+        self.assertFalse(load_expand_tests() is None)
 
     def test_parse_classifier(self):
         """ Test that parsing works with classifier usage """
-        all_tests = load_tests(False) + load_tests(True)
+        all_tests = load_quantity_tests(False) + load_quantity_tests(True)
         # forcedly activate classifier
         clf.USE_CLF = True
         for test in sorted(all_tests, key=lambda x: len(x['req'])):
@@ -151,7 +162,7 @@ class EndToEndTests(unittest.TestCase):
 
     def test_parse_no_classifier(self):
         """ Test that parsing works without classifier usage """
-        all_tests = load_tests(False)
+        all_tests = load_quantity_tests(False)
         # forcedly deactivate classifier
         clf.USE_CLF = False
         for test in sorted(all_tests, key=lambda x: len(x['req'])):
@@ -169,6 +180,12 @@ class EndToEndTests(unittest.TestCase):
         # TODO - update test to not overwirte existing clf.pickle and wiki.json files.
         clf.train_classifier(False)
         clf.train_classifier(True)
+
+    def test_expand(self):
+        all_tests = load_expand_tests()
+        for test in all_tests:
+            result = p.inline_parse_and_expand(test['req'])
+            self.assertEqual(result, test['res'])
 
     def test_build_script(self):
         """ Test that the build script has run correctly """
