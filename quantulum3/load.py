@@ -202,8 +202,8 @@ ALL_UNITS = {**UNITS, **LOWER_UNITS}
 ################################################################################
 
 
-def load_4_letter_words():
-    path = os.path.join(TOPDIR, 'common-4-letter-words.json')
+def load_common_words():
+    path = os.path.join(TOPDIR, 'common-words.json')
     dumped = {}
     try:
         with open(path, 'r', encoding='utf-8') as file:
@@ -217,4 +217,4 @@ def load_4_letter_words():
     return words
 
 
-FOUR_LETTER_WORDS = load_4_letter_words()
+COMMON_WORDS = load_common_words()

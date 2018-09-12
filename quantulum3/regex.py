@@ -25,14 +25,14 @@ SCALES = ['hundred', 'thousand', 'million', 'billion', 'trillion']
 
 DECIMALS = {
     'half': 0.5,
-    'third': 1/3,
+    'third': 1 / 3,
     'fourth': 0.25,
     'quarter': 0.25,
     'fifth': 0.2,
-    'sixth': 1/6,
-    'seventh': 1/7,
-    'eighth': 1/8,
-    'ninth': 1/9
+    'sixth': 1 / 6,
+    'seventh': 1 / 7,
+    'eighth': 1 / 8,
+    'ninth': 1 / 9
 }
 
 MISCNUM = {'and': (1, 0), 'a': (1, 1), 'an': (1, 1)}

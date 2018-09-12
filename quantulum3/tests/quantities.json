@@ -748,5 +748,20 @@
         "entity": "length"
       }
     ]
+  },
+  {
+    "req": "The Great Australia mine open cut (south-east of Cloncurry) with a fault visible above the stopes of historical underground workings.",
+    "res": []
+  },
+  {
+    "req": "Cannington—South 32 Ltd",
+    "res": [
+      {
+        "value": 32,
+        "unit": "dimensionless",
+        "surface": "32",
+        "entity": "unknown"
+      }
+    ]
   }
 ]
