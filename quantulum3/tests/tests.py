@@ -198,7 +198,7 @@ class EndToEndTests(unittest.TestCase):
                     continue
                 line = line.rstrip()
                 # TODO don't do this comparison at every start up, use a build script
-                if line not in l.ALL_UNITS and line not in l.ALL_UNIT_SYMBOLS:
+                if line not in l.ALL_UNITS and line not in l.UNIT_SYMBOLS:
                     words[len(line)].append(line)
         for length, word_list in words.items():
             self.assertEqual(
