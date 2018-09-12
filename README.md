@@ -1,4 +1,4 @@
-quantulum3 [![Travis master build state](https://travis-ci.com/nielstron/quantulum4.svg?branch=master "Travis master build state")](https://travis-ci.com/nielstron/quantulum3)  [![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=master)](https://coveralls.io/github/nielstron/quantulum3?branch=master) [![PyPI version](https://badge.fury.io/py/quantulum3.svg)](https://pypi.org/project/quantulum3/) ![ Supported python versions](https://img.shields.io/badge/python-3.6-red.svg)
+quantulum3 [![Travis master build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=master "Travis master build state")](https://travis-ci.com/nielstron/quantulum3)  [![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=master)](https://coveralls.io/github/nielstron/quantulum3?branch=master) [![PyPI version](https://badge.fury.io/py/quantulum3.svg)](https://pypi.org/project/quantulum3/) ![ Supported python versions](https://img.shields.io/badge/python-3.6-red.svg)
 ==========
 
 Python library for information extraction of quantities, measurements
