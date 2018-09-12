@@ -7,6 +7,8 @@
 from . import load as l
 
 ################################################################################
+
+
 class Quantity(object):
     '''
     Class for a quantity (e.g. "4.2 gallons").
@@ -61,9 +63,7 @@ class Quantity(object):
         if count.is_integer():
             count = int(count)
         return '{} {}'.format(
-            l.PLURALS.number_to_words(count),
-            self.unit.to_spoken(count)
-        )
+            l.PLURALS.number_to_words(count), self.unit.to_spoken(count))
 
 
 ################################################################################

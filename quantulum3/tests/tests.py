@@ -15,10 +15,10 @@ import unittest
 import wikipedia
 
 # Quantulum
-from . import load as l
-from . import parser as p
-from . import classes as c
-from . import classifier as clf
+from quantulum3 import load as l
+from quantulum3 import parser as p
+from quantulum3 import classes as c
+from quantulum3 import classifier as clf
 
 COLOR1 = '\033[94m%s\033[0m'
 COLOR2 = '\033[91m%s\033[0m'
@@ -68,13 +68,14 @@ def wiki_test(page='CERN'):
 
 
 ################################################################################
-def load_tests(ambiguity=True):
+def load_quantity_tests(ambiguity=True):
     '''
-    Load all tests from tests.json.
+    Load all tests from quantities.json.
     '''
 
-    path = os.path.join(TOPDIR, 'tests.ambiguity.json'
-                        if ambiguity else 'tests.json')
+    path = os.path.join(
+        TOPDIR,
+        'quantities.ambiguity.json' if ambiguity else 'quantities.json')
     with open(path, 'r') as test_file:
         tests = json.load(test_file)
 
@@ -129,14 +130,24 @@ def load_tests(ambiguity=True):
 
 
 ################################################################################
+def load_expand_tests():
+    with open(
+            os.path.join(TOPDIR, 'expand.json'), 'r',
+            encoding='utf-8') as testfile:
+        tests = json.load(testfile)
+    return tests
+
+
+################################################################################
 class EndToEndTests(unittest.TestCase):
     """Test suite for the quantulum3 project."""
 
     def test_load_tests(self):
-        self.assertFalse(load_tests() is None)
+        self.assertFalse(load_quantity_tests() is None)
+        self.assertFalse(load_expand_tests() is None)
 
     def test_parse_classifier(self):
-        all_tests = load_tests(False) + load_tests(True)
+        all_tests = load_quantity_tests(False) + load_quantity_tests(True)
         # forcedly activate classifier
         clf.USE_CLF = True
         for test in sorted(all_tests, key=lambda x: len(x['req'])):
@@ -147,7 +158,7 @@ class EndToEndTests(unittest.TestCase):
                                   [quant.__dict__ for quant in test['res']]))
 
     def test_parse_no_classifier(self):
-        all_tests = load_tests(False)
+        all_tests = load_quantity_tests(False)
         # forcedly deactivate classifier
         clf.USE_CLF = False
         for test in sorted(all_tests, key=lambda x: len(x['req'])):
@@ -164,6 +175,12 @@ class EndToEndTests(unittest.TestCase):
         # TODO - update test to not overwirte existing clf.pickle and wiki.json files.
         clf.train_classifier(False)
         clf.train_classifier(True)
+
+    def test_expand(self):
+        all_tests = load_expand_tests()
+        for test in all_tests:
+            result = p.inline_parse_and_expand(test['req'])
+            self.assertEqual(result, test['res'])
 
 
 ################################################################################

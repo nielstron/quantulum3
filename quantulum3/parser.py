@@ -358,9 +358,9 @@ def get_unit(item, text):
                 # Remove (original length - new end) characters
                 unit_shortening = item.end() - item.start(operator_index)
                 logging.debug(
-                    "Because operator inconsistency, cut from operator: '{}', new surface: {}".
-                    format(operator,
-                           text[item.start():item.end() - unit_shortening]))
+                    "Because operator inconsistency, cut from operator: '{}', new surface: {}"
+                    .format(operator,
+                            text[item.start():item.end() - unit_shortening]))
                 break
 
             # Determine whether a negative power has to be applied to following units
@@ -377,8 +377,8 @@ def get_unit(item, text):
                     elif len(l.UNITS[unit_surface]) > 0:
                         base = l.UNITS[unit_surface][0].name
                     elif len(l.UNIT_SYMBOLS_LOWER[unit_surface.lower()]) > 0:
-                        base = l.UNIT_SYMBOLS_LOWER[unit_surface.lower()][
-                            0].name
+                        base = l.UNIT_SYMBOLS_LOWER[unit_surface.
+                                                    lower()][0].name
                     elif len(l.LOWER_UNITS[unit_surface.lower()]) > 0:
                         base = l.LOWER_UNITS[unit_surface.lower()][0].name
                     else:
@@ -695,4 +695,3 @@ def inline_parse_and_expand(text, verbose=False):
         shift += len(to_add) - (quantity.span[1] - quantity.span[0])
 
     return text
-
