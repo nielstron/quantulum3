@@ -62,8 +62,10 @@ class Quantity(object):
         count = self.value
         if count.is_integer():
             count = int(count)
-        return '{} {}'.format(
-            l.PLURALS.number_to_words(count), self.unit.to_spoken(count))
+        unit_string = self.unit.to_spoken(count)
+        return '{}{}{}'.format(
+            l.PLURALS.number_to_words(count), " " if len(unit_string) else "",
+            unit_string)
 
 
 ################################################################################
