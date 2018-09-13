@@ -687,23 +687,6 @@
     ]
   },
   {
-    "req": "This diffuser uses finest 9\" 360-ish plates",
-    "res": [
-      {
-        "value": 9,
-        "unit": "inch",
-        "surface": "9\"",
-        "entity": "length"
-      },
-      {
-        "value": 360,
-        "unit": "dimensionless",
-        "surface": "360",
-        "entity": "unknown"
-      }
-    ]
-  },
-  {
     "req": "Oh look, a penny!",
     "res": [
       {
