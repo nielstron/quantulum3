@@ -235,6 +235,26 @@
     ]
   },
   {
+    "req": "There is no difference in volume between 4km^2, 4 square kilometers and 4 km squared",
+    "res": [
+      {
+        "value": 4,
+        "unit": "square kilometre",
+        "surface": "4km^2"
+      },
+      {
+        "value": 4,
+        "unit": "square kilometre",
+        "surface": "4 square kilometers"
+      },
+      {
+        "value": 4,
+        "unit": "square kilometre",
+        "surface": "4 km squared"
+      }
+    ]
+  },
+  {
     "req": "In the movie, Forrest Gump keeps running for 3 years, 2 months, 14 days, and 16 hours. The estimated length Forrest covered is 30616.16 km",
     "res": [
       {
@@ -667,19 +687,187 @@
     ]
   },
   {
-    "req": "This diffuser uses finest 9\" 360-ish plates",
+    "req": "Oh look, a penny!",
     "res": [
       {
-        "value": 9,
-        "unit": "inch",
-        "surface": "9\"",
+        "value": 1,
+        "unit": "penny",
+        "surface": "a penny",
+        "entity": "currency"
+      }
+    ]
+  },
+  {
+    "req": "Quite a lot of currencies have cents, where one hundred cents equal the basic unit",
+    "res": [
+      {
+        "value": 100,
+        "unit": "cent",
+        "surface": "one hundred cents",
+        "entity": "currency"
+      }
+    ]
+  },
+  {
+    "req": "The probability of a fair dice showing a certain face is exactly one sixth.",
+    "res": [
+      {
+        "value": 0.16666666666666666666666666666,
+        "unit": "dimensionless",
+        "surface": "one sixth",
+        "entity": "unknown"
+      }
+    ]
+  },
+  {
+    "req": "I'd like two thirds of the cake.",
+    "res": [
+      {
+        "value": 0.666666666666666666666666666666,
+        "unit": "dimensionless",
+        "surface": "two thirds",
+        "entity": "unknown"
+      }
+    ]
+  },
+  {
+    "req": "Is three halves a fraction?",
+    "res": [
+      {
+        "value": 1.5,
+        "unit": "dimensionless",
+        "surface": "three halves",
+        "entity": "unknown"
+      }
+    ]
+  },
+  {
+    "req": "approximately one-half miles east",
+    "res": [
+      {
+        "value": 0.5,
+        "unit": "mile",
+        "surface": "one-half miles",
         "entity": "length"
+      }
+    ]
+  },
+  {
+    "req": "The Great Australia mine open cut (south-east of Cloncurry) with a fault visible above the stopes of historical underground workings.",
+    "res": []
+  },
+  {
+    "req": "Cannington—South 32 Ltd",
+    "res": [
+      {
+        "value": 32,
+        "unit": "dimensionless",
+        "surface": "32",
+        "entity": "unknown"
+      }
+    ]
+  },
+  {
+    "req": "The recycling facility manages roughly 4,500 tpd.",
+    "res": [
+      {
+        "value": 4500,
+        "unit": "ton per day",
+        "surface": "4,500 tpd",
+        "entity": "mass flow rate",
+        "dimensions": [
+          {
+            "base": "ton",
+            "power": 1
+          },
+          {
+            "base": "day",
+            "power": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "The number 1/0 is not a valid value.",
+    "res": []
+  },
+  {
+    "req": "45 Js l",
+    "res": [
+      {
+        "value": 45,
+        "unit": "joule second",
+        "surface": "45 Js",
+        "entity": "unknown",
+        "dimensions": [
+          {
+            "base": "joule",
+            "power": 1
+          },
+          {
+            "base": "second",
+            "power": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "I bought a dozen eggs recently",
+    "res": [
+      {
+        "value": 1.0,
+        "unit": "dozen",
+        "surface": "a dozen",
+        "entity": "dimensionless"
+      }
+    ]
+  },
+  {
+    "req": "A baker's dozen is exactly 13 units whilst a gross is 144 (a square dozen).",
+    "res": [
+      {
+        "value": 1.0,
+        "unit": "baker's dozen",
+        "surface": "A baker's dozen",
+        "entity": "dimensionless"
       },
       {
-        "value": 360,
+        "value": 13.0,
         "unit": "dimensionless",
-        "surface": "360",
-        "entity": "unknown"
+        "surface": "13",
+        "entity": "dimensionless"
+      },
+      {
+        "value": 1.0,
+        "unit": "gross",
+        "surface": "a gross",
+        "entity": "dimensionless",
+        "dimensions": [
+          {
+            "base": "dozen",
+            "power": 2
+          }
+        ]
+      },
+      {
+        "value": 144,
+        "unit": "dimensionless",
+        "surface": "144",
+        "entity": "dimensionless"
+      },
+      {
+        "value": 1.0,
+        "unit": "gross",
+        "surface": "a square dozen",
+        "entity": "dimensionless",
+        "dimensions": [
+          {
+            "base": "dozen",
+            "power": 2
+          }
+        ]
       }
     ]
   }

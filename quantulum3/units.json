@@ -906,6 +906,16 @@
     ]
   },
   {
+    "name": "Rappen",
+    "surfaces": [
+      "rappen"
+    ],
+    "entity": "currency",
+    "URI": "https://en.wikipedia.org/wiki/Rappen",
+    "dimensions": [],
+    "symbols": []
+  },
+  {
     "name": "south african rand",
     "surfaces": [
       "south african rand",
@@ -4494,6 +4504,156 @@
       "mJy",
       "mfu",
       "m.f.u."
+    ]
+  },
+  {
+    "name": "penny",
+    "surfaces": [
+      "penny"
+    ],
+    "entity": "currency",
+    "URI": "https://en.wikipedia.org/wiki/Penny",
+    "dimensions": [],
+    "symbols": [
+      "p",
+      "d."
+    ]
+  },
+  {
+    "name": "cent",
+    "surfaces": [
+      "cent"
+    ],
+    "entity": "currency",
+    "URI": "https://en.wikipedia.org/wiki/Cent_(currency)",
+    "dimensions": [],
+    "symbols": [
+      "¢",
+      "c",
+      "cts",
+      "Ct."
+    ]
+  },
+  {
+    "name": "centavo",
+    "surfaces": [
+      "centavo"
+    ],
+    "entity": "currency",
+    "URI": "https://en.wikipedia.org/wiki/Centavo",
+    "dimensions": [],
+    "symbols": [
+      "¢",
+      "c",
+      "cts",
+      "ctvs",
+      "cvs",
+      "C",
+      "CT"
+    ]
+  },
+  {
+    "name": "ton per day",
+    "surfaces": [
+      "ton per day"
+    ],
+    "entity": "mass flow",
+    "URI": "https://en.wikipedia.org/wiki/Ton",
+    "dimensions": [
+      {
+        "base": "ton",
+        "power": 1
+      },
+      {
+        "base": "day",
+        "power": -1
+      }
+    ],
+    "symbols": [
+      "tpd"
+    ]
+  },
+  {
+    "name": "baker's dozen",
+    "surfaces": [
+      "bakers dozen",
+      "baker   dozen",
+      "long dozen",
+      "devils dozen",
+      "devil   dozen",
+      "long measure"
+    ],
+    "entity": "dimensionless",
+    "URI": "https://en.wikipedia.org/wiki/Dozen#Baker's_dozen",
+    "dimensions": [],
+    "symbols": []
+  },
+  {
+    "name": "dozen",
+    "surfaces": [
+      "dozen",
+      "group of twelve"
+    ],
+    "entity": "dimensionless",
+    "URI": "https://en.wikipedia.org/wiki/Dozen",
+    "dimensions": [],
+    "symbols": [
+      "dz",
+      "doz"
+    ]
+  },
+  {
+    "name": "gross",
+    "surfaces": [
+      "gross",
+      "square dozen"
+    ],
+    "entity": "dimensionless",
+    "URI": "https://en.wikipedia.org/wiki/Gross_(unit)",
+    "dimensions": [
+      {
+        "base": "dozen",
+        "power": 2
+      }
+    ],
+    "symbols": [
+      "gr",
+      "gro"
+    ]
+  },
+  {
+    "name": "great gross",
+    "surfaces": [
+      "great gross",
+      "cubic gross",
+      "dozen gross",
+      "grand gross"
+    ],
+    "entity": "dimensionless",
+    "URI": "https://en.wikipedia.org/wiki/1728_(number)",
+    "dimensions": [
+      {
+        "base": "dozen",
+        "power": 3
+      }
+    ],
+    "symbols": [
+    ]
+  },
+  {
+    "name": "long hundred",
+    "surfaces": [
+      "long hundred",
+      "great hundred",
+      "twelfty",
+      "small gross",
+      "centum"
+    ],
+    "entity": "dimensionless",
+    "URI": "https://en.wikipedia.org/wiki/Long_hundred",
+    "dimensions": [],
+    "symbols": [
+      "c."
     ]
   }
 ]

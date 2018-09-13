@@ -25,7 +25,7 @@ def clean_surface(surface, span):
 
     surface = surface.replace('-', ' ')
     no_start = ['and', ' ']
-    no_end = [' and', ' ']
+    no_end = [' '] + [' {}'.format(misc) for misc in r.MISCNUM]
 
     found = True
     while found:
@@ -45,7 +45,7 @@ def clean_surface(surface, span):
         return None, None
 
     split = surface.lower().split()
-    if split[0] in ['one', 'a', 'an'] and len(split) > 1 and split[1] in \
+    if split[0] in r.MISCNUM and len(split) > 1 and split[1] in \
             r.UNITS + r.TENS:
         span = (span[0] + len(surface.split()[0]) + 1, span[1])
         surface = ' '.join(surface.split()[1:])
@@ -446,16 +446,9 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     '''
     Build a Quantity object out of extracted information.
     '''
+    # TODO rerun if change occurred
     # Re parse unit if a change occurred
     dimension_change = False
-
-    # Discard irrelevant txt2float extractions, cardinal numbers, codes etc.
-    if surface.lower() in ['a', 'an', 'one'] or \
-            re.search(r'1st|2nd|3rd|[04-9]th', surface) or \
-            re.search(r'\d+[A-Z]+\d+', surface) or \
-            re.search(r'\ba second\b', surface, re.IGNORECASE):
-        logging.debug('\tMeaningless quantity ("%s"), discard', surface)
-        return
 
     # Usually "$3T" does not stand for "dollar tesla"
     # this holds as well for "3k miles"
@@ -492,25 +485,31 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         span = (span[0], span[1] - 1)
         logging.debug('\tCorrect for "1990s" pattern')
 
-    # check if a unit, combined only from symbols
-    # and without operators, actually is a common 4-letter-word
+    # check if a unit without operators, actually is a common word
     if unit.dimensions:
-        candidates = [(u.get('surface') in l.ALL_UNIT_SYMBOLS
-                       and u['power'] == 1) for u in unit.dimensions]
+        candidates = [u['power'] == 1 for u in unit.dimensions]
         for start in range(0, len(unit.dimensions)):
             for end in reversed(range(start + 1, len(unit.dimensions) + 1)):
                 # Try to match a combination of consecutive surfaces with a common 4 letter word
                 if not all(candidates[start:end]):
                     continue
                 combination = ''.join(
-                    u['surface'] for u in unit.dimensions[start:end])
+                    u.get('surface', '') for u in unit.dimensions[start:end])
+                # Combination has to be at least one letter
+                if len(combination) < 1:
+                    continue
+                # Combination has to be all lower or capitalized in the first or all letters
+                if not (
+                        combination.islower() or
+                    (len(combination) > 2 and
+                     (combination[0].isupper() and combination[1:].islower()
+                      or combination.isupper()))):
+                    continue
                 # Combination has to be inside the surface
                 if combination not in surface:
                     continue
-                # Combination has to be a common word of at least two letters
-                if len(combination
-                       ) <= 1 or combination not in l.FOUR_LETTER_WORDS[len(
-                           combination)]:
+                # Combination has to be a common word
+                if combination.lower() not in l.COMMON_WORDS[len(combination)]:
                     continue
                 # Cut the combination from the surface and everything that follows
                 # as it is a word, it will be preceded by a space
@@ -521,6 +520,9 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
                 surface = surface[:match.start()]
                 unit.dimensions = unit.dimensions[:start]
                 dimension_change = True
+                logging.debug("Detected common word '{}' and removed it".
+                              format(combination))
+                break
 
     # Usually "in" stands for the preposition, not inches
     if unit.dimensions and (unit.dimensions[-1]['base'] == 'inch'
@@ -536,7 +538,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     if match:
         surface = surface[:-1]
         span = (span[0], span[1] - 1)
-        if unit.dimensions and (unit.dimensions[-1]['base'] == 'inch'):
+        if unit.dimensions and (unit.dimensions[-1]['surface'] == '"'):
             unit.dimensions = unit.dimensions[:-1]
             dimension_change = True
         logging.debug('\tCorrect for quotes')
@@ -554,6 +556,14 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
             unit = get_unit_from_dimensions(unit.dimensions, orig_text)
         else:
             unit = l.NAMES['dimensionless']
+
+    # Discard irrelevant txt2float extractions, cardinal numbers, codes etc.
+    if surface.lower() in ['a', 'an', 'one'] or \
+            re.search(r'1st|2nd|3rd|[04-9]th', surface) or \
+            re.search(r'\d+[A-Z]+\d+', surface) or \
+            re.search(r'\ba second\b', surface, re.IGNORECASE):
+        logging.debug('\tMeaningless quantity ("%s"), discard', surface)
+        return
 
     objs = []
     for value in values:

@@ -23,6 +23,20 @@ TENS = [
 
 SCALES = ['hundred', 'thousand', 'million', 'billion', 'trillion']
 
+DECIMALS = {
+    'half': 0.5,
+    'third': 1 / 3,
+    'fourth': 0.25,
+    'quarter': 0.25,
+    'fifth': 0.2,
+    'sixth': 1 / 6,
+    'seventh': 1 / 7,
+    'eighth': 1 / 8,
+    'ninth': 1 / 9
+}
+
+MISCNUM = {'and': (1, 0), 'a': (1, 1), 'an': (1, 1)}
+
 
 ################################################################################
 def get_numwords():
@@ -30,7 +44,9 @@ def get_numwords():
     Convert number words to integers in a given text.
     '''
 
-    numwords = {'and': (1, 0), 'a': (1, 1), 'an': (1, 1)}
+    numwords = {}
+
+    numwords.update(MISCNUM)
 
     for idx, word in enumerate(UNITS):
         numwords[word] = (1, idx)
@@ -38,6 +54,9 @@ def get_numwords():
         numwords[word] = (1, idx * 10)
     for idx, word in enumerate(SCALES):
         numwords[word] = (10**(idx * 3 or 2), 0)
+    for word, factor in DECIMALS.items():
+        numwords[word] = (factor, 0)
+        numwords[l.PLURALS.plural(word)] = (factor, 0)
 
     all_numbers = r'|'.join(r'\b%s\b' % i for i in list(numwords.keys()) if i)
 

@@ -24,9 +24,10 @@ from . import load as l
 
 
 ################################################################################
-def download_wiki():
+def download_wiki(store=True):
     '''
     Download WikiPedia pages of ambiguous units.
+    @:param store (bool) store wikipedia data in wiki.json file
     '''
     import wikipedia
 
@@ -51,10 +52,12 @@ def download_wiki():
 
     path = os.path.join(l.TOPDIR, 'wiki.json')
     os.remove(path)
-    json.dump(objs, open(path, 'w'), indent=4, sort_keys=True)
+    if store:
+        with open(path, 'w') as wiki_file:
+            json.dump(objs, wiki_file, indent=4, sort_keys=True)
 
     print('\n---> All done.\n')
-    return False
+    return objs
 
 
 ################################################################################
@@ -78,20 +81,24 @@ def clean_text(text):
 
 
 ################################################################################
-def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
+def train_classifier(download=True,
+                     parameters=None,
+                     ngram_range=(1, 1),
+                     store=True):
     '''
     Train the intent classifier
     TODO auto invoke if sklearn version is new or first install or sth
+    @:param store (bool) store classifier in clf.pickle
     '''
-    if download:
-        download_wiki()
-
     path = os.path.join(l.TOPDIR, 'train.json')
-    string_json = ''.join(open(path, encoding='utf-8').readlines())
-    training_set = json.loads(string_json)
-    path = os.path.join(l.TOPDIR, 'wiki.json')
-    string_json = ''.join(open(path, encoding='utf-8').readlines())
-    wiki_set = json.loads(string_json)
+    with open(path, 'r', encoding='utf-8') as train_file:
+        training_set = json.load(train_file)
+
+    wiki_set = download_wiki(store) if download else None
+    if not wiki_set:
+        path = os.path.join(l.TOPDIR, 'wiki.json')
+        with open(path, 'r', encoding='utf-8') as wiki_file:
+            wiki_set = json.load(wiki_file)
 
     target_names = list(set([i['unit'] for i in training_set + wiki_set]))
     train_data, train_target = [], []
@@ -119,10 +126,11 @@ def train_classifier(download=True, parameters=None, ngram_range=(1, 1)):
         'clf': clf,
         'target_names': target_names
     }
-    path = os.path.join(l.TOPDIR, 'clf.pickle')
-    with open(path, 'wb') as file:
-        pickle.dump(obj, file)
-    return True
+    if store:
+        path = os.path.join(l.TOPDIR, 'clf.pickle')
+        with open(path, 'wb') as file:
+            pickle.dump(obj, file)
+    return obj
 
 
 ################################################################################
