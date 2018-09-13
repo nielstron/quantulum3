@@ -804,5 +804,9 @@
         ]
       }
     ]
+  },
+  {
+    "req": "The number 1/0 is not a valid value.",
+    "res": []
   }
 ]
