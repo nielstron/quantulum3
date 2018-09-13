@@ -4572,5 +4572,88 @@
     "symbols": [
       "tpd"
     ]
+  },
+  {
+    "name": "baker's dozen",
+    "surfaces": [
+      "bakers dozen",
+      "baker   dozen",
+      "long dozen",
+      "devils dozen",
+      "devil   dozen",
+      "long measure"
+    ],
+    "entity": "dimensionless",
+    "URI": "https://en.wikipedia.org/wiki/Dozen#Baker's_dozen",
+    "dimensions": [],
+    "symbols": []
+  },
+  {
+    "name": "dozen",
+    "surfaces": [
+      "dozen",
+      "group of twelve"
+    ],
+    "entity": "dimensionless",
+    "URI": "https://en.wikipedia.org/wiki/Dozen",
+    "dimensions": [],
+    "symbols": [
+      "dz",
+      "doz"
+    ]
+  },
+  {
+    "name": "gross",
+    "surfaces": [
+      "gross",
+      "square dozen"
+    ],
+    "entity": "dimensionless",
+    "URI": "https://en.wikipedia.org/wiki/Gross_(unit)",
+    "dimensions": [
+      {
+        "base": "dozen",
+        "power": 2
+      }
+    ],
+    "symbols": [
+      "gr",
+      "gro"
+    ]
+  },
+  {
+    "name": "great gross",
+    "surfaces": [
+      "great gross",
+      "cubic gross",
+      "dozen gross",
+      "grand gross"
+    ],
+    "entity": "dimensionless",
+    "URI": "https://en.wikipedia.org/wiki/1728_(number)",
+    "dimensions": [
+      {
+        "base": "dozen",
+        "power": 3
+      }
+    ],
+    "symbols": [
+    ]
+  },
+  {
+    "name": "long hundred",
+    "surfaces": [
+      "long hundred",
+      "great hundred",
+      "twelfty",
+      "small gross",
+      "centum"
+    ],
+    "entity": "dimensionless",
+    "URI": "https://en.wikipedia.org/wiki/Long_hundred",
+    "dimensions": [],
+    "symbols": [
+      "c."
+    ]
   }
 ]

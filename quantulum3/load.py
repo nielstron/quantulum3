@@ -202,6 +202,24 @@ ALL_UNITS = {**UNITS, **LOWER_UNITS}
 ################################################################################
 
 
+def build_common_words():
+    # Read raw 4 letter file
+    path = os.path.join(TOPDIR, 'common-words.txt')
+    words = defaultdict(list)  # Collect words based on length
+    with open(path, 'r', encoding='utf-8') as file:
+        for line in file:
+            if line.startswith('#'):
+                continue
+            line = line.rstrip()
+            if line not in ALL_UNITS and line not in UNIT_SYMBOLS:
+                words[len(line)].append(line)
+                words[len(line)].append(PLURALS.plural(line))
+    return words
+
+
+################################################################################
+
+
 def load_common_words():
     path = os.path.join(TOPDIR, 'common-words.json')
     dumped = {}
