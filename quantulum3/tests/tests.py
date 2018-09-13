@@ -179,7 +179,8 @@ class EndToEndTests(unittest.TestCase):
         # Test that no errors are thrown during training
         obj = clf.train_classifier(download=False, store=False)
         # Test that the classifier works with the currently downloaded data
-        clf.TFIDF_MODEL, clf.CLF, clf.TARGET_NAMES = obj['tfidf_model'], obj['clf'], obj['target_names']
+        clf.TFIDF_MODEL, clf.CLF, clf.TARGET_NAMES = obj['tfidf_model'], obj[
+            'clf'], obj['target_names']
         # Don't run with ambiguities because result is non-detemernistic
         self.test_parse_no_classifier()
 

@@ -13,7 +13,6 @@ if not os.path.isdir('./quantulum3') or not os.path.exists('./README.md'):
 
 sys.path.append(os.path.abspath('.'))
 
-from quantulum3.classifier import train_classifier, download_wiki
+from quantulum3.classifier import train_classifier
 
-download_wiki(store=True)
 train_classifier(download=False, store=True)

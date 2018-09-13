@@ -81,7 +81,10 @@ def clean_text(text):
 
 
 ################################################################################
-def train_classifier(download=True, parameters=None, ngram_range=(1, 1), store=True):
+def train_classifier(download=True,
+                     parameters=None,
+                     ngram_range=(1, 1),
+                     store=True):
     '''
     Train the intent classifier
     TODO auto invoke if sklearn version is new or first install or sth
