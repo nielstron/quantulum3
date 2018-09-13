@@ -812,5 +812,63 @@
         ]
       }
     ]
+  },
+  {
+    "req": "I bought a dozen eggs recently",
+    "res": [
+      {
+        "value": 1.0,
+        "unit": "dozen",
+        "surface": "a dozen",
+        "entity": "dimensionless"
+      }
+    ]
+  },
+  {
+    "req": "A baker's dozen is exactly 13 units whilst a gross is 144 (a square dozen).",
+    "res": [
+      {
+        "value": 1.0,
+        "unit": "baker's dozen",
+        "surface": "A baker's dozen",
+        "entity": "dimensionless"
+      },
+      {
+        "value": 13.0,
+        "unit": "dimensionless",
+        "surface": "13",
+        "entity": "dimensionless"
+      },
+      {
+        "value": 1.0,
+        "unit": "gross",
+        "surface": "a gross",
+        "entity": "dimensionless",
+        "dimensions": [
+          {
+            "base": "dozen",
+            "power": 2
+          }
+        ]
+      },
+      {
+        "value": 144,
+        "unit": "dimensionless",
+        "surface": "144",
+        "entity": "dimensionless"
+      },
+      {
+        "value": 1.0,
+        "unit": "gross",
+        "surface": "a square dozen",
+        "entity": "dimensionless",
+        "dimensions": [
+          {
+            "base": "dozen",
+            "power": 2
+          }
+        ]
+      }
+    ]
   }
 ]

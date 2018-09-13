@@ -485,18 +485,16 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         span = (span[0], span[1] - 1)
         logging.debug('\tCorrect for "1990s" pattern')
 
-    # check if a unit, combined only from symbols
-    # and without operators, actually is a common 4-letter-word
+    # check if a unit without operators, actually is a common word
     if unit.dimensions:
-        candidates = [(u.get('surface') in l.ALL_UNIT_SYMBOLS
-                       and u['power'] == 1) for u in unit.dimensions]
+        candidates = [u['power'] == 1 for u in unit.dimensions]
         for start in range(0, len(unit.dimensions)):
             for end in reversed(range(start + 1, len(unit.dimensions) + 1)):
                 # Try to match a combination of consecutive surfaces with a common 4 letter word
                 if not all(candidates[start:end]):
                     continue
                 combination = ''.join(
-                    u['surface'] for u in unit.dimensions[start:end])
+                    u.get('surface', '') for u in unit.dimensions[start:end])
                 # Combination has to be at least one letter
                 if len(combination) < 1:
                     continue
@@ -522,6 +520,9 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
                 surface = surface[:match.start()]
                 unit.dimensions = unit.dimensions[:start]
                 dimension_change = True
+                logging.debug("Detected common word '{}' and removed it".
+                              format(combination))
+                break
 
     # Usually "in" stands for the preposition, not inches
     if unit.dimensions and (unit.dimensions[-1]['base'] == 'inch'
