@@ -145,7 +145,8 @@ class EndToEndTests(unittest.TestCase):
 
     def test_load_tests(self):
         """ Test that loading tests works """
-        self.assertFalse(load_quantity_tests() is None)
+        self.assertFalse(load_quantity_tests(True) is None)
+        self.assertFalse(load_quantity_tests(False) is None)
         self.assertFalse(load_expand_tests() is None)
 
     def test_parse_classifier(self):

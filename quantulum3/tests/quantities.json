@@ -785,7 +785,7 @@
     ]
   },
   {
-    "req": "4,500 tpd",
+    "req": "The recycling facility manages roughly 4,500 tpd.",
     "res": [
       {
         "value": 4500,
@@ -808,5 +808,26 @@
   {
     "req": "The number 1/0 is not a valid value.",
     "res": []
+  },
+  {
+    "req": "45 Js l",
+    "res": [
+      {
+        "value": 45,
+        "unit": "joule second",
+        "surface": "45 Js",
+        "entity": "unknown",
+        "dimensions": [
+          {
+            "base": "joule",
+            "power": 1
+          },
+          {
+            "base": "second",
+            "power": 1
+          }
+        ]
+      }
+    ]
   }
 ]
