@@ -1,5 +1,5 @@
 numpy
 scipy
 scikit-learn
-stemming
 wikipedia
+stemming

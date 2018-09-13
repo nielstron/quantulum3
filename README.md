@@ -24,7 +24,7 @@ $ pip install quantulum3
 ```
 
 If you want to train the classifier yourself, in addition to the packages above, you'll also need
-the packages `stemming` and `wikipedia`. Use the method `train` in `quantulum3.classifier` to train the classifier.
+the packages `stemming` and `wikipedia`. Use the method `train_classifier` in `quantulum3.classifier` to train the classifier.
 
 You could also [download requirements_classifier.txt](https://raw.githubusercontent.com/nielstron/quantulum3/dev/requirements_classifier.txt)
 and run `pip install requirements_classifier.txt`.

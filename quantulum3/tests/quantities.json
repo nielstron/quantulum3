@@ -235,6 +235,26 @@
     ]
   },
   {
+    "req": "There is no difference in volume between 4km^2, 4 square kilometers and 4 km squared",
+    "res": [
+      {
+        "value": 4,
+        "unit": "square kilometre",
+        "surface": "4km^2"
+      },
+      {
+        "value": 4,
+        "unit": "square kilometre",
+        "surface": "4 square kilometers"
+      },
+      {
+        "value": 4,
+        "unit": "square kilometre",
+        "surface": "4 km squared"
+      }
+    ]
+  },
+  {
     "req": "In the movie, Forrest Gump keeps running for 3 years, 2 months, 14 days, and 16 hours. The estimated length Forrest covered is 30616.16 km",
     "res": [
       {
@@ -667,23 +687,6 @@
     ]
   },
   {
-    "req": "This diffuser uses finest 9\" 360-ish plates",
-    "res": [
-      {
-        "value": 9,
-        "unit": "inch",
-        "surface": "9\"",
-        "entity": "length"
-      },
-      {
-        "value": 360,
-        "unit": "dimensionless",
-        "surface": "360",
-        "entity": "unknown"
-      }
-    ]
-  },
-  {
     "req": "Oh look, a penny!",
     "res": [
       {
@@ -765,7 +768,7 @@
     ]
   },
   {
-    "req": "4,500 tpd",
+    "req": "The recycling facility manages roughly 4,500 tpd.",
     "res": [
       {
         "value": 4500,
@@ -780,6 +783,31 @@
           {
             "base": "day",
             "power": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "The number 1/0 is not a valid value.",
+    "res": []
+  },
+  {
+    "req": "45 Js l",
+    "res": [
+      {
+        "value": 45,
+        "unit": "joule second",
+        "surface": "45 Js",
+        "entity": "unknown",
+        "dimensions": [
+          {
+            "base": "joule",
+            "power": 1
+          },
+          {
+            "base": "second",
+            "power": 1
           }
         ]
       }

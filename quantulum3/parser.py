@@ -537,7 +537,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     if match:
         surface = surface[:-1]
         span = (span[0], span[1] - 1)
-        if unit.dimensions and (unit.dimensions[-1]['base'] == 'inch'):
+        if unit.dimensions and (unit.dimensions[-1]['surface'] == '"'):
             unit.dimensions = unit.dimensions[:-1]
             dimension_change = True
         logging.debug('\tCorrect for quotes')
