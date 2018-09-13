@@ -235,6 +235,26 @@
     ]
   },
   {
+    "req": "There is no difference in volume between 4km^2, 4 square kilometers and 4 km squared",
+    "res": [
+      {
+        "value": 4,
+        "unit": "square kilometre",
+        "surface": "4km^2"
+      },
+      {
+        "value": 4,
+        "unit": "square kilometre",
+        "surface": "4 square kilometers"
+      },
+      {
+        "value": 4,
+        "unit": "square kilometre",
+        "surface": "4 km squared"
+      }
+    ]
+  },
+  {
     "req": "In the movie, Forrest Gump keeps running for 3 years, 2 months, 14 days, and 16 hours. The estimated length Forrest covered is 30616.16 km",
     "res": [
       {
