@@ -182,7 +182,7 @@ the complete list of entities. The criteria for adding units have been:
 It\'s easy to extend these two files to the units/entities of interest.
 Here is an example of an entry in *entities.json*:
 
-``` {.sourceCode .python}
+```json
 {
     "name": "speed",
     "dimensions": [{"base": "length", "power": 1}, {"base": "time", "power": -1}],
@@ -197,7 +197,7 @@ Here is an example of an entry in *entities.json*:
 
 Here is an example of an entry in *units.json*:
 
-``` {.sourceCode .python}
+```json
 {
     "name": "metre per second",
     "surfaces": ["metre per second", "meter per second"],
@@ -205,6 +205,15 @@ Here is an example of an entry in *units.json*:
     "URI": "https://en.wikipedia.org/wiki/Metre_per_second",
     "dimensions": [{"base": "metre", "power": 1}, {"base": "second", "power": -1}],
     "symbols": ["mps"]
+},
+{
+    "name": "year",
+    "surfaces": [ "year", "annum" ],
+    "entity": "time",
+    "URI": "https://en.wikipedia.org/wiki/Year",
+    "dimensions": [],
+    "symbols": [ "a", "y", "yr" ],
+    "prefixes": [ "k", "M", "G", "T", "P", "E" ]
 }
 ```
 
@@ -216,5 +225,9 @@ Here is an example of an entry in *units.json*:
     *base* is the name of another unit, not of another entity.
 -   *symbols* is a list of possible symbols and abbreviations for that
     unit.
+-   *prefixes* is an optional list. It can contain [Metric](https://en.wikipedia.org/wiki/Metric_prefix) and [Binary prefixes](https://en.wikipedia.org/wiki/Binary_prefix) and
+    automatically generates according units. If you want to
+    add specifics (like different surfaces) you need to create an entry for that
+    prefixes version on its own.
 
 All fields are case sensitive.

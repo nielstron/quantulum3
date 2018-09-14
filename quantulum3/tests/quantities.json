@@ -731,7 +731,7 @@
     ]
   },
   {
-    "req": "Is three halves a fraction?",
+    "req": "Is three halves fractional?",
     "res": [
       {
         "value": 1.5,
@@ -868,6 +868,40 @@
             "power": 2
           }
         ]
+      }
+    ]
+  },
+  {
+    "req": "One gigaannum (1Ga) is a unit of time equal to one billion years",
+    "res": [
+      {
+        "value": 1.0,
+        "unit": "gigayear",
+        "surface": "One gigaannum",
+        "entity": "time"
+      },
+      {
+        "value": 1.0,
+        "unit": "gigayear",
+        "surface": "1Ga",
+        "entity": "time"
+      },
+      {
+        "value": 1000000000,
+        "unit": "year",
+        "surface": "one billion years",
+        "entity": "time"
+      }
+    ]
+  },
+  {
+    "req": "The dinosaur species Tyrannosaurus rex was abundant approximately 66 Ma ago",
+    "res": [
+      {
+        "value": 66,
+        "unit": "megayear",
+        "surface": "66 Ma",
+        "entity": "time"
       }
     ]
   }

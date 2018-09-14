@@ -106,7 +106,7 @@ def load_quantity_tests(ambiguity=True):
                     return
                 unit = c.Unit(
                     name=item['unit'],
-                    dimensions=item['dimensions'],
+                    dimensions=item.get('dimensions', []),
                     entity=entity)
             try:
                 span = next(
