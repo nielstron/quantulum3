@@ -2526,13 +2526,24 @@
   {
     "name": "year",
     "surfaces": [
-      "year"
+      "year",
+      "annum"
     ],
     "entity": "time",
     "URI": "https://en.wikipedia.org/wiki/Year",
     "dimensions": [],
     "symbols": [
-      "y"
+      "a",
+      "y",
+      "yr"
+    ],
+    "prefixes": [
+      "k",
+      "M",
+      "G",
+      "T",
+      "P",
+      "E"
     ]
   },
   {

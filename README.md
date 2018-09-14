@@ -19,7 +19,7 @@ or as unit of mass).
 
 Then,
 
-``` {.sourceCode .bash}
+```bash
 $ pip install quantulum3
 ```
 
@@ -27,7 +27,10 @@ If you want to train the classifier yourself, in addition to the packages above,
 the packages `stemming` and `wikipedia`. Use the method `train_classifier` in `quantulum3.classifier` to train the classifier.
 
 You could also [download requirements_classifier.txt](https://raw.githubusercontent.com/nielstron/quantulum3/dev/requirements_classifier.txt)
-and run `pip install requirements_classifier.txt`.
+and run 
+```bash
+$ pip install requirements_classifier.txt
+```
 
 Contributing
 ------------
@@ -50,7 +53,7 @@ If you'd like to contribute follow these steps:
 Usage
 -----
 
-``` {.sourceCode .python}
+```pycon
 >>> from quantulum3 import parser
 >>> quants = parser.parse('I want 2 liters of wine')
 >>> quants
@@ -60,7 +63,7 @@ Usage
 The *Quantity* class stores the surface of the original text it was
 extracted from, as well as the (start, end) positions of the match:
 
-``` {.sourceCode .python}
+```pycon
 >>> quants[0].surface
 u'2 liters'
 >>> quants[0].span
@@ -70,7 +73,7 @@ u'2 liters'
 An inline parser that embeds the parsed quantities in the text is also
 available (especially useful for debugging):
 
-``` {.sourceCode .python}
+```pycon
 >>> print parser.inline_parse('I want 2 liters of wine')
 I want 2 liters {Quantity(2, "litre")} of wine
 ```
@@ -78,7 +81,7 @@ I want 2 liters {Quantity(2, "litre")} of wine
 As the parser is also able to parse dimensionless numbers,
 this library can also be used for simple number extraction.
 
-``` {.sourceCode .python}
+```pycon
 >>> print parser.parse('I want two')
 [Quantity(2, 'dimensionless')]
 ```
@@ -89,7 +92,7 @@ Units and entities
 All units (e.g. *litre*) and the entities they are associated to (e.g.
 *volume*) are reconciled against WikiPedia:
 
-``` {.sourceCode .python}
+```pycon
 >>> quants[0].unit
 Unit(name="litre", entity=Entity("volume"), uri=https://en.wikipedia.org/wiki/Litre)
 
@@ -100,7 +103,7 @@ Entity(name="volume", uri=https://en.wikipedia.org/wiki/Volume)
 This library includes more than 290 units and 75 entities. It also
 parses spelled-out numbers, ranges and uncertainties:
 
-``` {.sourceCode .python}
+```pycon
 >>> parser.parse('I want a gallon of beer')
 [Quantity(1, 'gallon')]
 
@@ -116,7 +119,7 @@ Non-standard units usually don\'t have a WikiPedia page. The parser will
 still try to guess their underlying entity based on their
 dimensionality:
 
-``` {.sourceCode .python}
+```pycon
 >>> parser.parse('Sound travels at 0.34 km/s')[0].unit
 Unit(name="kilometre per second", entity=Entity("speed"), uri=None)
 ```
@@ -127,7 +130,7 @@ Disambiguation
 If the parser detects an ambiguity, a classifier based on the WikiPedia
 pages of the ambiguous units or entities tries to guess the right one:
 
-``` {.sourceCode .python}
+```pycon
 >>> parser.parse('I spent 20 pounds on this!')
 [Quantity(20, "pound sterling")]
 
@@ -137,7 +140,7 @@ pages of the ambiguous units or entities tries to guess the right one:
 
 or:
 
-``` {.sourceCode .python}
+```pycon
 >>> text = 'The average density of the Earth is about 5.5x10-3 kg/cm³'
 >>> parser.parse(text)[0].unit.entity
 Entity(name="density", uri=https://en.wikipedia.org/wiki/Density)
@@ -162,7 +165,7 @@ Spoken version
 
 Quantulum classes include methods to convert them to a speakable unit.
 
-```python
+```pycon
 >>> parser.parse("Gimme 10e9 GW now!")[0].to_spoken()
 ten billion gigawatts
 >>> parser.inline_parse_and_expand("Gimme $1e10 now and also 1 TW and 0.5 J!")
@@ -182,7 +185,7 @@ the complete list of entities. The criteria for adding units have been:
 It\'s easy to extend these two files to the units/entities of interest.
 Here is an example of an entry in *entities.json*:
 
-``` {.sourceCode .python}
+```json
 {
     "name": "speed",
     "dimensions": [{"base": "length", "power": 1}, {"base": "time", "power": -1}],
@@ -197,7 +200,7 @@ Here is an example of an entry in *entities.json*:
 
 Here is an example of an entry in *units.json*:
 
-``` {.sourceCode .python}
+```json
 {
     "name": "metre per second",
     "surfaces": ["metre per second", "meter per second"],
@@ -205,6 +208,15 @@ Here is an example of an entry in *units.json*:
     "URI": "https://en.wikipedia.org/wiki/Metre_per_second",
     "dimensions": [{"base": "metre", "power": 1}, {"base": "second", "power": -1}],
     "symbols": ["mps"]
+},
+{
+    "name": "year",
+    "surfaces": [ "year", "annum" ],
+    "entity": "time",
+    "URI": "https://en.wikipedia.org/wiki/Year",
+    "dimensions": [],
+    "symbols": [ "a", "y", "yr" ],
+    "prefixes": [ "k", "M", "G", "T", "P", "E" ]
 }
 ```
 
@@ -216,5 +228,9 @@ Here is an example of an entry in *units.json*:
     *base* is the name of another unit, not of another entity.
 -   *symbols* is a list of possible symbols and abbreviations for that
     unit.
+-   *prefixes* is an optional list. It can contain [Metric](https://en.wikipedia.org/wiki/Metric_prefix) and [Binary prefixes](https://en.wikipedia.org/wiki/Binary_prefix) and
+    automatically generates according units. If you want to
+    add specifics (like different surfaces) you need to create an entry for that
+    prefixes version on its own.
 
 All fields are case sensitive.

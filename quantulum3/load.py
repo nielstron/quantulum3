@@ -22,6 +22,37 @@ TOPDIR = os.path.dirname(__file__) or "."
 
 PLURALS = inflect.engine()
 
+METRIC_PREFIXES = {
+    'Y': 'yotta',
+    'Z': 'zetta',
+    'E': 'exa',
+    'P': 'peta',
+    'T': 'tera',
+    'G': 'giga',
+    'M': 'mega',
+    'k': 'kilo',
+    'h': 'hecto',
+    'da': 'deca',
+    'd': 'deci',
+    'c': 'centi',
+    'm': 'mill',
+    'µ': 'micro',
+    'n': 'nano',
+    'p': 'pico',
+    'f': 'femto',
+    'a': 'atto',
+    'z': 'zepto',
+    'y': 'yocto',
+    'Ki': 'kibi',
+    'Mi': 'mebi',
+    'Gi': 'gibi',
+    'Ti': 'tebi',
+    'Pi': 'pebi',
+    'Ei': 'exbi',
+    'Zi': 'zebi',
+    'Yi': 'yobi'
+}
+
 
 def get_string_json(raw_json_text):
     text = raw_json_text
@@ -146,52 +177,92 @@ def load_units():
     path = os.path.join(TOPDIR, 'units.json')
     string_json = ''.join(open(path, encoding='utf-8').readlines())
     for unit in json.loads(string_json):
-
-        try:
-            assert unit['name'] not in names
-        except AssertionError:
-            msg = 'Two units with same name in units.json: %s' % unit['name']
-            raise Exception(msg)
-
-        obj = c.Unit(
-            name=unit['name'],
-            surfaces=unit['surfaces'],
-            entity=ENTITIES[unit['entity']],
-            uri=unit['URI'],
-            symbols=unit['symbols'],
-            dimensions=unit['dimensions'])
-
-        names[unit['name']] = obj
-
-        for symbol in unit['symbols']:
-            unit_symbols[symbol].append(obj)
-            unit_symbols_lower[symbol.lower()].append(obj)
-            if unit['entity'] == 'currency':
-                symbols[symbol].append(obj)
-
-        for surface in unit['surfaces']:
-            surfaces[surface].append(obj)
-            lowers[surface.lower()].append(obj)
-            split = surface.split()
-            index = None
-            if ' per ' in surface:
-                index = split.index('per') - 1
-            elif 'degree ' in surface:
-                index = split.index('degree')
-            if index is not None:
-                plural = ' '.join([
-                    i if num != index else PLURALS.plural(split[index])
-                    for num, i in enumerate(split)
-                ])
-            else:
-                plural = PLURALS.plural(surface)
-            if plural != surface:
-                surfaces[plural].append(obj)
-                lowers[plural.lower()].append(obj)
+        load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces,
+                  lowers, symbols)
 
     derived_uni = get_derived_units(names)
 
     return names, unit_symbols, unit_symbols_lower, surfaces, lowers, symbols, derived_uni
+
+
+def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
+              symbols):
+    try:
+        assert unit['name'] not in names
+    except AssertionError:
+        msg = 'Two units with same name in units.json: %s' % unit['name']
+        raise Exception(msg)
+
+    obj = c.Unit(
+        name=unit['name'],
+        surfaces=unit['surfaces'],
+        entity=ENTITIES[unit['entity']],
+        uri=unit['URI'],
+        symbols=unit['symbols'],
+        dimensions=unit['dimensions'])
+
+    names[unit['name']] = obj
+
+    for symbol in unit['symbols']:
+        unit_symbols[symbol].append(obj)
+        unit_symbols_lower[symbol.lower()].append(obj)
+        if unit['entity'] == 'currency':
+            symbols[symbol].append(obj)
+
+    for surface in unit['surfaces']:
+        surfaces[surface].append(obj)
+        lowers[surface.lower()].append(obj)
+        split = surface.split()
+        index = None
+        if ' per ' in surface:
+            index = split.index('per') - 1
+        elif 'degree ' in surface:
+            index = split.index('degree')
+        if index is not None:
+            plural = ' '.join([
+                i if num != index else PLURALS.plural(split[index])
+                for num, i in enumerate(split)
+            ])
+        else:
+            plural = PLURALS.plural(surface)
+        if plural != surface:
+            surfaces[plural].append(obj)
+            lowers[plural.lower()].append(obj)
+
+    # If SI-prefixes are given, add them
+    if unit.get('prefixes'):
+        for prefix in unit['prefixes']:
+            try:
+                assert prefix in METRIC_PREFIXES
+            except AssertionError:
+                raise Exception(
+                    "Given prefix '{}' for unit '{}' not supported".format(
+                        prefix, unit['name']))
+            try:
+                assert len(unit['dimensions']) <= 1
+            except AssertionError:
+                raise Exception(
+                    "Prefixing not supported for multiple dimensions in {}".
+                    format(unit['name']))
+
+            uri = unit['URI']
+            uri = uri[:uri.rfind('/')+1] + \
+                METRIC_PREFIXES[prefix] + uri[uri.rfind('/')+1:]
+
+            prefixed_unit = {
+                'name':
+                METRIC_PREFIXES[prefix] + unit['name'],
+                'surfaces':
+                [METRIC_PREFIXES[prefix] + i for i in unit['surfaces']],
+                'entity':
+                unit['entity'],
+                'URI':
+                uri,
+                'dimensions': [],
+                'symbols': [prefix + i for i in unit['symbols']]
+            }
+            load_unit(prefixed_unit, names, unit_symbols, unit_symbols_lower,
+                      surfaces, lowers, symbols)
 
 
 NAMES, UNIT_SYMBOLS, UNIT_SYMBOLS_LOWER, UNITS, LOWER_UNITS, PREFIX_SYMBOLS, \
