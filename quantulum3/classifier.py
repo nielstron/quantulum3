@@ -123,10 +123,14 @@ def train_classifier(download=True,
 
     clf = SGDClassifier(**parameters).fit(matrix, train_target)
     obj = {
-        'scipy_version': pkg_resources.get_distribution('scipy').version,
-        'tfidf_model': tfidf_model,
-        'clf': clf,
-        'target_names': target_names
+        'scikit-learn_version':
+        pkg_resources.get_distribution('scikit-learn').version,
+        'tfidf_model':
+        tfidf_model,
+        'clf':
+        clf,
+        'target_names':
+        target_names
     }
     if store:
         path = os.path.join(l.TOPDIR, 'clf.pickle')
@@ -145,13 +149,13 @@ def load_classifier():
     with open(path, 'rb') as file:
         obj = pickle.load(file, encoding='latin1')
 
-    cur_scipy_version = pkg_resources.get_distribution('scipy').version
-    if cur_scipy_version != obj.get('scipy_version'):
-        logging.warning(
-            "The classifier was built using a different scipy version (={}, !={}). "
+    cur_scipy_version = pkg_resources.get_distribution('scikit-learn').version
+    if cur_scipy_version != obj.get('scikit-learn_version'):
+        logging.warning((
+            "The classifier was built using a different scikit-learn version (={}, !={}). "
             + "The disambiguation tool could behave unexpectedly. " +
-            "Consider running classifier.train_classfier()".format(
-                obj.get('scipy_version'), cur_scipy_version))
+            "Consider running classifier.train_classfier()").format(
+                obj.get('scikit-learn_version'), cur_scipy_version))
 
     return obj['tfidf_model'], obj['clf'], obj['target_names']
 
