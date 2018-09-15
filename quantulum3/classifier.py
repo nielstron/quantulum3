@@ -10,6 +10,7 @@ import pickle
 import logging
 import re
 import string
+import pkg_resources
 
 # Dependences
 try:
@@ -122,6 +123,7 @@ def train_classifier(download=True,
 
     clf = SGDClassifier(**parameters).fit(matrix, train_target)
     obj = {
+        'scipy_version': pkg_resources.get_distribution('scipy').version,
         'tfidf_model': tfidf_model,
         'clf': clf,
         'target_names': target_names
@@ -140,8 +142,16 @@ def load_classifier():
     '''
 
     path = os.path.join(l.TOPDIR, 'clf.pickle')
-    file = open(path, 'rb')
-    obj = pickle.load(file, encoding='latin1')
+    with open(path, 'rb') as file:
+        obj = pickle.load(file, encoding='latin1')
+
+    cur_scipy_version = pkg_resources.get_distribution('scipy').version
+    if cur_scipy_version != obj.get('scipy_version'):
+        logging.warning(
+            "The classifier was built using a different scipy version (={}, !={}). "
+            + "The disambiguation tool could behave unexpectedly. " +
+            "Consider running classifier.train_classfier()".format(
+                obj.get('scipy_version'), cur_scipy_version))
 
     return obj['tfidf_model'], obj['clf'], obj['target_names']
 

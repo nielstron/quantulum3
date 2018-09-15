@@ -7,10 +7,10 @@
 # Standard library
 import os
 import re
-import sys
 import json
+import pickle
+import urllib.request
 import unittest
-from collections import defaultdict
 
 # Dependences
 import wikipedia
@@ -202,6 +202,20 @@ class EndToEndTests(unittest.TestCase):
             self.assertEqual(
                 l.COMMON_WORDS[length], word_set,
                 "Build script has not been run since change to critical files")
+
+    def test_classifier_up_to_date(self):
+        """ Test that the classifier has been built with the latest version of scipy """
+        path = os.path.join(l.TOPDIR, 'clf.pickle')
+        with open(path, 'rb') as clf_file:
+            obj = pickle.load(clf_file, encoding='latin1')
+        clf_version = obj['scipy_version']
+        cur_version = json.loads(
+            urllib.request.urlopen("https://pypi.org/pypi/scipy/json").
+            read())['info']['version']
+        self.assertEqual(
+            clf_version, cur_version,
+            "Classifier has been built with scipy version {}, while the newest version is {}. Please update scipy."
+            .format(clf_version, cur_version))
 
 
 ################################################################################
