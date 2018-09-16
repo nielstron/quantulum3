@@ -790,7 +790,9 @@
     "dimensions": [],
     "symbols": [
       "$"
-    ]
+    ],
+    "currency_code": "USD",
+    "comment": "Treat as us-dollar for expanding purposes"
   },
   {
     "name": "united states dollar",
