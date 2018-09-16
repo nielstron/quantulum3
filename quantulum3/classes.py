@@ -5,6 +5,7 @@
 '''
 
 from . import load as l
+import num2words
 
 ################################################################################
 
@@ -60,6 +61,15 @@ class Quantity(object):
         :return: Speakable version of this quantity
         '''
         count = self.value
+        if self.unit.entity.name == "currency" and self.unit.currency_code:
+            try:
+                return num2words.num2words(
+                    count,
+                    lang='en',
+                    to='currency',
+                    currency=self.unit.currency_code)
+            except NotImplementedError:
+                pass
         if count.is_integer():
             count = int(count)
         unit_string = self.unit.to_spoken(count)
@@ -80,7 +90,8 @@ class Unit(object):
                  entity=None,
                  uri=None,
                  symbols=None,
-                 dimensions=None):
+                 dimensions=None,
+                 currency_code=None):
         """Initialization method."""
         self.name = name
         self.surfaces = surfaces
@@ -88,6 +99,7 @@ class Unit(object):
         self.uri = uri
         self.symbols = symbols
         self.dimensions = dimensions
+        self.currency_code = currency_code
 
     @staticmethod
     def name_from_dimensions(dimensions):
@@ -135,9 +147,19 @@ class Unit(object):
         '''
         if self.name == "dimensionless":
             unit_string = ""
-        else:
+        elif self.surfaces:
             unit_string = self.surfaces[0]
-        unit_string = l.PLURALS.plural(unit_string, count)
+            unit_string = l.PLURALS.plural(unit_string, count)
+        else:
+            # derived unit
+            denominator_dimensions = [
+                i for i in self.dimensions if i['power'] > 0
+            ]
+            denominator_string = self.name_from_dimensions(
+                denominator_dimensions)
+            plural_denominator_string = l.PLURALS.plural(denominator_string)
+            unit_string = self.name.replace(denominator_string,
+                                            plural_denominator_string)
         return unit_string
 
     def __repr__(self):

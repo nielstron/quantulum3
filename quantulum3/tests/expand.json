@@ -15,5 +15,17 @@
   {
     "req": "I want 5!",
     "res": "I want five!"
+  },
+  {
+    "req": "That's $2.45",
+    "res": "That's two dollars, forty-five cents"
+  },
+  {
+    "req": "That's 2.45 yen",
+    "res": "That's two point four five japanese yens"
+  },
+  {
+    "req": "The solar production is 20 Wh/m²",
+    "res": "The solar production is twenty watt hours per square metre"
   }
 ]
