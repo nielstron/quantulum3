@@ -142,7 +142,9 @@ def get_values(item):
             for i, v in enumerate(values)
         ]
         if values[1] < values[0]:
-            raise ValueError("Invalid range, with second item being smaller than the first item")
+            raise ValueError(
+                "Invalid range, with second item being smaller than the first item"
+            )
         mean = sum(values) / len(values)
         uncertainty = mean - min(values)
         values = [mean]
