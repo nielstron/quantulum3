@@ -933,5 +933,9 @@
         "entity": "currency"
       }
     ]
+  },
+  {
+    "req": "We produced nothing in 2013-14.",
+    "res": []
   }
 ]
