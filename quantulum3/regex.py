@@ -109,6 +109,9 @@ DIVISION_OPERATORS = {
     u' a ': ' per ',
 }
 
+GROUPING_OPERATORS = {u',', u' '}
+GROUPING = u''.join(GROUPING_OPERATORS)
+
 OPERATORS = {**MULTIPLICATION_OPERATORS, **DIVISION_OPERATORS}
 
 ALL_NUM, NUMWORDS = get_numwords()
@@ -123,6 +126,7 @@ NUM_PATTERN = r'''
     (?:                      # required number
         [+-]?                  #   optional sign
         \.?\d+                 #   required digits
+        (?:[%s]\d{3})*         #   allowed grouping
         (?:\.\d+)?             #   optional decimals
     )
     (?:                      # optional exponent
@@ -134,13 +138,14 @@ NUM_PATTERN = r'''
         \ \d+/\d+|\ ?[%s]|/\d+
     )?
 
-''' % (MULTIPLIERS, SUPERSCRIPTS, FRACTIONS)
+''' % (GROUPING, MULTIPLIERS, SUPERSCRIPTS, FRACTIONS)
 
 NUM_PATTERN_GROUPS = r'''            # Pattern for extracting a digit-based number
 
     (?P<number>              # required number
         [+-]?                  #   optional sign
         \.?\d+                 #   required digits
+        (?:[%s]\d{3})*         #   allowed grouping
         (?P<decimals>\.\d+)?   #   optional decimals
     )
     (?P<scale>               # optional exponent
@@ -152,7 +157,7 @@ NUM_PATTERN_GROUPS = r'''            # Pattern for extracting a digit-based numb
         \ \d+/\d+|\ ?[%s]|/\d+
     )?
 
-''' % (MULTIPLIERS, SUPERSCRIPTS, FRACTIONS)
+''' % (GROUPING, MULTIPLIERS, SUPERSCRIPTS, FRACTIONS)
 
 RAN_PATTERN = r'''                        # Pattern for a range of numbers
 

@@ -904,5 +904,48 @@
         "entity": "time"
       }
     ]
+  },
+  {
+    "req": "valued at $13,009 million in 2013, and 278,000 t valued 10 000 dollars.",
+    "res": [
+      {
+        "value": 13009000000,
+        "unit": "dollar",
+        "surface": "$13,009 million",
+        "entity": "currency"
+      },
+      {
+        "value": 2013,
+        "unit": "dimensionless",
+        "surface": "2013",
+        "entity": "dimensionless"
+      },
+      {
+        "value": 278000,
+        "unit": "tonne",
+        "surface": "278,000 t",
+        "entity": "weight"
+      },
+      {
+        "value": 10000,
+        "unit": "dollar",
+        "surface": "10 000 dollars",
+        "entity": "currency"
+      }
+    ]
+  },
+  {
+    "req": "We produced nothing in 2013-14.",
+    "res": []
+  },
+  {
+    "req": "That one costs 3 dimes",
+    "res": [
+      {
+        "value": 3,
+        "unit": "dime",
+        "surface": "3 dimes"
+      }
+    ]
   }
 ]

@@ -177,10 +177,14 @@ def disambiguate_entity(key, text):
     if len(l.DERIVED_ENT[key]) > 1:
         transformed = TFIDF_MODEL.transform([text])
         scores = CLF.predict_proba(transformed).tolist()[0]
-        scores = sorted(
-            zip(scores, TARGET_NAMES), key=lambda x: x[0], reverse=True)
+        scores = zip(scores, TARGET_NAMES)
+
+        # Filter for possible names
         names = [i.name for i in l.DERIVED_ENT[key]]
         scores = [i for i in scores if i[1] in names]
+
+        # Sort by rank
+        scores = sorted(scores, key=lambda x: x[0], reverse=True)
         try:
             new_ent = l.ENTITIES[scores[0][1]]
         except IndexError:
@@ -205,10 +209,14 @@ def disambiguate_unit(unit, text):
     if len(new_unit) > 1:
         transformed = TFIDF_MODEL.transform([clean_text(text)])
         scores = CLF.predict_proba(transformed).tolist()[0]
-        scores = sorted(
-            zip(scores, TARGET_NAMES), key=lambda x: x[0], reverse=True)
+        scores = zip(scores, TARGET_NAMES)
+
+        # Filter for possible names
         names = [i.name for i in new_unit]
         scores = [i for i in scores if i[1] in names]
+
+        # Sort by rank
+        scores = sorted(scores, key=lambda x: x[0], reverse=True)
         try:
             final = l.UNITS[scores[0][1]][0]
             logging.debug('\tAmbiguity resolved for "%s" (%s)', unit, scores)

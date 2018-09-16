@@ -37,7 +37,7 @@ setup(
         'information extraction', 'quantities', 'units', 'measurements', 'nlp',
         'natural language processing', 'text mining', 'text processing'
     ],
-    install_requires=['inflect'],
+    install_requires=['inflect', 'num2words'],
     classifiers=[
         'Intended Audience :: Developers',
         'Intended Audience :: Science/Research',

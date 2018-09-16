@@ -199,7 +199,8 @@ def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
         entity=ENTITIES[unit['entity']],
         uri=unit['URI'],
         symbols=unit['symbols'],
-        dimensions=unit['dimensions'])
+        dimensions=unit['dimensions'],
+        currency_code=unit.get('currency_code'))
 
     names[unit['name']] = obj
 

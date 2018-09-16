@@ -790,7 +790,9 @@
     "dimensions": [],
     "symbols": [
       "$"
-    ]
+    ],
+    "currency_code": "USD",
+    "comment": "Treat as us-dollar for expanding purposes"
   },
   {
     "name": "united states dollar",
@@ -805,7 +807,8 @@
     "symbols": [
       "USD",
       "US$"
-    ]
+    ],
+    "currency_code": "USD"
   },
   {
     "name": "euro",
@@ -818,7 +821,8 @@
     "symbols": [
       "€",
       "EUR"
-    ]
+    ],
+    "currency_code": "EUR"
   },
   {
     "name": "pound sterling",
@@ -832,7 +836,8 @@
     "symbols": [
       "£",
       "GBP"
-    ]
+    ],
+    "currency_code": "GBP"
   },
   {
     "name": "canadian dollar",
@@ -845,7 +850,8 @@
     "symbols": [
       "CAD",
       "C$"
-    ]
+    ],
+    "currency_code": "CAD"
   },
   {
     "name": "australian dollar",
@@ -858,7 +864,8 @@
     "symbols": [
       "AUD",
       "A$"
-    ]
+    ],
+    "currency_code": "AUD"
   },
   {
     "name": "new zealand dollar",
@@ -871,7 +878,8 @@
     "symbols": [
       "NZD",
       "NZ$"
-    ]
+    ],
+    "currency_code": "NZD"
   },
   {
     "name": "japanese yen",
@@ -887,7 +895,8 @@
       "圓",
       "¥",
       "JPY"
-    ]
+    ],
+    "currency_code": "JPY"
   },
   {
     "name": "swiss franc",
@@ -903,10 +912,11 @@
       "SFr",
       "FS",
       "CHF"
-    ]
+    ],
+    "currency_code": "CHF"
   },
   {
-    "name": "Rappen",
+    "name": "rappen",
     "surfaces": [
       "rappen"
     ],
@@ -927,7 +937,8 @@
     "symbols": [
       "R",
       "ZAR"
-    ]
+    ],
+    "currency_code": "ZAR"
   },
   {
     "name": "brazilian real",
@@ -942,7 +953,8 @@
     "symbols": [
       "R$",
       "BRL"
-    ]
+    ],
+    "currency_code": "BRL"
   },
   {
     "name": "indian rupee",
@@ -956,7 +968,8 @@
     "symbols": [
       "₹",
       "INR"
-    ]
+    ],
+    "currency_code": "INR"
   },
   {
     "name": "mexican peso",
@@ -969,7 +982,8 @@
     "dimensions": [],
     "symbols": [
       "MXN"
-    ]
+    ],
+    "currency_code": "MXN"
   },
   {
     "name": "russian ruble",
@@ -985,7 +999,8 @@
     "symbols": [
       "₽",
       "RUB"
-    ]
+    ],
+    "currency_code": "RUB"
   },
   {
     "name": "chinese yuan",
@@ -1000,7 +1015,8 @@
       "¥",
       "元",
       "CNY"
-    ]
+    ],
+    "currency_code": "CNY"
   },
   {
     "name": "south korean won",
@@ -1016,7 +1032,8 @@
       "원",
       "₩",
       "KRW"
-    ]
+    ],
+    "currency_code": "KRW"
   },
   {
     "name": "cubic metre",
@@ -4665,6 +4682,32 @@
     "dimensions": [],
     "symbols": [
       "c."
+    ]
+  },
+  {
+    "name": "mill",
+    "surfaces": [
+      "mill",
+      "mil"
+    ],
+    "entity": "currency",
+    "URI": "https://en.wikipedia.org/wiki/Mill_(currency)",
+    "dimensions": [],
+    "symbols": [
+      "₥"
+    ]
+  },
+  {
+    "name": "dime",
+    "surfaces": [
+      "dime"
+    ],
+    "entity": "currency",
+    "URI": "https://en.wikipedia.org/wiki/Dime_(United_States_coin)",
+    "dimensions": [],
+    "symbols": [
+      "₫",
+      "d"
     ]
   }
 ]
