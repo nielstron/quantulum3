@@ -68,7 +68,8 @@ def extract_spellout_values(text):
         for word in surface.split():
             scale = None
             try:
-                scale, increment = 1, float(word.lower())
+                scale, increment = 1, float(
+                    re.sub(r'(-$|[%s])' % r.GROUPING, '', word.lower()))
             except ValueError:
                 scale, increment = r.NUMWORDS[word.lower()]
             curr = curr * scale + increment
@@ -79,13 +80,6 @@ def extract_spellout_values(text):
             'old_surface': surface,
             'old_span': span,
             'new_surface': str(result + curr)
-        })
-
-    for item in re.finditer(r'\d+(,\d{3})+', text):
-        values.append({
-            'old_surface': item.group(0),
-            'old_span': item.span(),
-            'new_surface': str(item.group(0).replace(',', ''))
         })
 
     return sorted(values, key=lambda x: x['old_span'][0])
@@ -124,6 +118,8 @@ def get_values(item):
     fracs = r'|'.join(r.UNI_FRAC)
 
     value = item.group('value')
+    # Remove grouping operators
+    value = re.sub(r'(?<=\d)[%s](?=\d{3})' % r.GROUPING, '', value)
     # Replace unusual exponents by e (including e)
     value = re.sub(r'(?<=\d)(%s)(e|E|10)\^?' % r.MULTIPLIERS, 'e', value)
     # calculate other exponents
@@ -187,14 +183,21 @@ def resolve_exponents(value):
     matches = re.finditer(r.NUM_PATTERN_GROUPS, value,
                           re.IGNORECASE | re.VERBOSE)
     for item in matches:
-        try:
+        if item.group('base') and item.group('exponent'):
             base = item.group('base')
+            exp = item.group('exponent')
             if base in ['e', 'E']:
                 # already handled by float
                 factors.append(1)
                 continue
                 # exp = '10'
-            exp = item.group('exponent')
+            # Expect that in a pure decimal base,
+            # either ^ or superscript notation is used
+            if re.match(r'\d+\^?', base):
+                if not ('^' in base
+                        or re.match(r'[%s]' % r.SUPERSCRIPTS, exp)):
+                    factors.append(1)
+                    continue
             for superscript, substitute in r.UNI_SUPER.items():
                 exp.replace(superscript, substitute)
             exp = float(exp)
@@ -205,7 +208,7 @@ def resolve_exponents(value):
             factors.append(factor)
             logging.debug("Replaced {} by factor {}".format(
                 item.group('scale'), factor))
-        except (IndexError, AttributeError):
+        else:
             factors.append(1)
             continue
     return value, factors
