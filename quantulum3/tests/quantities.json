@@ -937,5 +937,15 @@
   {
     "req": "We produced nothing in 2013-14.",
     "res": []
+  },
+  {
+    "req": "That one costs 3 dimes",
+    "res": [
+      {
+        "value": 3,
+        "unit": "dime",
+        "surface": "3 dimes"
+      }
+    ]
   }
 ]

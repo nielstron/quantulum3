@@ -805,7 +805,8 @@
     "symbols": [
       "USD",
       "US$"
-    ]
+    ],
+    "currency_code": "USD"
   },
   {
     "name": "euro",
@@ -4665,6 +4666,32 @@
     "dimensions": [],
     "symbols": [
       "c."
+    ]
+  },
+  {
+    "name": "mill",
+    "surfaces": [
+      "mill",
+      "mil"
+    ],
+    "entity": "currency",
+    "URI": "https://en.wikipedia.org/wiki/Mill_(currency)",
+    "dimensions": [],
+    "symbols": [
+      "₥"
+    ]
+  },
+  {
+    "name": "dime",
+    "surfaces": [
+      "dime"
+    ],
+    "entity": "currency",
+    "URI": "https://en.wikipedia.org/wiki/Dime_(United_States_coin)",
+    "dimensions": [],
+    "symbols": [
+      "₫",
+      "d"
     ]
   }
 ]
