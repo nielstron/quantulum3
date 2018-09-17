@@ -6,6 +6,7 @@
 
 # Standard library
 import os
+import sys
 import re
 import json
 import pickle
@@ -16,6 +17,14 @@ import unittest
 import wikipedia
 
 # Quantulum
+if not os.path.isdir('./quantulum3') or not os.path.exists('./README.md'):
+    print(
+        "Script is not run from project root. Please try again after changing working directory."
+    )
+    exit(-1)
+
+sys.path.append(os.path.abspath('.'))
+from quantulum3 import load as l
 from quantulum3 import load as l
 from quantulum3 import parser as p
 from quantulum3 import classes as c

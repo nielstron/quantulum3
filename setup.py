@@ -32,7 +32,7 @@ setup(
     author=quantulum3.__author__,
     author_email=quantulum3.__author_email__,
     license=quantulum3.__license__,
-    test_suite='quantulum3.tests.EndToEndTests',
+    test_suite='tests.EndToEndTests',
     keywords=[
         'information extraction', 'quantities', 'units', 'measurements', 'nlp',
         'natural language processing', 'text mining', 'text processing'
