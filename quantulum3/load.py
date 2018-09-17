@@ -268,8 +268,12 @@ def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
 
 NAMES, UNIT_SYMBOLS, UNIT_SYMBOLS_LOWER, UNITS, LOWER_UNITS, PREFIX_SYMBOLS, \
     DERIVED_UNI = load_units()
-ALL_UNIT_SYMBOLS = {**UNIT_SYMBOLS, **UNIT_SYMBOLS_LOWER}
-ALL_UNITS = {**UNITS, **LOWER_UNITS}
+ALL_UNIT_SYMBOLS = {}
+ALL_UNIT_SYMBOLS.update(UNIT_SYMBOLS)
+ALL_UNIT_SYMBOLS.update(UNIT_SYMBOLS_LOWER)
+ALL_UNITS = {}
+ALL_UNITS.update(UNITS)
+ALL_UNITS.update(LOWER_UNITS)
 
 ################################################################################
 
