@@ -210,7 +210,7 @@ class EndToEndTests(unittest.TestCase):
             obj = pickle.load(clf_file, encoding='latin1')
         clf_version = obj['scikit-learn_version']
         with urllib.request.urlopen("https://pypi.org/pypi/scikit-learn/json") as response:
-            cur_version = json.loads(response.decode('utf-8'))['info']['version']
+            cur_version = json.loads(response.read().decode('utf-8'))['info']['version']
         self.assertEqual(
             clf_version, cur_version,
             "Classifier has been built with scikit-learn version {}, while the newest version is {}. Please update scikit-learn."
