@@ -132,7 +132,7 @@ def train_classifier(download=True,
         'target_names':
         target_names
     }
-    if store:
+    if store:  # pragma: no cover
         path = os.path.join(l.TOPDIR, 'clf.pickle')
         with open(path, 'wb') as file:
             pickle.dump(obj, file)

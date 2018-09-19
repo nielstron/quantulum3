@@ -89,7 +89,7 @@ def load_quantity_tests(ambiguity=True):
             except KeyError:
                 try:
                     entity = item['entity']
-                except KeyError:
+                except KeyError:  # pragma: no cover
                     print(('Could not find %s, provide "derived" and'
                            ' "entity"' % item['unit']))
                     return
@@ -101,7 +101,7 @@ def load_quantity_tests(ambiguity=True):
                     entity = c.Entity(name='unknown', dimensions=derived)
                 elif entity in l.ENTITIES:
                     entity = l.ENTITIES[entity]
-                else:
+                else:  # pragma: no cover
                     print(('Could not find %s, provide "derived" and'
                            ' "entity"' % item['unit']))
                     return
@@ -113,7 +113,7 @@ def load_quantity_tests(ambiguity=True):
                 span = next(
                     re.finditer(re.escape(item['surface']),
                                 test['req'])).span()
-            except StopIteration:
+            except StopIteration:  # pragma: no cover
                 print('Surface mismatch for "%s"' % test['req'])
                 return
             uncert = None
@@ -168,14 +168,11 @@ class EndToEndTests(unittest.TestCase):
         # forcedly deactivate classifier
         clf.USE_CLF = False
         for test in sorted(all_tests, key=lambda x: len(x['req'])):
-            try:
-                quants = p.parse(test['req'])
-                self.assertEqual(
-                    quants, test['res'], "\nExcpected: {1} \nGot: {0}".format(
-                        [quant.__dict__ for quant in quants],
-                        [quant.__dict__ for quant in test['res']]))
-            except KeyError:
-                print(test)
+            quants = p.parse(test['req'])
+            self.assertEqual(
+                quants, test['res'], "\nExcpected: {1} \nGot: {0}".format(
+                    [quant.__dict__ for quant in quants],
+                    [quant.__dict__ for quant in test['res']]))
 
     def test_training(self):
         """ Test that classifier training works """
