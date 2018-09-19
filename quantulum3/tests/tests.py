@@ -16,9 +16,9 @@ import unittest
 import wikipedia
 
 # Quantulum
-from .. import load as l
+from .. import load
 from .. import parser as p
-from .. import classes as c
+from .. import classes as cls
 from .. import classifier as clf
 
 COLOR1 = '\033[94m%s\033[0m'
@@ -71,9 +71,9 @@ def wiki_test(page='CERN'):  # pragma: no cover
 
 ################################################################################
 def load_quantity_tests(ambiguity=True):
-    '''
+    """
     Load all tests from quantities.json.
-    '''
+    """
 
     path = os.path.join(
         TOPDIR,
@@ -85,7 +85,7 @@ def load_quantity_tests(ambiguity=True):
         res = []
         for item in test['res']:
             try:
-                unit = l.NAMES[item['unit']]
+                unit = load.NAMES[item['unit']]
             except KeyError:
                 try:
                     entity = item['entity']
@@ -95,17 +95,17 @@ def load_quantity_tests(ambiguity=True):
                     return
                 if entity == 'unknown':
                     derived = [{
-                        'base': l.NAMES[i['base']].entity.name,
+                        'base': load.NAMES[i['base']].entity.name,
                         'power': i['power']
                     } for i in item['dimensions']]
-                    entity = c.Entity(name='unknown', dimensions=derived)
-                elif entity in l.ENTITIES:
-                    entity = l.ENTITIES[entity]
+                    entity = cls.Entity(name='unknown', dimensions=derived)
+                elif entity in load.ENTITIES:
+                    entity = load.ENTITIES[entity]
                 else:  # pragma: no cover
                     print(('Could not find %s, provide "derived" and'
                            ' "entity"' % item['unit']))
                     return
-                unit = c.Unit(
+                unit = cls.Unit(
                     name=item['unit'],
                     dimensions=item.get('dimensions', []),
                     entity=entity)
@@ -120,7 +120,7 @@ def load_quantity_tests(ambiguity=True):
             if 'uncertainty' in item:
                 uncert = item['uncertainty']
             res.append(
-                c.Quantity(
+                cls.Quantity(
                     value=item['value'],
                     unit=unit,
                     surface=item['surface'],
@@ -194,16 +194,15 @@ class EndToEndTests(unittest.TestCase):
     def test_build_script(self):
         """ Test that the build script has run correctly """
         # Read raw 4 letter file
-        path = os.path.join(l.TOPDIR, 'common-words.txt')
-        words = l.build_common_words()
+        words = load.build_common_words()
         for length, word_set in words.items():
             self.assertEqual(
-                l.COMMON_WORDS[length], word_set,
+                load.COMMON_WORDS[length], word_set,
                 "Build script has not been run since change to critical files")
 
     def test_classifier_up_to_date(self):
         """ Test that the classifier has been built with the latest version of scikit-learn """
-        path = os.path.join(l.TOPDIR, 'clf.pickle')
+        path = os.path.join(load.TOPDIR, 'clf.pickle')
         with open(path, 'rb') as clf_file:
             obj = pickle.load(clf_file, encoding='latin1')
         clf_version = obj['scikit-learn_version']

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-'''
+"""
 :mod:`Quantulum` classifier functions.
-'''
+"""
 
 # Standard library
 import os
@@ -18,22 +18,23 @@ try:
     from sklearn.feature_extraction.text import TfidfVectorizer
     USE_CLF = True
 except ImportError:
+    SGDClassifier, TfidfVectorizer = None, None
     USE_CLF = False
 
 # Quantulum
-from . import load as l
+from . import load
 
 
 ################################################################################
 def download_wiki(store=True):  # pragma: no cover
-    '''
+    """
     Download WikiPedia pages of ambiguous units.
     @:param store (bool) store wikipedia data in wiki.json file
-    '''
+    """
     import wikipedia
 
-    ambiguous = [i for i in list(l.UNITS.items()) if len(i[1]) > 1]
-    ambiguous += [i for i in list(l.DERIVED_ENT.items()) if len(i[1]) > 1]
+    ambiguous = [i for i in list(load.UNITS.items()) if len(i[1]) > 1]
+    ambiguous += [i for i in list(load.DERIVED_ENT.items()) if len(i[1]) > 1]
     pages = set([(j.name, j.uri) for i in ambiguous for j in i[1]])
 
     print()
@@ -51,7 +52,7 @@ def download_wiki(store=True):  # pragma: no cover
         obj['unit'] = page[0]
         objs.append(obj)
 
-    path = os.path.join(l.TOPDIR, 'wiki.json')
+    path = os.path.join(load.TOPDIR, 'wiki.json')
     os.remove(path)
     if store:
         with open(path, 'w') as wiki_file:
@@ -63,9 +64,9 @@ def download_wiki(store=True):  # pragma: no cover
 
 ################################################################################
 def clean_text(text):
-    '''
+    """
     Clean text for TFIDF
-    '''
+    """
     from stemming.porter2 import stem
 
     my_regex = re.compile(r'[%s]' % re.escape(string.punctuation))
@@ -86,18 +87,18 @@ def train_classifier(download=True,
                      parameters=None,
                      ngram_range=(1, 1),
                      store=True):
-    '''
+    """
     Train the intent classifier
     TODO auto invoke if sklearn version is new or first install or sth
     @:param store (bool) store classifier in clf.pickle
-    '''
-    path = os.path.join(l.TOPDIR, 'train.json')
+    """
+    path = os.path.join(load.TOPDIR, 'train.json')
     with open(path, 'r', encoding='utf-8') as train_file:
         training_set = json.load(train_file)
 
     wiki_set = download_wiki(store) if download else None
     if not wiki_set:
-        path = os.path.join(l.TOPDIR, 'wiki.json')
+        path = os.path.join(load.TOPDIR, 'wiki.json')
         with open(path, 'r', encoding='utf-8') as wiki_file:
             wiki_set = json.load(wiki_file)
 
@@ -133,7 +134,7 @@ def train_classifier(download=True,
         target_names
     }
     if store:  # pragma: no cover
-        path = os.path.join(l.TOPDIR, 'clf.pickle')
+        path = os.path.join(load.TOPDIR, 'clf.pickle')
         with open(path, 'wb') as file:
             pickle.dump(obj, file)
     return obj
@@ -141,11 +142,11 @@ def train_classifier(download=True,
 
 ################################################################################
 def load_classifier():
-    '''
+    """
     Load the intent classifier
-    '''
+    """
 
-    path = os.path.join(l.TOPDIR, 'clf.pickle')
+    path = os.path.join(load.TOPDIR, 'clf.pickle')
     with open(path, 'rb') as file:
         obj = pickle.load(file, encoding='latin1')
 
@@ -168,25 +169,25 @@ else:
 
 ################################################################################
 def disambiguate_entity(key, text):
-    '''
+    """
     Resolve ambiguity between entities with same dimensionality.
-    '''
+    """
 
-    new_ent = l.DERIVED_ENT[key][0]
+    new_ent = load.DERIVED_ENT[key][0]
 
-    if len(l.DERIVED_ENT[key]) > 1:
+    if len(load.DERIVED_ENT[key]) > 1:
         transformed = TFIDF_MODEL.transform([text])
         scores = CLF.predict_proba(transformed).tolist()[0]
         scores = zip(scores, TARGET_NAMES)
 
         # Filter for possible names
-        names = [i.name for i in l.DERIVED_ENT[key]]
+        names = [i.name for i in load.DERIVED_ENT[key]]
         scores = [i for i in scores if i[1] in names]
 
         # Sort by rank
         scores = sorted(scores, key=lambda x: x[0], reverse=True)
         try:
-            new_ent = l.ENTITIES[scores[0][1]]
+            new_ent = load.ENTITIES[scores[0][1]]
         except IndexError:
             logging.debug('\tAmbiguity not resolved for "%s"', str(key))
 
@@ -195,14 +196,14 @@ def disambiguate_entity(key, text):
 
 ################################################################################
 def disambiguate_unit(unit, text):
-    '''
+    """
     Resolve ambiguity between units with same names, symbols or abbreviations.
-    '''
+    """
 
-    new_unit = l.UNIT_SYMBOLS.get(unit) or l.UNITS.get(unit)
+    new_unit = load.UNIT_SYMBOLS.get(unit) or load.UNITS.get(unit)
     if not new_unit:
-        new_unit = l.LOWER_UNITS.get(unit.lower()) or l.UNIT_SYMBOLS_LOWER.get(
-            unit.lower())
+        new_unit = load.LOWER_UNITS.get(
+            unit.lower()) or load.UNIT_SYMBOLS_LOWER.get(unit.lower())
         if not new_unit:
             raise KeyError('Could not find unit "%s" from "%s"' % (unit, text))
 
@@ -218,7 +219,7 @@ def disambiguate_unit(unit, text):
         # Sort by rank
         scores = sorted(scores, key=lambda x: x[0], reverse=True)
         try:
-            final = l.UNITS[scores[0][1]][0]
+            final = load.UNITS[scores[0][1]][0]
             logging.debug('\tAmbiguity resolved for "%s" (%s)', unit, scores)
         except IndexError:
             logging.debug('\tAmbiguity not resolved for "%s"', unit)
