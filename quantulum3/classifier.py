@@ -25,7 +25,7 @@ from . import load as l
 
 
 ################################################################################
-def download_wiki(store=True):
+def download_wiki(store=True):  # pragma: no cover
     '''
     Download WikiPedia pages of ambiguous units.
     @:param store (bool) store wikipedia data in wiki.json file

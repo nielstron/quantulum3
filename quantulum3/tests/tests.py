@@ -27,9 +27,10 @@ TOPDIR = os.path.dirname(__file__) or "."
 
 
 ################################################################################
-def wiki_test(page='CERN'):
+def wiki_test(page='CERN'):  # pragma: no cover
     """
     Download a wikipedia page and test the parser on its content.
+    A test, designed for a human's look.
     Pages full of units:
         CERN
         Hubble_Space_Telescope,
@@ -220,6 +221,6 @@ class EndToEndTests(unittest.TestCase):
 
 
 ################################################################################
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
 
     unittest.main()

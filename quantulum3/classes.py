@@ -51,7 +51,7 @@ class Quantity(object):
 
         return not self.__eq__(other)
 
-    def as_string(self):
+    def as_string(self):  # pragma: no cover
         """
         Express the quantity as a normal string
         """
