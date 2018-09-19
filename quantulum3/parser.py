@@ -259,11 +259,6 @@ def get_entity_from_dimensions(dimensions, text):
     dimensionality.
     '''
 
-    new_dimensions = [{
-        'base': l.NAMES[i['base']].entity.name,
-        'power': i['power']
-    } for i in dimensions]
-
     new_derived = [{
         'base': l.NAMES[i['base']].entity.name,
         'power': i['power']
@@ -355,11 +350,13 @@ def get_unit(item, text):
                             derived.pop()
                             operator_index = group_operators[index - 2]
                         # Remove (original length - new end) characters
-                        unit_shortening = item.end() - item.start(operator_index)
+                        unit_shortening = item.end() - item.start(
+                            operator_index)
                         logging.debug(
                             "Because operator inconsistency, cut from operator: '{}', new surface: {}"
-                            .format(operator,
-                                    text[item.start():item.end() - unit_shortening]))
+                            .format(
+                                operator, text[item.start():item.end() -
+                                               unit_shortening]))
                         break
 
             # Determine whether a negative power has to be applied to following units
