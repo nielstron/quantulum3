@@ -977,5 +977,26 @@
         ]
       }
     ]
+  },
+  {
+    "req": "I want 1cds in this room!",
+    "res": [
+      {
+        "value": 1,
+        "unit": "candela second",
+        "surface": "1cds",
+        "entity": "unknown",
+        "dimensions": [
+          {
+            "base": "candela",
+            "power": 1
+          },
+          {
+            "base": "second",
+            "power": 1
+          }
+        ]
+      }
+    ]
   }
 ]
