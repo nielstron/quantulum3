@@ -25,7 +25,6 @@ if not os.path.isdir('./quantulum3') or not os.path.exists('./README.md'):
 
 sys.path.append(os.path.abspath('.'))
 from quantulum3 import load as l
-from quantulum3 import load as l
 from quantulum3 import parser as p
 from quantulum3 import classes as c
 from quantulum3 import classifier as clf
