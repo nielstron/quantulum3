@@ -18,8 +18,6 @@ setup(
     package_data={
         'quantulum3': [
             'clf.pickle', 'units.json', 'entities.json',
-            'tests/quantities.json', 'tests/expand.json',
-            'tests/quantities.ambiguity.json'
             'train.json', 'wiki.json', 'common-words.json'
         ]
     },
