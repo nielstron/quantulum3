@@ -952,5 +952,30 @@
     "req": "245 23 yen",
     "res": [],
     "comment": "This is not grouping, it is something that should not resemble a real value at all."
+  },
+  {
+    "req": "Workers on Ceres are exposed to 20 J/m^2 per year",
+    "res": [
+      {
+        "value": 20,
+        "unit": "joule per square metre per year",
+        "surface": "20 J/m^2 per year",
+        "entity": "irradiance",
+        "dimensions": [
+          {
+            "base": "joule",
+            "power": 1
+          },
+          {
+            "base": "metre",
+            "power": -2
+          },
+          {
+            "base": "year",
+            "power": -1
+          }
+        ]
+      }
+    ]
   }
 ]

@@ -330,7 +330,7 @@ def get_unit(item, text):
         unit = l.NAMES['dimensionless']
     else:
         derived, slash = [], False
-        multiplication_operator, division_operator = False, False
+        multiplication_operator = False
         for index in range(0, 5):
             unit = item.group(group_units[index])
             operator_index = None if index < 1 else group_operators[index - 1]
@@ -339,7 +339,6 @@ def get_unit(item, text):
             # disallow spaces as operators in units expressed in their symbols
             # Enforce consistency among multiplication and division operators
             # Single exceptions are colloquial number abbreviations (5k miles)
-            _cut_inconsistent_operator = False
             if operator in r.MULTIPLICATION_OPERATORS or (
                     operator is None and unit
                     and not (index == 1 and unit in r.SUFFIXES)):
@@ -348,27 +347,20 @@ def get_unit(item, text):
                     if multiplication_operator is False:
                         multiplication_operator = operator
                     else:
-                        _cut_inconsistent_operator = True
-            elif operator in r.DIVISION_OPERATORS:
-                if division_operator != operator and division_operator is not False:
-                    _cut_inconsistent_operator = True
-                else:
-                    division_operator = operator
-            if _cut_inconsistent_operator:
-                # Cut if inconsistent multiplication operator
-                # treat the None operator differently - remove the whole word of it
-                if operator is None:
-                    # For this, use the last consistent operator (before the current) with a space
-                    # which should always be the preceding operator
-                    derived.pop()
-                    operator_index = group_operators[index - 2]
-                # Remove (original length - new end) characters
-                unit_shortening = item.end() - item.start(operator_index)
-                logging.debug(
-                    "Because operator inconsistency, cut from operator: '{}', new surface: {}"
-                    .format(operator,
-                            text[item.start():item.end() - unit_shortening]))
-                break
+                        # Cut if inconsistent multiplication operator
+                        # treat the None operator differently - remove the whole word of it
+                        if operator is None:
+                            # For this, use the last consistent operator (before the current) with a space
+                            # which should always be the preceding operator
+                            derived.pop()
+                            operator_index = group_operators[index - 2]
+                        # Remove (original length - new end) characters
+                        unit_shortening = item.end() - item.start(operator_index)
+                        logging.debug(
+                            "Because operator inconsistency, cut from operator: '{}', new surface: {}"
+                            .format(operator,
+                                    text[item.start():item.end() - unit_shortening]))
+                        break
 
             # Determine whether a negative power has to be applied to following units
             if operator and not slash:
