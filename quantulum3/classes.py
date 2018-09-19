@@ -4,8 +4,11 @@
 :mod:`Quantulum` classes.
 '''
 
-from . import load as l
+# Dependences
+import inflect
 import num2words
+
+INFLECT_ENGINE = inflect.engine()
 
 ################################################################################
 
@@ -48,7 +51,7 @@ class Quantity(object):
 
         return not self.__eq__(other)
 
-    def as_string(self):
+    def as_string(self):  # pragma: no cover
         """
         Express the quantity as a normal string
         """
@@ -74,8 +77,8 @@ class Quantity(object):
             count = int(count)
         unit_string = self.unit.to_spoken(count)
         return '{}{}{}'.format(
-            l.PLURALS.number_to_words(count), " " if len(unit_string) else "",
-            unit_string)
+            INFLECT_ENGINE.number_to_words(count),
+            " " if len(unit_string) else "", unit_string)
 
 
 ################################################################################
@@ -149,7 +152,7 @@ class Unit(object):
             unit_string = ""
         elif self.surfaces:
             unit_string = self.surfaces[0]
-            unit_string = l.PLURALS.plural(unit_string, count)
+            unit_string = INFLECT_ENGINE.plural(unit_string, count)
         else:
             # derived unit
             denominator_dimensions = [
@@ -157,7 +160,8 @@ class Unit(object):
             ]
             denominator_string = self.name_from_dimensions(
                 denominator_dimensions)
-            plural_denominator_string = l.PLURALS.plural(denominator_string)
+            plural_denominator_string = INFLECT_ENGINE.plural(
+                denominator_string)
             unit_string = self.name.replace(denominator_string,
                                             plural_denominator_string)
         return unit_string

@@ -37,13 +37,14 @@ Contributing
 
 If you'd like to contribute follow these steps:
 1. Clone a fork of this project into your workspace
-2. `pip install pipenv`
-3. Inside the project folder run `pipenv install --dev`
-4. Make your changes
-5. Run `scripts/format.sh` and `scripts/build.py` from the package root directory.
-6. Test your changes with `coverage run --source=quantulum3 --omit="*test*" setup.py test` 
+2. Run `pip install -e .` at the root of your development folder.
+3. `pip install pipenv` and `pipenv shell`
+4. Inside the project folder run `pipenv install --dev`
+5. Make your changes
+6. Run `scripts/format.sh` and `scripts/build.py` from the package root directory.
+7. Test your changes with `coverage run --source=quantulum3 setup.py test` 
 (Optional, will be done automatically after pushing)
-7. Create a Pull Request when having commited and pushed your changes
+8. Create a Pull Request when having commited and pushed your changes
 
 `dev` build: 
 

@@ -115,7 +115,7 @@ def load_entities():
 
     try:
         assert len(set(names)) == len(entities)
-    except AssertionError:
+    except AssertionError:  # pragma: no cover
         raise Exception('Entities with same name: %s' %
                         [i for i in names if names.count(i) > 1])
 
@@ -189,7 +189,7 @@ def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
               symbols):
     try:
         assert unit['name'] not in names
-    except AssertionError:
+    except AssertionError:  # pragma: no cover
         msg = 'Two units with same name in units.json: %s' % unit['name']
         raise Exception(msg)
 
@@ -235,13 +235,13 @@ def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
         for prefix in unit['prefixes']:
             try:
                 assert prefix in METRIC_PREFIXES
-            except AssertionError:
+            except AssertionError:  # pragma: no cover
                 raise Exception(
                     "Given prefix '{}' for unit '{}' not supported".format(
                         prefix, unit['name']))
             try:
                 assert len(unit['dimensions']) <= 1
-            except AssertionError:
+            except AssertionError:  # pragma: no cover
                 raise Exception(
                     "Prefixing not supported for multiple dimensions in {}".
                     format(unit['name']))
@@ -268,8 +268,12 @@ def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
 
 NAMES, UNIT_SYMBOLS, UNIT_SYMBOLS_LOWER, UNITS, LOWER_UNITS, PREFIX_SYMBOLS, \
     DERIVED_UNI = load_units()
-ALL_UNIT_SYMBOLS = {**UNIT_SYMBOLS, **UNIT_SYMBOLS_LOWER}
-ALL_UNITS = {**UNITS, **LOWER_UNITS}
+ALL_UNIT_SYMBOLS = {}
+ALL_UNIT_SYMBOLS.update(UNIT_SYMBOLS)
+ALL_UNIT_SYMBOLS.update(UNIT_SYMBOLS_LOWER)
+ALL_UNITS = {}
+ALL_UNITS.update(UNITS)
+ALL_UNITS.update(LOWER_UNITS)
 
 ################################################################################
 
@@ -298,7 +302,7 @@ def load_common_words():
     try:
         with open(path, 'r', encoding='utf-8') as file:
             dumped = json.load(file)
-    except OSError:
+    except OSError:  # pragma: no cover
         pass
 
     words = defaultdict(list)  # Collect words based on length

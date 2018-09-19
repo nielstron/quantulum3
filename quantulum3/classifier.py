@@ -25,7 +25,7 @@ from . import load as l
 
 
 ################################################################################
-def download_wiki(store=True):
+def download_wiki(store=True):  # pragma: no cover
     '''
     Download WikiPedia pages of ambiguous units.
     @:param store (bool) store wikipedia data in wiki.json file
@@ -132,7 +132,7 @@ def train_classifier(download=True,
         'target_names':
         target_names
     }
-    if store:
+    if store:  # pragma: no cover
         path = os.path.join(l.TOPDIR, 'clf.pickle')
         with open(path, 'wb') as file:
             pickle.dump(obj, file)

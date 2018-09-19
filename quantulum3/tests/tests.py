@@ -16,10 +16,10 @@ import unittest
 import wikipedia
 
 # Quantulum
-from quantulum3 import load as l
-from quantulum3 import parser as p
-from quantulum3 import classes as c
-from quantulum3 import classifier as clf
+from .. import load as l
+from .. import parser as p
+from .. import classes as c
+from .. import classifier as clf
 
 COLOR1 = '\033[94m%s\033[0m'
 COLOR2 = '\033[91m%s\033[0m'
@@ -27,9 +27,10 @@ TOPDIR = os.path.dirname(__file__) or "."
 
 
 ################################################################################
-def wiki_test(page='CERN'):
+def wiki_test(page='CERN'):  # pragma: no cover
     """
     Download a wikipedia page and test the parser on its content.
+    A test, designed for a human's look.
     Pages full of units:
         CERN
         Hubble_Space_Telescope,
@@ -88,7 +89,7 @@ def load_quantity_tests(ambiguity=True):
             except KeyError:
                 try:
                     entity = item['entity']
-                except KeyError:
+                except KeyError:  # pragma: no cover
                     print(('Could not find %s, provide "derived" and'
                            ' "entity"' % item['unit']))
                     return
@@ -100,7 +101,7 @@ def load_quantity_tests(ambiguity=True):
                     entity = c.Entity(name='unknown', dimensions=derived)
                 elif entity in l.ENTITIES:
                     entity = l.ENTITIES[entity]
-                else:
+                else:  # pragma: no cover
                     print(('Could not find %s, provide "derived" and'
                            ' "entity"' % item['unit']))
                     return
@@ -112,7 +113,7 @@ def load_quantity_tests(ambiguity=True):
                 span = next(
                     re.finditer(re.escape(item['surface']),
                                 test['req'])).span()
-            except StopIteration:
+            except StopIteration:  # pragma: no cover
                 print('Surface mismatch for "%s"' % test['req'])
                 return
             uncert = None
@@ -167,14 +168,11 @@ class EndToEndTests(unittest.TestCase):
         # forcedly deactivate classifier
         clf.USE_CLF = False
         for test in sorted(all_tests, key=lambda x: len(x['req'])):
-            try:
-                quants = p.parse(test['req'])
-                self.assertEqual(
-                    quants, test['res'], "\nExcpected: {1} \nGot: {0}".format(
-                        [quant.__dict__ for quant in quants],
-                        [quant.__dict__ for quant in test['res']]))
-            except KeyError:
-                print(test)
+            quants = p.parse(test['req'])
+            self.assertEqual(
+                quants, test['res'], "\nExcpected: {1} \nGot: {0}".format(
+                    [quant.__dict__ for quant in quants],
+                    [quant.__dict__ for quant in test['res']]))
 
     def test_training(self):
         """ Test that classifier training works """
@@ -209,9 +207,10 @@ class EndToEndTests(unittest.TestCase):
         with open(path, 'rb') as clf_file:
             obj = pickle.load(clf_file, encoding='latin1')
         clf_version = obj['scikit-learn_version']
-        cur_version = json.loads(
-            urllib.request.urlopen("https://pypi.org/pypi/scikit-learn/json").
-            read())['info']['version']
+        with urllib.request.urlopen(
+                "https://pypi.org/pypi/scikit-learn/json") as response:
+            cur_version = json.loads(
+                response.read().decode('utf-8'))['info']['version']
         self.assertEqual(
             clf_version, cur_version,
             "Classifier has been built with scikit-learn version {}, while the newest version is {}. Please update scikit-learn."
@@ -219,6 +218,6 @@ class EndToEndTests(unittest.TestCase):
 
 
 ################################################################################
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
 
     unittest.main()

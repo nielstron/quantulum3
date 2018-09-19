@@ -614,7 +614,7 @@ def parse(text, verbose=False):
     logging.basicConfig(format=log_format)
     root = logging.getLogger()
 
-    if verbose:
+    if verbose:  # pragma: no cover
         level = root.level
         root.setLevel(logging.DEBUG)
         logging.debug('Verbose mode')
@@ -650,14 +650,14 @@ def parse(text, verbose=False):
         except ValueError as err:
             logging.debug('Could not parse quantity: %s', err)
 
-    if verbose:
+    if verbose:  # pragma: no cover
         root.level = level
 
     return quantities
 
 
 ################################################################################
-def inline_parse(text, verbose=False):
+def inline_parse(text, verbose=False):  # pragma: no cover
     '''
     Extract all quantities from unstructured text.
     '''
@@ -678,7 +678,7 @@ def inline_parse(text, verbose=False):
 
 
 ################################################################################
-def inline_parse_and_replace(text, verbose=False):
+def inline_parse_and_replace(text, verbose=False):  # pragma: no cover
     '''
     Parse text and replace with the standardised quantities as string
     '''
