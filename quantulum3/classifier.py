@@ -152,11 +152,9 @@ def load_classifier():
 
     cur_scipy_version = pkg_resources.get_distribution('scikit-learn').version
     if cur_scipy_version != obj.get('scikit-learn_version'):
-        logging.warning((
-            "The classifier was built using a different scikit-learn version (={}, !={}). "
-            + "The disambiguation tool could behave unexpectedly. " +
-            "Consider running classifier.train_classfier()").format(
-                obj.get('scikit-learn_version'), cur_scipy_version))
+        logging.warning(
+            "The classifier was built using a different scikit-learn version (={}, !={}). The disambiguation tool could behave unexpectedly. Consider running classifier.train_classfier()"
+            .format(obj.get('scikit-learn_version'), cur_scipy_version))
 
     return obj['tfidf_model'], obj['clf'], obj['target_names']
 

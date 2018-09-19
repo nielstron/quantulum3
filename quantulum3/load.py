@@ -246,8 +246,9 @@ def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
                     format(unit['name']))
 
             uri = unit['URI']
-            uri = uri[:uri.rfind('/')+1] + \
-                METRIC_PREFIXES[prefix] + uri[uri.rfind('/')+1:]
+            slash_position = uri.rfind('/') + 1
+            uri = uri[:slash_position] + METRIC_PREFIXES[prefix].capitalize(
+            ) + uri[slash_position:].lower()
 
             prefixed_unit = {
                 'name':
