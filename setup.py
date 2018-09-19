@@ -45,7 +45,10 @@ setup(
         'Operating System :: Microsoft :: Windows',
         'Operating System :: POSIX', 'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7-dev',
         'Development Status :: 3 - Alpha', 'Natural Language :: English',
         'Topic :: Text Processing :: Linguistic',
         'Topic :: Scientific/Engineering'
