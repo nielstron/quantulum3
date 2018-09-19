@@ -17,8 +17,9 @@ setup(
     packages=['quantulum3'],
     package_data={
         'quantulum3': [
-            'clf.pickle', 'units.json', 'entities.json',
-            'train.json', 'wiki.json', 'common-words.json'
+            'clf.pickle', 'units.json', 'entities.json', 'train.json',
+            'wiki.json', 'common-words.json', 'tests/expand.json',
+            'tests/quantities.json', 'tests/quantities.ambiguity.json'
         ]
     },
     description='Extract quantities from unstructured text.',
@@ -30,7 +31,7 @@ setup(
     author=quantulum3.__author__,
     author_email=quantulum3.__author_email__,
     license=quantulum3.__license__,
-    test_suite='tests.EndToEndTests',
+    test_suite='quantulum3.tests',
     keywords=[
         'information extraction', 'quantities', 'units', 'measurements', 'nlp',
         'natural language processing', 'text mining', 'text processing'

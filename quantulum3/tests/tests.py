@@ -6,7 +6,6 @@
 
 # Standard library
 import os
-import sys
 import re
 import json
 import pickle
@@ -17,10 +16,10 @@ import unittest
 import wikipedia
 
 # Quantulum
-from quantulum3 import load as l
-from quantulum3 import parser as p
-from quantulum3 import classes as c
-from quantulum3 import classifier as clf
+from .. import load as l
+from .. import parser as p
+from .. import classes as c
+from .. import classifier as clf
 
 COLOR1 = '\033[94m%s\033[0m'
 COLOR2 = '\033[91m%s\033[0m'
@@ -210,8 +209,10 @@ class EndToEndTests(unittest.TestCase):
         with open(path, 'rb') as clf_file:
             obj = pickle.load(clf_file, encoding='latin1')
         clf_version = obj['scikit-learn_version']
-        with urllib.request.urlopen("https://pypi.org/pypi/scikit-learn/json") as response:
-            cur_version = json.loads(response.read().decode('utf-8'))['info']['version']
+        with urllib.request.urlopen(
+                "https://pypi.org/pypi/scikit-learn/json") as response:
+            cur_version = json.loads(
+                response.read().decode('utf-8'))['info']['version']
         self.assertEqual(
             clf_version, cur_version,
             "Classifier has been built with scikit-learn version {}, while the newest version is {}. Please update scikit-learn."

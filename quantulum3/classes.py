@@ -77,8 +77,8 @@ class Quantity(object):
             count = int(count)
         unit_string = self.unit.to_spoken(count)
         return '{}{}{}'.format(
-            INFLECT_ENGINE.number_to_words(count), " " if len(unit_string) else "",
-            unit_string)
+            INFLECT_ENGINE.number_to_words(count),
+            " " if len(unit_string) else "", unit_string)
 
 
 ################################################################################
@@ -160,7 +160,8 @@ class Unit(object):
             ]
             denominator_string = self.name_from_dimensions(
                 denominator_dimensions)
-            plural_denominator_string = INFLECT_ENGINE.plural(denominator_string)
+            plural_denominator_string = INFLECT_ENGINE.plural(
+                denominator_string)
             unit_string = self.name.replace(denominator_string,
                                             plural_denominator_string)
         return unit_string
