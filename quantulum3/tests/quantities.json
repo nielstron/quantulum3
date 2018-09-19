@@ -947,5 +947,10 @@
         "surface": "3 dimes"
       }
     ]
+  },
+  {
+    "req": "245 23 yen",
+    "res": [],
+    "comment": "This is not grouping, it is something that should not resemble a real value at all."
   }
 ]
