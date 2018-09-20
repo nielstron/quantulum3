@@ -12,7 +12,7 @@ import json
 from collections import defaultdict
 import re
 
-# Dependences
+# Dependencies
 import inflect
 
 # Quantulum

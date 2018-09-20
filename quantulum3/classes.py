@@ -4,7 +4,7 @@
 :mod:`Quantulum` classes.
 """
 
-# Dependences
+# Dependencies
 import inflect
 import num2words
 

@@ -12,7 +12,7 @@ import re
 import string
 import pkg_resources
 
-# Dependences
+# Semi-dependencies
 try:
     from sklearn.linear_model import SGDClassifier
     from sklearn.feature_extraction.text import TfidfVectorizer
@@ -20,6 +20,16 @@ try:
 except ImportError:
     SGDClassifier, TfidfVectorizer = None, None
     USE_CLF = False
+
+try:
+    import wikipedia
+except ImportError:
+    wikipedia = None
+
+try:
+    from stemming.porter2 import stem
+except ImportError:
+    stem = None
 
 # Quantulum
 from . import load
@@ -31,7 +41,9 @@ def download_wiki(store=True):  # pragma: no cover
     Download WikiPedia pages of ambiguous units.
     @:param store (bool) store wikipedia data in wiki.json file
     """
-    import wikipedia
+    if not wikipedia:
+        print("Cannot download wikipedia pages. Install package wikipedia first.")
+        return
 
     ambiguous = [i for i in list(load.UNITS.items()) if len(i[1]) > 1]
     ambiguous += [i for i in list(load.DERIVED_ENT.items()) if len(i[1]) > 1]
@@ -67,7 +79,8 @@ def clean_text(text):
     """
     Clean text for TFIDF
     """
-    from stemming.porter2 import stem
+    if not stem:
+        raise ImportError("Module stemming is not installed.")
 
     my_regex = re.compile(r'[%s]' % re.escape(string.punctuation))
     new_text = my_regex.sub(' ', text)
@@ -151,7 +164,7 @@ def load_classifier():
         obj = pickle.load(file, encoding='latin1')
 
     cur_scipy_version = pkg_resources.get_distribution('scikit-learn').version
-    if cur_scipy_version != obj.get('scikit-learn_version'):
+    if cur_scipy_version != obj.get('scikit-learn_version'):  # pragma: no cover
         logging.warning(
             "The classifier was built using a different scikit-learn version (={}, !={}). The disambiguation tool could behave unexpectedly. Consider running classifier.train_classfier()"
             .format(obj.get('scikit-learn_version'), cur_scipy_version))

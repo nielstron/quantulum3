@@ -11,6 +11,7 @@ from fractions import Fraction
 from collections import defaultdict
 from math import pow
 
+# Quantulum
 from . import load
 from . import regex as reg
 from . import classes as cls
