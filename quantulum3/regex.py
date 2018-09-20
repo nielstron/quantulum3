@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-'''
+"""
 :mod:`Quantulum` regex functions.
-'''
+"""
 
 # Standard library
 import re
 
 # Quantulum
-from . import load as l
+from . import load
 
 UNITS = [
     'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight',
@@ -40,9 +40,9 @@ MISCNUM = {'and': (1, 0), 'a': (1, 1), 'an': (1, 1)}
 
 ################################################################################
 def get_numwords():
-    '''
+    """
     Convert number words to integers in a given text.
-    '''
+    """
 
     numwords = {}
 
@@ -56,7 +56,7 @@ def get_numwords():
         numwords[word] = (10**(idx * 3 or 2), 0)
     for word, factor in DECIMALS.items():
         numwords[word] = (factor, 0)
-        numwords[l.PLURALS.plural(word)] = (factor, 0)
+        numwords[load.PLURALS.plural(word)] = (factor, 0)
 
     all_numbers = r'|'.join(r'\b%s\b' % i for i in list(numwords.keys()) if i)
 
@@ -188,7 +188,7 @@ REG_TXT = re.compile(TXT_PATTERN, re.VERBOSE | re.IGNORECASE)
 
 ################################################################################
 def get_units_regex():
-    '''
+    """
     Build a compiled regex object. Groups of the extracted items, with 4
     repetitions, are:
 
@@ -218,21 +218,22 @@ def get_units_regex():
         9: None
         10: None
 
-    '''
+    """
 
     op_keys = sorted(list(OPERATORS.keys()), key=len, reverse=True)
     unit_keys = sorted(
-        list(l.UNITS.keys()) + list(l.UNIT_SYMBOLS.keys()),
+        list(load.UNITS.keys()) + list(load.UNIT_SYMBOLS.keys()),
         key=len,
         reverse=True)
-    symbol_keys = sorted(list(l.PREFIX_SYMBOLS.keys()), key=len, reverse=True)
+    symbol_keys = sorted(
+        list(load.PREFIX_SYMBOLS.keys()), key=len, reverse=True)
 
     exponent = r'(?:(?:\^?\-?[0-9%s]+)?(?:\ cubed|\ squared)?)' % \
                SUPERSCRIPTS
 
-    all_ops = '|'.join([r'%s' % re.escape(i) for i in op_keys])
-    all_units = '|'.join([r'%s' % re.escape(i) for i in unit_keys])
-    all_symbols = '|'.join([r'%s' % re.escape(i) for i in symbol_keys])
+    all_ops = '|'.join([r'{}'.format(re.escape(i)) for i in op_keys])
+    all_units = '|'.join([r'{}'.format(re.escape(i)) for i in unit_keys])
+    all_symbols = '|'.join([r'{}'.format(re.escape(i)) for i in symbol_keys])
 
     pattern = r'''
         (?<!\w)                                     # "begin" of word
