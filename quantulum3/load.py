@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-'''
+"""
 :mod:`Quantulum` unit and entity loading functions.
-'''
+"""
 
 from builtins import open
 
@@ -12,7 +12,7 @@ import json
 from collections import defaultdict
 import re
 
-# Dependences
+# Dependencies
 import inflect
 
 # Quantulum
@@ -63,34 +63,33 @@ def get_string_json(raw_json_text):
 
 ################################################################################
 def get_key_from_dimensions(derived):
-    '''
+    """
     Translate dimensionality into key for DERIVED_UNI and DERIVED_ENT dicts.
-    '''
+    """
 
     return tuple((i['base'], i['power']) for i in derived)
 
 
 ################################################################################
 def get_dimension_permutations(entities, derived):
-    '''
+    """
     Get all possible dimensional definitions for an entity.
-    '''
+    """
 
     new_derived = defaultdict(int)
     for item in derived:
         new = entities[item['base']].dimensions
         if new:
             for new_item in new:
-                new_derived[new_item['base']] += new_item['power'] * \
-                    item['power']
+                new_derived[new_item['base']] += (
+                    new_item['power'] * item['power'])
         else:
             new_derived[item['base']] += item['power']
 
     final = [[{
         'base': i[0],
         'power': i[1]
-    } for i in list(new_derived.items())]]
-    final.append(derived)
+    } for i in list(new_derived.items())], derived]
     final = [sorted(i, key=lambda x: x['base']) for i in final]
 
     candidates = []
@@ -103,9 +102,9 @@ def get_dimension_permutations(entities, derived):
 
 ################################################################################
 def load_entities():
-    '''
+    """
     Load entities from JSON file.
-    '''
+    """
 
     path = os.path.join(TOPDIR, 'entities.json')
     string_json = ''.join(open(path, encoding='utf-8').readlines())
@@ -115,7 +114,7 @@ def load_entities():
 
     try:
         assert len(set(names)) == len(entities)
-    except AssertionError:
+    except AssertionError:  # pragma: no cover
         raise Exception('Entities with same name: %s' %
                         [i for i in names if names.count(i) > 1])
 
@@ -141,9 +140,9 @@ ENTITIES, DERIVED_ENT = load_entities()
 
 ################################################################################
 def get_derived_units(names):
-    '''
+    """
     Create dictionary of unit dimensions.
-    '''
+    """
 
     derived_uni = {}
 
@@ -165,9 +164,9 @@ def get_derived_units(names):
 
 ################################################################################
 def load_units():
-    '''
+    """
     Load units from JSON file.
-    '''
+    """
 
     names = {}
     unit_symbols, unit_symbols_lower, = defaultdict(list), defaultdict(list)
@@ -189,7 +188,7 @@ def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
               symbols):
     try:
         assert unit['name'] not in names
-    except AssertionError:
+    except AssertionError:  # pragma: no cover
         msg = 'Two units with same name in units.json: %s' % unit['name']
         raise Exception(msg)
 
@@ -235,20 +234,21 @@ def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
         for prefix in unit['prefixes']:
             try:
                 assert prefix in METRIC_PREFIXES
-            except AssertionError:
+            except AssertionError:  # pragma: no cover
                 raise Exception(
                     "Given prefix '{}' for unit '{}' not supported".format(
                         prefix, unit['name']))
             try:
                 assert len(unit['dimensions']) <= 1
-            except AssertionError:
+            except AssertionError:  # pragma: no cover
                 raise Exception(
                     "Prefixing not supported for multiple dimensions in {}".
                     format(unit['name']))
 
             uri = unit['URI']
-            uri = uri[:uri.rfind('/')+1] + \
-                METRIC_PREFIXES[prefix] + uri[uri.rfind('/')+1:]
+            slash_position = uri.rfind('/') + 1
+            uri = uri[:slash_position] + METRIC_PREFIXES[prefix].capitalize(
+            ) + uri[slash_position:].lower()
 
             prefixed_unit = {
                 'name':
@@ -268,8 +268,12 @@ def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
 
 NAMES, UNIT_SYMBOLS, UNIT_SYMBOLS_LOWER, UNITS, LOWER_UNITS, PREFIX_SYMBOLS, \
     DERIVED_UNI = load_units()
-ALL_UNIT_SYMBOLS = {**UNIT_SYMBOLS, **UNIT_SYMBOLS_LOWER}
-ALL_UNITS = {**UNITS, **LOWER_UNITS}
+ALL_UNIT_SYMBOLS = {}
+ALL_UNIT_SYMBOLS.update(UNIT_SYMBOLS)
+ALL_UNIT_SYMBOLS.update(UNIT_SYMBOLS_LOWER)
+ALL_UNITS = {}
+ALL_UNITS.update(UNITS)
+ALL_UNITS.update(LOWER_UNITS)
 
 ################################################################################
 
@@ -298,7 +302,7 @@ def load_common_words():
     try:
         with open(path, 'r', encoding='utf-8') as file:
             dumped = json.load(file)
-    except OSError:
+    except OSError:  # pragma: no cover
         pass
 
     words = defaultdict(list)  # Collect words based on length

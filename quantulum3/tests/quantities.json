@@ -947,5 +947,56 @@
         "surface": "3 dimes"
       }
     ]
+  },
+  {
+    "req": "245 23 yen",
+    "res": [],
+    "comment": "This is not grouping, it is something that should not resemble a real value at all."
+  },
+  {
+    "req": "Workers on Ceres are exposed to 20 J/m^2 per year",
+    "res": [
+      {
+        "value": 20,
+        "unit": "joule per square metre per year",
+        "surface": "20 J/m^2 per year",
+        "entity": "irradiance",
+        "dimensions": [
+          {
+            "base": "joule",
+            "power": 1
+          },
+          {
+            "base": "metre",
+            "power": -2
+          },
+          {
+            "base": "year",
+            "power": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "I want 1cds in this room!",
+    "res": [
+      {
+        "value": 1,
+        "unit": "candela second",
+        "surface": "1cds",
+        "entity": "unknown",
+        "dimensions": [
+          {
+            "base": "candela",
+            "power": 1
+          },
+          {
+            "base": "second",
+            "power": 1
+          }
+        ]
+      }
+    ]
   }
 ]

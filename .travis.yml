@@ -2,20 +2,25 @@ language: python
 
 python:
 #  - "2.7"
+  - "3.4"
+  - "3.5"
   - "3.6"
+  - "3.7-dev"
+
+matrix:
+  allow_failures:
+    python: "3.7-dev"
 
 install:
   - pip install coverage
   - pip install coveralls
-  - pip install numpy
-  - pip install scipy
-  - pip install scikit-learn
-  - pip install wikipedia
-  - pip install stemming
   - pip install .
 
 script:
-  - coverage run --source=quantulum3 --omit="*test*" setup.py test
+  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_setup
+  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_no_classifier
+  - pip install -r requirements_classifier.txt
+  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier
   - coverage report
 
 after_success:

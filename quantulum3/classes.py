@@ -1,19 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-'''
+"""
 :mod:`Quantulum` classes.
-'''
+"""
 
-from . import load as l
+# Dependencies
+import inflect
 import num2words
+
+INFLECT_ENGINE = inflect.engine()
 
 ################################################################################
 
 
 class Quantity(object):
-    '''
+    """
     Class for a quantity (e.g. "4.2 gallons").
-    '''
+    """
 
     def __init__(self,
                  value=None,
@@ -48,7 +51,7 @@ class Quantity(object):
 
         return not self.__eq__(other)
 
-    def as_string(self):
+    def as_string(self):  # pragma: no cover
         """
         Express the quantity as a normal string
         """
@@ -56,10 +59,10 @@ class Quantity(object):
         return '{} {}'.format(self.value, self.unit.name)
 
     def to_spoken(self):
-        '''
+        """
         Express quantity as a speakable string
         :return: Speakable version of this quantity
-        '''
+        """
         count = self.value
         if self.unit.entity.name == "currency" and self.unit.currency_code:
             try:
@@ -74,15 +77,15 @@ class Quantity(object):
             count = int(count)
         unit_string = self.unit.to_spoken(count)
         return '{}{}{}'.format(
-            l.PLURALS.number_to_words(count), " " if len(unit_string) else "",
-            unit_string)
+            INFLECT_ENGINE.number_to_words(count),
+            " " if len(unit_string) else "", unit_string)
 
 
 ################################################################################
 class Unit(object):
-    '''
+    """
     Class for a unit (e.g. "gallon").
-    '''
+    """
 
     def __init__(self,
                  name=None,
@@ -103,11 +106,11 @@ class Unit(object):
 
     @staticmethod
     def name_from_dimensions(dimensions):
-        '''
+        """
         Build the name of the unit from its dimensions.
         Param:
             dimensions: List of dimensions
-        '''
+        """
 
         name = ''
 
@@ -130,26 +133,25 @@ class Unit(object):
         return name
 
     def infer_name(self):
-        '''
+        """
         Set own name based on dimensions
         :return: new name of this unit
-        '''
+        """
         self.name = self.name_from_dimensions(
             self.dimensions) if self.dimensions else None
         return self.name
 
     def to_spoken(self, count=1):
-        '''
+        """
         Convert a given unit to the unit in words, correctly inflected.
-        :param unit: The unit as class or string (only quantulum class supported so far)
         :param count: The value of the quantity (i.e. 1 for one watt, 2 for two seconds)
         :return: A string with the correctly inflected spoken version of the unit
-        '''
+        """
         if self.name == "dimensionless":
             unit_string = ""
         elif self.surfaces:
             unit_string = self.surfaces[0]
-            unit_string = l.PLURALS.plural(unit_string, count)
+            unit_string = INFLECT_ENGINE.plural(unit_string, count)
         else:
             # derived unit
             denominator_dimensions = [
@@ -157,7 +159,8 @@ class Unit(object):
             ]
             denominator_string = self.name_from_dimensions(
                 denominator_dimensions)
-            plural_denominator_string = l.PLURALS.plural(denominator_string)
+            plural_denominator_string = INFLECT_ENGINE.plural(
+                denominator_string)
             unit_string = self.name.replace(denominator_string,
                                             plural_denominator_string)
         return unit_string
@@ -188,9 +191,9 @@ class Unit(object):
 
 ################################################################################
 class Entity(object):
-    '''
+    """
     Class for an entity (e.g. "volume").
-    '''
+    """
 
     def __init__(self, name=None, dimensions=None, uri=None):
 

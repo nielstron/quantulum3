@@ -1600,7 +1600,8 @@
     "URI": "https://en.wikipedia.org/wiki/Pascal",
     "dimensions": [],
     "symbols": [
-      "Pa"
+      "Pa",
+      "㎩"
     ]
   },
   {
@@ -1624,7 +1625,8 @@
     "URI": "https://en.wikipedia.org/wiki/Pascal",
     "dimensions": [],
     "symbols": [
-      "kPa"
+      "kPa",
+      "㎪"
     ]
   },
   {
