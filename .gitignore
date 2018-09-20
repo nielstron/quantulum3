@@ -1,6 +1,5 @@
 *.py[co]
 dist/
-*.coverage*
 deploy
 deploy.py
 .idea
