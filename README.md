@@ -1,6 +1,11 @@
-quantulum3 [![Travis master build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=master "Travis master build state")](https://travis-ci.com/nielstron/quantulum3)  [![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=master)](https://coveralls.io/github/nielstron/quantulum3?branch=master) [![PyPI version](https://badge.fury.io/py/quantulum3.svg)](https://pypi.org/project/quantulum3/) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/quantulum3.svg) [![PyPI - Status](https://img.shields.io/pypi/status/quantulum3.svg)](https://pypi.org/project/quantulum3/)
+quantulum3
 ==========
-
+ [![Travis master build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=master "Travis master build state")](https://travis-ci.com/nielstron/quantulum3)
+ [![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=master)](https://coveralls.io/github/nielstron/quantulum3?branch=master)
+ [![PyPI version](https://badge.fury.io/py/quantulum3.svg)](https://pypi.org/project/quantulum3/)
+ ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/quantulum3.svg)
+ [![PyPI - Status](https://img.shields.io/pypi/status/quantulum3.svg)](https://pypi.org/project/quantulum3/)
+ 
 Python library for information extraction of quantities, measurements
 and their units from unstructured text. It is Python 3 compatible fork of [recastrodiaz\'
 fork](https://github.com/recastrodiaz/quantulum) of [grhawks\'
