@@ -29,7 +29,7 @@ the packages `stemming` and `wikipedia`. Use the method `train_classifier` in `q
 You could also [download requirements_classifier.txt](https://raw.githubusercontent.com/nielstron/quantulum3/dev/requirements_classifier.txt)
 and run 
 ```bash
-$ pip install requirements_classifier.txt
+$ pip install -r requirements_classifier.txt
 ```
 
 Contributing
