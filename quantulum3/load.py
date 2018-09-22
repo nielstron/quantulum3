@@ -35,7 +35,7 @@ METRIC_PREFIXES = {
     'da': 'deca',
     'd': 'deci',
     'c': 'centi',
-    'm': 'mill',
+    'm': 'milli',
     'µ': 'micro',
     'n': 'nano',
     'p': 'pico',

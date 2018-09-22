@@ -2164,68 +2164,22 @@
     "entity": "power",
     "URI": "https://en.wikipedia.org/wiki/Watt",
     "dimensions": [],
+    "prefixes": [
+      "a",
+      "f",
+      "p",
+      "n",
+      "µ",
+      "m",
+      "k",
+      "M",
+      "G",
+      "T",
+      "P",
+      "E"
+    ],
     "symbols": [
       "W"
-    ]
-  },
-  {
-    "name": "kilowatt",
-    "surfaces": [
-      "kilowatt"
-    ],
-    "entity": "power",
-    "URI": "https://en.wikipedia.org/wiki/Watt",
-    "dimensions": [],
-    "symbols": [
-      "kW"
-    ]
-  },
-  {
-    "name": "megawatt",
-    "surfaces": [
-      "megawatt"
-    ],
-    "entity": "power",
-    "URI": "https://en.wikipedia.org/wiki/Megawatt",
-    "dimensions": [],
-    "symbols": [
-      "MW"
-    ]
-  },
-  {
-    "name": "gigawatt",
-    "surfaces": [
-      "gigawatt"
-    ],
-    "entity": "power",
-    "URI": "https://en.wikipedia.org/wiki/Gigawatt",
-    "dimensions": [],
-    "symbols": [
-      "GW"
-    ]
-  },
-  {
-    "name": "terawatt",
-    "surfaces": [
-      "terawatt"
-    ],
-    "entity": "power",
-    "URI": "https://en.wikipedia.org/wiki/Terawatt",
-    "dimensions": [],
-    "symbols": [
-      "TW"
-    ]
-  },
-  {
-    "name": "Petawatt",
-    "surfaces": [
-      "Petawatt"
-    ],
-    "entity": "power",
-    "URI": "https://en.wikipedia.org/wiki/Petawatt",
-    "dimensions": [],
-    "symbols": [
-      "PW"
     ]
   },
   {
@@ -3729,19 +3683,20 @@
     "symbols": [
       "A",
       "amp"
-    ]
-  },
-  {
-    "name": "milliampere",
-    "surfaces": [
-      "milliampere"
     ],
-    "entity": "current",
-    "URI": "https://en.wikipedia.org/wiki/Ampere",
-    "dimensions": [],
-    "symbols": [
-      "mA",
-      "mAh"
+    "prefixes": [
+      "a",
+      "f",
+      "p",
+      "n",
+      "µ",
+      "m",
+      "k",
+      "M",
+      "G",
+      "T",
+      "P",
+      "E"
     ]
   },
   {
@@ -3775,7 +3730,14 @@
     "URI": "https://en.wikipedia.org/wiki/Ohm",
     "dimensions": [],
     "symbols": [
+      "Ω",
       "Ω"
+    ],
+    "prefixes": [
+      "m",
+      "k",
+      "M",
+      "G"
     ]
   },
   {
@@ -3831,30 +3793,13 @@
     "dimensions": [],
     "symbols": [
       "F"
-    ]
-  },
-  {
-    "name": "millifarad",
-    "surfaces": [
-      "millifarad"
     ],
-    "entity": "capacitance",
-    "URI": "https://en.wikipedia.org/wiki/Farad",
-    "dimensions": [],
-    "symbols": [
-      "mF"
-    ]
-  },
-  {
-    "name": "microfarad",
-    "surfaces": [
-      "microfarad"
-    ],
-    "entity": "capacitance",
-    "URI": "https://en.wikipedia.org/wiki/Farad",
-    "dimensions": [],
-    "symbols": [
-      "μF"
+    "prefixes": [
+      "µ",
+      "m",
+      "k",
+      "M",
+      "G"
     ]
   },
   {
@@ -4711,5 +4656,17 @@
       "₫",
       "d"
     ]
+  },
+  {
+    "name": "quantum bit",
+    "surfaces": [
+      "quantum bit",
+      "qubit",
+      "qbit"
+    ],
+    "entity": "data storage",
+    "URI": "https://en.wikipedia.org/wiki/Qubit",
+    "dimensions": [],
+    "symbols": []
   }
 ]
