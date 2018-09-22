@@ -4656,5 +4656,17 @@
       "₫",
       "d"
     ]
+  },
+  {
+    "name": "quantum bit",
+    "surfaces": [
+      "quantum bit",
+      "qubit",
+      "qbit"
+    ],
+    "entity": "data storage",
+    "URI": "https://en.wikipedia.org/wiki/Qubit",
+    "dimensions": [],
+    "symbols": []
   }
 ]
