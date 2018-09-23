@@ -82,7 +82,10 @@ def extract_spellout_values(text):
         values.append({
             'old_surface': surface,
             'old_span': span,
-            'new_surface': str(result + curr)
+            # Max floating point precision is 16 digits for doubles
+            # this is a mere workaround for the precision loss caused by stringifying
+            # TODO create a nice number parser so this is not necessary anymore
+            'new_surface': '{:.17f}'.format(result + curr)
         })
 
     return sorted(values, key=lambda x: x['old_span'][0])
@@ -611,9 +614,8 @@ def parse(text, verbose=False):
         root.setLevel(logging.DEBUG)
         logging.debug('Verbose mode')
 
-    # if isinstance(text, str):
-    #    text = str(text, encoding='utf-8')
-    #    logging.debug('Converted string to unicode (assume utf-8 encoding)')
+    # Convert to utf-8
+    text = '{}'.format(text)
 
     orig_text = text
     logging.debug('Original text: "%s"', orig_text)

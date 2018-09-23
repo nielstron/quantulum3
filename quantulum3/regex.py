@@ -5,7 +5,7 @@
 """
 
 # Python 2 compatibility
-from __future__ import unicode_literals
+from __future__ import unicode_literals, division
 
 # Standard library
 import re

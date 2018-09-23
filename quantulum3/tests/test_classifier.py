@@ -11,7 +11,11 @@ from __future__ import unicode_literals
 import os
 import json
 import pickle
-import urllib.request
+import sys
+if sys.version_info[0] < 3:
+    import urllib2 as request
+else:
+    import urllib.request as request
 import unittest
 
 # Quantulum
@@ -38,8 +42,9 @@ class ClassifierTest(unittest.TestCase):
             quants = p.parse(test['req'])
             self.assertEqual(
                 quants, test['res'],
-                "{} \n {}".format([quant.__dict__ for quant in quants],
-                                  [quant.__dict__ for quant in test['res']]))
+                "\nExcpected: {1} \nGot: {0}".format(
+                    [quant.__dict__ for quant in quants],
+                    [quant.__dict__ for quant in test['res']]))
 
     def test_training(self):
         """ Test that classifier training works """
@@ -60,12 +65,15 @@ class ClassifierTest(unittest.TestCase):
         """ Test that the classifier has been built with the latest version of scikit-learn """
         path = os.path.join(load.TOPDIR, 'clf.pickle')
         with open(path, 'rb') as clf_file:
-            obj = pickle.load(clf_file, encoding='latin1')
+            obj = pickle.load(clf_file)
         clf_version = obj['scikit-learn_version']
-        with urllib.request.urlopen(
-                "https://pypi.org/pypi/scikit-learn/json") as response:
+        try:
+            response = request.urlopen(
+                "https://pypi.org/pypi/scikit-learn/json")
             cur_version = json.loads(
                 response.read().decode('utf-8'))['info']['version']
+        finally:
+            response.close()
         self.assertEqual(
             clf_version, cur_version,
             "Classifier has been built with scikit-learn version {}, while the newest version is {}. Please update scikit-learn."
