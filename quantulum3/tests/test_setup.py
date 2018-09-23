@@ -4,11 +4,15 @@
 :mod:`Quantulum` tests.
 """
 
+# Python 2 compatibility
+from __future__ import unicode_literals
+
 # Standard library
 import os
 import re
 import json
 import unittest
+from io import open
 
 # Dependencies
 try:

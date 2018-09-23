@@ -3,6 +3,7 @@
 
 import os
 import json
+from io import open
 
 from quantulum3 import load
 '''

@@ -4,6 +4,9 @@
 :mod:`Quantulum` classes.
 """
 
+# Python 2 compatibility
+from __future__ import unicode_literals
+
 # Dependencies
 import inflect
 import num2words

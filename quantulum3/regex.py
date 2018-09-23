@@ -4,7 +4,7 @@
 :mod:`Quantulum` regex functions.
 """
 
-# Python 2 compatability
+# Python 2 compatibility
 from __future__ import unicode_literals
 
 # Standard library

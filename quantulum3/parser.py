@@ -4,6 +4,9 @@
 :mod:`Quantulum` parser.
 """
 
+# Python 2 compatability
+from __future__ import unicode_literals
+
 # Standard library
 import re
 import logging

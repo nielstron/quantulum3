@@ -4,20 +4,18 @@
 :mod:`Quantulum` unit and entity loading functions.
 """
 
-# Python 2 compatability
+# Python 2 compatibility
 from __future__ import unicode_literals
-
-from io import open
 
 # Standard library
 import os
 import json
 from collections import defaultdict
 import re
+from io import open
 
 # Dependencies
 import inflect
-from unidecode import unidecode
 
 # Quantulum
 from . import classes as c
@@ -227,7 +225,7 @@ def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
                 for num, i in enumerate(split)
             ])
         else:
-            plural = PLURALS.plural(unidecode(surface))
+            plural = PLURALS.plural(surface)
         if plural != surface:
             surfaces[plural].append(obj)
             lowers[plural.lower()].append(obj)
