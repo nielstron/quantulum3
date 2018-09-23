@@ -3,6 +3,9 @@
 :mod:`Quantulum` classifier functions.
 """
 
+# Python 2 compatability
+from __future__ import unicode_literals
+
 # Standard library
 import os
 import json
@@ -11,6 +14,7 @@ import logging
 import re
 import string
 import pkg_resources
+from io import open
 
 # Semi-dependencies
 try:
@@ -149,7 +153,7 @@ def train_classifier(download=True,
     if store:  # pragma: no cover
         path = os.path.join(load.TOPDIR, 'clf.pickle')
         with open(path, 'wb') as file:
-            pickle.dump(obj, file)
+            pickle.dump(obj, file, protocol=2)
     return obj
 
 
@@ -161,7 +165,7 @@ def load_classifier():
 
     path = os.path.join(load.TOPDIR, 'clf.pickle')
     with open(path, 'rb') as file:
-        obj = pickle.load(file, encoding='latin1')
+        obj = pickle.load(file)
 
     cur_scipy_version = pkg_resources.get_distribution('scikit-learn').version
     if cur_scipy_version != obj.get('scikit-learn_version'):  # pragma: no cover

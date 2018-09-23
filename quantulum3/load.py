@@ -4,7 +4,10 @@
 :mod:`Quantulum` unit and entity loading functions.
 """
 
-from builtins import open
+# Python 2 compatability
+from __future__ import unicode_literals
+
+from io import open
 
 # Standard library
 import os
@@ -14,6 +17,7 @@ import re
 
 # Dependencies
 import inflect
+from unidecode import unidecode
 
 # Quantulum
 from . import classes as c
@@ -56,7 +60,8 @@ METRIC_PREFIXES = {
 
 def get_string_json(raw_json_text):
     text = raw_json_text
-    text = bytes(text, 'utf-8').decode('ascii', 'ignore')
+    text = bytearray(text, 'utf-8')
+    text = text.decode('ascii', 'ignore')
     text = re.sub(r'[^\x00-\x7f]', r'', text)
     return text
 
@@ -66,7 +71,6 @@ def get_key_from_dimensions(derived):
     """
     Translate dimensionality into key for DERIVED_UNI and DERIVED_ENT dicts.
     """
-
     return tuple((i['base'], i['power']) for i in derived)
 
 
@@ -108,7 +112,6 @@ def load_entities():
 
     path = os.path.join(TOPDIR, 'entities.json')
     string_json = ''.join(open(path, encoding='utf-8').readlines())
-    string_json = get_string_json(string_json)
     entities = json.loads(string_json)
     names = [i['name'] for i in entities]
 
@@ -224,7 +227,7 @@ def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
                 for num, i in enumerate(split)
             ])
         else:
-            plural = PLURALS.plural(surface)
+            plural = PLURALS.plural(unidecode(surface))
         if plural != surface:
             surfaces[plural].append(obj)
             lowers[plural.lower()].append(obj)
