@@ -36,17 +36,29 @@ from . import load
 
 
 ################################################################################
+def ambiguous_units():  # pragma: no cover
+    """
+    Determine ambiguous units
+    :return: list ( tuple( key, list (Unit) ) )
+    """
+    ambiguous = [i for i in list(load.UNITS.items()) if len(i[1]) > 1]
+    ambiguous += [i for i in list(load.DERIVED_ENT.items()) if len(i[1]) > 1]
+    return ambiguous
+
+
+################################################################################
 def download_wiki(store=True):  # pragma: no cover
     """
     Download WikiPedia pages of ambiguous units.
     @:param store (bool) store wikipedia data in wiki.json file
     """
     if not wikipedia:
-        print("Cannot download wikipedia pages. Install package wikipedia first.")
+        print(
+            "Cannot download wikipedia pages. Install package wikipedia first."
+        )
         return
 
-    ambiguous = [i for i in list(load.UNITS.items()) if len(i[1]) > 1]
-    ambiguous += [i for i in list(load.DERIVED_ENT.items()) if len(i[1]) > 1]
+    ambiguous = ambiguous_units()
     pages = set([(j.name, j.uri) for i in ambiguous for j in i[1]])
 
     print()
@@ -115,9 +127,15 @@ def train_classifier(download=True,
         with open(path, 'r', encoding='utf-8') as wiki_file:
             wiki_set = json.load(wiki_file)
 
-    target_names = list(set([i['unit'] for i in training_set + wiki_set]))
+    with open(
+            os.path.join(load.TOPDIR, 'similars.json'), 'r',
+            encoding='utf-8') as similar_file:
+        similar_set = json.load(similar_file)
+
+    target_names = list(
+        set([i['unit'] for i in training_set + wiki_set + similar_set]))
     train_data, train_target = [], []
-    for example in training_set + wiki_set:
+    for example in training_set + wiki_set + similar_set:
         train_data.append(clean_text(example['text']))
         train_target.append(target_names.index(example['unit']))
 
@@ -164,7 +182,8 @@ def load_classifier():
         obj = pickle.load(file, encoding='latin1')
 
     cur_scipy_version = pkg_resources.get_distribution('scikit-learn').version
-    if cur_scipy_version != obj.get('scikit-learn_version'):  # pragma: no cover
+    if cur_scipy_version != obj.get(
+            'scikit-learn_version'):  # pragma: no cover
         logging.warning(
             "The classifier was built using a different scikit-learn version (={}, !={}). The disambiguation tool could behave unexpectedly. Consider running classifier.train_classfier()"
             .format(obj.get('scikit-learn_version'), cur_scipy_version))

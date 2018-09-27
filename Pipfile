@@ -11,6 +11,8 @@ sklearn = "*"
 wikipedia = "*"
 stemming = "*"
 num2words = "*"
+gensim = "*"
+scikit-learn = "*"
 
 [dev-packages]
 yapf = "*"

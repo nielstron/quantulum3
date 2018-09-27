@@ -5,6 +5,12 @@ deploy.py
 .idea
 Pipfile.lock
 
+# GloVe data files
+glove.*.zip
+glove.*.txt
+*.magnitude
+word2vec.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

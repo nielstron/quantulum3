@@ -37,7 +37,9 @@ def wiki_test(page='CERN'):  # pragma: no cover
         Herschel_Space_Observatory
     """
     if not wikipedia:
-        print("Cannot activate wiki_test. Please install the package wikipedia first.")
+        print(
+            "Cannot activate wiki_test. Please install the package wikipedia first."
+        )
         return
 
     content = wikipedia.page(page).content

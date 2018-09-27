@@ -188,6 +188,10 @@ class Unit(object):
 
         return not self.__eq__(other)
 
+    def __hash__(self):
+
+        return hash(repr(self))
+
 
 ################################################################################
 class Entity(object):
@@ -219,3 +223,7 @@ class Entity(object):
     def __ne__(self, other):
 
         return not self.__eq__(other)
+
+    def __hash__(self):
+
+        return hash(repr(self))
