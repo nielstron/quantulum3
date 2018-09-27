@@ -17,15 +17,7 @@ except IndexError:
     n = 1000
 
 
-def glove_via_word2vec():
-    from gensim.models import KeyedVectors
-
-    model = KeyedVectors.load_word2vec_format(
-        os.path.join(TOPDIR, 'word2vec.txt'))
-    print(model.most_similar('pound sterling', topn=n))
-
-
-def glove_via_magnitude(topn=1000,
+def glove_via_magnitude(topn=500,
                         min_similarity=None,
                         filename='glove.6B.100d.magnitude'):
 
