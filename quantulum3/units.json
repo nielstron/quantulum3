@@ -1400,12 +1400,14 @@
     ]
   },
   {
-    "name": "degree celsius",
+    "name": "degree Celsius",
     "surfaces": [
       "degree celsius",
+      "degree Celsius",
       "Celsius",
       "centigrade",
-      "degree centigrade"
+      "degree centigrade",
+      "degree Centigrade"
     ],
     "entity": "temperature",
     "URI": "https://en.wikipedia.org/wiki/Celsius",
