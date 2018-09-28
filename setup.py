@@ -19,7 +19,8 @@ setup(
         'quantulum3': [
             'clf.pickle', 'units.json', 'entities.json', 'train.json',
             'wiki.json', 'common-words.json', 'tests/expand.json',
-            'tests/quantities.json', 'tests/quantities.ambiguity.json'
+            'tests/quantities.json', 'tests/quantities.ambiguity.json',
+            'similars.json'
         ]
     },
     description='Extract quantities from unstructured text.',

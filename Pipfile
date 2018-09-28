@@ -11,11 +11,13 @@ sklearn = "*"
 wikipedia = "*"
 stemming = "*"
 num2words = "*"
+scikit-learn = "*"
 
 [dev-packages]
 yapf = "*"
 autopep8 = "*"
 coverage = "*"
+pymagnitude = "*"
 
 [requires]
 python_version = "3.6"

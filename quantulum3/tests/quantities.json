@@ -539,7 +539,7 @@
     "res": [
       {
         "value": 300,
-        "unit": "degree celsius",
+        "unit": "degree Celsius",
         "surface": "300 °C"
       },
       {
@@ -554,7 +554,7 @@
       },
       {
         "value": 1200,
-        "unit": "degree celsius",
+        "unit": "degree Celsius",
         "surface": "1200 degrees Celsius"
       }
     ]
