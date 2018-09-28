@@ -28,15 +28,6 @@ Then,
 $ pip install quantulum3
 ```
 
-If you want to train the classifier yourself, in addition to the packages above, you'll also need
-the packages `stemming` and `wikipedia`. Use the method `train_classifier` in `quantulum3.classifier` to train the classifier.
-
-You could also [download requirements_classifier.txt](https://raw.githubusercontent.com/nielstron/quantulum3/dev/requirements_classifier.txt)
-and run 
-```bash
-$ pip install -r requirements_classifier.txt
-```
-
 Contributing
 ------------
 
@@ -155,6 +146,37 @@ Entity(name="density", uri=https://en.wikipedia.org/wiki/Density)
 >>> parser.parse(text)[0].unit.entity
 Entity(name="concentration", uri=https://en.wikipedia.org/wiki/Concentration)
 ```
+
+In addition to that, the classifier is trained on the most similar words to
+all of their surfaces, according to their distance in [GloVe](https://nlp.stanford.edu/projects/glove/)
+vector representation.
+
+Training the classifier
+-----------------------
+
+If you want to train the classifier yourself, in addition to the packages above, you'll also need
+the packages `stemming` and `wikipedia`. 
+
+You could also [download requirements_classifier.txt](https://raw.githubusercontent.com/nielstron/quantulum3/dev/requirements_classifier.txt)
+and run 
+```bash
+$ pip install -r requirements_classifier.txt
+```
+Use the script `scripts/train.py` or the method `train_classifier` in `quantulum3.classifier` to train the classifier.
+
+If you want to create a new or different `similars.json`, install `pymagnitude`.
+
+For the extraction of nearest neighbours from a vector word representation file, 
+use `scripts/extract_vere.py`. It automatically extracts the `k` nearest neighbours
+in vector space of the vector representation for each of the possible surfaces
+of the ambiguous units. The resulting neighbours are stored in `quantulum3/similars.json`
+and automatically included for training.
+
+The file provided should be in `.magnitude` format as other formats are first
+converted to a `.magnitude` file on-the-run. Check out
+[pre-formatted Magnitude formatted word-embeddings](https://github.com/plasticityai/magnitude#pre-converted-magnitude-formats-of-popular-embeddings-models)
+and [Magnitude](https://github.com/plasticityai/magnitude) for more information.
+
 
 Manipulation
 ------------

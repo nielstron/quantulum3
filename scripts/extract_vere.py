@@ -3,18 +3,39 @@
 """
 Extract the n nearest neighbours of the ambigous units from the word2vec file
 """
-import sys
 import os
 import json
 from io import open
+import argparse
 
 from quantulum3 import classifier, classes, load
 
 TOPDIR = os.path.dirname(__file__) or '.'
-try:
-    n = int(sys.argv[1])
-except IndexError:
-    n = 1000
+
+arguments = [
+    {
+        'dest': 'topn',
+        'help': 'number of nearest neighbours that are extracted',
+        'type': int,
+        'default': 500
+    },
+    {
+        'dest': 'min_similarity',
+        'help': 'minimum similarity to neighbour (0 to 1)',
+        'type': float,
+        'default': None
+    },
+    {
+        'dest':
+        'filename',
+        'help':
+        'path to magnitude file, relative to current path (glove.6B.100d.magnitude)',
+        'type':
+        str,
+        'default':
+        'glove.6B.100d.magnitude'
+    },
+]
 
 
 def glove_via_magnitude(topn=500,
@@ -55,4 +76,14 @@ def glove_via_magnitude(topn=500,
 
 
 if __name__ == '__main__':
-    glove_via_magnitude()
+    parser = argparse.ArgumentParser(
+        'extract_vere',
+        description='Extract k-nearest neighbours from word vector file in magnitude format. Store result in quantulum3/similars.json.'
+    )
+    for arg in arguments:
+        parser.add_argument('--{}'.format(arg['dest']), **arg)
+    args = parser.parse_args()
+    glove_via_magnitude(
+        topn=args.topn,
+        min_similarity=args.min_similarity,
+        filename=args.filename)
