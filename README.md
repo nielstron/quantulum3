@@ -49,7 +49,7 @@ If you'd like to contribute follow these steps:
 `dev` build: 
 
 [![Travis dev build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=dev "Travis dev build state")](https://travis-ci.com/nielstron/quantulum3)
- [![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=dev)](https://coveralls.io/github/nielstron/quantulum3?branch=dev)
+[![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=dev)](https://coveralls.io/github/nielstron/quantulum3?branch=dev)
 
 Usage
 -----
