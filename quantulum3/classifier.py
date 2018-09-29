@@ -251,7 +251,8 @@ def disambiguate_unit(unit, text):
         scores = sorted(scores, key=lambda x: x[0], reverse=True)
         try:
             final = next(iter(load.UNITS[scores[0][1]]))
-            logging.debug('\tAmbiguity resolved for "%s" (%s)' % (unit, scores))
+            logging.debug(
+                '\tAmbiguity resolved for "%s" (%s)' % (unit, scores))
         except (StopIteration, IndexError):
             logging.debug('\tAmbiguity not resolved for "%s"' % unit)
             final = next(iter(new_unit))

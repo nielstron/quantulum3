@@ -160,7 +160,8 @@ class SetupTest(unittest.TestCase):
         # Read raw 4 letter file
         words = load.build_common_words()
         for length, word_list in words.items():
-            self.assertListEqual(load.COMMON_WORDS[length], word_list,
+            self.assertListEqual(
+                load.COMMON_WORDS[length], word_list,
                 "Build script has not been run since change to critical files")
 
 

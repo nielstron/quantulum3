@@ -58,8 +58,10 @@ class ClassifierTest(unittest.TestCase):
         self.assertGreaterEqual(
             success_rate, 0.8,
             'Classifier success rate was at {}%, below 80%.\nFailure at\n{}'.
-            format(success_rate * 100,
-                   '\n'.join('{}: {}'.format(test[0]['req'], test[1]) for test in error)))
+            format(
+                success_rate * 100,
+                '\n'.join('{}: {}'.format(test[0]['req'], test[1])
+                          for test in error)))
 
     def test_training(self):
         """ Test that classifier training works """

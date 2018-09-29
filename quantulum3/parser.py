@@ -374,10 +374,12 @@ def get_unit(item, text):
                         base = next(iter(load.UNITS[unit_surface])).name
                     elif len(
                             load.UNIT_SYMBOLS_LOWER[unit_surface.lower()]) > 0:
-                        base = next(iter(load.UNIT_SYMBOLS_LOWER[unit_surface.
-                                                       lower()])).name
+                        base = next(
+                            iter(load.UNIT_SYMBOLS_LOWER[unit_surface.
+                                                         lower()])).name
                     elif len(load.LOWER_UNITS[unit_surface.lower()]) > 0:
-                        base = next(iter(load.LOWER_UNITS[unit_surface.lower()])).name
+                        base = next(
+                            iter(load.LOWER_UNITS[unit_surface.lower()])).name
                     else:
                         base = 'unk'
                 derived += [{
