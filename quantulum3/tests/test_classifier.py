@@ -9,7 +9,6 @@ from __future__ import division
 # Standard library
 import os
 import json
-import pickle
 import urllib.request
 import unittest
 
@@ -18,6 +17,9 @@ from .. import load
 from .. import parser as p
 from .. import classifier as clf
 from .test_setup import load_expand_tests, load_quantity_tests
+
+# sklearn
+from sklearn.externals import joblib
 
 COLOR1 = '\033[94m%s\033[0m'
 COLOR2 = '\033[91m%s\033[0m'
@@ -76,9 +78,9 @@ class ClassifierTest(unittest.TestCase):
 
     def test_classifier_up_to_date(self):
         """ Test that the classifier has been built with the latest version of scikit-learn """
-        path = os.path.join(load.TOPDIR, 'clf.pickle')
+        path = os.path.join(load.TOPDIR, 'clf.joblib')
         with open(path, 'rb') as clf_file:
-            obj = pickle.load(clf_file, encoding='latin1')
+            obj = joblib.load(clf_file)
         clf_version = obj['scikit-learn_version']
         with urllib.request.urlopen(
                 "https://pypi.org/pypi/scikit-learn/json") as response:

@@ -6,7 +6,6 @@
 # Standard library
 import os
 import json
-import pickle
 import logging
 import re
 import string
@@ -16,6 +15,7 @@ import pkg_resources
 try:
     from sklearn.linear_model import SGDClassifier
     from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.externals import joblib
     USE_CLF = True
 except ImportError:
     SGDClassifier, TfidfVectorizer = None, None
@@ -116,7 +116,7 @@ def train_classifier(download=True,
     """
     Train the intent classifier
     TODO auto invoke if sklearn version is new or first install or sth
-    @:param store (bool) store classifier in clf.pickle
+    @:param store (bool) store classifier in clf.joblib
     """
     path = os.path.join(load.TOPDIR, 'train.json')
     with open(path, 'r', encoding='utf-8') as train_file:
@@ -166,9 +166,9 @@ def train_classifier(download=True,
         target_names
     }
     if store:  # pragma: no cover
-        path = os.path.join(load.TOPDIR, 'clf.pickle')
+        path = os.path.join(load.TOPDIR, 'clf.joblib')
         with open(path, 'wb') as file:
-            pickle.dump(obj, file)
+            joblib.dump(obj, file)
     return obj
 
 
@@ -178,9 +178,9 @@ def load_classifier():
     Load the intent classifier
     """
 
-    path = os.path.join(load.TOPDIR, 'clf.pickle')
+    path = os.path.join(load.TOPDIR, 'clf.joblib')
     with open(path, 'rb') as file:
-        obj = pickle.load(file, encoding='latin1')
+        obj = joblib.load(file)
 
     cur_scipy_version = pkg_resources.get_distribution('scikit-learn').version
     if cur_scipy_version != obj.get(
