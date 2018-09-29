@@ -3531,7 +3531,8 @@
       "Hz",
       "㎐",
       "rps"
-    ]
+    ],
+    "prefixes": ["k", "M", "G", "T", "P", "E"]
   },
   {
     "name": "inverse second",
@@ -3549,19 +3550,6 @@
       }
     ],
     "symbols": []
-  },
-  {
-    "name": "megahertz",
-    "surfaces": [
-      "megahertz"
-    ],
-    "entity": "frequency",
-    "URI": "https://en.wikipedia.org/wiki/Hertz",
-    "dimensions": [],
-    "symbols": [
-      "MHz",
-      "M㎐"
-    ]
   },
   {
     "name": "mole",
@@ -4044,31 +4032,8 @@
     "dimensions": [],
     "symbols": [
       "Gy"
-    ]
-  },
-  {
-    "name": "kilogray",
-    "surfaces": [
-      "kilogray"
     ],
-    "entity": "radiation absorbed dose",
-    "URI": "https://en.wikipedia.org/wiki/Gray_(unit)",
-    "dimensions": [],
-    "symbols": [
-      "kGy"
-    ]
-  },
-  {
-    "name": "milligray",
-    "surfaces": [
-      "milligray"
-    ],
-    "entity": "radiation absorbed dose",
-    "URI": "https://en.wikipedia.org/wiki/Gray_(unit)",
-    "dimensions": [],
-    "symbols": [
-      "mGy"
-    ]
+    "prefixes": ["m", "k"]
   },
   {
     "name": "pixel",

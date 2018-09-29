@@ -34,5 +34,6 @@
     {"text": "This lap was pretty fast, only {quantity}", "unit": "minute"},
     {"text": "The moon before the stars has a diameter of {quantity}", "unit": "second of arc"},
     {"text": "The moon before the stars has a diameter of {quantity}", "unit": "minute of arc"},
-    {"text": "A game of some sports is often delimited to a certain length, up to {quantity}", "unit": "minute"}
+    {"text": "A game of some sports is often delimited to a certain length, up to {quantity}", "unit": "minute"},
+    {"text": "It sure is cold outside. Almost {quantity}", "unit": "temperature"}
 ]

@@ -193,6 +193,54 @@
         "uncertainty": 0.01
       }
     ]
-  }
+  },
+  {
+    "req": "Its 30 C outside!",
+    "res": [
+        {
+            "value": 30.0,
+            "unit": "degree Celsius",
+            "surface": "30 C",
+            "entity": "temperature",
+            "dimensions": [],
+            "uncertainty": null
+        }
+    ]
+    },
+    {
+    "req": "32K word magnetic core memory board",
+    "res": [
+        {
+            "value": 32.0,
+            "unit": "kibibyte",
+            "surface": "32K",
+            "entity": "data storage",
+            "dimensions": [],
+            "uncertainty": null
+        }
+    ]
+},
+{
+    "req": "The corresponding cgs unit to the gray is the rad (equivalent to 0.01 Gy), which remains common largely in the United States",
+    "res": [
+        {
+            "value": 0.01,
+            "unit": "gray",
+            "surface": "0.01 Gy",
+            "entity": "radiation absorbed dose",
+            "dimensions": [
+                {
+                    "base": "energy",
+                    "power": 1
+                },
+                {
+                    "base": "mass",
+                    "power": -1
+                }
+            ],
+            "uncertainty": null
+        }
+    ]
+}
 ]
 

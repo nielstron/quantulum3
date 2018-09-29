@@ -952,5 +952,61 @@
         ]
       }
     ]
-  }
+  },
+  {
+    "req": "Intel Core i7 860 Processor 2.80 GHz 8 MB LGA1156 CPU I7-860BOX",
+    "res": [
+        {
+            "value": 860.0,
+            "unit": "dimensionless",
+            "surface": "860",
+            "entity": "dimensionless",
+            "dimensions": [],
+            "uncertainty": null
+        },
+        {
+            "value": 2.8,
+            "unit": "gigahertz",
+            "surface": "2.80 GHz",
+            "entity": "frequency",
+            "dimensions": [
+                {
+                    "base": "time",
+                    "power": -1
+                }
+            ],
+            "uncertainty": null
+        },
+        {
+            "value": 8.0,
+            "unit": "megabyte",
+            "surface": "8 MB",
+            "entity": "data storage",
+            "dimensions": [],
+            "uncertainty": null
+        }
+    ]
+    },
+    {
+    "req": "The average radiation dose from  a selective CT scan of the abdomen and the pelvis is 14 mGy",
+    "res": [
+        {
+            "value": 14.0,
+            "unit": "milligray",
+            "surface": "14 mGy",
+            "entity": "radiation absorbed dose",
+            "dimensions": [
+                {
+                    "base": "energy",
+                    "power": 1
+                },
+                {
+                    "base": "mass",
+                    "power": -1
+                }
+            ],
+            "uncertainty": null
+        }
+    ]
+}
 ]
