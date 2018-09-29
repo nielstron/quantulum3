@@ -9,7 +9,7 @@ quantulum3
 Python library for information extraction of quantities, measurements
 and their units from unstructured text. It is able to disambiguate between similar
 looking units based on their *k-nearest neighbours* in their [GloVe](https://nlp.stanford.edu/projects/glove/) vector representation
-and their wikipedia page.
+and their [Wikipedia](https://en.wikipedia.org/) page.
 
 It is Python 3 compatible fork of [recastrodiaz\'
 fork](https://github.com/recastrodiaz/quantulum) of [grhawks\'
