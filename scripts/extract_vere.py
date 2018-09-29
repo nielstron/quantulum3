@@ -38,7 +38,7 @@ arguments = [
 ]
 
 
-def glove_via_magnitude(topn=200,
+def glove_via_magnitude(topn=500,
                         min_similarity=None,
                         filename='glove.6B.100d.magnitude'):
 

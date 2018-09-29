@@ -42,7 +42,7 @@ def ambiguous_units():  # pragma: no cover
     :return: list ( tuple( key, list (Unit) ) )
     """
     ambiguous = [i for i in list(load.ALL_UNITS.items()) if len(i[1]) > 1]
-    ambiguous += [i for i in list(load.ALL_UNIT_SYMBOLS.items()) if len(i[1]) > 1]
+    ambiguous += [i for i in list(load.UNIT_SYMBOLS.items()) if len(i[1]) > 1]
     ambiguous += [i for i in list(load.DERIVED_ENT.items()) if len(i[1]) > 1]
     return ambiguous
 
