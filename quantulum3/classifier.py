@@ -254,8 +254,6 @@ def disambiguate_unit(unit, text):
             logging.debug('\tAmbiguity resolved for "%s" (%s)' % (unit, scores))
         except (StopIteration, IndexError):
             logging.debug('\tAmbiguity not resolved for "%s"' % unit)
-            print('\tAmbiguity not resolved for "%s"', unit)
-            print(scores)
             final = next(iter(new_unit))
     else:
         final = next(iter(new_unit))
