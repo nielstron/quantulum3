@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+from io import open
 import json
 
 from quantulum3 import load
@@ -14,9 +15,9 @@ Currently this includes:
     - quantulum3/units.json
 '''
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     # Create ready to parse json dict out of common word list
     words = load.build_common_words()
-    buildfile = os.path.join(load.TOPDIR, 'common-words.json')
-    with open(buildfile, 'w', encoding='utf-8') as file:
-        json.dump(words, file)
+    build_file = os.path.join(load.TOPDIR, 'common-words.json')
+    with open(build_file, 'w', encoding='utf-8') as file:
+        json.dump(words, file, indent=4, sort_keys=True)

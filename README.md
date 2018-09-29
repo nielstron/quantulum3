@@ -1,8 +1,17 @@
-quantulum3 [![Travis master build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=master "Travis master build state")](https://travis-ci.com/nielstron/quantulum3)  [![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=master)](https://coveralls.io/github/nielstron/quantulum3?branch=master) [![PyPI version](https://badge.fury.io/py/quantulum3.svg)](https://pypi.org/project/quantulum3/) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/quantulum3.svg) [![PyPI - Status](https://img.shields.io/pypi/status/quantulum3.svg)](https://pypi.org/project/quantulum3/)
+quantulum3
 ==========
-
+ [![Travis master build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=master "Travis master build state")](https://travis-ci.com/nielstron/quantulum3)
+ [![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=master)](https://coveralls.io/github/nielstron/quantulum3?branch=master)
+ [![PyPI version](https://badge.fury.io/py/quantulum3.svg)](https://pypi.org/project/quantulum3/)
+ ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/quantulum3.svg)
+ [![PyPI - Status](https://img.shields.io/pypi/status/quantulum3.svg)](https://pypi.org/project/quantulum3/)
+ 
 Python library for information extraction of quantities, measurements
-and their units from unstructured text. It is Python 3 compatible fork of [recastrodiaz\'
+and their units from unstructured text. It is able to disambiguate between similar
+looking units based on their *k-nearest neighbours* in their [GloVe](https://nlp.stanford.edu/projects/glove/) vector representation
+and their [Wikipedia](https://en.wikipedia.org/) page.
+
+It is Python 3 compatible fork of [recastrodiaz\'
 fork](https://github.com/recastrodiaz/quantulum) of [grhawks\'
 fork](https://github.com/grhawk/quantulum) of [the original by Marco
 Lagi](https://github.com/marcolagi/quantulum).
@@ -23,15 +32,6 @@ Then,
 $ pip install quantulum3
 ```
 
-If you want to train the classifier yourself, in addition to the packages above, you'll also need
-the packages `stemming` and `wikipedia`. Use the method `train_classifier` in `quantulum3.classifier` to train the classifier.
-
-You could also [download requirements_classifier.txt](https://raw.githubusercontent.com/nielstron/quantulum3/dev/requirements_classifier.txt)
-and run 
-```bash
-$ pip install -r requirements_classifier.txt
-```
-
 Contributing
 ------------
 
@@ -49,7 +49,7 @@ If you'd like to contribute follow these steps:
 `dev` build: 
 
 [![Travis dev build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=dev "Travis dev build state")](https://travis-ci.com/nielstron/quantulum3)
- [![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=dev)](https://coveralls.io/github/nielstron/quantulum3?branch=dev)
+[![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=dev)](https://coveralls.io/github/nielstron/quantulum3?branch=dev)
 
 Usage
 -----
@@ -150,6 +150,37 @@ Entity(name="density", uri=https://en.wikipedia.org/wiki/Density)
 >>> parser.parse(text)[0].unit.entity
 Entity(name="concentration", uri=https://en.wikipedia.org/wiki/Concentration)
 ```
+
+In addition to that, the classifier is trained on the most similar words to
+all of the units surfaces, according to their distance in [GloVe](https://nlp.stanford.edu/projects/glove/)
+vector representation.
+
+Training the classifier
+-----------------------
+
+If you want to train the classifier yourself, in addition to the packages above, you'll also need
+the packages `stemming` and `wikipedia`. 
+
+You could also [download requirements_classifier.txt](https://raw.githubusercontent.com/nielstron/quantulum3/dev/requirements_classifier.txt)
+and run 
+```bash
+$ pip install -r requirements_classifier.txt
+```
+Use the script `scripts/train.py` or the method `train_classifier` in `quantulum3.classifier` to train the classifier.
+
+If you want to create a new or different `similars.json`, install `pymagnitude`.
+
+For the extraction of nearest neighbours from a vector word representation file, 
+use `scripts/extract_vere.py`. It automatically extracts the `k` nearest neighbours
+in vector space of the vector representation for each of the possible surfaces
+of the ambiguous units. The resulting neighbours are stored in `quantulum3/similars.json`
+and automatically included for training.
+
+The file provided should be in `.magnitude` format as other formats are first
+converted to a `.magnitude` file on-the-run. Check out
+[pre-formatted Magnitude formatted word-embeddings](https://github.com/plasticityai/magnitude#pre-converted-magnitude-formats-of-popular-embeddings-models)
+and [Magnitude](https://github.com/plasticityai/magnitude) for more information.
+
 
 Manipulation
 ------------

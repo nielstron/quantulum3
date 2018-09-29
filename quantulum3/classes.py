@@ -34,7 +34,7 @@ class Quantity(object):
     def __repr__(self):
 
         msg = 'Quantity(%g, "%s")'
-        msg = msg % (self.value, self.unit.name)
+        msg = msg % (self.value, repr(self.unit))
         return msg
 
     def __eq__(self, other):
@@ -51,12 +51,8 @@ class Quantity(object):
 
         return not self.__eq__(other)
 
-    def as_string(self):  # pragma: no cover
-        """
-        Express the quantity as a normal string
-        """
-
-        return '{} {}'.format(self.value, self.unit.name)
+    def __str__(self):
+        return self.to_spoken()
 
     def to_spoken(self):
         """
@@ -171,6 +167,9 @@ class Unit(object):
         msg = msg % (self.name, self.entity.name, self.uri)
         return msg
 
+    def __str__(self):
+        return self.to_spoken()
+
     def __eq__(self, other):
 
         if isinstance(other, self.__class__):
@@ -187,6 +186,10 @@ class Unit(object):
     def __ne__(self, other):
 
         return not self.__eq__(other)
+
+    def __hash__(self):
+
+        return hash(repr(self))
 
 
 ################################################################################
@@ -219,3 +222,7 @@ class Entity(object):
     def __ne__(self, other):
 
         return not self.__eq__(other)
+
+    def __hash__(self):
+
+        return hash(repr(self))

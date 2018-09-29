@@ -17,7 +17,7 @@ except ImportError:
     wikipedia = None
 
 # Quantulum
-from .. import load
+from quantulum3 import load
 from .. import parser as p
 from .. import classes as cls
 
@@ -37,7 +37,9 @@ def wiki_test(page='CERN'):  # pragma: no cover
         Herschel_Space_Observatory
     """
     if not wikipedia:
-        print("Cannot activate wiki_test. Please install the package wikipedia first.")
+        print(
+            "Cannot activate wiki_test. Please install the package wikipedia first."
+        )
         return
 
     content = wikipedia.page(page).content
@@ -149,17 +151,17 @@ class SetupTest(unittest.TestCase):
 
     def test_load_tests(self):
         """ Test that loading tests works """
-        self.assertFalse(load_quantity_tests(True) is None)
-        self.assertFalse(load_quantity_tests(False) is None)
-        self.assertFalse(load_expand_tests() is None)
+        self.assertIsNotNone(load_quantity_tests(True))
+        self.assertIsNotNone(load_quantity_tests(False))
+        self.assertIsNotNone(load_expand_tests())
 
     def test_build_script(self):
         """ Test that the build script has run correctly """
         # Read raw 4 letter file
         words = load.build_common_words()
-        for length, word_set in words.items():
-            self.assertEqual(
-                load.COMMON_WORDS[length], word_set,
+        for length, word_list in words.items():
+            self.assertListEqual(
+                load.COMMON_WORDS[length], word_list,
                 "Build script has not been run since change to critical files")
 
 
