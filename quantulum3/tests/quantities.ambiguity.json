@@ -159,6 +159,31 @@
     ]
   },
   {
+    "req": "At normal operating temperatures of 300 °C (572 °F, 573.15K), zircaloy is inert. However, above 1200 degrees Celsius, it reacts exothermically with water",
+    "res": [
+      {
+        "value": 300,
+        "unit": "degree Celsius",
+        "surface": "300 °C"
+      },
+      {
+        "value": 572,
+        "unit": "degree fahrenheit",
+        "surface": "572 °F"
+      },
+      {
+        "value": 573.15,
+        "unit": "kelvin",
+        "surface": "573.15K"
+      },
+      {
+        "value": 1200,
+        "unit": "degree Celsius",
+        "surface": "1200 degrees Celsius"
+      }
+    ]
+  },
+  {
     "req": "It weighs no more than 2,000.45±0.01 pounds",
     "res": [
       {

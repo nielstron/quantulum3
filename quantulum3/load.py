@@ -289,7 +289,9 @@ def build_common_words():
             line = line.rstrip()
             if line not in ALL_UNITS and line not in UNIT_SYMBOLS:
                 words[len(line)].append(line)
-                words[len(line)].append(PLURALS.plural(line))
+            plural = PLURALS.plural(line)
+            if plural not in ALL_UNITS and plural not in UNIT_SYMBOLS:
+                words[len(plural)].append(plural)
     return words
 
 

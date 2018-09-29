@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+from io import open
 import json
 
 from quantulum3 import load
