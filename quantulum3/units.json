@@ -1599,7 +1599,7 @@
       "pascal"
     ],
     "entity": "pressure",
-    "URI": "https://en.wikipedia.org/wiki/Pascal",
+    "URI": "https://en.wikipedia.org/wiki/Pascal_(unit)",
     "dimensions": [],
     "symbols": [
       "Pa",
@@ -1612,7 +1612,7 @@
       "hectopascal"
     ],
     "entity": "pressure",
-    "URI": "https://en.wikipedia.org/wiki/Pascal",
+    "URI": "https://en.wikipedia.org/wiki/Pascal_(unit)",
     "dimensions": [],
     "symbols": [
       "hPa"
@@ -1624,7 +1624,7 @@
       "kilopascal"
     ],
     "entity": "pressure",
-    "URI": "https://en.wikipedia.org/wiki/Pascal",
+    "URI": "https://en.wikipedia.org/wiki/Pascal_(unit)",
     "dimensions": [],
     "symbols": [
       "kPa",
@@ -1637,7 +1637,7 @@
       "megapascal"
     ],
     "entity": "pressure",
-    "URI": "https://en.wikipedia.org/wiki/Pascal",
+    "URI": "https://en.wikipedia.org/wiki/Pascal_(unit)",
     "dimensions": [],
     "symbols": [
       "MPa"
@@ -1649,7 +1649,7 @@
       "gigapascal"
     ],
     "entity": "pressure",
-    "URI": "https://en.wikipedia.org/wiki/Pascal",
+    "URI": "https://en.wikipedia.org/wiki/Pascal_(unit)",
     "dimensions": [],
     "symbols": [
       "GPa"
