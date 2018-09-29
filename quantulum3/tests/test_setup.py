@@ -159,9 +159,9 @@ class SetupTest(unittest.TestCase):
         """ Test that the build script has run correctly """
         # Read raw 4 letter file
         words = load.build_common_words()
-        for length, word_set in words.items():
+        for length, word_list in words.items():
             self.assertEqual(
-                load.COMMON_WORDS[length], word_set,
+                load.COMMON_WORDS[length], word_list,
                 "Build script has not been run since change to critical files")
 
 

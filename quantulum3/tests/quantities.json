@@ -147,16 +147,6 @@
     ]
   },
   {
-    "req": "One complete orbit in LEO takes about ninety minutes",
-    "res": [
-      {
-        "value": 90,
-        "unit": "minute",
-        "surface": "ninety minutes"
-      }
-    ]
-  },
-  {
     "req": "OPERA detected neutrinos traveling faster than light by a factor of 2.48×10−5, with 6.0-sigma significance.",
     "res": [
       {
@@ -520,17 +510,6 @@
         "value": 3,
         "unit": "mile",
         "surface": "3 miles"
-      }
-    ]
-  },
-  {
-    "req": "It weighs no more than 2,000.45±0.01 pounds",
-    "res": [
-      {
-        "value": 2000.45,
-        "unit": "pound-mass",
-        "surface": "2,000.45±0.01 pounds",
-        "uncertainty": 0.01
       }
     ]
   },

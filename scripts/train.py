@@ -7,7 +7,7 @@ from quantulum3.classifier import train_classifier
 import argparse
 arguments = [
     {
-        'dest': 'downlaod',
+        'dest': 'download',
         'help': 'download newest wikipedia pages for units',
         'type': bool,
         'default': False
@@ -16,7 +16,7 @@ arguments = [
         'dest': 'store',
         'help': 'store resulting classifier in quantulum3 project folder',
         'type': bool,
-        'default': False
+        'default': True
     },
 ]
 

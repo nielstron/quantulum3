@@ -46,6 +46,128 @@
         "surface": "150\""
       }
     ]
+  },
+  {
+    "req": "This diffuser uses finest 9\" 360-ish plates",
+    "res": [
+      {
+        "value": 9,
+        "unit": "inch",
+        "surface": "9\"",
+        "entity": "length"
+      },
+      {
+        "value": 360,
+        "unit": "dimensionless",
+        "surface": "360",
+        "entity": "unknown"
+      }
+    ]
+  },
+  {
+    "req": "One complete orbit in LEO takes about ninety minutes",
+    "res": [
+      {
+        "value": 90,
+        "unit": "minute",
+        "surface": "ninety minutes"
+      }
+    ]
+  },
+  {
+    "req": "Bahco 9031 Ergo Wide Jaw Adjustable Wrench 8\"",
+    "res": [
+      {
+        "value": 9031,
+        "unit": "dimensionless",
+        "surface": "9031"
+      },
+      {
+        "value": 8,
+        "unit": "inch",
+        "surface": "8\""
+      }
+    ]
+  },
+  {
+    "req": "One pound of good Welsh coal properly burned in the fire-box of a locomotive yields about 15,000 British thermal units of heat at a temperature high enough to enable from 50 to 80% to flow across the boiler-heating surface to the water, the rest escaping up the chimney with the furnace gases.",
+    "res": [
+      {
+        "value": 1,
+        "unit": "pound-mass",
+        "surface": "One pound"
+      },
+      {
+        "value": 15000,
+        "unit": "british thermal unit",
+        "surface": "15,000 British thermal units"
+      },
+      {
+        "value": 65,
+        "unit": "percentage",
+        "surface": "50 to 80%",
+        "uncertainty": 15
+      }
+    ]
+  },
+  {
+    "req": "I can go to Sam's Club and buy a twenty-pound bag of rice for $10, and a twenty-pound bag of pinto beans for $13.",
+    "res": [
+      {
+        "value": "twenty",
+        "unit": "pound-mass",
+        "surface": "twenty-pound"
+      },
+      {
+        "value": "10",
+        "unit": "dollar",
+        "surface": "$10"
+      },
+      {
+        "value": "twenty",
+        "unit": "pound-mass",
+        "surface": "twenty-pound"
+      },
+      {
+        "value": "13",
+        "unit": "dollar",
+        "surface": "$13"
+      }
+    ]
+  },
+  {
+    "req": "This car only uses 10 l/km.",
+    "res": [
+      {
+        "value": 10,
+        "unit": "litre per kilometre",
+        "surface": "10 l/km",
+        "entity": "fuel consumption",
+        "dimensions": [
+          {
+            "base": "litre",
+            "power": 1,
+            "surface": "l"
+          },
+          {
+            "base": "kilometre",
+            "power": -1,
+            "surface": "km"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "It weighs no more than 2,000.45±0.01 pounds",
+    "res": [
+      {
+        "value": 2000.45,
+        "unit": "pound-mass",
+        "surface": "2,000.45±0.01 pounds",
+        "uncertainty": 0.01
+      }
+    ]
   }
 ]
 

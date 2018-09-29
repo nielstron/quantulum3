@@ -271,8 +271,8 @@ def get_entity_from_dimensions(dimensions, text):
         if clf.USE_CLF:
             ent = clf.disambiguate_entity(key, text)
         else:
-            ent = load.DERIVED_ENT[key][0]
-    except IndexError:
+            ent = next(iter(load.DERIVED_ENT[key]))
+    except StopIteration:
         logging.debug('\tCould not find entity for: %s', key)
         ent = cls.Entity(name='unknown', dimensions=new_derived)
 
@@ -369,15 +369,15 @@ def get_unit(item, text):
                     base = clf.disambiguate_unit(unit_surface, text).name
                 else:
                     if len(load.UNIT_SYMBOLS[unit_surface]) > 0:
-                        base = load.UNIT_SYMBOLS[unit_surface][0].name
+                        base = next(iter(load.UNIT_SYMBOLS[unit_surface])).name
                     elif len(load.UNITS[unit_surface]) > 0:
-                        base = load.UNITS[unit_surface][0].name
+                        base = next(iter(load.UNITS[unit_surface])).name
                     elif len(
                             load.UNIT_SYMBOLS_LOWER[unit_surface.lower()]) > 0:
-                        base = load.UNIT_SYMBOLS_LOWER[unit_surface.
-                                                       lower()][0].name
+                        base = next(iter(load.UNIT_SYMBOLS_LOWER[unit_surface.
+                                                       lower()])).name
                     elif len(load.LOWER_UNITS[unit_surface.lower()]) > 0:
-                        base = load.LOWER_UNITS[unit_surface.lower()][0].name
+                        base = next(iter(load.LOWER_UNITS[unit_surface.lower()])).name
                     else:
                         base = 'unk'
                 derived += [{

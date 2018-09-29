@@ -17,7 +17,7 @@ scikit-learn = "*"
 yapf = "*"
 autopep8 = "*"
 coverage = "*"
-pymagnitude = "*"
+magnitude = "*"
 
 [requires]
 python_version = "3.6"

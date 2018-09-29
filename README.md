@@ -7,7 +7,11 @@ quantulum3
  [![PyPI - Status](https://img.shields.io/pypi/status/quantulum3.svg)](https://pypi.org/project/quantulum3/)
  
 Python library for information extraction of quantities, measurements
-and their units from unstructured text. It is Python 3 compatible fork of [recastrodiaz\'
+and their units from unstructured text. It is able to disambiguate between similar
+looking units based on their *k-nearest neighbours* in their [GloVe](https://nlp.stanford.edu/projects/glove/) vector representation
+and their wikipedia page.
+
+It is Python 3 compatible fork of [recastrodiaz\'
 fork](https://github.com/recastrodiaz/quantulum) of [grhawks\'
 fork](https://github.com/grhawk/quantulum) of [the original by Marco
 Lagi](https://github.com/marcolagi/quantulum).
@@ -148,7 +152,7 @@ Entity(name="concentration", uri=https://en.wikipedia.org/wiki/Concentration)
 ```
 
 In addition to that, the classifier is trained on the most similar words to
-all of their surfaces, according to their distance in [GloVe](https://nlp.stanford.edu/projects/glove/)
+all of the units surfaces, according to their distance in [GloVe](https://nlp.stanford.edu/projects/glove/)
 vector representation.
 
 Training the classifier

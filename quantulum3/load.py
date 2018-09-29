@@ -123,14 +123,14 @@ def load_entities():
          c.Entity(name=k['name'], dimensions=k['dimensions'], uri=k['URI']))
         for k in entities)
 
-    derived_ent = defaultdict(list)
+    derived_ent = defaultdict(set)
     for ent in entities:
         if not entities[ent].dimensions:
             continue
         perms = get_dimension_permutations(entities, entities[ent].dimensions)
         for perm in perms:
             key = get_key_from_dimensions(perm)
-            derived_ent[key].append(entities[ent])
+            derived_ent[key].add(entities[ent])
 
     return entities, derived_ent
 
@@ -169,9 +169,9 @@ def load_units():
     """
 
     names = {}
-    unit_symbols, unit_symbols_lower, = defaultdict(list), defaultdict(list)
-    surfaces, lowers, symbols = defaultdict(list), defaultdict(
-        list), defaultdict(list)
+    unit_symbols, unit_symbols_lower, = defaultdict(set), defaultdict(set)
+    surfaces, lowers, symbols = defaultdict(set), defaultdict(
+        set), defaultdict(set)
 
     path = os.path.join(TOPDIR, 'units.json')
     string_json = ''.join(open(path, encoding='utf-8').readlines())
@@ -204,14 +204,14 @@ def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
     names[unit['name']] = obj
 
     for symbol in unit['symbols']:
-        unit_symbols[symbol].append(obj)
-        unit_symbols_lower[symbol.lower()].append(obj)
+        unit_symbols[symbol].add(obj)
+        unit_symbols_lower[symbol.lower()].add(obj)
         if unit['entity'] == 'currency':
-            symbols[symbol].append(obj)
+            symbols[symbol].add(obj)
 
     for surface in unit['surfaces']:
-        surfaces[surface].append(obj)
-        lowers[surface.lower()].append(obj)
+        surfaces[surface].add(obj)
+        lowers[surface.lower()].add(obj)
         split = surface.split()
         index = None
         if ' per ' in surface:
@@ -226,8 +226,8 @@ def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
         else:
             plural = PLURALS.plural(surface)
         if plural != surface:
-            surfaces[plural].append(obj)
-            lowers[plural.lower()].append(obj)
+            surfaces[plural].add(obj)
+            lowers[plural.lower()].add(obj)
 
     # If SI-prefixes are given, add them
     if unit.get('prefixes'):

@@ -41,7 +41,8 @@ def ambiguous_units():  # pragma: no cover
     Determine ambiguous units
     :return: list ( tuple( key, list (Unit) ) )
     """
-    ambiguous = [i for i in list(load.UNITS.items()) if len(i[1]) > 1]
+    ambiguous = [i for i in list(load.ALL_UNITS.items()) if len(i[1]) > 1]
+    ambiguous += [i for i in list(load.ALL_UNIT_SYMBOLS.items()) if len(i[1]) > 1]
     ambiguous += [i for i in list(load.DERIVED_ENT.items()) if len(i[1]) > 1]
     return ambiguous
 
@@ -203,8 +204,6 @@ def disambiguate_entity(key, text):
     Resolve ambiguity between entities with same dimensionality.
     """
 
-    new_ent = load.DERIVED_ENT[key][0]
-
     if len(load.DERIVED_ENT[key]) > 1:
         transformed = TFIDF_MODEL.transform([text])
         scores = CLF.predict_proba(transformed).tolist()[0]
@@ -220,6 +219,8 @@ def disambiguate_entity(key, text):
             new_ent = load.ENTITIES[scores[0][1]]
         except IndexError:
             logging.debug('\tAmbiguity not resolved for "%s"', str(key))
+    else:
+        new_ent = next(iter(load.DERIVED_ENT[key]))
 
     return new_ent
 
@@ -249,12 +250,14 @@ def disambiguate_unit(unit, text):
         # Sort by rank
         scores = sorted(scores, key=lambda x: x[0], reverse=True)
         try:
-            final = load.UNITS[scores[0][1]][0]
-            logging.debug('\tAmbiguity resolved for "%s" (%s)', unit, scores)
-        except IndexError:
-            logging.debug('\tAmbiguity not resolved for "%s"', unit)
-            final = new_unit[0]
+            final = next(iter(load.UNITS[scores[0][1]]))
+            logging.debug('\tAmbiguity resolved for "%s" (%s)' % (unit, scores))
+        except (StopIteration, IndexError):
+            logging.debug('\tAmbiguity not resolved for "%s"' % unit)
+            print('\tAmbiguity not resolved for "%s"', unit)
+            print(scores)
+            final = next(iter(new_unit))
     else:
-        final = new_unit[0]
+        final = next(iter(new_unit))
 
     return final
