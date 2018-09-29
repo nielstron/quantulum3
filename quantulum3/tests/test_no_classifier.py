@@ -10,6 +10,7 @@ import unittest
 
 # Quantulum
 from .. import parser as p
+from .. import classifier as clf
 from .test_setup import load_quantity_tests
 
 COLOR1 = '\033[94m%s\033[0m'
@@ -24,6 +25,8 @@ class ParsingTest(unittest.TestCase):
     def test_parse_no_classifier(self):
         """ Test that parsing works without classifier usage """
         all_tests = load_quantity_tests(False)
+        # Disable classifier usage
+        clf.USE_CLF = False
         for test in sorted(all_tests, key=lambda x: len(x['req'])):
             quants = p.parse(test['req'])
             self.assertEqual(
