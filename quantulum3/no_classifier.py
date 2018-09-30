@@ -8,7 +8,6 @@ from __future__ import division
 import json
 import os
 from io import open
-import re
 
 # Quantulum
 from . import load
@@ -37,8 +36,7 @@ def disambiguate_no_classifier(entities, text):
             if word_set['unit'] == entity.name:
                 total += len(word_set['text'])
                 for word in word_set['text'].split(' '):
-                    count += len(
-                        re.findall(r'\b%s\b' % re.escape(word), text.lower()))
+                    count += 1 if word in text else 0
         try:
             relative = count / total
         except ZeroDivisionError:

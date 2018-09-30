@@ -44,11 +44,12 @@ class ParsingTest(unittest.TestCase):
             else:
                 error.append((test, quants))
         success_rate = correct / total
-        print('Non-Classifier success rate at {:.2f}%'.format(success_rate * 100))
+        print('Non-Classifier success rate at {:.2f}%'.format(
+            success_rate * 100))
         self.assertGreaterEqual(
             success_rate, 0.1,
-            'Non-Classifier success rate was at {}%, below 10%.\nFailure at\n{}'.
-                format(
+            'Non-Classifier success rate was at {}%, below 10%.\nFailure at\n{}'
+            .format(
                 success_rate * 100,
                 '\n'.join('{}: {}'.format(test[0]['req'], test[1])
                           for test in error)))
