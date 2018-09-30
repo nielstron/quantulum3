@@ -90,7 +90,7 @@ def load_quantity_tests(ambiguity=True):
         res = []
         for item in test['res']:
             try:
-                unit = load.NAMES[item['unit']]
+                unit = load.UNIT_NAMES[item['unit']]
             except KeyError:
                 try:
                     entity = item['entity']
@@ -100,7 +100,7 @@ def load_quantity_tests(ambiguity=True):
                     return
                 if entity == 'unknown':
                     derived = [{
-                        'base': load.NAMES[i['base']].entity.name,
+                        'base': load.UNIT_NAMES[i['base']].entity.name,
                         'power': i['power']
                     } for i in item['dimensions']]
                     entity = cls.Entity(name='unknown', dimensions=derived)

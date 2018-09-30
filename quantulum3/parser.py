@@ -260,7 +260,7 @@ def get_entity_from_dimensions(dimensions, text):
     """
 
     new_derived = [{
-        'base': load.NAMES[i['base']].entity.name,
+        'base': load.UNIT_NAMES[i['base']].entity.name,
         'power': i['power']
     } for i in dimensions]
 
@@ -318,7 +318,7 @@ def get_unit(item, text):
     item_units = [item.group(i) for i in group_units if item.group(i)]
 
     if len(item_units) == 0:
-        unit = load.NAMES['dimensionless']
+        unit = load.UNIT_NAMES['dimensionless']
     else:
         derived, slash = [], False
         multiplication_operator = False
@@ -533,7 +533,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         if len(unit.dimensions) >= 1:
             unit = get_unit_from_dimensions(unit.dimensions, orig_text)
         else:
-            unit = load.NAMES['dimensionless']
+            unit = load.UNIT_NAMES['dimensionless']
 
     # Discard irrelevant txt2float extractions, cardinal numbers, codes etc.
     if surface.lower() in ['a', 'an', 'one'] or \
