@@ -54,7 +54,30 @@ METRIC_PREFIXES = {
     'Yi': 'yobi'
 }
 
+################################################################################
+_CACHE_DICT = {}
 
+
+def cached(funct):
+    """
+    Decorator for caching language specific data
+    :param funct: the method, dynamically responding to language
+    :return: the method, dynamically responding to language but also caching results
+    """
+    assert callable(funct)
+
+    def cached_function(lang='en_US', *args, **kwargs):
+        try:
+            return _CACHE_DICT[id(funct)][lang]
+        except KeyError:
+            result = function(*args, lang=lang, **kwargs)
+            _CACHE_DICT[id(funct)] = {lang: result}
+            return result
+
+    return cached_function
+
+
+################################################################################
 def get_string_json(raw_json_text):
     text = raw_json_text
     text = bytes(text, 'utf-8').decode('ascii', 'ignore')

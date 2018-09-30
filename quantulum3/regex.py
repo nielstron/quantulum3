@@ -9,9 +9,11 @@ import re
 
 # Quantulum
 from . import load
+from .load import cached
 from . import language
 
 
+@cached
 def _get_regex(lang='en_US'):
     """
     Get regex module for given language
@@ -162,6 +164,7 @@ def number_pattern(lang='en_US'):
     return _get_regex(lang).NUM_PATTERN
 
 
+@cached
 def number_pattern_no_groups(lang='en_US'):
     return number_pattern(lang).format(
         number=':', decimals=":", scale=":", base=":", exponent=":",
@@ -170,6 +173,7 @@ def number_pattern_no_groups(lang='en_US'):
         superscript=unicode_superscript_regex(lang), unicode_fract=unicode_fractions_regex(lang))
 
 
+@cached
 def number_patter_groups(lang='en_US'):
     return number_pattern(lang).format(
         number='P<number>',
@@ -182,6 +186,7 @@ def number_patter_groups(lang='en_US'):
         superscript=unicode_superscript_regex(lang), unicode_fract=unicode_fractions_regex(lang))
 
 
+@cached
 def range_pattern(lang='en_US'):
     num_pattern_no_groups = number_pattern_no_groups(lang)
     return r'''                        # Pattern for a range of numbers
@@ -200,6 +205,7 @@ def range_pattern(lang='en_US'):
            num_pattern_no_groups)
 
 
+@cached
 def text_pattern_reg(lang='en_US'):
     txt_pattern = r'''            # Pattern for extracting mixed digit-spelled num
     (?:
@@ -215,10 +221,7 @@ def text_pattern_reg(lang='en_US'):
 
 
 ################################################################################
-# Use a simple cache for this complex method
-_units_regex_cache = {}
-
-
+@cached
 def get_units_regex(lang='en_US'):
     """
     Build a compiled regex object. Groups of the extracted items, with 4
@@ -251,37 +254,33 @@ def get_units_regex(lang='en_US'):
         10: None
 
     """
-    try:
-        return _units_regex_cache[lang]
-    except KeyError:
 
-        op_keys = sorted(list(operators(lang).keys()), key=len, reverse=True)
-        unit_keys = sorted(
-            list(load.UNITS.keys()) + list(load.UNIT_SYMBOLS.keys()),
-            key=len,
-            reverse=True)
-        symbol_keys = sorted(
-            list(load.PREFIX_SYMBOLS.keys()), key=len, reverse=True)
+    op_keys = sorted(list(operators(lang).keys()), key=len, reverse=True)
+    unit_keys = sorted(
+        list(load.UNITS.keys()) + list(load.UNIT_SYMBOLS.keys()),
+        key=len,
+        reverse=True)
+    symbol_keys = sorted(
+        list(load.PREFIX_SYMBOLS.keys()), key=len, reverse=True)
 
-        exponent = r'(?:(?:\^?\-?[0-9{}]+)?(?:\ cubed|\ squared)?)'.format(
-                       unicode_superscript_regex(lang))
+    exponent = r'(?:(?:\^?\-?[0-9{}]+)?(?:\ cubed|\ squared)?)'.format(
+                   unicode_superscript_regex(lang))
 
-        all_ops = '|'.join([r'{}'.format(re.escape(i)) for i in op_keys])
-        all_units = '|'.join([r'{}'.format(re.escape(i)) for i in unit_keys])
-        all_symbols = '|'.join([r'{}'.format(re.escape(i)) for i in symbol_keys])
+    all_ops = '|'.join([r'{}'.format(re.escape(i)) for i in op_keys])
+    all_units = '|'.join([r'{}'.format(re.escape(i)) for i in unit_keys])
+    all_symbols = '|'.join([r'{}'.format(re.escape(i)) for i in symbol_keys])
 
-        pattern = r'''
-            (?<!\w)                                     # "begin" of word
-            (?P<prefix>(?:%s)(?![a-zA-Z]))?         # Currencies, mainly
-            (?P<value>%s)-?                           # Number
-            (?:(?P<operator1>%s)?(?P<unit1>(?:%s)%s)?)    # Operator + Unit (1)
-            (?:(?P<operator2>%s)?(?P<unit2>(?:%s)%s)?)    # Operator + Unit (2)
-            (?:(?P<operator3>%s)?(?P<unit3>(?:%s)%s)?)    # Operator + Unit (3)
-            (?:(?P<operator4>%s)?(?P<unit4>(?:%s)%s)?)    # Operator + Unit (4)
-            (?!\w)                                      # "end" of word
-        ''' % tuple([all_symbols, range_pattern(lang)] +
-                    4 * [all_ops, all_units, exponent])
-        regex = re.compile(pattern, re.VERBOSE | re.IGNORECASE)
+    pattern = r'''
+        (?<!\w)                                     # "begin" of word
+        (?P<prefix>(?:%s)(?![a-zA-Z]))?         # Currencies, mainly
+        (?P<value>%s)-?                           # Number
+        (?:(?P<operator1>%s)?(?P<unit1>(?:%s)%s)?)    # Operator + Unit (1)
+        (?:(?P<operator2>%s)?(?P<unit2>(?:%s)%s)?)    # Operator + Unit (2)
+        (?:(?P<operator3>%s)?(?P<unit3>(?:%s)%s)?)    # Operator + Unit (3)
+        (?:(?P<operator4>%s)?(?P<unit4>(?:%s)%s)?)    # Operator + Unit (4)
+        (?!\w)                                      # "end" of word
+    ''' % tuple([all_symbols, range_pattern(lang)] +
+                4 * [all_ops, all_units, exponent])
+    regex = re.compile(pattern, re.VERBOSE | re.IGNORECASE)
 
-        _units_regex_cache[lang] = regex
-        return regex
+    return regex
