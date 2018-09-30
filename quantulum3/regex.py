@@ -228,7 +228,7 @@ def get_units_regex():
     symbol_keys = sorted(
         list(load.PREFIX_SYMBOLS.keys()), key=len, reverse=True)
 
-    exponent = r'(?:(?:\^?\-?[0-9%s]+)?(?:\ cubed|\ squared)?)' % \
+    exponent = r'(?:(?:\^?[−-]?[0-9%s]+)?(?:\ cubed|\ squared)?)' % \
                SUPERSCRIPTS
 
     all_ops = '|'.join([r'{}'.format(re.escape(i)) for i in op_keys])

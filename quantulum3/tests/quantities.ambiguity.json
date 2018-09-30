@@ -111,27 +111,31 @@
     ]
   },
   {
-    "req": "I can go to Sam's Club and buy a twenty-pound bag of rice for $10, and a twenty-pound bag of pinto beans for $13.",
+    "req": "I can go to Sam's Club and buy a twenty-pound bag of rice for $10, and a twenty pound bag of pinto beans for $13.",
     "res": [
       {
-        "value": "twenty",
+        "value": 20.0,
         "unit": "pound-mass",
-        "surface": "twenty-pound"
+        "surface": "twenty-pound",
+        "entity": "mass"
       },
       {
-        "value": "10",
+        "value": 10.0,
         "unit": "dollar",
-        "surface": "$10"
+        "surface": "$10",
+        "entity": "currency"
       },
       {
-        "value": "twenty",
+        "value": 20.0,
         "unit": "pound-mass",
-        "surface": "twenty-pound"
+        "surface": "twenty pound",
+        "entity": "mass"
       },
       {
-        "value": "13",
+        "value": 13.0,
         "unit": "dollar",
-        "surface": "$13"
+        "surface": "$13",
+        "entity": "currency"
       }
     ]
   },
@@ -191,6 +195,80 @@
         "unit": "pound-mass",
         "surface": "2,000.45±0.01 pounds",
         "uncertainty": 0.01
+      }
+    ]
+  },
+  {
+    "req": "Its 30 C outside!",
+    "res": [
+      {
+        "value": 30.0,
+        "unit": "degree Celsius",
+        "surface": "30 C",
+        "entity": "temperature",
+        "dimensions": [],
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "32K word magnetic core memory board",
+    "res": [
+      {
+        "value": 32.0,
+        "unit": "kibibyte",
+        "surface": "32K",
+        "entity": "data storage",
+        "dimensions": [],
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "The corresponding cgs unit to the gray is the rad (equivalent to 0.01 Gy), which remains common largely in the United States",
+    "res": [
+      {
+        "value": 0.01,
+        "unit": "gray",
+        "surface": "0.01 Gy",
+        "entity": "radiation absorbed dose",
+        "dimensions": [
+          {
+            "base": "energy",
+            "power": 1
+          },
+          {
+            "base": "mass",
+            "power": -1
+          }
+        ],
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": " in physics, a unit of surface area equal to 12 b",
+    "res": [
+      {
+        "value": 12.0,
+        "unit": "barn",
+        "surface": "12 b",
+        "entity": "length",
+        "dimensions": [],
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "I'll transmit a small package of 1500 b",
+    "res": [
+      {
+        "value": 1500.0,
+        "unit": "bit",
+        "surface": "1500 b",
+        "entity": "data storage",
+        "dimensions": [],
+        "uncertainty": null
       }
     ]
   }

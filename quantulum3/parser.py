@@ -15,7 +15,7 @@ from math import pow
 from . import load
 from . import regex as reg
 from . import classes as cls
-from . import classifier as clf
+from . import disambiguate as dis
 
 
 ################################################################################
@@ -260,19 +260,15 @@ def get_entity_from_dimensions(dimensions, text):
     """
 
     new_derived = [{
-        'base': load.NAMES[i['base']].entity.name,
+        'base': load.UNIT_NAMES[i['base']].entity.name,
         'power': i['power']
     } for i in dimensions]
 
     final_derived = sorted(new_derived, key=lambda x: x['base'])
     key = load.get_key_from_dimensions(final_derived)
 
-    try:
-        if clf.USE_CLF:
-            ent = clf.disambiguate_entity(key, text)
-        else:
-            ent = next(iter(load.DERIVED_ENT[key]))
-    except StopIteration:
+    ent = dis.disambiguate_entity(key, text)
+    if ent is None:
         logging.debug('\tCould not find entity for: %s', key)
         ent = cls.Entity(name='unknown', dimensions=new_derived)
 
@@ -322,7 +318,7 @@ def get_unit(item, text):
     item_units = [item.group(i) for i in group_units if item.group(i)]
 
     if len(item_units) == 0:
-        unit = load.NAMES['dimensionless']
+        unit = load.UNIT_NAMES['dimensionless']
     else:
         derived, slash = [], False
         multiplication_operator = False
@@ -365,23 +361,7 @@ def get_unit(item, text):
             # Determine which unit follows
             if unit:
                 unit_surface, power = parse_unit(item, unit, slash)
-                if clf.USE_CLF:
-                    base = clf.disambiguate_unit(unit_surface, text).name
-                else:
-                    if len(load.UNIT_SYMBOLS[unit_surface]) > 0:
-                        base = next(iter(load.UNIT_SYMBOLS[unit_surface])).name
-                    elif len(load.UNITS[unit_surface]) > 0:
-                        base = next(iter(load.UNITS[unit_surface])).name
-                    elif len(
-                            load.UNIT_SYMBOLS_LOWER[unit_surface.lower()]) > 0:
-                        base = next(
-                            iter(load.UNIT_SYMBOLS_LOWER[unit_surface.
-                                                         lower()])).name
-                    elif len(load.LOWER_UNITS[unit_surface.lower()]) > 0:
-                        base = next(
-                            iter(load.LOWER_UNITS[unit_surface.lower()])).name
-                    else:
-                        base = 'unk'
+                base = dis.disambiguate_unit(unit_surface, text)
                 derived += [{
                     'base': base,
                     'power': power,
@@ -553,7 +533,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         if len(unit.dimensions) >= 1:
             unit = get_unit_from_dimensions(unit.dimensions, orig_text)
         else:
-            unit = load.NAMES['dimensionless']
+            unit = load.UNIT_NAMES['dimensionless']
 
     # Discard irrelevant txt2float extractions, cardinal numbers, codes etc.
     if surface.lower() in ['a', 'an', 'one'] or \
