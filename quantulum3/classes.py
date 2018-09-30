@@ -64,7 +64,7 @@ class Quantity(object):
             try:
                 return num2words.num2words(
                     count,
-                    lang='en',
+                    lang='en_US',
                     to='currency',
                     currency=self.unit.currency_code)
             except NotImplementedError:

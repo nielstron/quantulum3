@@ -4,6 +4,8 @@
 :mod:`Quantulum` parser.
 """
 
+from . import lang
+
 # Standard library
 import re
 import logging
@@ -12,36 +14,77 @@ from collections import defaultdict
 from math import pow
 
 # Quantulum
-from . import load
-from . import regex as reg
-from . import classes as cls
-from . import disambiguate as dis
-from . import language
-
-
-def _get_parser(lang='en_US'):
-    """
-    Get parser module for given language
-    :param lang:
-    :return:
-    """
-    return language.get('parser', lang)
+from ... import load
+from ... import regex as reg
+from ... import classes as cls
+from ... import disambiguate as dis
 
 
 ################################################################################
-def clean_surface(surface, span, lang='en_US'):
+def clean_surface(surface, span):
     """
     Remove spurious characters from a quantity's surface.
     """
-    return _get_parser(lang).clean_surface(surface, span)
+
+    surface = surface.replace('-', ' ')
+    no_start = ['and', ' ']
+    no_end = [' '] + [' {}'.format(misc) for misc in reg.miscnum(lang)]
+
+    found = True
+    while found:
+        found = False
+        for word in no_start:
+            if surface.lower().startswith(word):
+                surface = surface[len(word):]
+                span = (span[0] + len(word), span[1])
+                found = True
+        for word in no_end:
+            if surface.lower().endswith(word):
+                surface = surface[:-len(word)]
+                span = (span[0], span[1] - len(word))
+                found = True
+
+    if not surface:
+        return None, None
+
+    split = surface.lower().split()
+    if split[0] in reg.miscnum(lang) and len(split) > 1 and split[1] in \
+            reg.units(lang) + reg.tens(lang):
+        span = (span[0] + len(surface.split()[0]) + 1, span[1])
+        surface = ' '.join(surface.split()[1:])
+
+    return surface, span
 
 
 ################################################################################
-def extract_spellout_values(text, lang):
+def extract_spellout_values(text):
     """
     Convert spelled out numbers in a given text to digits.
     """
-    return _get_parser(lang).extract_spellout_values(text)
+
+    values = []
+    for item in reg.text_pattern_reg(lang).finditer(text):
+        surface, span = clean_surface(item.group(0), item.span())
+        if not surface or surface.lower() in reg.scales(lang):
+            continue
+        curr = result = 0.0
+        for word in surface.split():
+            try:
+                scale, increment = 1, float(
+                    re.sub(r'(-$|[%s])' % reg.grouping_operators_regex(lang), '', word.lower()))
+            except ValueError:
+                scale, increment = reg.numberwords(lang)[word.lower()]
+            curr = curr * scale + increment
+            if scale > 100:
+                result += curr
+                curr = 0.0
+        values.append({
+            'old_surface': surface,
+            'old_span': span,
+            'new_surface': str(result + curr)
+        })
+
+    return sorted(values, key=lambda x: x['old_span'][0])
 
 
 ################################################################################
@@ -65,74 +108,9 @@ def substitute_values(text, values):
     return final_text, shifts
 
 
-################################################################################
-def get_values(item, lang='en_US'):
-    """
-    Extract value from regex hit.
-    """
-
-    def callback(pattern):
-        return ' %s' % (reg.unicode_fractions(lang)[pattern.group(0)])
-
-    fracs = r'|'.join(reg.unicode_fractions(lang))
-
-    value = item.group('value')
-    # Remove grouping operators
-    value = re.sub(r'(?<=\d)[%s](?=\d{3})' % reg.grouping_operators_regex(lang), '', value)
-    # Replace unusual exponents by e (including e)
-    value = re.sub(r'(?<=\d)(%s)(e|E|10)\^?' % reg.multiplication_operators_regex(lang), 'e', value)
-    # calculate other exponents
-    value, factors = resolve_exponents(value)
-    logging.debug("After exponent resolution: {}".format(value))
-
-    value = re.sub(fracs, callback, value, re.IGNORECASE)
-
-    range_separator = re.findall(r'\d+ ?(-|and|(?:- ?)?to) ?\d', value)
-    uncer_separator = re.findall(r'\d+ ?(\+/-|±) ?\d', value)
-    fract_separator = re.findall(r'\d+/\d+', value)
-
-    value = re.sub(' +', ' ', value)
-    uncertainty = None
-    if range_separator:
-        # A range just describes an uncertain quantity
-        values = value.split(range_separator[0])
-        values = [
-            float(re.sub(r'-$', '', v)) * factors[i]
-            for i, v in enumerate(values)
-        ]
-        if values[1] < values[0]:
-            raise ValueError(
-                "Invalid range, with second item being smaller than the first item"
-            )
-        mean = sum(values) / len(values)
-        uncertainty = mean - min(values)
-        values = [mean]
-    elif uncer_separator:
-        values = [float(i) for i in value.split(uncer_separator[0])]
-        uncertainty = values[1] * factors[1]
-        values = [values[0] * factors[0]]
-    elif fract_separator:
-        values = value.split()
-        try:
-            if len(values) > 1:
-                values = [
-                    float(values[0]) * factors[0] + float(Fraction(values[1]))
-                ]
-            else:
-                values = [float(Fraction(values[0]))]
-        except ZeroDivisionError as e:
-            raise ValueError('{} is not a number'.format(values[0]), e)
-    else:
-        values = [float(re.sub(r'-$', '', value)) * factors[0]]
-
-    logging.debug('\tUncertainty: %s', uncertainty)
-    logging.debug('\tValues: %s', values)
-
-    return uncertainty, values
-
 
 ###############################################################################
-def resolve_exponents(value, lang='en_US'):
+def resolve_exponents(value):
     """Resolve unusual exponents (like 2^4) and return substituted string and factor
 
     Params:
@@ -143,7 +121,7 @@ def resolve_exponents(value, lang='en_US'):
 
     """
     factors = []
-    matches = re.finditer(reg.number_patter_groups(lang), value,
+    matches = re.finditer(reg.NUM_PATTERN_GROUPS, value,
                           re.IGNORECASE | re.VERBOSE)
     for item in matches:
         if item.group('base') and item.group('exponent'):
@@ -158,10 +136,10 @@ def resolve_exponents(value, lang='en_US'):
             # either ^ or superscript notation is used
             if re.match(r'\d+\^?', base):
                 if not ('^' in base
-                        or re.match(r'[%s]' % reg.unicode_superscript_regex(lang), exp)):
+                        or re.match(r'[%s]' % reg.SUPERSCRIPTS, exp)):
                     factors.append(1)
                     continue
-            for superscript, substitute in reg.unicode_superscript(lang).items():
+            for superscript, substitute in reg.UNI_SUPER.items():
                 exp.replace(superscript, substitute)
             exp = float(exp)
             base = float(base.replace('^', ''))
@@ -235,19 +213,19 @@ def get_entity_from_dimensions(dimensions, text):
 
 
 ################################################################################
-def parse_unit(item, unit, slash, lang='en_US'):
+def parse_unit(item, unit, slash):
     """
     Parse surface and power from unit text.
     """
 
     surface = unit.replace('.', '')
-    power = re.findall(r'-?[0-9%s]+' % reg.unicode_superscript_regex(lang), surface)
+    power = re.findall(r'-?[0-9%s]+' % reg.SUPERSCRIPTS, surface)
 
     if power:
-        power = [reg.unicode_superscript(lang)[i] if i in reg.unicode_superscript(lang) else i for i in power]
+        power = [reg.UNI_SUPER[i] if i in reg.UNI_SUPER else i for i in power]
         power = ''.join(power)
         new_power = (-1 * int(power) if slash else int(power))
-        surface = re.sub(r'\^?-?[0-9%s]+' % reg.unicode_superscript_regex(lang), '', surface)
+        surface = re.sub(r'\^?-?[0-9%s]+' % reg.SUPERSCRIPTS, '', surface)
 
     elif re.findall(r'\bcubed\b', surface):
         new_power = (-3 if slash else 3)
@@ -264,7 +242,7 @@ def parse_unit(item, unit, slash, lang='en_US'):
 
 
 ################################################################################
-def get_unit(item, text, lang='en_US'):
+def get_unit(item, text):
     """
     Extract unit from regex hit.
     """
@@ -289,9 +267,9 @@ def get_unit(item, text, lang='en_US'):
             # disallow spaces as operators in units expressed in their symbols
             # Enforce consistency among multiplication and division operators
             # Single exceptions are colloquial number abbreviations (5k miles)
-            if operator in reg.multiplication_operators(lang) or (
+            if operator in reg.MULTIPLICATION_OPERATORS or (
                     operator is None and unit
-                    and not (index == 1 and unit in reg.suffixes(lang))):
+                    and not (index == 1 and unit in reg.SUFFIXES)):
                 if multiplication_operator != operator and not (
                         index == 1 and str(operator).isspace()):
                     if multiplication_operator is False:
@@ -380,7 +358,7 @@ def is_quote_artifact(orig_text, span):
 
 
 ################################################################################
-def build_quantity(orig_text, text, item, values, unit, surface, span, uncert, lang='en_US'):
+def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     """
     Build a Quantity object out of extracted information.
     """
@@ -394,15 +372,15 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert, l
     if unit.entity.dimensions:
         if (len(unit.entity.dimensions) > 1
                 and unit.entity.dimensions[0]['base'] == 'currency'
-                and unit.dimensions[1]['surface'] in reg.suffixes(lang).keys()):
+                and unit.dimensions[1]['surface'] in reg.SUFFIXES.keys()):
             suffix = unit.dimensions[1]['surface']
             # Only apply if at least last value is suffixed by k, M, etc
             if re.search(r'\d{}\b'.format(suffix), text):
-                values = [value * reg.suffixes(lang)[suffix] for value in values]
+                values = [value * reg.SUFFIXES[suffix] for value in values]
                 unit.dimensions = [unit.dimensions[0]] + unit.dimensions[2:]
                 dimension_change = True
 
-        elif unit.dimensions[0]['surface'] in reg.suffixes(lang).keys():
+        elif unit.dimensions[0]['surface'] in reg.SUFFIXES.keys():
             # k/M etc is only applied if non-symbolic surfaces of other units (because colloquial)
             # or currency units
             symbolic = all(
@@ -411,7 +389,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert, l
                 for dim in unit.dimensions[1:])
             if not symbolic:
                 suffix = unit.dimensions[0]['surface']
-                values = [value * reg.suffixes(lang)[suffix] for value in values]
+                values = [value * reg.SUFFIXES[suffix] for value in values]
                 unit.dimensions = unit.dimensions[1:]
                 dimension_change = True
 

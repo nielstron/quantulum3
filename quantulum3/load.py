@@ -11,6 +11,7 @@ import os
 import json
 from collections import defaultdict
 import re
+from pathlib import Path
 
 # Dependencies
 import inflect
@@ -296,8 +297,6 @@ def build_common_words():
 
 
 ################################################################################
-
-
 def load_common_words():
     path = os.path.join(TOPDIR, 'common-words.json')
     dumped = {}
@@ -314,3 +313,15 @@ def load_common_words():
 
 
 COMMON_WORDS = load_common_words()
+
+
+################################################################################
+def languages():
+    subdirs = [x for x in Path(os.path.join(TOPDIR, 'lang')).iterdir() if x.is_dir() and not x.name.startswith('__')]
+    langs = dict((x.name, x.name) for x in subdirs)
+    langs.update((x.name[:2], x.name) for x in subdirs)
+    return langs
+
+
+LANGUAGES = languages()
+
