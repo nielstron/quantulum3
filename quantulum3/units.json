@@ -166,6 +166,24 @@
     "dimensions": [],
     "symbols": [
       "b"
+    ],
+    "prefixes": ["M", "k", "m", "µ", "n", "p", "f", "a", "z", "y"]
+  },
+  {
+    "name": "inverse femtobarn",
+    "surfaces": [
+      "inverse femtobarn"
+    ],
+    "entity": "length",
+    "URI": "https://en.wikipedia.org/wiki/Barn_(unit)",
+    "dimensions": [{
+      "base": "femtobarn",
+      "power": -1,
+      "surface": "fb-1"
+    }],
+    "symbols": [
+      "fb-1",
+      "fb−1"
     ]
   },
   {

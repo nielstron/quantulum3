@@ -245,6 +245,32 @@
         "uncertainty": null
       }
     ]
+  },
+  {
+    "req": " in physics, a unit of surface area equal to 12 b",
+    "res": [
+      {
+        "value": 12.0,
+        "unit": "barn",
+        "surface": "12 b",
+        "entity": "length",
+        "dimensions": [],
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "I'll transmit a small package of 1500 b",
+    "res": [
+      {
+        "value": 1500.0,
+        "unit": "bit",
+        "surface": "1500 b",
+        "entity": "data storage",
+        "dimensions": [],
+        "uncertainty": null
+      }
+    ]
   }
 ]
 
