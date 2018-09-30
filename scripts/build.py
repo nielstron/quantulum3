@@ -5,7 +5,7 @@ import os
 from io import open
 import json
 
-from quantulum3 import load
+from quantulum3._lang.en_US import load
 '''
 Build script, to be run before pushing changes if certain files are affected
 Make sure to run this from the project root folder

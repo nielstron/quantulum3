@@ -31,7 +31,6 @@ DECIMALS = {
 
 MISCNUM = {'and': (1, 0), 'a': (1, 1), 'an': (1, 1)}
 
-
 ################################################################################
 
 SUFFIXES = {'k': 1e3, 'K': 1e3, 'M': 1e6, 'B': 1e9, 'T': 1e12}
@@ -65,11 +64,5 @@ NUM_PATTERN = r'''
 
 '''
 
-RANGES = {
-    'to',
-    'and'
-}
-UNCERTAINTIES = {
-    'plus minus'
-}
-
+RANGES = {'to', 'and'}
+UNCERTAINTIES = {'plus minus'}

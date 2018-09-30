@@ -59,7 +59,7 @@ def numberwords(lang='en_US'):
     for idx, word in enumerate(tens(lang)):
         numwords[word] = (1, idx * 10)
     for idx, word in enumerate(scales(lang)):
-        numwords[word] = (10 ** (idx * 3 or 2), 0)
+        numwords[word] = (10**(idx * 3 or 2), 0)
     for word, factor in decimals(lang).items():
         numwords[word] = (factor, 0)
         numwords[load.PLURALS.plural(word)] = (factor, 0)
@@ -68,7 +68,8 @@ def numberwords(lang='en_US'):
 
 
 def numberwords_regex(lang='en_US'):
-    all_numbers = r'|'.join(r'\b%s\b' % i for i in list(numberwords(lang).keys()) if i)
+    all_numbers = r'|'.join(
+        r'\b%s\b' % i for i in list(numberwords(lang).keys()) if i)
     return all_numbers
 
 
@@ -133,7 +134,8 @@ def multiplication_operators(lang='en_US'):
 
 
 def multiplication_operators_regex(lang='en_US'):
-    return r'|'.join(r'%s' % re.escape(i) for i in multiplication_operators(lang))
+    return r'|'.join(
+        r'%s' % re.escape(i) for i in multiplication_operators(lang))
 
 
 @cached
@@ -170,10 +172,16 @@ def number_pattern(lang='en_US'):
 @cached
 def number_pattern_no_groups(lang='en_US'):
     return number_pattern(lang).format(
-        number=':', decimals=":", scale=":", base=":", exponent=":",
+        number=':',
+        decimals=":",
+        scale=":",
+        base=":",
+        exponent=":",
         fraction=":",
-        grouping=grouping_operators_regex(lang), multipliers=multiplication_operators_regex(lang),
-        superscript=unicode_superscript_regex(lang), unicode_fract=unicode_fractions_regex(lang))
+        grouping=grouping_operators_regex(lang),
+        multipliers=multiplication_operators_regex(lang),
+        superscript=unicode_superscript_regex(lang),
+        unicode_fract=unicode_fractions_regex(lang))
 
 
 @cached
@@ -185,8 +193,10 @@ def number_patter_groups(lang='en_US'):
         base="P<base>",
         exponent="P<exponent>",
         fraction="P<fraction>",
-        grouping=grouping_operators_regex(lang), multipliers=multiplication_operators_regex(lang),
-        superscript=unicode_superscript_regex(lang), unicode_fract=unicode_fractions_regex(lang))
+        grouping=grouping_operators_regex(lang),
+        multipliers=multiplication_operators_regex(lang),
+        superscript=unicode_superscript_regex(lang),
+        unicode_fract=unicode_fractions_regex(lang))
 
 
 @cached
@@ -202,10 +212,8 @@ def range_pattern(lang='en_US'):
         \ ?(?:(?:-\ )?-|%s|%s|\+/-|±)\ ?  # Group for ranges or uncertainties
     %s)?
 
-    ''' % (num_pattern_no_groups,
-           '|'.join(_get_regex(lang).RANGES),
-           '|'.join(_get_regex(lang).UNCERTAINTIES),
-           num_pattern_no_groups)
+    ''' % (num_pattern_no_groups, '|'.join(_get_regex(lang).RANGES), '|'.join(
+        _get_regex(lang).UNCERTAINTIES), num_pattern_no_groups)
 
 
 @cached
@@ -218,7 +226,8 @@ def text_pattern_reg(lang='en_US'):
     [ -]?(?:%s)
     [ -]?(?:%s)?[ -]?(?:%s)?[ -]?(?:%s)?
     [ -]?(?:%s)?[ -]?(?:%s)?[ -]?(?:%s)?
-    ''' % tuple([number_pattern_no_groups(lang)] + 7 * [numberwords_regex(lang)])
+    ''' % tuple([number_pattern_no_groups(lang)] +
+                7 * [numberwords_regex(lang)])
     reg_txt = re.compile(txt_pattern, re.VERBOSE | re.IGNORECASE)
     return reg_txt
 
@@ -260,14 +269,15 @@ def units_regex(lang='en_US'):
 
     op_keys = sorted(list(operators(lang).keys()), key=len, reverse=True)
     unit_keys = sorted(
-        list(load.units(lang).names.keys()) + list(load.units(lang).symbols.keys()),
+        list(load.units(lang).names.keys()) + list(
+            load.units(lang).symbols.keys()),
         key=len,
         reverse=True)
     symbol_keys = sorted(
         list(load.units(lang).prefix_symbols.keys()), key=len, reverse=True)
 
     exponent = r'(?:(?:\^?\-?[0-9{}]+)?(?:\ cubed|\ squared)?)'.format(
-                   unicode_superscript_regex(lang))
+        unicode_superscript_regex(lang))
 
     all_ops = '|'.join([r'{}'.format(re.escape(i)) for i in op_keys])
     all_units = '|'.join([r'{}'.format(re.escape(i)) for i in unit_keys])

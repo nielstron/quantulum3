@@ -12,6 +12,7 @@ try:
 except ImportError:
     stem = None
 
+
 ################################################################################
 def clean_text(text):
     """
@@ -31,5 +32,3 @@ def clean_text(text):
     new_text = ' '.join(new_text)
 
     return new_text
-
-

@@ -78,9 +78,13 @@ def get_values(item, lang='en_US'):
 
     value = item.group('value')
     # Remove grouping operators
-    value = re.sub(r'(?<=\d)[%s](?=\d{3})' % reg.grouping_operators_regex(lang), '', value)
+    value = re.sub(
+        r'(?<=\d)[%s](?=\d{3})' % reg.grouping_operators_regex(lang), '',
+        value)
     # Replace unusual exponents by e (including e)
-    value = re.sub(r'(?<=\d)(%s)(e|E|10)\^?' % reg.multiplication_operators_regex(lang), 'e', value)
+    value = re.sub(
+        r'(?<=\d)(%s)(e|E|10)\^?' % reg.multiplication_operators_regex(lang),
+        'e', value)
     # calculate other exponents
     value, factors = resolve_exponents(value)
     logging.debug("After exponent resolution: {}".format(value))
@@ -143,8 +147,8 @@ def resolve_exponents(value, lang='en_US'):
 
     """
     factors = []
-    matches = re.finditer(reg.number_patter_groups(lang), value,
-                          re.IGNORECASE | re.VERBOSE)
+    matches = re.finditer(
+        reg.number_patter_groups(lang), value, re.IGNORECASE | re.VERBOSE)
     for item in matches:
         if item.group('base') and item.group('exponent'):
             base = item.group('base')
@@ -157,11 +161,12 @@ def resolve_exponents(value, lang='en_US'):
             # Expect that in a pure decimal base,
             # either ^ or superscript notation is used
             if re.match(r'\d+\^?', base):
-                if not ('^' in base
-                        or re.match(r'[%s]' % reg.unicode_superscript_regex(lang), exp)):
+                if not ('^' in base or re.match(
+                        r'[%s]' % reg.unicode_superscript_regex(lang), exp)):
                     factors.append(1)
                     continue
-            for superscript, substitute in reg.unicode_superscript(lang).items():
+            for superscript, substitute in reg.unicode_superscript(
+                    lang).items():
                 exp.replace(superscript, substitute)
             exp = float(exp)
             base = float(base.replace('^', ''))
@@ -295,7 +300,8 @@ def get_unit(item, text, lang='en_US'):
 
             # Determine whether a negative power has to be applied to following units
             if operator and not slash:
-                slash = any(i in operator for i in reg.division_operators(lang))
+                slash = any(
+                    i in operator for i in reg.division_operators(lang))
             # Determine which unit follows
             if unit:
                 unit_surface, power = parse_unit(item, unit, slash, lang)
@@ -359,12 +365,21 @@ def is_quote_artifact(orig_text, span):
 
 
 ################################################################################
-def build_quantity(orig_text, text, item, values, unit, surface, span, uncert, lang='en_US'):
+def build_quantity(orig_text,
+                   text,
+                   item,
+                   values,
+                   unit,
+                   surface,
+                   span,
+                   uncert,
+                   lang='en_US'):
     """
     Build a Quantity object out of extracted information.
     Takes care of caveats and common errors
     """
-    return _get_parser(lang).build_quantity(orig_text, text, item, values, unit, surface, span, uncert)
+    return _get_parser(lang).build_quantity(orig_text, text, item, values,
+                                            unit, surface, span, uncert)
 
 
 ################################################################################
@@ -490,5 +505,3 @@ def inline_parse_and_expand(text, verbose=False):
         shift += len(to_add) - (quantity.span[1] - quantity.span[0])
 
     return text
-
-

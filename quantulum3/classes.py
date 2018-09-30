@@ -7,7 +7,6 @@
 # Quantulum
 from . import speak
 
-
 ################################################################################
 
 
@@ -82,7 +81,6 @@ class Unit(object):
         self.symbols = symbols
         self.dimensions = dimensions
         self.currency_code = currency_code
-
 
     def to_spoken(self, count=1):
         """

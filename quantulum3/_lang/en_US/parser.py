@@ -69,7 +69,8 @@ def extract_spellout_values(text):
         for word in surface.split():
             try:
                 scale, increment = 1, float(
-                    re.sub(r'(-$|[%s])' % reg.grouping_operators_regex(lang), '', word.lower()))
+                    re.sub(r'(-$|[%s])' % reg.grouping_operators_regex(lang),
+                           '', word.lower()))
             except ValueError:
                 scale, increment = reg.numberwords(lang)[word.lower()]
             curr = curr * scale + increment
@@ -92,13 +93,18 @@ def parse_unit(item, unit, slash):
     """
 
     surface = unit.replace('.', '')
-    power = re.findall(r'-?[0-9%s]+' % reg.unicode_superscript_regex(lang), surface)
+    power = re.findall(r'-?[0-9%s]+' % reg.unicode_superscript_regex(lang),
+                       surface)
 
     if power:
-        power = [reg.unicode_superscript(lang)[i] if i in reg.unicode_superscript(lang) else i for i in power]
+        power = [
+            reg.unicode_superscript(lang)[i]
+            if i in reg.unicode_superscript(lang) else i for i in power
+        ]
         power = ''.join(power)
         new_power = (-1 * int(power) if slash else int(power))
-        surface = re.sub(r'\^?-?[0-9%s]+' % reg.unicode_superscript(lang), '', surface)
+        surface = re.sub(r'\^?-?[0-9%s]+' % reg.unicode_superscript(lang), '',
+                         surface)
 
     elif re.findall(r'\bcubed\b', surface):
         new_power = (-3 if slash else 3)
@@ -128,12 +134,14 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     # TODO use classifier to decide if 3K is 3 thousand or 3 Kelvin
     if unit.entity.dimensions:
         if (len(unit.entity.dimensions) > 1
-                and unit.entity.dimensions[0]['base'] == 'currency'
-                and unit.dimensions[1]['surface'] in reg.suffixes(lang).keys()):
+                and unit.entity.dimensions[0]['base'] == 'currency' and
+                unit.dimensions[1]['surface'] in reg.suffixes(lang).keys()):
             suffix = unit.dimensions[1]['surface']
             # Only apply if at least last value is suffixed by k, M, etc
             if re.search(r'\d{}\b'.format(suffix), text):
-                values = [value * reg.suffixes(lang)[suffix] for value in values]
+                values = [
+                    value * reg.suffixes(lang)[suffix] for value in values
+                ]
                 unit.dimensions = [unit.dimensions[0]] + unit.dimensions[2:]
                 dimension_change = True
 
@@ -146,7 +154,9 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
                 for dim in unit.dimensions[1:])
             if not symbolic:
                 suffix = unit.dimensions[0]['surface']
-                values = [value * reg.suffixes(lang)[suffix] for value in values]
+                values = [
+                    value * reg.suffixes(lang)[suffix] for value in values
+                ]
                 unit.dimensions = unit.dimensions[1:]
                 dimension_change = True
 
@@ -297,5 +307,3 @@ def infer_name(unit):
     """
     name = name_from_dimensions(unit.dimensions) if unit.dimensions else None
     return name
-
-

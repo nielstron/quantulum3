@@ -42,10 +42,14 @@ def build_common_words():
             if line.startswith('#'):
                 continue
             line = line.rstrip()
-            if line not in load.units(lang).surfaces_all and line not in load.units(lang).symbols:
+            if line not in load.units(
+                    lang).surfaces_all and line not in load.units(
+                        lang).symbols:
                 words[len(line)].append(line)
             plural = load.pluralize(line)
-            if plural not in load.units(lang).surfaces_all and plural not in load.units(lang).symbols:
+            if plural not in load.units(
+                    lang).surfaces_all and plural not in load.units(
+                        lang).symbols:
                 words[len(plural)].append(plural)
     return words
 
@@ -67,5 +71,3 @@ def load_common_words():
 
 
 COMMON_WORDS = load_common_words()
-
-

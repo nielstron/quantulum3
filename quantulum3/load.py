@@ -201,146 +201,54 @@ def get_derived_units(names):
 
 ################################################################################
 class Units(object):
-
     def __init__(self, lang='en_US'):
         """
         Load units from JSON file.
         """
-        # TODO simplify
+        self.lang = lang
 
-        names = {}
-        unit_symbols, unit_symbols_lower, = defaultdict(set), defaultdict(set)
-        surfaces, lowers, symbols = defaultdict(set), defaultdict(
-            set), defaultdict(set)
+        # names of all units
+        self.names = {}
+        self.symbols, self.symbols_lower = defaultdict(set), defaultdict(set)
+        self.surfaces, self.surfaces_lower = defaultdict(set), defaultdict(set)
+        self.prefix_symbols = defaultdict(set)
 
         # Load general units
         path = os.path.join(TOPDIR, 'units.json')
         with open(path, encoding='utf-8') as file:
             general_units = json.load(file)
-
-        for unit in general_units:
-            load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces,
-                      lowers, symbols, lang)
-
         # load language specifics
         path = os.path.join(language.get('load', lang).TOPDIR, 'units.json')
         with open(path, encoding='utf-8') as file:
             lang_units = json.load(file)
 
+        units = {}
+        for unit in general_units:
+            units[unit['name']] = unit
         for unit in lang_units:
-            load_lang_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces,
-                           lowers, symbols, lang)
+            # TODO currently overrides unit, does not extend
+            units[unit['name']] = units.get(unit['name'], unit).update(unit)
 
-        derived_uni = get_derived_units(names)
+        for unit in general_units:
+            self.load_unit(unit)
 
-        # names of all units
-        self.names = names
+        self.derived = get_derived_units(self.names)
 
         # symbols of all units
-        self.symbols = symbols
-        self.symbols_lower = unit_symbols_lower
-        self.symbols_all = symbols.copy()
-        self.symbols_all.update(unit_symbols_lower)
+        self.symbols_all = self.symbols.copy()
+        self.symbols_all.update(self.symbols_lower)
 
         # surfaces of all units
-        self.surfaces = surfaces
-        self.surfaces_lower = lowers
-        self.surfaces_all = surfaces.copy()
-        self.surfaces_all.update(lowers)
+        self.surfaces_all = self.surfaces.copy()
+        self.surfaces_all.update(self.surfaces_lower)
 
-        # currency symbols of all units
-        self.prefix_symbols = symbols
-        # derived units
-        self.derived = derived_uni
+    def load_unit(self, unit):
+        try:
+            assert unit['name'] not in self.names
+        except AssertionError:  # pragma: no cover
+            msg = 'Two units with same name in units.json: %s' % unit['name']
+            raise Exception(msg)
 
-
-def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
-              symbols, lang):
-    try:
-        assert unit['name'] not in names
-    except AssertionError:  # pragma: no cover
-        msg = 'Two units with same name in units.json: %s' % unit['name']
-        raise Exception(msg)
-
-    obj = c.Unit(
-        name=unit['name'],
-        surfaces=unit['surfaces'],
-        entity=ENTITIES[unit['entity']],
-        uri=unit['URI'],
-        symbols=unit['symbols'],
-        dimensions=unit['dimensions'],
-        currency_code=unit.get('currency_code'))
-
-    names[unit['name']] = obj
-
-    for symbol in unit['symbols']:
-        unit_symbols[symbol].add(obj)
-        unit_symbols_lower[symbol.lower()].add(obj)
-        if unit['entity'] == 'currency':
-            symbols[symbol].add(obj)
-
-    for surface in unit['surfaces']:
-        surfaces[surface].add(obj)
-        lowers[surface.lower()].add(obj)
-        split = surface.split()
-        index = None
-        if ' per ' in surface:
-            index = split.index('per') - 1
-        elif 'degree ' in surface:
-            index = split.index('degree')
-        if index is not None:
-            plural = ' '.join([
-                i if num != index else pluralize(split[index], lang=lang)
-                for num, i in enumerate(split)
-            ])
-        else:
-            plural = pluralize(surface, lang=lang)
-        if plural != surface:
-            surfaces[plural].add(obj)
-            lowers[plural.lower()].add(obj)
-
-    # If SI-prefixes are given, add them
-    if unit.get('prefixes'):
-        for prefix in unit['prefixes']:
-            try:
-                assert prefix in METRIC_PREFIXES
-            except AssertionError:  # pragma: no cover
-                raise Exception(
-                    "Given prefix '{}' for unit '{}' not supported".format(
-                        prefix, unit['name']))
-            try:
-                assert len(unit['dimensions']) <= 1
-            except AssertionError:  # pragma: no cover
-                raise Exception(
-                    "Prefixing not supported for multiple dimensions in {}".
-                        format(unit['name']))
-
-            uri = METRIC_PREFIXES[prefix].capitalize() + unit['URI'].lower()
-
-            prefixed_unit = {
-                'name':
-                    METRIC_PREFIXES[prefix] + unit['name'],
-                'surfaces':
-                    [METRIC_PREFIXES[prefix] + i for i in unit['surfaces']],
-                'entity':
-                    unit['entity'],
-                'URI':
-                    uri,
-                'dimensions': [],
-                'symbols': [prefix + i for i in unit['symbols']]
-            }
-            load_unit(prefixed_unit, names, unit_symbols, unit_symbols_lower,
-                      surfaces, lowers, symbols)
-
-
-def load_lang_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
-                   symbols, lang):
-    try:
-        obj = names[unit['name']]
-        obj.surfaces.extend(unit.get('surfaces', []))
-        obj.uri = unit.get('URI')
-        obj.symbols.extend(unit.get('symbols', []))
-    except KeyError:
         obj = c.Unit(
             name=unit['name'],
             surfaces=unit['surfaces'],
@@ -349,54 +257,55 @@ def load_lang_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowe
             symbols=unit['symbols'],
             dimensions=unit['dimensions'],
             currency_code=unit.get('currency_code'))
-        names[unit['name']] = obj
 
-    for symbol in unit.get('symbols', []):
-        unit_symbols[symbol].add(obj)
-        unit_symbols_lower[symbol.lower()].add(obj)
-        if unit['entity'] == 'currency':
-            symbols[symbol].add(obj)
+        self.names[unit['name']] = obj
 
-    for surface in unit.get('surfaces', []):
-        surfaces[surface].add(obj)
-        lowers[surface.lower()].add(obj)
+        for symbol in unit['symbols']:
+            self.symbols[symbol].add(obj)
+            self.symbols_lower[symbol.lower()].add(obj)
+            if unit['entity'] == 'currency':
+                self.symbols[symbol].add(obj)
 
-        plural = pluralize(surface, lang=lang)
-        surfaces[plural].add(obj)
-        lowers[plural.lower()].add(obj)
+        for surface in unit['surfaces']:
+            self.surfaces[surface].add(obj)
+            self.surfaces_lower[surface.lower()].add(obj)
+            plural = pluralize(surface, lang=self.lang)
+            self.surfaces[plural].add(obj)
+            self.surfaces_lower[plural.lower()].add(obj)
 
-    # If SI-prefixes are given, add them
-    if unit.get('prefixes'):
-        for prefix in unit['prefixes']:
-            try:
-                assert prefix in METRIC_PREFIXES
-            except AssertionError:  # pragma: no cover
-                raise Exception(
-                    "Given prefix '{}' for unit '{}' not supported".format(
-                        prefix, unit['name']))
-            try:
-                assert len(unit['dimensions']) <= 1
-            except AssertionError:  # pragma: no cover
-                raise Exception(
-                    "Prefixing not supported for multiple dimensions in {}".
-                        format(unit['name']))
+        # If SI-prefixes are given, add them
+        if unit.get('prefixes'):
+            for prefix in unit['prefixes']:
+                try:
+                    assert prefix in METRIC_PREFIXES
+                except AssertionError:  # pragma: no cover
+                    raise Exception(
+                        "Given prefix '{}' for unit '{}' not supported".format(
+                            prefix, unit['name']))
+                try:
+                    assert len(unit['dimensions']) <= 1
+                except AssertionError:  # pragma: no cover
+                    raise Exception(
+                        "Prefixing not supported for multiple dimensions in {}"
+                        .format(unit['name']))
 
-            uri = METRIC_PREFIXES[prefix].capitalize() + obj.uri.lower()
+                uri = METRIC_PREFIXES[prefix].capitalize() + unit['URI'].lower(
+                )
 
-            prefixed_unit = {
-                'name':
-                    METRIC_PREFIXES[prefix] + obj.name,
-                'surfaces':
-                    [METRIC_PREFIXES[prefix] + i for i in obj.surfaces],
-                'entity':
-                    obj.entity,
-                'URI':
+                prefixed_unit = {
+                    'name':
+                    METRIC_PREFIXES[prefix] + unit['name'],
+                    'surfaces':
+                    [METRIC_PREFIXES[prefix] + i for i in unit['surfaces']],
+                    'entity':
+                    unit['entity'],
+                    'URI':
                     uri,
-                'dimensions': [],
-                'symbols': [prefix + i for i in obj.symbols]
-            }
-            load_lang_unit(prefixed_unit, names, unit_symbols, unit_symbols_lower,
-                           surfaces, lowers, symbols, lang)
+                    'dimensions': [],
+                    'symbols': [prefix + i for i in unit['symbols']]
+                }
+                self.load_unit(prefixed_unit)
+
 
 @cached
 def units(lang='en_US'):
@@ -408,11 +317,13 @@ def units(lang='en_US'):
 
 ################################################################################
 def languages():
-    subdirs = [x for x in Path(os.path.join(TOPDIR, '_lang')).iterdir() if x.is_dir() and not x.name.startswith('__')]
+    subdirs = [
+        x for x in Path(os.path.join(TOPDIR, '_lang')).iterdir()
+        if x.is_dir() and not x.name.startswith('__')
+    ]
     langs = dict((x.name, x.name) for x in subdirs)
     langs.update((x.name[:2], x.name) for x in subdirs)
     return langs
 
 
 LANGUAGES = languages()
-

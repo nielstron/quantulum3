@@ -45,9 +45,15 @@ def ambiguous_units(lang='en_US'):  # pragma: no cover
     Determine ambiguous units
     :return: list ( tuple( key, list (Unit) ) )
     """
-    ambiguous = [i for i in list(load.units(lang).surfaces_all.items()) if len(i[1]) > 1]
-    ambiguous += [i for i in list(load.units(lang).symbols.items()) if len(i[1]) > 1]
-    ambiguous += [i for i in list(load.units(lang).derived.items()) if len(i[1]) > 1]
+    ambiguous = [
+        i for i in list(load.units(lang).surfaces_all.items()) if len(i[1]) > 1
+    ]
+    ambiguous += [
+        i for i in list(load.units(lang).symbols.items()) if len(i[1]) > 1
+    ]
+    ambiguous += [
+        i for i in list(load.units(lang).derived.items()) if len(i[1]) > 1
+    ]
     return ambiguous
 
 
@@ -72,7 +78,8 @@ def download_wiki(store=True, lang='en_US'):  # pragma: no cover
 
         obj = {
             '_id': page[1],
-            'url': 'https://{}.wikipedia.org/wiki/{}'.format(lang[:2], page[1]),
+            'url': 'https://{}.wikipedia.org/wiki/{}'.format(
+                lang[:2], page[1]),
             'clean': page[1].replace('_', ' ')
         }
 
@@ -124,8 +131,7 @@ def train_classifier(parameters=None,
     @:param store (bool) store classifier in clf.joblib
     """
     training_set = get_training_set(lang)
-    target_names = list(
-        set([i['unit'] for i in training_set]))
+    target_names = list(set([i['unit'] for i in training_set]))
 
     train_data, train_target = [], []
     for example in training_set:
@@ -166,7 +172,6 @@ def train_classifier(parameters=None,
 
 ################################################################################
 class Classifier(object):
-
     def __init__(self, obj=None, lang='en_US'):
         """
         Load the intent classifier
@@ -180,12 +185,13 @@ class Classifier(object):
             with open(path, 'rb') as file:
                 obj = joblib.load(file)
 
-        cur_scipy_version = pkg_resources.get_distribution('scikit-learn').version
+        cur_scipy_version = pkg_resources.get_distribution(
+            'scikit-learn').version
         if cur_scipy_version != obj.get(
                 'scikit-learn_version'):  # pragma: no cover
             logging.warning(
                 "The classifier was built using a different scikit-learn version (={}, !={}). The disambiguation tool could behave unexpectedly. Consider running classifier.train_classfier()"
-                    .format(obj.get('scikit-learn_version'), cur_scipy_version))
+                .format(obj.get('scikit-learn_version'), cur_scipy_version))
 
         self.tfidf_model = obj['tfidf_model']
         self.classifier = obj['classifier']
@@ -208,13 +214,15 @@ def disambiguate_entity(key, text, lang='en_US'):
     Resolve ambiguity between entities with same dimensionality.
     """
 
-    if len(load.units(lang).derived[key]) > 1:
-        transformed = classifier(lang).tfidf_model.transform([clean_text(text)])
-        scores = classifier(lang).classifier.predict_proba(transformed).tolist()[0]
+    if len(load.DERIVED_ENT[key]) > 1:
+        transformed = classifier(lang).tfidf_model.transform(
+            [clean_text(text)])
+        scores = classifier(lang).classifier.predict_proba(
+            transformed).tolist()[0]
         scores = zip(scores, classifier(lang).target_names)
 
         # Filter for possible names
-        names = [i.name for i in load.units(lang).derived[key]]
+        names = [i.name for i in load.DERIVED_ENT[key]]
         scores = [i for i in scores if i[1] in names]
 
         # Sort by rank
@@ -224,7 +232,7 @@ def disambiguate_entity(key, text, lang='en_US'):
         except IndexError:
             logging.debug('\tAmbiguity not resolved for "%s"', str(key))
     else:
-        new_ent = next(iter(load.units(lang).derived[key]))
+        new_ent = next(iter(load.DERIVED_ENT[key]))
 
     return new_ent
 
@@ -235,7 +243,8 @@ def disambiguate_unit(unit, text, lang='en_US'):
     Resolve ambiguity between units with same names, symbols or abbreviations.
     """
 
-    new_unit = load.units(lang).symbols.get(unit) or load.units(lang).surfaces.get(unit)
+    new_unit = load.units(lang).symbols.get(unit) or load.units(
+        lang).surfaces.get(unit)
     if not new_unit:
         new_unit = load.units(lang).surfaces_lower.get(
             unit.lower()) or load.units(lang).symbols_lower.get(unit.lower())
@@ -243,8 +252,10 @@ def disambiguate_unit(unit, text, lang='en_US'):
             raise KeyError('Could not find unit "%s" from "%s"' % (unit, text))
 
     if len(new_unit) > 1:
-        transformed = classifier(lang).tfidf_model.transform([clean_text(text)])
-        scores = classifier(lang).classifier.predict_proba(transformed).tolist()[0]
+        transformed = classifier(lang).tfidf_model.transform(
+            [clean_text(text)])
+        scores = classifier(lang).classifier.predict_proba(
+            transformed).tolist()[0]
         scores = zip(scores, classifier(lang).target_names)
 
         # Filter for possible names
