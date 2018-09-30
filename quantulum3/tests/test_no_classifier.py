@@ -33,6 +33,25 @@ class ParsingTest(unittest.TestCase):
                 quants, test['res'], "\nExcpected: {1} \nGot: {0}".format(
                     [quant.__dict__ for quant in quants],
                     [quant.__dict__ for quant in test['res']]))
+        classifier_tests = load_quantity_tests(True)
+        correct = 0
+        total = len(classifier_tests)
+        error = []
+        for test in sorted(classifier_tests, key=lambda x: len(x['req'])):
+            quants = p.parse(test['req'])
+            if quants == test['res']:
+                correct += 1
+            else:
+                error.append((test, quants))
+        success_rate = correct / total
+        print('Non-Classifier success rate at {:.2f}%'.format(success_rate * 100))
+        self.assertGreaterEqual(
+            success_rate, 0.1,
+            'Non-Classifier success rate was at {}%, below 10%.\nFailure at\n{}'.
+                format(
+                success_rate * 100,
+                '\n'.join('{}: {}'.format(test[0]['req'], test[1])
+                          for test in error)))
 
 
 ################################################################################

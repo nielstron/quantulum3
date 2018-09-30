@@ -15,7 +15,7 @@ from math import pow
 from . import load
 from . import regex as reg
 from . import classes as cls
-from . import classifier as clf
+from . import disambiguate as dis
 
 
 ################################################################################
@@ -267,12 +267,8 @@ def get_entity_from_dimensions(dimensions, text):
     final_derived = sorted(new_derived, key=lambda x: x['base'])
     key = load.get_key_from_dimensions(final_derived)
 
-    try:
-        if clf.USE_CLF:
-            ent = clf.disambiguate_entity(key, text)
-        else:
-            ent = next(iter(load.DERIVED_ENT[key]))
-    except StopIteration:
+    ent = dis.disambiguate_entity(key, text)
+    if ent is None:
         logging.debug('\tCould not find entity for: %s', key)
         ent = cls.Entity(name='unknown', dimensions=new_derived)
 
@@ -365,23 +361,7 @@ def get_unit(item, text):
             # Determine which unit follows
             if unit:
                 unit_surface, power = parse_unit(item, unit, slash)
-                if clf.USE_CLF:
-                    base = clf.disambiguate_unit(unit_surface, text).name
-                else:
-                    if len(load.UNIT_SYMBOLS[unit_surface]) > 0:
-                        base = next(iter(load.UNIT_SYMBOLS[unit_surface])).name
-                    elif len(load.UNITS[unit_surface]) > 0:
-                        base = next(iter(load.UNITS[unit_surface])).name
-                    elif len(
-                            load.UNIT_SYMBOLS_LOWER[unit_surface.lower()]) > 0:
-                        base = next(
-                            iter(load.UNIT_SYMBOLS_LOWER[unit_surface.
-                                                         lower()])).name
-                    elif len(load.LOWER_UNITS[unit_surface.lower()]) > 0:
-                        base = next(
-                            iter(load.LOWER_UNITS[unit_surface.lower()])).name
-                    else:
-                        base = 'unk'
+                base = dis.disambiguate_unit(unit_surface, text)
                 derived += [{
                     'base': base,
                     'power': power,

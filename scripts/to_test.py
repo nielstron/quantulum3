@@ -23,8 +23,5 @@ if __name__ == '__main__':
         }
         res.append(quantity)
 
-    test = {
-        'req': sentence,
-        'res': res
-    }
-    print(json.dumps(test, indent=4))
+    test = {'req': sentence, 'res': res}
+    print(json.dumps(test, indent=2))

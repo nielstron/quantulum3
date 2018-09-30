@@ -115,6 +115,8 @@ def load_quantity_tests(ambiguity=True):
                     dimensions=item.get('dimensions', []),
                     entity=entity)
             try:
+                # TODO be aware that there may never be two identical units
+                # in a req string
                 span = next(
                     re.finditer(re.escape(item['surface']),
                                 test['req'])).span()
