@@ -68,8 +68,7 @@ class ClassifierTest(unittest.TestCase):
         # Test that no errors are thrown during training
         obj = clf.train_classifier(download=False, store=False)
         # Test that the classifier works with the currently downloaded data
-        clf.TFIDF_MODEL, clf.CLF, clf.TARGET_NAMES = obj['tfidf_model'], obj[
-            'clf'], obj['target_names']
+        load._CACHE_DICT[id(clf.classifier)]['en_US'] = clf.Classifier(obj=obj, lang='en_US')
         self.test_parse_classifier()
 
     def test_expand(self):

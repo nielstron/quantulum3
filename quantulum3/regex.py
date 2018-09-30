@@ -44,6 +44,7 @@ def miscnum(lang='en_US'):
 
 
 ################################################################################
+@cached
 def numberwords(lang='en_US'):
     """
     Convert number words to integers in a given text.
@@ -124,8 +125,9 @@ def unicode_fractions_regex(lang='en_US'):
     return re.escape(''.join(list(unicode_fractions(lang).keys())))
 
 
+@cached
 def multiplication_operators(lang='en_US'):
-    mul = {u'*': u' ', u' ': u' ', u'·': u' ', u'x': u' '}
+    mul = {u'*', u' ', u'·', u'x'}
     mul.update(_get_regex(lang).MULTIPLICATION_OPERATORS)
     return mul
 
@@ -134,14 +136,14 @@ def multiplication_operators_regex(lang='en_US'):
     return r'|'.join(r'%s' % re.escape(i) for i in multiplication_operators(lang))
 
 
+@cached
 def division_operators(lang='en_US'):
-    div = {
-        u'/': u' per ',
-    }
+    div = {u'/'}
     div.update(_get_regex(lang).DIVISION_OPERATORS)
     return div
 
 
+@cached
 def grouping_operators(lang='en_US'):
     grouping_ops = {' '}
     grouping_ops.update(_get_regex(lang).GROUPING_OPERATORS)
@@ -152,9 +154,10 @@ def grouping_operators_regex(lang='en_US'):
     return ''.join(grouping_operators(lang))
 
 
+@cached
 def operators(lang='en_US'):
     ops = {}
-    ops.update(multiplication_operators(lang)[0])
+    ops.update(multiplication_operators(lang))
     ops.update(division_operators(lang))
     return ops
 
@@ -222,7 +225,7 @@ def text_pattern_reg(lang='en_US'):
 
 ################################################################################
 @cached
-def get_units_regex(lang='en_US'):
+def units_regex(lang='en_US'):
     """
     Build a compiled regex object. Groups of the extracted items, with 4
     repetitions, are:
@@ -257,11 +260,11 @@ def get_units_regex(lang='en_US'):
 
     op_keys = sorted(list(operators(lang).keys()), key=len, reverse=True)
     unit_keys = sorted(
-        list(load.UNITS.keys()) + list(load.UNIT_SYMBOLS.keys()),
+        list(load.units(lang).names.keys()) + list(load.units(lang).symbols.keys()),
         key=len,
         reverse=True)
     symbol_keys = sorted(
-        list(load.PREFIX_SYMBOLS.keys()), key=len, reverse=True)
+        list(load.units(lang).prefix_symbols.keys()), key=len, reverse=True)
 
     exponent = r'(?:(?:\^?\-?[0-9{}]+)?(?:\ cubed|\ squared)?)'.format(
                    unicode_superscript_regex(lang))

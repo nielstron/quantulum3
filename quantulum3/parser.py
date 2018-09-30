@@ -37,7 +37,7 @@ def clean_surface(surface, span, lang='en_US'):
 
 
 ################################################################################
-def extract_spellout_values(text, lang):
+def extract_spellout_values(text, lang='en_US'):
     """
     Convert spelled out numbers in a given text to digits.
     """
@@ -45,7 +45,7 @@ def extract_spellout_values(text, lang):
 
 
 ################################################################################
-def substitute_values(text, values):
+def substitute_values(text, values, lang='en_US'):
     """
     Convert spelled out numbers in a given text to digits.
     """
@@ -178,11 +178,11 @@ def resolve_exponents(value, lang='en_US'):
 
 
 ###############################################################################
-def build_unit_name(dimensions):
+def build_unit_name(dimensions, lang='en_US'):
     """
     Build the name of the unit from its dimensions.
     """
-    name = cls.Unit.name_from_dimensions(dimensions)
+    name = _get_parser(lang).name_from_dimensions(dimensions)
 
     logging.debug('\tUnit inferred name: %s', name)
 
@@ -190,7 +190,7 @@ def build_unit_name(dimensions):
 
 
 ################################################################################
-def get_unit_from_dimensions(dimensions, text):
+def get_unit_from_dimensions(dimensions, text, lang='en_US'):
     """
     Reconcile a unit based on its dimensionality.
     """
@@ -198,35 +198,35 @@ def get_unit_from_dimensions(dimensions, text):
     key = load.get_key_from_dimensions(dimensions)
 
     try:
-        unit = load.DERIVED_UNI[key]
+        unit = load.units(lang).derived[key]
         # carry on surfaces
         unit.dimensions = dimensions
     except KeyError:
         logging.debug(u'\tCould not find unit for: %s', key)
         unit = cls.Unit(
-            name=build_unit_name(dimensions),
+            name=build_unit_name(dimensions, lang),
             dimensions=dimensions,
-            entity=get_entity_from_dimensions(dimensions, text))
+            entity=get_entity_from_dimensions(dimensions, text, lang))
 
     return unit
 
 
 ################################################################################
-def get_entity_from_dimensions(dimensions, text):
+def get_entity_from_dimensions(dimensions, text, lang='en_US'):
     """
     Infer the underlying entity of a unit (e.g. "volume" for "m^3") based on its
     dimensionality.
     """
 
     new_derived = [{
-        'base': load.UNIT_NAMES[i['base']].entity.name,
+        'base': load.units(lang).names[i['base']].entity.name,
         'power': i['power']
     } for i in dimensions]
 
     final_derived = sorted(new_derived, key=lambda x: x['base'])
     key = load.get_key_from_dimensions(final_derived)
 
-    ent = dis.disambiguate_entity(key, text)
+    ent = dis.disambiguate_entity(key, text, lang)
     if ent is None:
         logging.debug('\tCould not find entity for: %s', key)
         ent = cls.Entity(name='unknown', dimensions=new_derived)
@@ -239,28 +239,7 @@ def parse_unit(item, unit, slash, lang='en_US'):
     """
     Parse surface and power from unit text.
     """
-
-    surface = unit.replace('.', '')
-    power = re.findall(r'-?[0-9%s]+' % reg.unicode_superscript_regex(lang), surface)
-
-    if power:
-        power = [reg.unicode_superscript(lang)[i] if i in reg.unicode_superscript(lang) else i for i in power]
-        power = ''.join(power)
-        new_power = (-1 * int(power) if slash else int(power))
-        surface = re.sub(r'\^?-?[0-9%s]+' % reg.unicode_superscript_regex(lang), '', surface)
-
-    elif re.findall(r'\bcubed\b', surface):
-        new_power = (-3 if slash else 3)
-        surface = re.sub(r'\bcubed\b', '', surface).strip()
-
-    elif re.findall(r'\bsquared\b', surface):
-        new_power = (-2 if slash else 2)
-        surface = re.sub(r'\bsquared\b', '', surface).strip()
-
-    else:
-        new_power = (-1 if slash else 1)
-
-    return surface, new_power
+    return _get_parser(lang).parse_unit(item, unit, slash)
 
 
 ################################################################################
@@ -277,7 +256,7 @@ def get_unit(item, text, lang='en_US'):
     item_units = [item.group(i) for i in group_units if item.group(i)]
 
     if len(item_units) == 0:
-        unit = load.UNIT_NAMES['dimensionless']
+        unit = load.units(lang).names['dimensionless']
     else:
         derived, slash = [], False
         multiplication_operator = False
@@ -316,18 +295,18 @@ def get_unit(item, text, lang='en_US'):
 
             # Determine whether a negative power has to be applied to following units
             if operator and not slash:
-                slash = any(i in operator for i in ['/', ' per '])
+                slash = any(i in operator for i in reg.division_operators(lang))
             # Determine which unit follows
             if unit:
-                unit_surface, power = parse_unit(item, unit, slash)
-                base = dis.disambiguate_unit(unit_surface, text)
+                unit_surface, power = parse_unit(item, unit, slash, lang)
+                base = dis.disambiguate_unit(unit_surface, text, lang)
                 derived += [{
                     'base': base,
                     'power': power,
                     'surface': unit_surface
                 }]
 
-        unit = get_unit_from_dimensions(derived, text)
+        unit = get_unit_from_dimensions(derived, text, lang)
 
     logging.debug('\tUnit: %s', unit)
     logging.debug('\tEntity: %s', unit.entity)
@@ -383,140 +362,13 @@ def is_quote_artifact(orig_text, span):
 def build_quantity(orig_text, text, item, values, unit, surface, span, uncert, lang='en_US'):
     """
     Build a Quantity object out of extracted information.
+    Takes care of caveats and common errors
     """
-    # TODO rerun if change occurred
-    # Re parse unit if a change occurred
-    dimension_change = False
-
-    # Usually "$3T" does not stand for "dollar tesla"
-    # this holds as well for "3k miles"
-    # TODO use classifier to decide if 3K is 3 thousand or 3 Kelvin
-    if unit.entity.dimensions:
-        if (len(unit.entity.dimensions) > 1
-                and unit.entity.dimensions[0]['base'] == 'currency'
-                and unit.dimensions[1]['surface'] in reg.suffixes(lang).keys()):
-            suffix = unit.dimensions[1]['surface']
-            # Only apply if at least last value is suffixed by k, M, etc
-            if re.search(r'\d{}\b'.format(suffix), text):
-                values = [value * reg.suffixes(lang)[suffix] for value in values]
-                unit.dimensions = [unit.dimensions[0]] + unit.dimensions[2:]
-                dimension_change = True
-
-        elif unit.dimensions[0]['surface'] in reg.suffixes(lang).keys():
-            # k/M etc is only applied if non-symbolic surfaces of other units (because colloquial)
-            # or currency units
-            symbolic = all(
-                any(dim['surface'] in unit.symbols
-                    for unit in load.UNITS[dim['base']])
-                for dim in unit.dimensions[1:])
-            if not symbolic:
-                suffix = unit.dimensions[0]['surface']
-                values = [value * reg.suffixes(lang)[suffix] for value in values]
-                unit.dimensions = unit.dimensions[1:]
-                dimension_change = True
-
-    # Usually "1990s" stands for the decade, not the amount of seconds
-    elif re.match(r'[1-2]\d\d0s', surface):
-        unit.dimensions = []
-        dimension_change = True
-        surface = surface[:-1]
-        span = (span[0], span[1] - 1)
-        logging.debug('\tCorrect for "1990s" pattern')
-
-    # check if a unit without operators, actually is a common word
-    if unit.dimensions:
-        candidates = [u['power'] == 1 for u in unit.dimensions]
-        for start in range(0, len(unit.dimensions)):
-            for end in reversed(range(start + 1, len(unit.dimensions) + 1)):
-                # Try to match a combination of consecutive surfaces with a common 4 letter word
-                if not all(candidates[start:end]):
-                    continue
-                combination = ''.join(
-                    u.get('surface', '') for u in unit.dimensions[start:end])
-                # Combination has to be at least one letter
-                if len(combination) < 1:
-                    continue
-                # Combination has to be all lower or capitalized in the first or all letters
-                if not (combination.islower() or (len(combination) > 2 and (
-                    (combination[0].isupper() and combination[1:].islower())
-                        or combination.isupper()))):
-                    continue
-                # Combination has to be inside the surface
-                if combination not in surface:
-                    continue
-                # Combination has to be a common word
-                if combination.lower() not in load.COMMON_WORDS[len(
-                        combination)]:
-                    continue
-                # Cut the combination from the surface and everything that follows
-                # as it is a word, it will be preceded by a space
-                match = re.search(r'[-\s]%s\b' % combination, surface)
-                if not match:
-                    continue
-                span = (span[0], span[0] + match.start())
-                surface = surface[:match.start()]
-                unit.dimensions = unit.dimensions[:start]
-                dimension_change = True
-                logging.debug("Detected common word '{}' and removed it".
-                              format(combination))
-                break
-
-    # Usually "in" stands for the preposition, not inches
-    if unit.dimensions and (unit.dimensions[-1]['base'] == 'inch'
-                            and re.search(r' in$', surface)
-                            and '/' not in surface):
-        unit.dimensions = unit.dimensions[:-1]
-        dimension_change = True
-        surface = surface[:-3]
-        span = (span[0], span[1] - 3)
-        logging.debug('\tCorrect for "in" pattern')
-
-    match = is_quote_artifact(text, item.span())
-    if match:
-        surface = surface[:-1]
-        span = (span[0], span[1] - 1)
-        if unit.dimensions and (unit.dimensions[-1]['surface'] == '"'):
-            unit.dimensions = unit.dimensions[:-1]
-            dimension_change = True
-        logging.debug('\tCorrect for quotes')
-
-    if re.search(r' time$', surface) and len(unit.dimensions) > 1 and \
-            unit.dimensions[-1]['base'] == 'count':
-        unit.dimensions = unit.dimensions[:-1]
-        dimension_change = True
-        surface = surface[:-5]
-        span = (span[0], span[1] - 5)
-        logging.debug('\tCorrect for "time"')
-
-    if dimension_change:
-        if len(unit.dimensions) >= 1:
-            unit = get_unit_from_dimensions(unit.dimensions, orig_text)
-        else:
-            unit = load.UNIT_NAMES['dimensionless']
-
-    # Discard irrelevant txt2float extractions, cardinal numbers, codes etc.
-    if surface.lower() in ['a', 'an', 'one'] or \
-            re.search(r'1st|2nd|3rd|[04-9]th', surface) or \
-            re.search(r'\d+[A-Z]+\d+', surface) or \
-            re.search(r'\ba second\b', surface, re.IGNORECASE):
-        logging.debug('\tMeaningless quantity ("%s"), discard', surface)
-        return
-
-    objs = []
-    for value in values:
-        obj = cls.Quantity(
-            value=value,
-            unit=unit,
-            surface=surface,
-            span=span,
-            uncertainty=uncert)
-        objs.append(obj)
-
-    return objs
+    return _get_parser(lang).build_quantity(orig_text, text, item, values, unit, surface, span, uncert)
 
 
 ################################################################################
-def clean_text(text):
+def clean_text(text, lang='en_US'):
     """
     Clean text before parsing.
     """
@@ -526,8 +378,7 @@ def clean_text(text):
     for element in maps:
         text = text.replace(element, maps[element])
 
-    # Replace genitives
-    text = re.sub(r'(?<=\w)(\'s\b|s\')(?!\w)', '  ', text)
+    text = _get_parser(lang).clean_text(text)
 
     logging.debug('Clean text: "%s"', text)
 
@@ -535,7 +386,7 @@ def clean_text(text):
 
 
 ################################################################################
-def parse(text, verbose=False):
+def parse(text, lang='en_US', verbose=False):
     """
     Extract all quantities from unstructured text.
     """
@@ -556,12 +407,12 @@ def parse(text, verbose=False):
     orig_text = text
     logging.debug('Original text: "%s"', orig_text)
 
-    text = clean_text(text)
-    values = extract_spellout_values(text)
-    text, shifts = substitute_values(text, values)
+    text = clean_text(text, lang)
+    values = extract_spellout_values(text, lang)
+    text, shifts = substitute_values(text, values, lang)
 
     quantities = []
-    for item in reg.REG_DIM.finditer(text):
+    for item in reg.units_regex().finditer(text):
 
         groups = dict(
             [i for i in item.groupdict().items() if i[1] and i[1].strip()])
@@ -639,3 +490,5 @@ def inline_parse_and_expand(text, verbose=False):
         shift += len(to_add) - (quantity.span[1] - quantity.span[0])
 
     return text
+
+

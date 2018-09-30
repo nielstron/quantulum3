@@ -4,11 +4,9 @@
 :mod:`Quantulum` classes.
 """
 
-# Dependencies
-import inflect
-import num2words
+# Quantulum
+from . import speak
 
-INFLECT_ENGINE = inflect.engine()
 
 ################################################################################
 
@@ -59,22 +57,7 @@ class Quantity(object):
         Express quantity as a speakable string
         :return: Speakable version of this quantity
         """
-        count = self.value
-        if self.unit.entity.name == "currency" and self.unit.currency_code:
-            try:
-                return num2words.num2words(
-                    count,
-                    lang='en_US',
-                    to='currency',
-                    currency=self.unit.currency_code)
-            except NotImplementedError:
-                pass
-        if count.is_integer():
-            count = int(count)
-        unit_string = self.unit.to_spoken(count)
-        return '{}{}{}'.format(
-            INFLECT_ENGINE.number_to_words(count),
-            " " if len(unit_string) else "", unit_string)
+        return speak.quantity_to_spoken(self)
 
 
 ################################################################################
@@ -100,42 +83,6 @@ class Unit(object):
         self.dimensions = dimensions
         self.currency_code = currency_code
 
-    @staticmethod
-    def name_from_dimensions(dimensions):
-        """
-        Build the name of the unit from its dimensions.
-        Param:
-            dimensions: List of dimensions
-        """
-
-        name = ''
-
-        for unit in dimensions:
-            if unit['power'] < 0:
-                name += 'per '
-            power = abs(unit['power'])
-            if power == 1:
-                name += unit['base']
-            elif power == 2:
-                name += 'square ' + unit['base']
-            elif power == 3:
-                name += 'cubic ' + unit['base']
-            elif power > 3:
-                name += unit['base'] + ' to the %g' % power
-            name += ' '
-
-        name = name.strip()
-
-        return name
-
-    def infer_name(self):
-        """
-        Set own name based on dimensions
-        :return: new name of this unit
-        """
-        self.name = self.name_from_dimensions(
-            self.dimensions) if self.dimensions else None
-        return self.name
 
     def to_spoken(self, count=1):
         """
@@ -143,23 +90,7 @@ class Unit(object):
         :param count: The value of the quantity (i.e. 1 for one watt, 2 for two seconds)
         :return: A string with the correctly inflected spoken version of the unit
         """
-        if self.name == "dimensionless":
-            unit_string = ""
-        elif self.surfaces:
-            unit_string = self.surfaces[0]
-            unit_string = INFLECT_ENGINE.plural(unit_string, count)
-        else:
-            # derived unit
-            denominator_dimensions = [
-                i for i in self.dimensions if i['power'] > 0
-            ]
-            denominator_string = self.name_from_dimensions(
-                denominator_dimensions)
-            plural_denominator_string = INFLECT_ENGINE.plural(
-                denominator_string)
-            unit_string = self.name.replace(denominator_string,
-                                            plural_denominator_string)
-        return unit_string
+        return speak.unit_to_spoken(self)
 
     def __repr__(self):
 

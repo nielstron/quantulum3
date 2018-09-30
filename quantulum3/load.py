@@ -13,16 +13,59 @@ from collections import defaultdict
 import re
 from pathlib import Path
 
-# Dependencies
-import inflect
-
 # Quantulum
 from . import classes as c
+from . import language
 
 TOPDIR = os.path.dirname(__file__) or "."
 
-PLURALS = inflect.engine()
+################################################################################
+_CACHE_DICT = {}
 
+
+def cached(funct):
+    """
+    Decorator for caching language specific data
+    :param funct: the method, dynamically responding to language
+    :return: the method, dynamically responding to language but also caching results
+    """
+    assert callable(funct)
+
+    def cached_function(lang='en_US', *args, **kwargs):
+        try:
+            return _CACHE_DICT[id(funct)][lang]
+        except KeyError:
+            result = function(*args, lang=lang, **kwargs)
+            _CACHE_DICT[id(funct)] = {lang: result}
+            return result
+
+    return cached_function
+
+
+################################################################################
+@cached
+def _get_load(lang='en_US'):
+    return language.get('load', lang)
+
+
+################################################################################
+def pluralize(singular, count=None, lang='en_US'):
+    return _get_load(lang).pluralize(singular, count)
+
+
+def number_to_words(count, lang='en_US'):
+    return _get_load(lang).pluralize(count)
+
+
+################################################################################
+def get_string_json(raw_json_text):
+    text = raw_json_text
+    text = bytes(text, 'utf-8').decode('ascii', 'ignore')
+    text = re.sub(r'[^\x00-\x7f]', r'', text)
+    return text
+
+
+################################################################################
 METRIC_PREFIXES = {
     'Y': 'yotta',
     'Z': 'zetta',
@@ -53,36 +96,6 @@ METRIC_PREFIXES = {
     'Zi': 'zebi',
     'Yi': 'yobi'
 }
-
-################################################################################
-_CACHE_DICT = {}
-
-
-def cached(funct):
-    """
-    Decorator for caching language specific data
-    :param funct: the method, dynamically responding to language
-    :return: the method, dynamically responding to language but also caching results
-    """
-    assert callable(funct)
-
-    def cached_function(lang='en_US', *args, **kwargs):
-        try:
-            return _CACHE_DICT[id(funct)][lang]
-        except KeyError:
-            result = function(*args, lang=lang, **kwargs)
-            _CACHE_DICT[id(funct)] = {lang: result}
-            return result
-
-    return cached_function
-
-
-################################################################################
-def get_string_json(raw_json_text):
-    text = raw_json_text
-    text = bytes(text, 'utf-8').decode('ascii', 'ignore')
-    text = re.sub(r'[^\x00-\x7f]', r'', text)
-    return text
 
 
 ################################################################################
@@ -187,29 +200,62 @@ def get_derived_units(names):
 
 
 ################################################################################
-def load_units():
-    """
-    Load units from JSON file.
-    """
+class Units(object):
 
-    names = {}
-    unit_symbols, unit_symbols_lower, = defaultdict(set), defaultdict(set)
-    surfaces, lowers, symbols = defaultdict(set), defaultdict(
-        set), defaultdict(set)
+    def __init__(self, lang='en_US'):
+        """
+        Load units from JSON file.
+        """
+        # TODO simplify
 
-    path = os.path.join(TOPDIR, 'units.json')
-    string_json = ''.join(open(path, encoding='utf-8').readlines())
-    for unit in json.loads(string_json):
-        load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces,
-                  lowers, symbols)
+        names = {}
+        unit_symbols, unit_symbols_lower, = defaultdict(set), defaultdict(set)
+        surfaces, lowers, symbols = defaultdict(set), defaultdict(
+            set), defaultdict(set)
 
-    derived_uni = get_derived_units(names)
+        # Load general units
+        path = os.path.join(TOPDIR, 'units.json')
+        with open(path, encoding='utf-8') as file:
+            general_units = json.load(file)
 
-    return names, unit_symbols, unit_symbols_lower, surfaces, lowers, symbols, derived_uni
+        for unit in general_units:
+            load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces,
+                      lowers, symbols, lang)
+
+        # load language specifics
+        path = os.path.join(language.get('load', lang).TOPDIR, 'units.json')
+        with open(path, encoding='utf-8') as file:
+            lang_units = json.load(file)
+
+        for unit in lang_units:
+            load_lang_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces,
+                           lowers, symbols, lang)
+
+        derived_uni = get_derived_units(names)
+
+        # names of all units
+        self.names = names
+
+        # symbols of all units
+        self.symbols = symbols
+        self.symbols_lower = unit_symbols_lower
+        self.symbols_all = symbols.copy()
+        self.symbols_all.update(unit_symbols_lower)
+
+        # surfaces of all units
+        self.surfaces = surfaces
+        self.surfaces_lower = lowers
+        self.surfaces_all = surfaces.copy()
+        self.surfaces_all.update(lowers)
+
+        # currency symbols of all units
+        self.prefix_symbols = symbols
+        # derived units
+        self.derived = derived_uni
 
 
 def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
-              symbols):
+              symbols, lang):
     try:
         assert unit['name'] not in names
     except AssertionError:  # pragma: no cover
@@ -244,11 +290,11 @@ def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
             index = split.index('degree')
         if index is not None:
             plural = ' '.join([
-                i if num != index else PLURALS.plural(split[index])
+                i if num != index else pluralize(split[index], lang=lang)
                 for num, i in enumerate(split)
             ])
         else:
-            plural = PLURALS.plural(surface)
+            plural = pluralize(surface, lang=lang)
         if plural != surface:
             surfaces[plural].add(obj)
             lowers[plural.lower()].add(obj)
@@ -267,22 +313,19 @@ def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
             except AssertionError:  # pragma: no cover
                 raise Exception(
                     "Prefixing not supported for multiple dimensions in {}".
-                    format(unit['name']))
+                        format(unit['name']))
 
-            uri = unit['URI']
-            slash_position = uri.rfind('/') + 1
-            uri = uri[:slash_position] + METRIC_PREFIXES[prefix].capitalize(
-            ) + uri[slash_position:].lower()
+            uri = METRIC_PREFIXES[prefix].capitalize() + unit['URI'].lower()
 
             prefixed_unit = {
                 'name':
-                METRIC_PREFIXES[prefix] + unit['name'],
+                    METRIC_PREFIXES[prefix] + unit['name'],
                 'surfaces':
-                [METRIC_PREFIXES[prefix] + i for i in unit['surfaces']],
+                    [METRIC_PREFIXES[prefix] + i for i in unit['surfaces']],
                 'entity':
-                unit['entity'],
+                    unit['entity'],
                 'URI':
-                uri,
+                    uri,
                 'dimensions': [],
                 'symbols': [prefix + i for i in unit['symbols']]
             }
@@ -290,57 +333,82 @@ def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
                       surfaces, lowers, symbols)
 
 
-UNIT_NAMES, UNIT_SYMBOLS, UNIT_SYMBOLS_LOWER, UNITS, LOWER_UNITS, PREFIX_SYMBOLS, DERIVED_UNI = load_units(
-)
-ALL_UNIT_SYMBOLS = {}
-ALL_UNIT_SYMBOLS.update(UNIT_SYMBOLS)
-ALL_UNIT_SYMBOLS.update(UNIT_SYMBOLS_LOWER)
-ALL_UNITS = {}
-ALL_UNITS.update(UNITS)
-ALL_UNITS.update(LOWER_UNITS)
-
-################################################################################
-
-
-def build_common_words():
-    # Read raw 4 letter file
-    path = os.path.join(TOPDIR, 'common-words.txt')
-    words = defaultdict(list)  # Collect words based on length
-    with open(path, 'r', encoding='utf-8') as file:
-        for line in file:
-            if line.startswith('#'):
-                continue
-            line = line.rstrip()
-            if line not in ALL_UNITS and line not in UNIT_SYMBOLS:
-                words[len(line)].append(line)
-            plural = PLURALS.plural(line)
-            if plural not in ALL_UNITS and plural not in UNIT_SYMBOLS:
-                words[len(plural)].append(plural)
-    return words
-
-
-################################################################################
-def load_common_words():
-    path = os.path.join(TOPDIR, 'common-words.json')
-    dumped = {}
+def load_lang_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
+                   symbols, lang):
     try:
-        with open(path, 'r', encoding='utf-8') as file:
-            dumped = json.load(file)
-    except OSError:  # pragma: no cover
-        pass
+        obj = names[unit['name']]
+        obj.surfaces.extend(unit.get('surfaces', []))
+        obj.uri = unit.get('URI')
+        obj.symbols.extend(unit.get('symbols', []))
+    except KeyError:
+        obj = c.Unit(
+            name=unit['name'],
+            surfaces=unit['surfaces'],
+            entity=ENTITIES[unit['entity']],
+            uri=unit['URI'],
+            symbols=unit['symbols'],
+            dimensions=unit['dimensions'],
+            currency_code=unit.get('currency_code'))
+        names[unit['name']] = obj
 
-    words = defaultdict(list)  # Collect words based on length
-    for length, word_list in dumped.items():
-        words[int(length)] = word_list
-    return words
+    for symbol in unit.get('symbols', []):
+        unit_symbols[symbol].add(obj)
+        unit_symbols_lower[symbol.lower()].add(obj)
+        if unit['entity'] == 'currency':
+            symbols[symbol].add(obj)
 
+    for surface in unit.get('surfaces', []):
+        surfaces[surface].add(obj)
+        lowers[surface.lower()].add(obj)
 
-COMMON_WORDS = load_common_words()
+        plural = pluralize(surface, lang=lang)
+        surfaces[plural].add(obj)
+        lowers[plural.lower()].add(obj)
+
+    # If SI-prefixes are given, add them
+    if unit.get('prefixes'):
+        for prefix in unit['prefixes']:
+            try:
+                assert prefix in METRIC_PREFIXES
+            except AssertionError:  # pragma: no cover
+                raise Exception(
+                    "Given prefix '{}' for unit '{}' not supported".format(
+                        prefix, unit['name']))
+            try:
+                assert len(unit['dimensions']) <= 1
+            except AssertionError:  # pragma: no cover
+                raise Exception(
+                    "Prefixing not supported for multiple dimensions in {}".
+                        format(unit['name']))
+
+            uri = METRIC_PREFIXES[prefix].capitalize() + obj.uri.lower()
+
+            prefixed_unit = {
+                'name':
+                    METRIC_PREFIXES[prefix] + obj.name,
+                'surfaces':
+                    [METRIC_PREFIXES[prefix] + i for i in obj.surfaces],
+                'entity':
+                    obj.entity,
+                'URI':
+                    uri,
+                'dimensions': [],
+                'symbols': [prefix + i for i in obj.symbols]
+            }
+            load_lang_unit(prefixed_unit, names, unit_symbols, unit_symbols_lower,
+                           surfaces, lowers, symbols, lang)
+
+@cached
+def units(lang='en_US'):
+    """
+    Cached unit object
+    """
+    return Units(lang)
 
 
 ################################################################################
 def languages():
-    subdirs = [x for x in Path(os.path.join(TOPDIR, 'lang')).iterdir() if x.is_dir() and not x.name.startswith('__')]
+    subdirs = [x for x in Path(os.path.join(TOPDIR, '_lang')).iterdir() if x.is_dir() and not x.name.startswith('__')]
     langs = dict((x.name, x.name) for x in subdirs)
     langs.update((x.name[:2], x.name) for x in subdirs)
     return langs

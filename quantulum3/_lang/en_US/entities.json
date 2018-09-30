@@ -1,0 +1,372 @@
+[
+    {
+        "name": "dimensionless",
+        "dimensions": [],
+        "URI": "https://en.wikipedia.org/wiki/Dimensionless_quantity"
+    },
+    {
+        "name": "length",
+        "dimensions": [],
+        "URI": "https://en.wikipedia.org/wiki/Length"
+    },
+    {
+        "name": "mass",
+        "dimensions": [],
+        "URI": "https://en.wikipedia.org/wiki/Mass"
+    },
+    {
+        "name": "currency",
+        "dimensions": [],
+        "URI": "https://en.wikipedia.org/wiki/Currency"
+    },
+    {
+        "name": "time",
+        "dimensions": [],
+        "URI": "https://en.wikipedia.org/wiki/Time"
+    },
+    {
+        "name": "temperature",
+        "dimensions": [],
+        "URI": "https://en.wikipedia.org/wiki/Temperature"
+    },
+    {
+        "name": "charge",
+        "dimensions": [],
+        "URI": "https://en.wikipedia.org/wiki/Charge_(physics)"
+    },
+    {
+        "name": "angle",
+        "dimensions": [],
+        "URI": "https://en.wikipedia.org/wiki/Angle"
+    },
+    {
+        "name": "data storage",
+        "dimensions": [],
+        "URI": "https://en.wikipedia.org/wiki/Computer_data_storage"
+    },
+    {
+        "name": "amount of substance",
+        "dimensions": [],
+        "URI": "https://en.wikipedia.org/wiki/Amount_of_substance"
+    },
+    {
+        "name": "catalytic activity",
+        "dimensions": [{"base": "amount of substance", "power": 1}, {"base": "time", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Catalysis"
+    },
+    {
+        "name": "area",
+        "dimensions": [{"base": "length", "power": 2}],
+        "URI": "https://en.wikipedia.org/wiki/Area"
+    },
+    {
+        "name": "volume",
+        "dimensions": [{"base": "length", "power": 3}],
+        "URI": "https://en.wikipedia.org/wiki/Volume"
+    },
+    {
+        "name": "volume (lumber)",
+        "dimensions": [{"base": "length", "power": 3}],
+        "URI": "https://en.wikipedia.org/wiki/Lumber"
+    },
+    {
+        "name": "force",
+        "dimensions": [{"base": "mass", "power": 1}, {"base": "acceleration", "power": 1}],
+        "URI": "https://en.wikipedia.org/wiki/Force"
+    },
+    {
+        "name": "pressure",
+        "dimensions": [{"base": "force", "power": 1}, {"base": "area", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Pressure"
+    },
+    {
+        "name": "energy",
+        "dimensions": [{"base": "force", "power": 1}, {"base": "length", "power": 1}],
+        "URI": "https://en.wikipedia.org/wiki/Energy"
+    },
+    {
+        "name": "power",
+        "dimensions": [{"base": "energy", "power": 1}, {"base": "time", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Power_(physics)"
+    },
+    {
+        "name": "speed",
+        "dimensions": [{"base": "length", "power": 1}, {"base": "time", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Speed"
+    },
+    {
+        "name": "acceleration",
+        "dimensions": [{"base": "speed", "power": 1}, {"base": "time", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Acceleration"
+    },
+    {
+        "name": "fuel economy",
+        "dimensions": [{"base": "length", "power": 1}, {"base": "volume", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Fuel_efficiency"
+    },
+    {
+        "name": "fuel consumption",
+        "dimensions": [{"base": "volume", "power": 1}, {"base": "length", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Fuel_efficiency"
+    },
+    {
+        "name": "angular speed",
+        "dimensions": [{"base": "angle", "power": 1}, {"base": "time", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Angular_velocity"
+    },
+    {
+        "name": "angular acceleration",
+        "dimensions": [{"base": "angular speed", "power": 1}, {"base": "time", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Angular_acceleration"
+    },
+    {
+        "name": "density",
+        "dimensions": [{"base": "mass", "power": 1}, {"base": "volume", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Density"
+    },
+    {
+        "name": "specific volume",
+        "dimensions": [{"base": "volume", "power": 1}, {"base": "mass", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Specific_volume"
+    },
+    {
+        "name": "moment of inertia",
+        "dimensions": [{"base": "mass", "power": 1}, {"base": "length", "power": 2}],
+        "URI": "https://en.wikipedia.org/wiki/Moment_of_inertia"
+    },
+    {
+        "name": "torque",
+        "dimensions": [{"base": "force", "power": 1}, {"base": "length", "power": 1}],
+        "URI": "https://en.wikipedia.org/wiki/Torque"
+    },
+    {
+        "name": "thermal resistance",
+        "dimensions": [{"base": "temperature", "power": 1}, {"base": "power", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Thermal_resistance"
+    },
+    {
+        "name": "thermal conductivity",
+        "dimensions": [{"base": "power", "power": 1}, {"base": "length", "power": -1}, {"base": "temperature", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Thermal_conductivity"
+    },
+    {
+        "name": "specific heat capacity",
+        "dimensions": [{"base": "energy", "power": 1}, {"base": "mass", "power": -1}, {"base": "temperature", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Heat_capacity#Specific_heat_capacity"
+    },
+    {
+        "name": "volumetric flow",
+        "dimensions": [{"base": "volume", "power": 1}, {"base": "time", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Volumetric_flow_rate"
+    },
+    {
+        "name": "mass flow",
+        "dimensions": [{"base": "mass", "power": 1}, {"base": "time", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Mass_flow_rate"
+    },
+    {
+        "name": "concentration",
+        "dimensions": [{"base": "mass", "power": 1}, {"base": "volume", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Concentration"
+    },
+    {
+        "name": "dynamic viscosity",
+        "dimensions": [{"base": "pressure", "power": 1}, {"base": "time", "power": 1}],
+        "URI": "https://en.wikipedia.org/wiki/Viscosity"
+    },
+    {
+        "name": "kinematic viscosity",
+        "dimensions": [{"base": "area", "power": 1}, {"base": "time", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Viscosity"
+    },
+    {
+        "name": "fluidity",
+        "dimensions": [{"base": "time", "power": -1}, {"base": "area", "power": 1}],
+        "URI": "https://en.wikipedia.org/wiki/Viscosity"
+    },
+    {
+        "name": "surface tension",
+        "dimensions": [{"base": "force", "power": 1}, {"base": "length", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Surface_tension"
+    },
+    {
+        "name": "permeability",
+        "dimensions": [{"base": "mass", "power": 1}, {"base": "pressure", "power": -1}, {"base": "time", "power": -1}, {"base": "area", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Permeation"
+    },
+    {
+        "name": "sound level",
+        "dimensions": [],
+        "URI": "https://en.wikipedia.org/wiki/Sound_level"
+    },
+    {
+        "name": "luminous intensity",
+        "dimensions": [],
+        "URI": "https://en.wikipedia.org/wiki/Luminous_intensity"
+    },
+    {
+        "name": "luminous flux",
+        "dimensions": [],
+        "URI": "https://en.wikipedia.org/wiki/Luminous_flux"
+    },
+    {
+        "name": "illuminance",
+        "dimensions": [],
+        "URI": "https://en.wikipedia.org/wiki/Illuminance"
+    },
+    {
+        "name": "luminance",
+        "dimensions": [{"base": "luminous intensity", "power": 1}, {"base": "area", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Luminance"
+    },
+    {
+        "name": "typographical element",
+        "dimensions": [],
+        "URI": "https://en.wikipedia.org/wiki/Typography"
+    },
+    {
+        "name": "image resolution",
+        "dimensions": [{"base": "typographical element", "power": 1}, {"base": "length", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Image_resolution"
+    },
+    {
+        "name": "frequency",
+        "dimensions": [{"base": "time", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Frequency"
+    },
+    {
+        "name": "instance frequency",
+        "dimensions": [{"base": "dimensionless", "power": 1}, {"base": "time", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Frequency"
+    },
+    {
+        "name": "flux density",
+        "dimensions": [{"base": "power", "power": 1}, {"base": "length", "power": -2}, {"base": "frequency", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Flux"
+    },
+    {
+        "name": "linear mass density",
+        "dimensions": [{"base": "mass", "power": 1}, {"base": "length", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Linear_density"
+    },
+    {
+        "name": "linear charge density",
+        "dimensions": [{"base": "charge", "power": 1}, {"base": "length", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Linear_density"
+    },
+    {
+        "name": "surface charge density",
+        "dimensions": [{"base": "charge", "power": 1}, {"base": "area", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Area_density"
+    },
+    {
+        "name": "charge density",
+        "dimensions": [{"base": "charge", "power": 1}, {"base": "volume", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Charge_density"
+    },
+    {
+        "name": "current",
+        "dimensions": [{"base": "charge", "power": 1}, {"base": "time", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Electric_current"
+    },
+    {
+        "name": "linear current density",
+        "dimensions": [{"base": "current", "power": 1}, {"base": "length", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Linear_density"
+    },
+    {
+        "name": "surface current density",
+        "dimensions": [{"base": "current", "power": 1}, {"base": "area", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Area_density"
+    },
+    {
+        "name": "electric potential",
+        "dimensions": [{"base": "energy", "power": 1}, {"base": "charge", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Electric_potential"
+    },
+    {
+        "name": "electric field",
+        "dimensions": [{"base": "electric potential", "power": 1}, {"base": "length", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Electric_field"
+    },
+    {
+        "name": "electrical resistance",
+        "dimensions": [{"base": "electric potential", "power": 1}, {"base": "current", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Electrical_resistance_and_conductance"
+    },
+    {
+        "name": "electrical resistivity",
+        "dimensions": [{"base": "electrical resistance", "power": 1}, {"base": "length", "power": 1}],
+        "URI": "https://en.wikipedia.org/wiki/Electrical_resistivity_and_conductivity"
+    },
+    {
+        "name": "electrical conductance",
+        "dimensions": [{"base": "electrical resistance", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Electrical_resistance_and_conductance"
+    },
+    {
+        "name": "electrical conductivity",
+        "dimensions": [{"base": "electrical resistivity", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Electrical_resistivity_and_conductivity"
+    },
+    {
+        "name": "capacitance",
+        "dimensions": [{"base": "energy", "power": 1}, {"base": "electric potential", "power": -2}],
+        "URI": "https://en.wikipedia.org/wiki/Capacitance"
+    },
+    {
+        "name": "inductance",
+        "dimensions": [{"base": "energy", "power": 1}, {"base": "current", "power": -2}],
+        "URI": "https://en.wikipedia.org/wiki/Inductance"
+    },
+    {
+        "name": "magnetic flux",
+        "dimensions": [{"base": "electric potential", "power": 1}, {"base": "time", "power": 1}],
+        "URI": "https://en.wikipedia.org/wiki/Magnetic_flux"
+    },
+    {
+        "name": "reluctance",
+        "dimensions": [],
+        "URI": "https://en.wikipedia.org/wiki/Magnetic_reluctance"
+    },
+    {
+        "name": "magnetomotive force",
+        "dimensions": [{"base": "reluctance", "power": 1}, {"base": "magnetic flux", "power": -2}],
+        "URI": "https://en.wikipedia.org/wiki/Magnetomotive_force"
+    },
+    {
+        "name": "magnetic field",
+        "dimensions": [{"base": "current", "power": 1}, {"base": "length", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Magnetic_field"
+    },
+    {
+        "name": "irradiance",
+        "dimensions": [{"base": "power", "power": 1}, {"base": "length", "power": -2}],
+        "URI": "https://en.wikipedia.org/wiki/Irradiance"
+    },
+    {
+        "name": "radiation absorbed dose",
+        "dimensions": [{"base": "energy", "power": 1}, {"base": "mass", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Absorbed_dose"
+    },
+    {
+        "name": "radioactivity",
+        "dimensions": [{"base": "time", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Radioactive_decay"
+    },
+    {
+        "name": "radiation exposure",
+        "dimensions": [{"base": "charge", "power": 1}, {"base": "mass", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Exposure_(radiation)"
+    },
+    {
+        "name": "radiation",
+        "dimensions": [{"base": "radiation absorbed dose", "power": 1}, {"base": "time", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Radiation"
+    },
+    {
+        "name": "data transfer rate",
+        "dimensions": [{"base": "data storage", "power": 1}, {"base": "time", "power": -1}],
+        "URI": "https://en.wikipedia.org/wiki/Data_transmission"
+    }
+]

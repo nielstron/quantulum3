@@ -21,7 +21,7 @@ def get(module, lang='en_US'):
     try:
         subdir = load.LANGUAGES[lang]
     except KeyError:
-        raise AttributeError("Unsupported language: {}".format(lang))
-    module = import_module('.lang.{}.{}'.format(subdir, module), package=__package__)
+        raise NotImplementedError("Unsupported language: {}".format(lang))
+    module = import_module('._lang.{}.{}'.format(subdir, module), package=__package__)
     return module
 

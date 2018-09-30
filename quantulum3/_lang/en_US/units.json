@@ -1,8 +1,11 @@
 [
   {
     "name": "unk",
+    "surfaces": [
+      "unk"
+    ],
     "entity": "dimensionless",
-    "URI": "Dimensionless_quantity",
+    "URI": "https://en.wikipedia.org/wiki/Dimensionless_quantity",
     "dimensions": [],
     "symbols": []
   },
@@ -12,7 +15,7 @@
       "dimensionless"
     ],
     "entity": "dimensionless",
-    "URI": "Dimensionless_quantity",
+    "URI": "https://en.wikipedia.org/wiki/Dimensionless_quantity",
     "dimensions": [],
     "symbols": []
   },
@@ -22,7 +25,7 @@
       "pair"
     ],
     "entity": "dimensionless",
-    "URI": "2",
+    "URI": "https://en.wikipedia.org/wiki/2",
     "dimensions": [],
     "symbols": []
   },
@@ -35,7 +38,7 @@
       "pc"
     ],
     "entity": "dimensionless",
-    "URI": "Set_(mathematics)",
+    "URI": "https://en.wikipedia.org/wiki/Set_(mathematics)",
     "dimensions": [],
     "symbols": []
   },
@@ -46,7 +49,7 @@
       "percent"
     ],
     "entity": "dimensionless",
-    "URI": "Percentage",
+    "URI": "https://en.wikipedia.org/wiki/Percentage",
     "dimensions": [],
     "symbols": [
       "%",
@@ -65,7 +68,7 @@
       "per mill"
     ],
     "entity": "dimensionless",
-    "URI": "Per_mille",
+    "URI": "https://en.wikipedia.org/wiki/Per_mille",
     "dimensions": [],
     "symbols": [
       "‰"
@@ -78,7 +81,7 @@
       "parts per million"
     ],
     "entity": "dimensionless",
-    "URI": "Parts-per_notation",
+    "URI": "https://en.wikipedia.org/wiki/Parts-per_notation",
     "dimensions": [],
     "symbols": [
       "ppm"
@@ -91,7 +94,7 @@
       "parts per billion"
     ],
     "entity": "dimensionless",
-    "URI": "Parts-per_notation",
+    "URI": "https://en.wikipedia.org/wiki/Parts-per_notation",
     "dimensions": [],
     "symbols": [
       "ppb"
@@ -104,7 +107,7 @@
       "parts per trillion"
     ],
     "entity": "dimensionless",
-    "URI": "Parts-per_notation",
+    "URI": "https://en.wikipedia.org/wiki/Parts-per_notation",
     "dimensions": [],
     "symbols": [
       "ppt"
@@ -121,7 +124,7 @@
       "per ten thousand"
     ],
     "entity": "dimensionless",
-    "URI": "Basis_point",
+    "URI": "https://en.wikipedia.org/wiki/Basis_point",
     "dimensions": [],
     "symbols": [
       "bp",
@@ -136,7 +139,7 @@
       "count"
     ],
     "entity": "dimensionless",
-    "URI": "Count_data",
+    "URI": "https://en.wikipedia.org/wiki/Count_data",
     "dimensions": [],
     "symbols": []
   },
@@ -149,7 +152,7 @@
       "circle"
     ],
     "entity": "dimensionless",
-    "URI": "Turn_(geometry)",
+    "URI": "https://en.wikipedia.org/wiki/Turn_(geometry)",
     "dimensions": [],
     "symbols": []
   },
@@ -159,7 +162,7 @@
       "barn"
     ],
     "entity": "length",
-    "URI": "Barn_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Barn_(unit)",
     "dimensions": [],
     "symbols": [
       "b"
@@ -172,7 +175,7 @@
       "inverse femtobarn"
     ],
     "entity": "length",
-    "URI": "Barn_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Barn_(unit)",
     "dimensions": [{
       "base": "femtobarn",
       "power": -1,
@@ -190,7 +193,7 @@
       "meter"
     ],
     "entity": "length",
-    "URI": "Metre",
+    "URI": "https://en.wikipedia.org/wiki/Metre",
     "dimensions": [],
     "symbols": [
       "m"
@@ -203,7 +206,7 @@
       "exameter"
     ],
     "entity": "length",
-    "URI": "1_exametre",
+    "URI": "https://en.wikipedia.org/wiki/1_exametre",
     "dimensions": [],
     "symbols": [
       "Em"
@@ -216,7 +219,7 @@
       "petameter"
     ],
     "entity": "length",
-    "URI": "1_petametre",
+    "URI": "https://en.wikipedia.org/wiki/1_petametre",
     "dimensions": [],
     "symbols": [
       "Pm"
@@ -229,7 +232,7 @@
       "terameter"
     ],
     "entity": "length",
-    "URI": "1_terametre",
+    "URI": "https://en.wikipedia.org/wiki/1_terametre",
     "dimensions": [],
     "symbols": [
       "Tm"
@@ -242,7 +245,7 @@
       "gigameter"
     ],
     "entity": "length",
-    "URI": "Gigametre",
+    "URI": "https://en.wikipedia.org/wiki/Gigametre",
     "dimensions": [],
     "symbols": [
       "Gm"
@@ -255,7 +258,7 @@
       "megameter"
     ],
     "entity": "length",
-    "URI": "Megametre",
+    "URI": "https://en.wikipedia.org/wiki/Megametre",
     "dimensions": [],
     "symbols": [
       "Mm"
@@ -268,7 +271,7 @@
       "kilometer"
     ],
     "entity": "length",
-    "URI": "Kilometre",
+    "URI": "https://en.wikipedia.org/wiki/Kilometre",
     "dimensions": [],
     "symbols": [
       "km"
@@ -281,7 +284,7 @@
       "hectometer"
     ],
     "entity": "length",
-    "URI": "Hectometre",
+    "URI": "https://en.wikipedia.org/wiki/Hectometre",
     "dimensions": [],
     "symbols": [
       "hm"
@@ -296,7 +299,7 @@
       "dekameter"
     ],
     "entity": "length",
-    "URI": "Decametre",
+    "URI": "https://en.wikipedia.org/wiki/Decametre",
     "dimensions": [],
     "symbols": [
       "dam",
@@ -311,7 +314,7 @@
       "decimeter"
     ],
     "entity": "length",
-    "URI": "Decimetre",
+    "URI": "https://en.wikipedia.org/wiki/Decimetre",
     "dimensions": [],
     "symbols": [
       "dm"
@@ -324,7 +327,7 @@
       "centimeter"
     ],
     "entity": "length",
-    "URI": "Centimetre",
+    "URI": "https://en.wikipedia.org/wiki/Centimetre",
     "dimensions": [],
     "symbols": [
       "cm"
@@ -337,7 +340,7 @@
       "millimeter"
     ],
     "entity": "length",
-    "URI": "Millimetre",
+    "URI": "https://en.wikipedia.org/wiki/Millimetre",
     "dimensions": [],
     "symbols": [
       "mm"
@@ -351,7 +354,7 @@
       "micron"
     ],
     "entity": "length",
-    "URI": "Micrometre",
+    "URI": "https://en.wikipedia.org/wiki/Micrometre",
     "dimensions": [],
     "symbols": [
       "µm"
@@ -364,7 +367,7 @@
       "nanometer"
     ],
     "entity": "length",
-    "URI": "Nanometre",
+    "URI": "https://en.wikipedia.org/wiki/Nanometre",
     "dimensions": [],
     "symbols": [
       "nm"
@@ -377,7 +380,7 @@
       "picometer"
     ],
     "entity": "length",
-    "URI": "Picometre",
+    "URI": "https://en.wikipedia.org/wiki/Picometre",
     "dimensions": [],
     "symbols": [
       "pm"
@@ -390,7 +393,7 @@
       "femtometer"
     ],
     "entity": "length",
-    "URI": "Femtometre",
+    "URI": "https://en.wikipedia.org/wiki/Femtometre",
     "dimensions": [],
     "symbols": [
       "fm"
@@ -403,7 +406,7 @@
       "light year"
     ],
     "entity": "length",
-    "URI": "Light-year",
+    "URI": "https://en.wikipedia.org/wiki/Light-year",
     "dimensions": [],
     "symbols": [
       "ly"
@@ -415,7 +418,7 @@
       "astronomical unit"
     ],
     "entity": "length",
-    "URI": "Astronomical_unit",
+    "URI": "https://en.wikipedia.org/wiki/Astronomical_unit",
     "dimensions": [],
     "symbols": [
       "au",
@@ -431,7 +434,7 @@
       "nautical league"
     ],
     "entity": "length",
-    "URI": "League_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/League_(unit)",
     "dimensions": [],
     "symbols": [
       "lea",
@@ -448,7 +451,7 @@
       "statute mile"
     ],
     "entity": "length",
-    "URI": "Mile",
+    "URI": "https://en.wikipedia.org/wiki/Mile",
     "dimensions": [],
     "symbols": [
       "mi"
@@ -460,7 +463,7 @@
       "ell"
     ],
     "entity": "length",
-    "URI": "Ell",
+    "URI": "https://en.wikipedia.org/wiki/Ell",
     "dimensions": [],
     "symbols": []
   },
@@ -470,7 +473,7 @@
       "furlong"
     ],
     "entity": "length",
-    "URI": "Furlong",
+    "URI": "https://en.wikipedia.org/wiki/Furlong",
     "dimensions": [],
     "symbols": [
       "fur"
@@ -482,7 +485,7 @@
       "fathom"
     ],
     "entity": "length",
-    "URI": "Fathom",
+    "URI": "https://en.wikipedia.org/wiki/Fathom",
     "dimensions": [],
     "symbols": [
       "fath"
@@ -494,7 +497,7 @@
       "yard"
     ],
     "entity": "length",
-    "URI": "Yard",
+    "URI": "https://en.wikipedia.org/wiki/Yard",
     "dimensions": [],
     "symbols": [
       "yd"
@@ -506,7 +509,7 @@
       "foot"
     ],
     "entity": "length",
-    "URI": "Foot_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Foot_(unit)",
     "dimensions": [],
     "symbols": [
       "ft",
@@ -520,7 +523,7 @@
       "cubit"
     ],
     "entity": "length",
-    "URI": "Cubit",
+    "URI": "https://en.wikipedia.org/wiki/Cubit",
     "dimensions": [],
     "symbols": []
   },
@@ -530,7 +533,7 @@
       "span"
     ],
     "entity": "length",
-    "URI": "Span_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Span_(unit)",
     "dimensions": [],
     "symbols": []
   },
@@ -540,7 +543,7 @@
       "inch"
     ],
     "entity": "length",
-    "URI": "Inch",
+    "URI": "https://en.wikipedia.org/wiki/Inch",
     "dimensions": [],
     "symbols": [
       "in",
@@ -559,7 +562,7 @@
       "angstrom"
     ],
     "entity": "length",
-    "URI": "Ångström",
+    "URI": "https://en.wikipedia.org/wiki/Ångström",
     "dimensions": [],
     "symbols": [
       "Å"
@@ -571,7 +574,7 @@
       "twip"
     ],
     "entity": "length",
-    "URI": "Twip",
+    "URI": "https://en.wikipedia.org/wiki/Twip",
     "dimensions": [],
     "symbols": []
   },
@@ -581,7 +584,7 @@
       "solar mass"
     ],
     "entity": "mass",
-    "URI": "Solar_mass",
+    "URI": "https://en.wikipedia.org/wiki/Solar_mass",
     "dimensions": [],
     "symbols": [
       "M☉"
@@ -593,7 +596,7 @@
       "earth mass"
     ],
     "entity": "mass",
-    "URI": "Earth_mass",
+    "URI": "https://en.wikipedia.org/wiki/Earth_mass",
     "dimensions": [],
     "symbols": [
       "M⊕"
@@ -606,7 +609,7 @@
       "ton"
     ],
     "entity": "mass",
-    "URI": "Short_ton",
+    "URI": "https://en.wikipedia.org/wiki/Short_ton",
     "dimensions": [],
     "symbols": []
   },
@@ -618,7 +621,7 @@
       "weight ton"
     ],
     "entity": "mass",
-    "URI": "Long_ton",
+    "URI": "https://en.wikipedia.org/wiki/Long_ton",
     "dimensions": [],
     "symbols": []
   },
@@ -632,7 +635,7 @@
       "kgs"
     ],
     "entity": "mass",
-    "URI": "Kilogram",
+    "URI": "https://en.wikipedia.org/wiki/Kilogram",
     "dimensions": [],
     "symbols": [
       "kg"
@@ -645,7 +648,7 @@
       "gramme"
     ],
     "entity": "mass",
-    "URI": "Gram",
+    "URI": "https://en.wikipedia.org/wiki/Gram",
     "dimensions": [],
     "symbols": [
       "g",
@@ -659,7 +662,7 @@
       "milligramme"
     ],
     "entity": "mass",
-    "URI": "Kilogram#SI_multiples",
+    "URI": "https://en.wikipedia.org/wiki/Kilogram#SI_multiples",
     "dimensions": [],
     "symbols": [
       "mg"
@@ -672,7 +675,7 @@
       "microgramme"
     ],
     "entity": "mass",
-    "URI": "Microgram",
+    "URI": "https://en.wikipedia.org/wiki/Microgram",
     "dimensions": [],
     "symbols": [
       "µg",
@@ -687,7 +690,7 @@
       "dalton"
     ],
     "entity": "mass",
-    "URI": "Atomic_mass_unit",
+    "URI": "https://en.wikipedia.org/wiki/Atomic_mass_unit",
     "dimensions": [],
     "symbols": [
       "u",
@@ -702,7 +705,7 @@
       "pound-mass"
     ],
     "entity": "mass",
-    "URI": "Pound_(mass)",
+    "URI": "https://en.wikipedia.org/wiki/Pound_(mass)",
     "dimensions": [],
     "symbols": [
       "lb",
@@ -716,7 +719,7 @@
       "ounce"
     ],
     "entity": "mass",
-    "URI": "Ounce",
+    "URI": "https://en.wikipedia.org/wiki/Ounce",
     "dimensions": [],
     "symbols": [
       "oz",
@@ -729,7 +732,7 @@
       "ton"
     ],
     "entity": "mass",
-    "URI": "Ton",
+    "URI": "https://en.wikipedia.org/wiki/Ton",
     "dimensions": [],
     "symbols": []
   },
@@ -740,7 +743,7 @@
       "metric ton"
     ],
     "entity": "mass",
-    "URI": "Tonne",
+    "URI": "https://en.wikipedia.org/wiki/Tonne",
     "dimensions": [],
     "symbols": [
       "t"
@@ -752,7 +755,7 @@
       "quintal"
     ],
     "entity": "mass",
-    "URI": "Quintal",
+    "URI": "https://en.wikipedia.org/wiki/Quintal",
     "dimensions": [],
     "symbols": [
       "q"
@@ -764,7 +767,7 @@
       "quarter"
     ],
     "entity": "mass",
-    "URI": "Quarter_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Quarter_(unit)",
     "dimensions": [],
     "symbols": [
       "qr"
@@ -776,7 +779,7 @@
       "carat"
     ],
     "entity": "mass",
-    "URI": "Carat_(mass)",
+    "URI": "https://en.wikipedia.org/wiki/Carat_(mass)",
     "dimensions": [],
     "symbols": [
       "ct"
@@ -788,7 +791,7 @@
       "bushel"
     ],
     "entity": "mass",
-    "URI": "Bushel",
+    "URI": "https://en.wikipedia.org/wiki/Bushel",
     "dimensions": [],
     "symbols": [
       "bsh",
@@ -801,7 +804,7 @@
       "dollar"
     ],
     "entity": "currency",
-    "URI": "Dollar",
+    "URI": "https://en.wikipedia.org/wiki/Dollar",
     "dimensions": [],
     "symbols": [
       "$"
@@ -817,7 +820,7 @@
       "american dollar"
     ],
     "entity": "currency",
-    "URI": "United_States_dollar",
+    "URI": "https://en.wikipedia.org/wiki/United_States_dollar",
     "dimensions": [],
     "symbols": [
       "USD",
@@ -831,7 +834,7 @@
       "euro"
     ],
     "entity": "currency",
-    "URI": "Euro",
+    "URI": "https://en.wikipedia.org/wiki/Euro",
     "dimensions": [],
     "symbols": [
       "€",
@@ -846,7 +849,7 @@
       "pound"
     ],
     "entity": "currency",
-    "URI": "Pound_sterling",
+    "URI": "https://en.wikipedia.org/wiki/Pound_sterling",
     "dimensions": [],
     "symbols": [
       "£",
@@ -860,7 +863,7 @@
       "canadian dollar"
     ],
     "entity": "currency",
-    "URI": "Pound_sterling",
+    "URI": "https://en.wikipedia.org/wiki/Pound_sterling",
     "dimensions": [],
     "symbols": [
       "CAD",
@@ -874,7 +877,7 @@
       "australian dollar"
     ],
     "entity": "currency",
-    "URI": "Australian_dollar",
+    "URI": "https://en.wikipedia.org/wiki/Australian_dollar",
     "dimensions": [],
     "symbols": [
       "AUD",
@@ -888,7 +891,7 @@
       "new zealand dollar"
     ],
     "entity": "currency",
-    "URI": "New_Zealand_dollar",
+    "URI": "https://en.wikipedia.org/wiki/New_Zealand_dollar",
     "dimensions": [],
     "symbols": [
       "NZD",
@@ -903,7 +906,7 @@
       "yen"
     ],
     "entity": "currency",
-    "URI": "Japanese_yen",
+    "URI": "https://en.wikipedia.org/wiki/Japanese_yen",
     "dimensions": [],
     "symbols": [
       "円",
@@ -920,7 +923,7 @@
       "franc"
     ],
     "entity": "currency",
-    "URI": "Swiss_franc",
+    "URI": "https://en.wikipedia.org/wiki/Swiss_franc",
     "dimensions": [],
     "symbols": [
       "Fr",
@@ -936,7 +939,7 @@
       "rappen"
     ],
     "entity": "currency",
-    "URI": "Rappen",
+    "URI": "https://en.wikipedia.org/wiki/Rappen",
     "dimensions": [],
     "symbols": []
   },
@@ -947,7 +950,7 @@
       "rand"
     ],
     "entity": "currency",
-    "URI": "South_African_rand",
+    "URI": "https://en.wikipedia.org/wiki/South_African_rand",
     "dimensions": [],
     "symbols": [
       "R",
@@ -963,7 +966,7 @@
       "reais"
     ],
     "entity": "currency",
-    "URI": "South_African_rand",
+    "URI": "https://en.wikipedia.org/wiki/South_African_rand",
     "dimensions": [],
     "symbols": [
       "R$",
@@ -978,7 +981,7 @@
       "rupee"
     ],
     "entity": "currency",
-    "URI": "Indian_rupee",
+    "URI": "https://en.wikipedia.org/wiki/Indian_rupee",
     "dimensions": [],
     "symbols": [
       "₹",
@@ -993,7 +996,7 @@
       "peso"
     ],
     "entity": "currency",
-    "URI": "Mexican_peso",
+    "URI": "https://en.wikipedia.org/wiki/Mexican_peso",
     "dimensions": [],
     "symbols": [
       "MXN"
@@ -1009,7 +1012,7 @@
       "rouble"
     ],
     "entity": "currency",
-    "URI": "Russian_ruble",
+    "URI": "https://en.wikipedia.org/wiki/Russian_ruble",
     "dimensions": [],
     "symbols": [
       "₽",
@@ -1024,7 +1027,7 @@
       "yuan"
     ],
     "entity": "currency",
-    "URI": "Chinese_yuan",
+    "URI": "https://en.wikipedia.org/wiki/Chinese_yuan",
     "dimensions": [],
     "symbols": [
       "¥",
@@ -1041,7 +1044,7 @@
       "korean republic won"
     ],
     "entity": "currency",
-    "URI": "South_Korean_won",
+    "URI": "https://en.wikipedia.org/wiki/South_Korean_won",
     "dimensions": [],
     "symbols": [
       "원",
@@ -1059,7 +1062,7 @@
       "kilolitre"
     ],
     "entity": "volume",
-    "URI": "Cubic_metre",
+    "URI": "https://en.wikipedia.org/wiki/Cubic_metre",
     "dimensions": [
       {
         "base": "metre",
@@ -1078,7 +1081,7 @@
       "cubic kilometer"
     ],
     "entity": "volume",
-    "URI": "Cubic_metre",
+    "URI": "https://en.wikipedia.org/wiki/Cubic_metre",
     "dimensions": [
       {
         "base": "kilometre",
@@ -1096,7 +1099,7 @@
       "milliliter"
     ],
     "entity": "volume",
-    "URI": "Cubic_centimetre",
+    "URI": "https://en.wikipedia.org/wiki/Cubic_centimetre",
     "dimensions": [
       {
         "base": "centimetre",
@@ -1119,7 +1122,7 @@
       "microlitre"
     ],
     "entity": "volume",
-    "URI": "Cubic_metre",
+    "URI": "https://en.wikipedia.org/wiki/Cubic_metre",
     "dimensions": [
       {
         "base": "millimetre",
@@ -1140,7 +1143,7 @@
       "liter"
     ],
     "entity": "volume",
-    "URI": "Litre",
+    "URI": "https://en.wikipedia.org/wiki/Litre",
     "dimensions": [
       {
         "base": "decimetre",
@@ -1159,7 +1162,7 @@
       "drop"
     ],
     "entity": "volume",
-    "URI": "Drop_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Drop_(unit)",
     "dimensions": [],
     "symbols": []
   },
@@ -1171,7 +1174,7 @@
       "dry barrel"
     ],
     "entity": "volume",
-    "URI": "Barrel_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Barrel_(unit)",
     "dimensions": [],
     "symbols": [
       "bbl",
@@ -1184,7 +1187,7 @@
       "gallon"
     ],
     "entity": "volume",
-    "URI": "Gallon",
+    "URI": "https://en.wikipedia.org/wiki/Gallon",
     "dimensions": [],
     "symbols": [
       "gal"
@@ -1200,7 +1203,7 @@
       "quart liquid"
     ],
     "entity": "volume",
-    "URI": "Quart",
+    "URI": "https://en.wikipedia.org/wiki/Quart",
     "dimensions": [],
     "symbols": [
       "qt",
@@ -1218,7 +1221,7 @@
       "pint liquid"
     ],
     "entity": "volume",
-    "URI": "Pint",
+    "URI": "https://en.wikipedia.org/wiki/Pint",
     "dimensions": [],
     "symbols": [
       "pt",
@@ -1233,7 +1236,7 @@
       "cup"
     ],
     "entity": "volume",
-    "URI": "Cup_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Cup_(unit)",
     "dimensions": [],
     "symbols": []
   },
@@ -1243,7 +1246,7 @@
       "fluid ounce"
     ],
     "entity": "volume",
-    "URI": "Fluid_ounce",
+    "URI": "https://en.wikipedia.org/wiki/Fluid_ounce",
     "dimensions": [],
     "symbols": [
       "fl oz",
@@ -1260,7 +1263,7 @@
       "table spoon"
     ],
     "entity": "volume",
-    "URI": "Tablespoon",
+    "URI": "https://en.wikipedia.org/wiki/Tablespoon",
     "dimensions": [],
     "symbols": [
       "tbsp"
@@ -1273,7 +1276,7 @@
       "dessert spoon"
     ],
     "entity": "volume",
-    "URI": "Dessert_spoon",
+    "URI": "https://en.wikipedia.org/wiki/Dessert_spoon",
     "dimensions": [],
     "symbols": [
       "dstspn"
@@ -1286,7 +1289,7 @@
       "tea spoon"
     ],
     "entity": "volume",
-    "URI": "Teaspoon",
+    "URI": "https://en.wikipedia.org/wiki/Teaspoon",
     "dimensions": [],
     "symbols": [
       "tsp"
@@ -1299,7 +1302,7 @@
       "cu mile"
     ],
     "entity": "volume",
-    "URI": "Cubic_mile",
+    "URI": "https://en.wikipedia.org/wiki/Cubic_mile",
     "dimensions": [
       {
         "base": "mile",
@@ -1317,7 +1320,7 @@
       "cu yard"
     ],
     "entity": "volume",
-    "URI": "Cubic_yard",
+    "URI": "https://en.wikipedia.org/wiki/Cubic_yard",
     "dimensions": [
       {
         "base": "yard",
@@ -1335,7 +1338,7 @@
       "cu foot"
     ],
     "entity": "volume",
-    "URI": "Cubic_foot",
+    "URI": "https://en.wikipedia.org/wiki/Cubic_foot",
     "dimensions": [
       {
         "base": "foot",
@@ -1353,7 +1356,7 @@
       "cu inch"
     ],
     "entity": "volume",
-    "URI": "Cubic_inch",
+    "URI": "https://en.wikipedia.org/wiki/Cubic_inch",
     "dimensions": [
       {
         "base": "inch",
@@ -1371,7 +1374,7 @@
       "acre-foot"
     ],
     "entity": "volume",
-    "URI": "Acre-foot",
+    "URI": "https://en.wikipedia.org/wiki/Acre-foot",
     "dimensions": [],
     "symbols": [
       "ac*ft"
@@ -1383,7 +1386,7 @@
       "stere"
     ],
     "entity": "volume",
-    "URI": "Stere",
+    "URI": "https://en.wikipedia.org/wiki/Stere",
     "dimensions": [],
     "symbols": [
       "st"
@@ -1395,7 +1398,7 @@
       "peck"
     ],
     "entity": "volume",
-    "URI": "Peck",
+    "URI": "https://en.wikipedia.org/wiki/Peck",
     "dimensions": [],
     "symbols": [
       "pk"
@@ -1407,7 +1410,7 @@
       "kelvin"
     ],
     "entity": "temperature",
-    "URI": "Kelvin",
+    "URI": "https://en.wikipedia.org/wiki/Kelvin",
     "dimensions": [],
     "symbols": [
       "K",
@@ -1425,7 +1428,7 @@
       "degree Centigrade"
     ],
     "entity": "temperature",
-    "URI": "Celsius",
+    "URI": "https://en.wikipedia.org/wiki/Celsius",
     "dimensions": [],
     "symbols": [
       "C",
@@ -1439,7 +1442,7 @@
       "Fahrenheit"
     ],
     "entity": "temperature",
-    "URI": "Fahrenheit",
+    "URI": "https://en.wikipedia.org/wiki/Fahrenheit",
     "dimensions": [],
     "symbols": [
       "F",
@@ -1453,7 +1456,7 @@
       "Rankine"
     ],
     "entity": "temperature",
-    "URI": "Rankine_scale",
+    "URI": "https://en.wikipedia.org/wiki/Rankine_scale",
     "dimensions": [],
     "symbols": [
       "°R",
@@ -1466,7 +1469,7 @@
       "circular mil"
     ],
     "entity": "area",
-    "URI": "Circular_mil",
+    "URI": "https://en.wikipedia.org/wiki/Circular_mil",
     "dimensions": [],
     "symbols": [
       "cmil"
@@ -1479,7 +1482,7 @@
       "square meter"
     ],
     "entity": "area",
-    "URI": "Square_metre",
+    "URI": "https://en.wikipedia.org/wiki/Square_metre",
     "dimensions": [
       {
         "base": "metre",
@@ -1497,7 +1500,7 @@
       "square kilometer"
     ],
     "entity": "area",
-    "URI": "Square_kilometre",
+    "URI": "https://en.wikipedia.org/wiki/Square_kilometre",
     "dimensions": [
       {
         "base": "kilometre",
@@ -1515,7 +1518,7 @@
       "square hectometer"
     ],
     "entity": "area",
-    "URI": "Hectare",
+    "URI": "https://en.wikipedia.org/wiki/Hectare",
     "dimensions": [
       {
         "base": "hectometre",
@@ -1533,7 +1536,7 @@
       "square mile"
     ],
     "entity": "area",
-    "URI": "Square_mile",
+    "URI": "https://en.wikipedia.org/wiki/Square_mile",
     "dimensions": [
       {
         "base": "mile",
@@ -1551,7 +1554,7 @@
       "gaj"
     ],
     "entity": "area",
-    "URI": "Square_yard",
+    "URI": "https://en.wikipedia.org/wiki/Square_yard",
     "dimensions": [
       {
         "base": "yard",
@@ -1568,7 +1571,7 @@
       "square foot"
     ],
     "entity": "area",
-    "URI": "Square_foot",
+    "URI": "https://en.wikipedia.org/wiki/Square_foot",
     "dimensions": [
       {
         "base": "foot",
@@ -1585,7 +1588,7 @@
       "square inch"
     ],
     "entity": "area",
-    "URI": "Square_inch",
+    "URI": "https://en.wikipedia.org/wiki/Square_inch",
     "dimensions": [
       {
         "base": "inch",
@@ -1602,7 +1605,7 @@
       "acre"
     ],
     "entity": "area",
-    "URI": "Acre",
+    "URI": "https://en.wikipedia.org/wiki/Acre",
     "dimensions": [],
     "symbols": [
       "ac"
@@ -1614,7 +1617,7 @@
       "pascal"
     ],
     "entity": "pressure",
-    "URI": "Pascal_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Pascal_(unit)",
     "dimensions": [],
     "symbols": [
       "Pa",
@@ -1627,7 +1630,7 @@
       "hectopascal"
     ],
     "entity": "pressure",
-    "URI": "Pascal_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Pascal_(unit)",
     "dimensions": [],
     "symbols": [
       "hPa"
@@ -1639,7 +1642,7 @@
       "kilopascal"
     ],
     "entity": "pressure",
-    "URI": "Pascal_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Pascal_(unit)",
     "dimensions": [],
     "symbols": [
       "kPa",
@@ -1652,7 +1655,7 @@
       "megapascal"
     ],
     "entity": "pressure",
-    "URI": "Pascal_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Pascal_(unit)",
     "dimensions": [],
     "symbols": [
       "MPa"
@@ -1664,7 +1667,7 @@
       "gigapascal"
     ],
     "entity": "pressure",
-    "URI": "Pascal_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Pascal_(unit)",
     "dimensions": [],
     "symbols": [
       "GPa"
@@ -1676,7 +1679,7 @@
       "bar"
     ],
     "entity": "pressure",
-    "URI": "Bar_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Bar_(unit)",
     "dimensions": [],
     "symbols": []
   },
@@ -1686,7 +1689,7 @@
       "millibar"
     ],
     "entity": "pressure",
-    "URI": "Bar_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Bar_(unit)",
     "dimensions": [],
     "symbols": [
       "mbar"
@@ -1698,7 +1701,7 @@
       "microbar"
     ],
     "entity": "pressure",
-    "URI": "Bar_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Bar_(unit)",
     "dimensions": [],
     "symbols": [
       "µbar"
@@ -1711,7 +1714,7 @@
       "pound-force per square inch"
     ],
     "entity": "pressure",
-    "URI": "Pounds_per_square_inch",
+    "URI": "https://en.wikipedia.org/wiki/Pounds_per_square_inch",
     "dimensions": [
       {
         "base": "pound-mass",
@@ -1732,7 +1735,7 @@
       "torr"
     ],
     "entity": "pressure",
-    "URI": "Torr",
+    "URI": "https://en.wikipedia.org/wiki/Torr",
     "dimensions": [],
     "symbols": [
       "Torr"
@@ -1747,7 +1750,7 @@
       "millimeter mercury"
     ],
     "entity": "pressure",
-    "URI": "Millimeter_of_mercury",
+    "URI": "https://en.wikipedia.org/wiki/Millimeter_of_mercury",
     "dimensions": [],
     "symbols": [
       "mmHg"
@@ -1760,7 +1763,7 @@
       "centimetre of water"
     ],
     "entity": "pressure",
-    "URI": "Centimetre_of_water",
+    "URI": "https://en.wikipedia.org/wiki/Centimetre_of_water",
     "dimensions": [],
     "symbols": [
       "cmH2O",
@@ -1774,7 +1777,7 @@
       "inch water column"
     ],
     "entity": "pressure",
-    "URI": "Inch_of_water",
+    "URI": "https://en.wikipedia.org/wiki/Inch_of_water",
     "dimensions": [],
     "symbols": [
       "inH2O",
@@ -1788,7 +1791,7 @@
       "inch mercury"
     ],
     "entity": "pressure",
-    "URI": "Inch_of_mercury",
+    "URI": "https://en.wikipedia.org/wiki/Inch_of_mercury",
     "dimensions": [],
     "symbols": [
       "inHg",
@@ -1802,7 +1805,7 @@
       "atmosphere"
     ],
     "entity": "pressure",
-    "URI": "Atmosphere_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Atmosphere_(unit)",
     "dimensions": [],
     "symbols": [
       "atm"
@@ -1814,7 +1817,7 @@
       "technical atmosphere"
     ],
     "entity": "pressure",
-    "URI": "Technical_atmosphere",
+    "URI": "https://en.wikipedia.org/wiki/Technical_atmosphere",
     "dimensions": [],
     "symbols": []
   },
@@ -1830,7 +1833,7 @@
       "barie"
     ],
     "entity": "pressure",
-    "URI": "Barye",
+    "URI": "https://en.wikipedia.org/wiki/Barye",
     "dimensions": [],
     "symbols": [
       "Ba"
@@ -1842,7 +1845,7 @@
       "joule"
     ],
     "entity": "energy",
-    "URI": "Joule",
+    "URI": "https://en.wikipedia.org/wiki/Joule",
     "dimensions": [],
     "symbols": [
       "J"
@@ -1854,7 +1857,7 @@
       "millijoule"
     ],
     "entity": "energy",
-    "URI": "Joule",
+    "URI": "https://en.wikipedia.org/wiki/Joule",
     "dimensions": [],
     "symbols": [
       "mJ"
@@ -1866,7 +1869,7 @@
       "kilojoule"
     ],
     "entity": "energy",
-    "URI": "Joule",
+    "URI": "https://en.wikipedia.org/wiki/Joule",
     "dimensions": [],
     "symbols": [
       "kJ"
@@ -1880,7 +1883,7 @@
       "electron-volt"
     ],
     "entity": "energy",
-    "URI": "Electronvolt",
+    "URI": "https://en.wikipedia.org/wiki/Electronvolt",
     "dimensions": [],
     "symbols": [
       "eV"
@@ -1894,7 +1897,7 @@
       "kiloelectron-volt"
     ],
     "entity": "energy",
-    "URI": "Electronvolt",
+    "URI": "https://en.wikipedia.org/wiki/Electronvolt",
     "dimensions": [],
     "symbols": [
       "keV"
@@ -1908,7 +1911,7 @@
       "megaelectron-volt"
     ],
     "entity": "energy",
-    "URI": "Electronvolt",
+    "URI": "https://en.wikipedia.org/wiki/Electronvolt",
     "dimensions": [],
     "symbols": [
       "MeV"
@@ -1923,7 +1926,7 @@
       "bevatron"
     ],
     "entity": "energy",
-    "URI": "Electronvolt",
+    "URI": "https://en.wikipedia.org/wiki/Electronvolt",
     "dimensions": [],
     "symbols": [
       "GeV",
@@ -1938,7 +1941,7 @@
       "teraelectron-volt"
     ],
     "entity": "energy",
-    "URI": "Electronvolt",
+    "URI": "https://en.wikipedia.org/wiki/Electronvolt",
     "dimensions": [],
     "symbols": [
       "TeV"
@@ -1951,7 +1954,7 @@
       "hartree energy"
     ],
     "entity": "energy",
-    "URI": "Hartree",
+    "URI": "https://en.wikipedia.org/wiki/Hartree",
     "dimensions": [],
     "symbols": [
       "Eh",
@@ -1964,7 +1967,7 @@
       "erg"
     ],
     "entity": "energy",
-    "URI": "Erg",
+    "URI": "https://en.wikipedia.org/wiki/Erg",
     "dimensions": [],
     "symbols": []
   },
@@ -1976,7 +1979,7 @@
       "kilowatt-hour"
     ],
     "entity": "energy",
-    "URI": "Kilowatt_hour",
+    "URI": "https://en.wikipedia.org/wiki/Kilowatt_hour",
     "dimensions": [
       {
         "base": "kilowatt",
@@ -1999,7 +2002,7 @@
       "wattsecond"
     ],
     "entity": "energy",
-    "URI": "Watt_second",
+    "URI": "https://en.wikipedia.org/wiki/Watt_second",
     "dimensions": [
       {
         "base": "watt",
@@ -2022,7 +2025,7 @@
       "horsepower-hour"
     ],
     "entity": "energy",
-    "URI": "Horsepower-hour",
+    "URI": "https://en.wikipedia.org/wiki/Horsepower-hour",
     "dimensions": [
       {
         "base": "horsepower",
@@ -2045,7 +2048,7 @@
       "gram calorie"
     ],
     "entity": "energy",
-    "URI": "Calorie",
+    "URI": "https://en.wikipedia.org/wiki/Calorie",
     "dimensions": [],
     "symbols": [
       "cal"
@@ -2059,7 +2062,7 @@
       "kilogram calorie"
     ],
     "entity": "energy",
-    "URI": "Calorie",
+    "URI": "https://en.wikipedia.org/wiki/Calorie",
     "dimensions": [],
     "symbols": [
       "kcal",
@@ -2072,7 +2075,7 @@
       "british thermal unit"
     ],
     "entity": "energy",
-    "URI": "British_thermal_unit",
+    "URI": "https://en.wikipedia.org/wiki/British_thermal_unit",
     "dimensions": [],
     "symbols": [
       "btu",
@@ -2086,7 +2089,7 @@
       "mega british thermal unit"
     ],
     "entity": "energy",
-    "URI": "British_thermal_unit",
+    "URI": "https://en.wikipedia.org/wiki/British_thermal_unit",
     "dimensions": [],
     "symbols": [
       "MBTU",
@@ -2101,7 +2104,7 @@
       "quadrillion british thermal unit"
     ],
     "entity": "energy",
-    "URI": "Quad_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Quad_(unit)",
     "dimensions": [],
     "symbols": []
   },
@@ -2112,7 +2115,7 @@
       "gigatonne"
     ],
     "entity": "energy",
-    "URI": "TNT_equivalent",
+    "URI": "https://en.wikipedia.org/wiki/TNT_equivalent",
     "dimensions": [],
     "symbols": [
       "Gt",
@@ -2126,7 +2129,7 @@
       "megatonne"
     ],
     "entity": "energy",
-    "URI": "TNT_equivalent",
+    "URI": "https://en.wikipedia.org/wiki/TNT_equivalent",
     "dimensions": [],
     "symbols": [
       "Mt",
@@ -2140,7 +2143,7 @@
       "kilotonne"
     ],
     "entity": "energy",
-    "URI": "TNT_equivalent",
+    "URI": "https://en.wikipedia.org/wiki/TNT_equivalent",
     "dimensions": [],
     "symbols": [
       "kt",
@@ -2154,7 +2157,7 @@
       "thermie"
     ],
     "entity": "energy",
-    "URI": "Therm",
+    "URI": "https://en.wikipedia.org/wiki/Therm",
     "dimensions": [],
     "symbols": [
       "thm"
@@ -2167,7 +2170,7 @@
       "refrigeration ton"
     ],
     "entity": "power",
-    "URI": "Ton_of_refrigeration",
+    "URI": "https://en.wikipedia.org/wiki/Ton_of_refrigeration",
     "dimensions": [],
     "symbols": [
       "TR"
@@ -2179,7 +2182,7 @@
       "watt"
     ],
     "entity": "power",
-    "URI": "Watt",
+    "URI": "https://en.wikipedia.org/wiki/Watt",
     "dimensions": [],
     "prefixes": [
       "a",
@@ -2211,7 +2214,7 @@
       "hydraulic horsepower"
     ],
     "entity": "power",
-    "URI": "Horsepower",
+    "URI": "https://en.wikipedia.org/wiki/Horsepower",
     "dimensions": [],
     "symbols": [
       "hp"
@@ -2225,7 +2228,7 @@
       "voltampere"
     ],
     "entity": "power",
-    "URI": "Volt-ampere",
+    "URI": "https://en.wikipedia.org/wiki/Volt-ampere",
     "dimensions": [
       {
         "base": "volt",
@@ -2246,7 +2249,7 @@
       "newton"
     ],
     "entity": "force",
-    "URI": "Newton_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Newton_(unit)",
     "dimensions": [],
     "symbols": [
       "N"
@@ -2258,7 +2261,7 @@
       "kilonewton"
     ],
     "entity": "force",
-    "URI": "Newton_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Newton_(unit)",
     "dimensions": [],
     "symbols": [
       "kN"
@@ -2270,7 +2273,7 @@
       "dyne"
     ],
     "entity": "force",
-    "URI": "Dyne",
+    "URI": "https://en.wikipedia.org/wiki/Dyne",
     "dimensions": [],
     "symbols": [
       "dyn"
@@ -2286,7 +2289,7 @@
       "force kilogram"
     ],
     "entity": "force",
-    "URI": "Kilogram-force",
+    "URI": "https://en.wikipedia.org/wiki/Kilogram-force",
     "dimensions": [],
     "symbols": [
       "kgf",
@@ -2303,7 +2306,7 @@
       "force gram"
     ],
     "entity": "force",
-    "URI": "Kilogram-force",
+    "URI": "https://en.wikipedia.org/wiki/Kilogram-force",
     "dimensions": [],
     "symbols": [
       "gf"
@@ -2322,7 +2325,7 @@
       "tonneforce"
     ],
     "entity": "force",
-    "URI": "Ton-force",
+    "URI": "https://en.wikipedia.org/wiki/Ton-force",
     "dimensions": [],
     "symbols": [
       "tf",
@@ -2338,7 +2341,7 @@
       "force pound"
     ],
     "entity": "force",
-    "URI": "Pound_(force)",
+    "URI": "https://en.wikipedia.org/wiki/Pound_(force)",
     "dimensions": [],
     "symbols": [
       "lbf"
@@ -2353,7 +2356,7 @@
       "force ounce"
     ],
     "entity": "force",
-    "URI": "Pound_(force)",
+    "URI": "https://en.wikipedia.org/wiki/Pound_(force)",
     "dimensions": [],
     "symbols": [
       "ozf"
@@ -2365,7 +2368,7 @@
       "poundal"
     ],
     "entity": "force",
-    "URI": "Poundal",
+    "URI": "https://en.wikipedia.org/wiki/Poundal",
     "dimensions": [],
     "symbols": [
       "pdl"
@@ -2380,7 +2383,7 @@
       "kipforce"
     ],
     "entity": "force",
-    "URI": "Kip_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Kip_(unit)",
     "dimensions": [],
     "symbols": [
       "klb",
@@ -2394,7 +2397,7 @@
       "shake"
     ],
     "entity": "time",
-    "URI": "Shake_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Shake_(unit)",
     "dimensions": [],
     "symbols": []
   },
@@ -2404,7 +2407,7 @@
       "second"
     ],
     "entity": "time",
-    "URI": "Second",
+    "URI": "https://en.wikipedia.org/wiki/Second",
     "dimensions": [],
     "symbols": [
       "s",
@@ -2419,7 +2422,7 @@
       "millisecond"
     ],
     "entity": "time",
-    "URI": "Millisecond",
+    "URI": "https://en.wikipedia.org/wiki/Millisecond",
     "dimensions": [],
     "symbols": [
       "ms",
@@ -2433,7 +2436,7 @@
       "microsecond"
     ],
     "entity": "time",
-    "URI": "Microsecond",
+    "URI": "https://en.wikipedia.org/wiki/Microsecond",
     "dimensions": [],
     "symbols": [
       "μs",
@@ -2446,7 +2449,7 @@
       "nanosecond"
     ],
     "entity": "time",
-    "URI": "Nanosecond",
+    "URI": "https://en.wikipedia.org/wiki/Nanosecond",
     "dimensions": [],
     "symbols": [
       "ns",
@@ -2459,7 +2462,7 @@
       "minute"
     ],
     "entity": "time",
-    "URI": "Minute",
+    "URI": "https://en.wikipedia.org/wiki/Minute",
     "dimensions": [],
     "symbols": [
       "min",
@@ -2473,7 +2476,7 @@
       "hour"
     ],
     "entity": "time",
-    "URI": "Hour",
+    "URI": "https://en.wikipedia.org/wiki/Hour",
     "dimensions": [],
     "symbols": [
       "h",
@@ -2487,7 +2490,7 @@
       "day"
     ],
     "entity": "time",
-    "URI": "Day",
+    "URI": "https://en.wikipedia.org/wiki/Day",
     "dimensions": [],
     "symbols": [
       "d"
@@ -2499,7 +2502,7 @@
       "week"
     ],
     "entity": "time",
-    "URI": "Week",
+    "URI": "https://en.wikipedia.org/wiki/Week",
     "dimensions": [],
     "symbols": []
   },
@@ -2509,7 +2512,7 @@
       "month"
     ],
     "entity": "time",
-    "URI": "Month",
+    "URI": "https://en.wikipedia.org/wiki/Month",
     "dimensions": [],
     "symbols": []
   },
@@ -2520,7 +2523,7 @@
       "annum"
     ],
     "entity": "time",
-    "URI": "Year",
+    "URI": "https://en.wikipedia.org/wiki/Year",
     "dimensions": [],
     "symbols": [
       "a",
@@ -2542,7 +2545,7 @@
       "fortnight"
     ],
     "entity": "time",
-    "URI": "Fortnight",
+    "URI": "https://en.wikipedia.org/wiki/Fortnight",
     "dimensions": [],
     "symbols": []
   },
@@ -2552,7 +2555,7 @@
       "lustrum"
     ],
     "entity": "time",
-    "URI": "Lustrum",
+    "URI": "https://en.wikipedia.org/wiki/Lustrum",
     "dimensions": [],
     "symbols": []
   },
@@ -2562,7 +2565,7 @@
       "decade"
     ],
     "entity": "time",
-    "URI": "Decade",
+    "URI": "https://en.wikipedia.org/wiki/Decade",
     "dimensions": [],
     "symbols": []
   },
@@ -2572,7 +2575,7 @@
       "century"
     ],
     "entity": "time",
-    "URI": "Century",
+    "URI": "https://en.wikipedia.org/wiki/Century",
     "dimensions": [],
     "symbols": []
   },
@@ -2582,7 +2585,7 @@
       "millennium"
     ],
     "entity": "time",
-    "URI": "Millennium",
+    "URI": "https://en.wikipedia.org/wiki/Millennium",
     "dimensions": [],
     "symbols": []
   },
@@ -2593,7 +2596,7 @@
       "lightspeed"
     ],
     "entity": "speed",
-    "URI": "Speed_of_light",
+    "URI": "https://en.wikipedia.org/wiki/Speed_of_light",
     "dimensions": [],
     "symbols": [
       "c"
@@ -2605,7 +2608,7 @@
       "knot"
     ],
     "entity": "speed",
-    "URI": "Knot_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Knot_(unit)",
     "dimensions": [],
     "symbols": [
       "kn",
@@ -2619,7 +2622,7 @@
       "meter per second"
     ],
     "entity": "speed",
-    "URI": "Metre_per_second",
+    "URI": "https://en.wikipedia.org/wiki/Metre_per_second",
     "dimensions": [
       {
         "base": "metre",
@@ -2641,7 +2644,7 @@
       "meter per hour"
     ],
     "entity": "speed",
-    "URI": "Metre_per_hour",
+    "URI": "https://en.wikipedia.org/wiki/Metre_per_hour",
     "dimensions": [
       {
         "base": "metre",
@@ -2660,7 +2663,7 @@
       "foot per second"
     ],
     "entity": "speed",
-    "URI": "Foot_per_second",
+    "URI": "https://en.wikipedia.org/wiki/Foot_per_second",
     "dimensions": [
       {
         "base": "foot",
@@ -2681,7 +2684,7 @@
       "inch per second"
     ],
     "entity": "speed",
-    "URI": "Inch_per_second",
+    "URI": "https://en.wikipedia.org/wiki/Inch_per_second",
     "dimensions": [
       {
         "base": "inch",
@@ -2703,7 +2706,7 @@
       "kilometer per hour"
     ],
     "entity": "speed",
-    "URI": "Kilometres_per_hour",
+    "URI": "https://en.wikipedia.org/wiki/Kilometres_per_hour",
     "dimensions": [
       {
         "base": "kilometre",
@@ -2724,7 +2727,7 @@
       "mile per hour"
     ],
     "entity": "speed",
-    "URI": "Miles_per_hour",
+    "URI": "https://en.wikipedia.org/wiki/Miles_per_hour",
     "dimensions": [
       {
         "base": "mile",
@@ -2750,7 +2753,7 @@
       "angular degree"
     ],
     "entity": "angle",
-    "URI": "Degree_(angle)",
+    "URI": "https://en.wikipedia.org/wiki/Degree_(angle)",
     "dimensions": [],
     "symbols": [
       "°",
@@ -2764,7 +2767,7 @@
       "radian"
     ],
     "entity": "angle",
-    "URI": "Radian",
+    "URI": "https://en.wikipedia.org/wiki/Radian",
     "dimensions": [],
     "symbols": [
       "rad",
@@ -2778,7 +2781,7 @@
       "square radian"
     ],
     "entity": "angle",
-    "URI": "Steradian",
+    "URI": "https://en.wikipedia.org/wiki/Steradian",
     "dimensions": [],
     "symbols": [
       "sr"
@@ -2795,7 +2798,7 @@
       "arc minute"
     ],
     "entity": "angle",
-    "URI": "Minute_and_second_of_arc",
+    "URI": "https://en.wikipedia.org/wiki/Minute_and_second_of_arc",
     "dimensions": [],
     "symbols": [
       "'",
@@ -2816,7 +2819,7 @@
       "arc second"
     ],
     "entity": "angle",
-    "URI": "Minute_and_second_of_arc",
+    "URI": "https://en.wikipedia.org/wiki/Minute_and_second_of_arc",
     "dimensions": [],
     "symbols": [
       "\"",
@@ -2832,7 +2835,7 @@
       "bit"
     ],
     "entity": "data storage",
-    "URI": "Bit",
+    "URI": "https://en.wikipedia.org/wiki/Bit",
     "dimensions": [],
     "symbols": [
       "b"
@@ -2844,7 +2847,7 @@
       "kilobit"
     ],
     "entity": "data storage",
-    "URI": "Kilobit",
+    "URI": "https://en.wikipedia.org/wiki/Kilobit",
     "dimensions": [],
     "symbols": [
       "kb",
@@ -2857,7 +2860,7 @@
       "megabit"
     ],
     "entity": "data storage",
-    "URI": "Megabit",
+    "URI": "https://en.wikipedia.org/wiki/Megabit",
     "dimensions": [],
     "symbols": [
       "Mb",
@@ -2870,7 +2873,7 @@
       "gigabit"
     ],
     "entity": "data storage",
-    "URI": "Gigabit",
+    "URI": "https://en.wikipedia.org/wiki/Gigabit",
     "dimensions": [],
     "symbols": [
       "Gb",
@@ -2883,7 +2886,7 @@
       "terabit"
     ],
     "entity": "data storage",
-    "URI": "Terabit",
+    "URI": "https://en.wikipedia.org/wiki/Terabit",
     "dimensions": [],
     "symbols": [
       "Tb",
@@ -2896,7 +2899,7 @@
       "petabit"
     ],
     "entity": "data storage",
-    "URI": "Petabit",
+    "URI": "https://en.wikipedia.org/wiki/Petabit",
     "dimensions": [],
     "symbols": [
       "Pb",
@@ -2909,7 +2912,7 @@
       "exabit"
     ],
     "entity": "data storage",
-    "URI": "Exabit",
+    "URI": "https://en.wikipedia.org/wiki/Exabit",
     "dimensions": [],
     "symbols": [
       "Eb",
@@ -2922,7 +2925,7 @@
       "zettabit"
     ],
     "entity": "data storage",
-    "URI": "Zettabit",
+    "URI": "https://en.wikipedia.org/wiki/Zettabit",
     "dimensions": [],
     "symbols": [
       "Zb",
@@ -2935,7 +2938,7 @@
       "yottabit"
     ],
     "entity": "data storage",
-    "URI": "Yottabit",
+    "URI": "https://en.wikipedia.org/wiki/Yottabit",
     "dimensions": [],
     "symbols": [
       "Yb",
@@ -2948,7 +2951,7 @@
       "kibibit"
     ],
     "entity": "data storage",
-    "URI": "Kibibit",
+    "URI": "https://en.wikipedia.org/wiki/Kibibit",
     "dimensions": [],
     "symbols": [
       "Kibit"
@@ -2960,7 +2963,7 @@
       "mebibit"
     ],
     "entity": "data storage",
-    "URI": "Mebibit",
+    "URI": "https://en.wikipedia.org/wiki/Mebibit",
     "dimensions": [],
     "symbols": [
       "Mibit"
@@ -2972,7 +2975,7 @@
       "gibibit"
     ],
     "entity": "data storage",
-    "URI": "Gibibit",
+    "URI": "https://en.wikipedia.org/wiki/Gibibit",
     "dimensions": [],
     "symbols": [
       "Gibit"
@@ -2984,7 +2987,7 @@
       "tebibit"
     ],
     "entity": "data storage",
-    "URI": "Tebibit",
+    "URI": "https://en.wikipedia.org/wiki/Tebibit",
     "dimensions": [],
     "symbols": [
       "Tibit"
@@ -2996,7 +2999,7 @@
       "pebibit"
     ],
     "entity": "data storage",
-    "URI": "Pebibit",
+    "URI": "https://en.wikipedia.org/wiki/Pebibit",
     "dimensions": [],
     "symbols": [
       "Pibit"
@@ -3008,7 +3011,7 @@
       "exbibit"
     ],
     "entity": "data storage",
-    "URI": "Exbibit",
+    "URI": "https://en.wikipedia.org/wiki/Exbibit",
     "dimensions": [],
     "symbols": [
       "Eibit"
@@ -3020,7 +3023,7 @@
       "zebibit"
     ],
     "entity": "data storage",
-    "URI": "Zebibit",
+    "URI": "https://en.wikipedia.org/wiki/Zebibit",
     "dimensions": [],
     "symbols": [
       "Zibit"
@@ -3032,7 +3035,7 @@
       "yobibit"
     ],
     "entity": "data storage",
-    "URI": "Yobibit",
+    "URI": "https://en.wikipedia.org/wiki/Yobibit",
     "dimensions": [],
     "symbols": [
       "Yibit"
@@ -3044,7 +3047,7 @@
       "byte"
     ],
     "entity": "data storage",
-    "URI": "Byte",
+    "URI": "https://en.wikipedia.org/wiki/Byte",
     "dimensions": [],
     "symbols": [
       "B"
@@ -3056,7 +3059,7 @@
       "kilobyte"
     ],
     "entity": "data storage",
-    "URI": "Kilobyte",
+    "URI": "https://en.wikipedia.org/wiki/Kilobyte",
     "dimensions": [],
     "symbols": [
       "kB"
@@ -3068,7 +3071,7 @@
       "megabyte"
     ],
     "entity": "data storage",
-    "URI": "Megabyte",
+    "URI": "https://en.wikipedia.org/wiki/Megabyte",
     "dimensions": [],
     "symbols": [
       "MB",
@@ -3082,7 +3085,7 @@
       "gigabyte"
     ],
     "entity": "data storage",
-    "URI": "Gigabyte",
+    "URI": "https://en.wikipedia.org/wiki/Gigabyte",
     "dimensions": [],
     "symbols": [
       "GB",
@@ -3095,7 +3098,7 @@
       "terabyte"
     ],
     "entity": "data storage",
-    "URI": "Terabyte",
+    "URI": "https://en.wikipedia.org/wiki/Terabyte",
     "dimensions": [],
     "symbols": [
       "TB",
@@ -3108,7 +3111,7 @@
       "petabyte"
     ],
     "entity": "data storage",
-    "URI": "Petabyte",
+    "URI": "https://en.wikipedia.org/wiki/Petabyte",
     "dimensions": [],
     "symbols": [
       "PB"
@@ -3120,7 +3123,7 @@
       "exabyte"
     ],
     "entity": "data storage",
-    "URI": "Exabyte",
+    "URI": "https://en.wikipedia.org/wiki/Exabyte",
     "dimensions": [],
     "symbols": [
       "EB"
@@ -3132,7 +3135,7 @@
       "zettabyte"
     ],
     "entity": "data storage",
-    "URI": "Zettabyte",
+    "URI": "https://en.wikipedia.org/wiki/Zettabyte",
     "dimensions": [],
     "symbols": [
       "ZB"
@@ -3144,7 +3147,7 @@
       "yottabyte"
     ],
     "entity": "data storage",
-    "URI": "Yottabyte",
+    "URI": "https://en.wikipedia.org/wiki/Yottabyte",
     "dimensions": [],
     "symbols": [
       "YB"
@@ -3156,7 +3159,7 @@
       "kibibyte"
     ],
     "entity": "data storage",
-    "URI": "Kibibyte",
+    "URI": "https://en.wikipedia.org/wiki/Kibibyte",
     "dimensions": [],
     "symbols": [
       "KiB",
@@ -3170,7 +3173,7 @@
       "mibibyte"
     ],
     "entity": "data storage",
-    "URI": "Mibibyte",
+    "URI": "https://en.wikipedia.org/wiki/Mibibyte",
     "dimensions": [],
     "symbols": [
       "MiB"
@@ -3182,7 +3185,7 @@
       "gibibyte"
     ],
     "entity": "data storage",
-    "URI": "Gibibyte",
+    "URI": "https://en.wikipedia.org/wiki/Gibibyte",
     "dimensions": [],
     "symbols": [
       "GiB"
@@ -3194,7 +3197,7 @@
       "tebibyte"
     ],
     "entity": "data storage",
-    "URI": "Tebibyte",
+    "URI": "https://en.wikipedia.org/wiki/Tebibyte",
     "dimensions": [],
     "symbols": [
       "TiB"
@@ -3206,7 +3209,7 @@
       "pebibyte"
     ],
     "entity": "data storage",
-    "URI": "Pebibyte",
+    "URI": "https://en.wikipedia.org/wiki/Pebibyte",
     "dimensions": [],
     "symbols": [
       "PiB"
@@ -3218,7 +3221,7 @@
       "exbibyte"
     ],
     "entity": "data storage",
-    "URI": "Exbibyte",
+    "URI": "https://en.wikipedia.org/wiki/Exbibyte",
     "dimensions": [],
     "symbols": [
       "EiB"
@@ -3230,7 +3233,7 @@
       "zebibyte"
     ],
     "entity": "data storage",
-    "URI": "Zebibyte",
+    "URI": "https://en.wikipedia.org/wiki/Zebibyte",
     "dimensions": [],
     "symbols": [
       "ZiB"
@@ -3242,7 +3245,7 @@
       "yobibyte"
     ],
     "entity": "data storage",
-    "URI": "Yobibyte",
+    "URI": "https://en.wikipedia.org/wiki/Yobibyte",
     "dimensions": [],
     "symbols": [
       "YiB"
@@ -3262,7 +3265,7 @@
       "quartet"
     ],
     "entity": "data storage",
-    "URI": "Nibble",
+    "URI": "https://en.wikipedia.org/wiki/Nibble",
     "dimensions": [],
     "symbols": [
       "nibble"
@@ -3275,7 +3278,7 @@
       "galileo"
     ],
     "entity": "acceleration",
-    "URI": "Gal_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Gal_(unit)",
     "dimensions": [],
     "symbols": [
       "Gal"
@@ -3288,7 +3291,7 @@
       "foot per square second"
     ],
     "entity": "acceleration",
-    "URI": "Foot_per_second_squared",
+    "URI": "https://en.wikipedia.org/wiki/Foot_per_second_squared",
     "dimensions": [
       {
         "base": "foot",
@@ -3310,7 +3313,7 @@
       "meter per square second"
     ],
     "entity": "acceleration",
-    "URI": "Metre_per_second_squared",
+    "URI": "https://en.wikipedia.org/wiki/Metre_per_second_squared",
     "dimensions": [
       {
         "base": "metre",
@@ -3332,7 +3335,7 @@
       "newton-metre"
     ],
     "entity": "torque",
-    "URI": "Newton_metre",
+    "URI": "https://en.wikipedia.org/wiki/Newton_metre",
     "dimensions": [
       {
         "base": "newton",
@@ -3353,7 +3356,7 @@
       "poise"
     ],
     "entity": "dynamic viscosity",
-    "URI": "Poise",
+    "URI": "https://en.wikipedia.org/wiki/Poise",
     "dimensions": [],
     "symbols": [
       "P"
@@ -3365,7 +3368,7 @@
       "centipoise"
     ],
     "entity": "dynamic viscosity",
-    "URI": "Poise",
+    "URI": "https://en.wikipedia.org/wiki/Poise",
     "dimensions": [],
     "symbols": [
       "cP"
@@ -3377,7 +3380,7 @@
       "stokes"
     ],
     "entity": "kinematic viscosity",
-    "URI": "Viscosity#Stokes_.28unit.29",
+    "URI": "https://en.wikipedia.org/wiki/Viscosity#Stokes_.28unit.29",
     "dimensions": [],
     "symbols": [
       "St"
@@ -3389,7 +3392,7 @@
       "centistokes"
     ],
     "entity": "kinematic viscosity",
-    "URI": "Viscosity#Stokes_.28unit.29",
+    "URI": "https://en.wikipedia.org/wiki/Viscosity#Stokes_.28unit.29",
     "dimensions": [],
     "symbols": [
       "cSt"
@@ -3402,7 +3405,7 @@
       "reciprocal poise"
     ],
     "entity": "fluidity",
-    "URI": "Viscosity#Fluidity",
+    "URI": "https://en.wikipedia.org/wiki/Viscosity#Fluidity",
     "dimensions": [],
     "symbols": []
   },
@@ -3412,7 +3415,7 @@
       "decibel"
     ],
     "entity": "sound level",
-    "URI": "Decibel",
+    "URI": "https://en.wikipedia.org/wiki/Decibel",
     "dimensions": [],
     "symbols": [
       "dB"
@@ -3424,7 +3427,7 @@
       "stilb"
     ],
     "entity": "luminance",
-    "URI": "Stilb_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Stilb_(unit)",
     "dimensions": [],
     "symbols": [
       "sb"
@@ -3438,7 +3441,7 @@
       "nit"
     ],
     "entity": "luminance",
-    "URI": "Candela_per_square_metre",
+    "URI": "https://en.wikipedia.org/wiki/Candela_per_square_metre",
     "dimensions": [
       {
         "base": "candela",
@@ -3460,7 +3463,7 @@
       "candle"
     ],
     "entity": "luminous intensity",
-    "URI": "Candela",
+    "URI": "https://en.wikipedia.org/wiki/Candela",
     "dimensions": [],
     "symbols": [
       "cd"
@@ -3472,7 +3475,7 @@
       "lumen"
     ],
     "entity": "luminous flux",
-    "URI": "Lumen_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Lumen_(unit)",
     "dimensions": [],
     "symbols": [
       "lm"
@@ -3484,7 +3487,7 @@
       "lux"
     ],
     "entity": "illuminance",
-    "URI": "Lux",
+    "URI": "https://en.wikipedia.org/wiki/Lux",
     "dimensions": [],
     "symbols": [
       "lx"
@@ -3496,7 +3499,7 @@
       "cycle per second"
     ],
     "entity": "instance frequency",
-    "URI": "Cycle_per_second",
+    "URI": "https://en.wikipedia.org/wiki/Cycle_per_second",
     "dimensions": [
       {
         "base": "turn",
@@ -3517,7 +3520,7 @@
       "revolutions per minute"
     ],
     "entity": "instance frequency",
-    "URI": "Revolutions_per_minute",
+    "URI": "https://en.wikipedia.org/wiki/Revolutions_per_minute",
     "dimensions": [
       {
         "base": "turn",
@@ -3540,7 +3543,7 @@
       "revolutions per second"
     ],
     "entity": "frequency",
-    "URI": "Hertz",
+    "URI": "https://en.wikipedia.org/wiki/Hertz",
     "dimensions": [],
     "symbols": [
       "Hz",
@@ -3557,7 +3560,7 @@
       "per second"
     ],
     "entity": "frequency",
-    "URI": "Inverse_second",
+    "URI": "https://en.wikipedia.org/wiki/Inverse_second",
     "dimensions": [
       {
         "base": "second",
@@ -3572,7 +3575,7 @@
       "mole"
     ],
     "entity": "amount of substance",
-    "URI": "Mole_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Mole_(unit)",
     "dimensions": [],
     "symbols": [
       "mol"
@@ -3586,7 +3589,7 @@
       "electrostatic unit of charge"
     ],
     "entity": "charge",
-    "URI": "Statcoulomb",
+    "URI": "https://en.wikipedia.org/wiki/Statcoulomb",
     "dimensions": [],
     "symbols": [
       "statC",
@@ -3600,7 +3603,7 @@
       "coulomb"
     ],
     "entity": "charge",
-    "URI": "Coulomb",
+    "URI": "https://en.wikipedia.org/wiki/Coulomb",
     "dimensions": [],
     "symbols": [
       "C"
@@ -3612,7 +3615,7 @@
       "millicoulomb"
     ],
     "entity": "charge",
-    "URI": "Coulomb",
+    "URI": "https://en.wikipedia.org/wiki/Coulomb",
     "dimensions": [],
     "symbols": [
       "mC"
@@ -3624,7 +3627,7 @@
       "microcoulomb"
     ],
     "entity": "charge",
-    "URI": "Coulomb",
+    "URI": "https://en.wikipedia.org/wiki/Coulomb",
     "dimensions": [],
     "symbols": [
       "µC"
@@ -3638,7 +3641,7 @@
       "amp-hour"
     ],
     "entity": "charge",
-    "URI": "Coulomb",
+    "URI": "https://en.wikipedia.org/wiki/Coulomb",
     "dimensions": [
       {
         "base": "ampere",
@@ -3661,7 +3664,7 @@
       "milliamp-hour"
     ],
     "entity": "charge",
-    "URI": "Coulomb",
+    "URI": "https://en.wikipedia.org/wiki/Coulomb",
     "dimensions": [
       {
         "base": "ampere",
@@ -3683,7 +3686,7 @@
       "ampere"
     ],
     "entity": "current",
-    "URI": "Ampere",
+    "URI": "https://en.wikipedia.org/wiki/Ampere",
     "dimensions": [],
     "symbols": [
       "A",
@@ -3710,7 +3713,7 @@
       "statvolt"
     ],
     "entity": "electric potential",
-    "URI": "Statvolt",
+    "URI": "https://en.wikipedia.org/wiki/Statvolt",
     "dimensions": [],
     "symbols": []
   },
@@ -3720,7 +3723,7 @@
       "volt"
     ],
     "entity": "electric potential",
-    "URI": "Volt",
+    "URI": "https://en.wikipedia.org/wiki/Volt",
     "dimensions": [],
     "symbols": [
       "V"
@@ -3732,7 +3735,7 @@
       "ohm"
     ],
     "entity": "electrical resistance",
-    "URI": "Ohm",
+    "URI": "https://en.wikipedia.org/wiki/Ohm",
     "dimensions": [],
     "symbols": [
       "Ω",
@@ -3751,7 +3754,7 @@
       "statmho"
     ],
     "entity": "electrical conductance",
-    "URI": "Statmho",
+    "URI": "https://en.wikipedia.org/wiki/Statmho",
     "dimensions": [],
     "symbols": []
   },
@@ -3761,7 +3764,7 @@
       "statohm"
     ],
     "entity": "electrical resistance",
-    "URI": "Statmho",
+    "URI": "https://en.wikipedia.org/wiki/Statmho",
     "dimensions": [],
     "symbols": []
   },
@@ -3772,7 +3775,7 @@
       "mho"
     ],
     "entity": "electrical conductance",
-    "URI": "Siemens_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Siemens_(unit)",
     "dimensions": [],
     "symbols": [
       "S"
@@ -3784,7 +3787,7 @@
       "faraday"
     ],
     "entity": "charge",
-    "URI": "Faraday_constant",
+    "URI": "https://en.wikipedia.org/wiki/Faraday_constant",
     "dimensions": [],
     "symbols": []
   },
@@ -3794,7 +3797,7 @@
       "farad"
     ],
     "entity": "capacitance",
-    "URI": "Farad",
+    "URI": "https://en.wikipedia.org/wiki/Farad",
     "dimensions": [],
     "symbols": [
       "F"
@@ -3813,7 +3816,7 @@
       "henry"
     ],
     "entity": "inductance",
-    "URI": "Henry_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Henry_(unit)",
     "dimensions": [],
     "symbols": [
       "H"
@@ -3826,7 +3829,7 @@
       "ampere turn"
     ],
     "entity": "magnetomotive force",
-    "URI": "Ampere-turn",
+    "URI": "https://en.wikipedia.org/wiki/Ampere-turn",
     "dimensions": [],
     "symbols": [
       "AT",
@@ -3839,7 +3842,7 @@
       "oersted"
     ],
     "entity": "magnetic field",
-    "URI": "Oersted",
+    "URI": "https://en.wikipedia.org/wiki/Oersted",
     "dimensions": [],
     "symbols": [
       "Oe"
@@ -3851,7 +3854,7 @@
       "weber"
     ],
     "entity": "magnetic flux",
-    "URI": "Weber_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Weber_(unit)",
     "dimensions": [],
     "symbols": [
       "Wb"
@@ -3863,7 +3866,7 @@
       "milliweber"
     ],
     "entity": "magnetic flux",
-    "URI": "Weber_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Weber_(unit)",
     "dimensions": [],
     "symbols": [
       "mWb"
@@ -3875,7 +3878,7 @@
       "microweber"
     ],
     "entity": "magnetic flux",
-    "URI": "Weber_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Weber_(unit)",
     "dimensions": [],
     "symbols": [
       "µWb"
@@ -3887,7 +3890,7 @@
       "maxwell"
     ],
     "entity": "magnetic flux",
-    "URI": "Maxwell_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Maxwell_(unit)",
     "dimensions": [],
     "symbols": [
       "Mx"
@@ -3899,7 +3902,7 @@
       "tesla"
     ],
     "entity": "magnetic field",
-    "URI": "Tesla_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Tesla_(unit)",
     "dimensions": [],
     "symbols": [
       "T"
@@ -3911,7 +3914,7 @@
       "gauss"
     ],
     "entity": "magnetic field",
-    "URI": "Gauss_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Gauss_(unit)",
     "dimensions": [],
     "symbols": [
       "G",
@@ -3924,7 +3927,7 @@
       "becquerel"
     ],
     "entity": "radioactivity",
-    "URI": "Becquerel",
+    "URI": "https://en.wikipedia.org/wiki/Becquerel",
     "dimensions": [],
     "symbols": [
       "Bq"
@@ -3936,7 +3939,7 @@
       "millibecquerel"
     ],
     "entity": "radioactivity",
-    "URI": "Becquerel",
+    "URI": "https://en.wikipedia.org/wiki/Becquerel",
     "dimensions": [],
     "symbols": [
       "mBq"
@@ -3948,7 +3951,7 @@
       "kilobecquerel"
     ],
     "entity": "radioactivity",
-    "URI": "Becquerel",
+    "URI": "https://en.wikipedia.org/wiki/Becquerel",
     "dimensions": [],
     "symbols": [
       "kBq"
@@ -3960,7 +3963,7 @@
       "megabecquerel"
     ],
     "entity": "radioactivity",
-    "URI": "Becquerel",
+    "URI": "https://en.wikipedia.org/wiki/Becquerel",
     "dimensions": [],
     "symbols": [
       "MBq"
@@ -3972,7 +3975,7 @@
       "gigabecquerel"
     ],
     "entity": "radioactivity",
-    "URI": "Becquerel",
+    "URI": "https://en.wikipedia.org/wiki/Becquerel",
     "dimensions": [],
     "symbols": [
       "GBq"
@@ -3984,7 +3987,7 @@
       "curie"
     ],
     "entity": "radioactivity",
-    "URI": "Curie",
+    "URI": "https://en.wikipedia.org/wiki/Curie",
     "dimensions": [],
     "symbols": [
       "Ci"
@@ -3996,7 +3999,7 @@
       "rutherford"
     ],
     "entity": "radioactivity",
-    "URI": "Rutherford_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Rutherford_(unit)",
     "dimensions": [],
     "symbols": [
       "Rd"
@@ -4009,7 +4012,7 @@
       "röntgen"
     ],
     "entity": "radiation exposure",
-    "URI": "Roentgen_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Roentgen_(unit)",
     "dimensions": [],
     "symbols": [
       "R"
@@ -4021,7 +4024,7 @@
       "rad"
     ],
     "entity": "radiation absorbed dose",
-    "URI": "Rad_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Rad_(unit)",
     "dimensions": [],
     "symbols": []
   },
@@ -4031,7 +4034,7 @@
       "sievert"
     ],
     "entity": "radiation absorbed dose",
-    "URI": "Sievert",
+    "URI": "https://en.wikipedia.org/wiki/Sievert",
     "dimensions": [],
     "symbols": [
       "Sv"
@@ -4043,7 +4046,7 @@
       "gray"
     ],
     "entity": "radiation absorbed dose",
-    "URI": "Gray_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Gray_(unit)",
     "dimensions": [],
     "symbols": [
       "Gy"
@@ -4059,7 +4062,7 @@
       "picture element"
     ],
     "entity": "typographical element",
-    "URI": "Pixel",
+    "URI": "https://en.wikipedia.org/wiki/Pixel",
     "dimensions": [],
     "symbols": [
       "px"
@@ -4071,7 +4074,7 @@
       "megapixel"
     ],
     "entity": "typographical element",
-    "URI": "Pixel#Megapixel",
+    "URI": "https://en.wikipedia.org/wiki/Pixel#Megapixel",
     "dimensions": [],
     "symbols": [
       "MP"
@@ -4084,7 +4087,7 @@
       "board foot"
     ],
     "entity": "volume (lumber)",
-    "URI": "Board_foot",
+    "URI": "https://en.wikipedia.org/wiki/Board_foot",
     "dimensions": [],
     "symbols": [
       "FBM",
@@ -4098,7 +4101,7 @@
       "katal"
     ],
     "entity": "catalytic activity",
-    "URI": "Katal",
+    "URI": "https://en.wikipedia.org/wiki/Katal",
     "dimensions": [],
     "symbols": [
       "kat"
@@ -4111,7 +4114,7 @@
       "gram per cubic centimeter"
     ],
     "entity": "density",
-    "URI": "Gram_per_cubic_centimetre",
+    "URI": "https://en.wikipedia.org/wiki/Gram_per_cubic_centimetre",
     "dimensions": [
       {
         "base": "gram",
@@ -4131,7 +4134,7 @@
       "kilogram per cubic meter"
     ],
     "entity": "density",
-    "URI": "Kilogram_per_cubic_metre",
+    "URI": "https://en.wikipedia.org/wiki/Kilogram_per_cubic_metre",
     "dimensions": [
       {
         "base": "kilogram",
@@ -4151,7 +4154,7 @@
       "gram per liter"
     ],
     "entity": "concentration",
-    "URI": "Gram_per_litre",
+    "URI": "https://en.wikipedia.org/wiki/Gram_per_litre",
     "dimensions": [
       {
         "base": "gram",
@@ -4172,7 +4175,7 @@
       "cumec"
     ],
     "entity": "volumetric flow",
-    "URI": "Cubic_metre_per_second",
+    "URI": "https://en.wikipedia.org/wiki/Cubic_metre_per_second",
     "dimensions": [
       {
         "base": "metre",
@@ -4191,7 +4194,7 @@
       "cubic foot per second"
     ],
     "entity": "volumetric flow",
-    "URI": "Cubic_foot#Cubic_foot_per_minute",
+    "URI": "https://en.wikipedia.org/wiki/Cubic_foot#Cubic_foot_per_minute",
     "dimensions": [
       {
         "base": "foot",
@@ -4213,7 +4216,7 @@
       "standard cubic centimetre per minute"
     ],
     "entity": "volumetric flow",
-    "URI": "SCCM_(flow_unit)",
+    "URI": "https://en.wikipedia.org/wiki/SCCM_(flow_unit)",
     "dimensions": [
       {
         "base": "centimetre",
@@ -4234,7 +4237,7 @@
       "standard cubic feet per minute"
     ],
     "entity": "volumetric flow",
-    "URI": "Standard_cubic_feet_per_minute",
+    "URI": "https://en.wikipedia.org/wiki/Standard_cubic_feet_per_minute",
     "dimensions": [
       {
         "base": "foot",
@@ -4255,7 +4258,7 @@
       "standard litre per minute"
     ],
     "entity": "volumetric flow",
-    "URI": "Standard_litre_per_minute",
+    "URI": "https://en.wikipedia.org/wiki/Standard_litre_per_minute",
     "dimensions": [
       {
         "base": "litre",
@@ -4277,7 +4280,7 @@
       "pound per hour"
     ],
     "entity": "mass flow",
-    "URI": "Pound_per_hour",
+    "URI": "https://en.wikipedia.org/wiki/Pound_per_hour",
     "dimensions": [
       {
         "base": "pound-mass",
@@ -4299,7 +4302,7 @@
       "baud"
     ],
     "entity": "data transfer rate",
-    "URI": "Bit_rate",
+    "URI": "https://en.wikipedia.org/wiki/Bit_rate",
     "dimensions": [
       {
         "base": "bit",
@@ -4321,7 +4324,7 @@
       "kilobit per second"
     ],
     "entity": "data transfer rate",
-    "URI": "Bit_rate",
+    "URI": "https://en.wikipedia.org/wiki/Bit_rate",
     "dimensions": [
       {
         "base": "kilobit",
@@ -4342,7 +4345,7 @@
       "megabit per second"
     ],
     "entity": "data transfer rate",
-    "URI": "Bit_rate",
+    "URI": "https://en.wikipedia.org/wiki/Bit_rate",
     "dimensions": [
       {
         "base": "megabit",
@@ -4363,7 +4366,7 @@
       "gigabit per second"
     ],
     "entity": "data transfer rate",
-    "URI": "Bit_rate",
+    "URI": "https://en.wikipedia.org/wiki/Bit_rate",
     "dimensions": [
       {
         "base": "gigabit",
@@ -4385,7 +4388,7 @@
       "darcy unit"
     ],
     "entity": "permeability",
-    "URI": "Darcy_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Darcy_(unit)",
     "dimensions": [],
     "symbols": []
   },
@@ -4395,7 +4398,7 @@
       "langley"
     ],
     "entity": "irradiance",
-    "URI": "Langley_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Langley_(unit)",
     "dimensions": [],
     "symbols": [
       "Ly"
@@ -4407,7 +4410,7 @@
       "denier"
     ],
     "entity": "linear mass density",
-    "URI": "Units_of_textile_measurement",
+    "URI": "https://en.wikipedia.org/wiki/Units_of_textile_measurement",
     "dimensions": [],
     "symbols": [
       "den"
@@ -4419,7 +4422,7 @@
       "tex"
     ],
     "entity": "linear mass density",
-    "URI": "Units_of_textile_measurement",
+    "URI": "https://en.wikipedia.org/wiki/Units_of_textile_measurement",
     "dimensions": [],
     "symbols": []
   },
@@ -4429,7 +4432,7 @@
       "decitex"
     ],
     "entity": "linear mass density",
-    "URI": "Units_of_textile_measurement",
+    "URI": "https://en.wikipedia.org/wiki/Units_of_textile_measurement",
     "dimensions": [],
     "symbols": [
       "dtex"
@@ -4441,7 +4444,7 @@
       "jansky"
     ],
     "entity": "flux density",
-    "URI": "Jansky",
+    "URI": "https://en.wikipedia.org/wiki/Jansky",
     "dimensions": [],
     "symbols": [
       "Jy"
@@ -4455,7 +4458,7 @@
       "millijanskys"
     ],
     "entity": "flux density",
-    "URI": "Jansky",
+    "URI": "https://en.wikipedia.org/wiki/Jansky",
     "dimensions": [],
     "symbols": [
       "mJy",
@@ -4469,7 +4472,7 @@
       "penny"
     ],
     "entity": "currency",
-    "URI": "Penny",
+    "URI": "https://en.wikipedia.org/wiki/Penny",
     "dimensions": [],
     "symbols": [
       "p",
@@ -4482,7 +4485,7 @@
       "cent"
     ],
     "entity": "currency",
-    "URI": "Cent_(currency)",
+    "URI": "https://en.wikipedia.org/wiki/Cent_(currency)",
     "dimensions": [],
     "symbols": [
       "¢",
@@ -4497,7 +4500,7 @@
       "centavo"
     ],
     "entity": "currency",
-    "URI": "Centavo",
+    "URI": "https://en.wikipedia.org/wiki/Centavo",
     "dimensions": [],
     "symbols": [
       "¢",
@@ -4515,7 +4518,7 @@
       "ton per day"
     ],
     "entity": "mass flow",
-    "URI": "Ton",
+    "URI": "https://en.wikipedia.org/wiki/Ton",
     "dimensions": [
       {
         "base": "ton",
@@ -4541,7 +4544,7 @@
       "long measure"
     ],
     "entity": "dimensionless",
-    "URI": "Dozen#Baker's_dozen",
+    "URI": "https://en.wikipedia.org/wiki/Dozen#Baker's_dozen",
     "dimensions": [],
     "symbols": []
   },
@@ -4552,7 +4555,7 @@
       "group of twelve"
     ],
     "entity": "dimensionless",
-    "URI": "Dozen",
+    "URI": "https://en.wikipedia.org/wiki/Dozen",
     "dimensions": [],
     "symbols": [
       "dz",
@@ -4566,7 +4569,7 @@
       "square dozen"
     ],
     "entity": "dimensionless",
-    "URI": "Gross_(unit)",
+    "URI": "https://en.wikipedia.org/wiki/Gross_(unit)",
     "dimensions": [
       {
         "base": "dozen",
@@ -4587,7 +4590,7 @@
       "grand gross"
     ],
     "entity": "dimensionless",
-    "URI": "1728_(number)",
+    "URI": "https://en.wikipedia.org/wiki/1728_(number)",
     "dimensions": [
       {
         "base": "dozen",
@@ -4607,7 +4610,7 @@
       "centum"
     ],
     "entity": "dimensionless",
-    "URI": "Long_hundred",
+    "URI": "https://en.wikipedia.org/wiki/Long_hundred",
     "dimensions": [],
     "symbols": [
       "c."
@@ -4620,7 +4623,7 @@
       "mil"
     ],
     "entity": "currency",
-    "URI": "Mill_(currency)",
+    "URI": "https://en.wikipedia.org/wiki/Mill_(currency)",
     "dimensions": [],
     "symbols": [
       "₥"
@@ -4632,7 +4635,7 @@
       "dime"
     ],
     "entity": "currency",
-    "URI": "Dime_(United_States_coin)",
+    "URI": "https://en.wikipedia.org/wiki/Dime_(United_States_coin)",
     "dimensions": [],
     "symbols": [
       "₫",
@@ -4647,7 +4650,7 @@
       "qbit"
     ],
     "entity": "data storage",
-    "URI": "Qubit",
+    "URI": "https://en.wikipedia.org/wiki/Qubit",
     "dimensions": [],
     "symbols": []
   }
