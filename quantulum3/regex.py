@@ -123,43 +123,35 @@ SUPERSCRIPTS = re.escape(''.join(list(UNI_SUPER.keys())))
 MULTIPLIERS = r'|'.join(r'%s' % re.escape(i) for i in MULTIPLICATION_OPERATORS)
 
 # Pattern for extracting a digit-based number
-NUM_PATTERN = r'''
-
-    (?:                      # required number
+NUM_PATTERN = r''' 
+    (?{number}              # required number
         [+-]?                  #   optional sign
         \.?\d+                 #   required digits
-        (?:[%s]\d{3})*         #   allowed grouping
-        (?:\.\d+)?             #   optional decimals
+        (?:[%s]\d{{3}})*         #   allowed grouping
+        (?{decimals}\.\d+)?    #   optional decimals
     )
-    (?:                      # optional exponent
+    (?{scale}               # optional exponent
         (?:%s)?                #   multiplicative operators
-        (?:E|e|\d+)\^?         #   required exponent prefix
-        (?:[+-]?\d+|[%s])      #   required exponent, superscript or normal
+        (?{base}(E|e|\d+)\^?)    #   required exponent prefix
+        (?{exponent}[+-]?\d+|[%s])      #   required exponent, superscript or normal
     )?
-    (?:                      # optional fraction
+    (?{fraction}             # optional fraction
         \ \d+/\d+|\ ?[%s]|/\d+
     )?
 
 ''' % (GROUPING, MULTIPLIERS, SUPERSCRIPTS, FRACTIONS)
 
-NUM_PATTERN_GROUPS = r'''            # Pattern for extracting a digit-based number
+NUM_PATTERN_NO_GROUPS = NUM_PATTERN.format(
+    number=':', decimals=":", scale=":", base=":", exponent=":",
+    fraction=":")
 
-    (?P<number>              # required number
-        [+-]?                  #   optional sign
-        \.?\d+                 #   required digits
-        (?:[%s]\d{3})*         #   allowed grouping
-        (?P<decimals>\.\d+)?   #   optional decimals
-    )
-    (?P<scale>               # optional exponent
-        (?:%s)?                #   multiplicative operators
-        (?P<base>E|e|(?:\d+)\^?) #   required exponent prefix
-        (?P<exponent>[+-]?\d+|[%s]) #   required exponent, superscript or normal
-    )?
-    (?P<fraction>            # optional fraction
-        \ \d+/\d+|\ ?[%s]|/\d+
-    )?
-
-''' % (GROUPING, MULTIPLIERS, SUPERSCRIPTS, FRACTIONS)
+NUM_PATTERN_GROUPS = NUM_PATTERN.format(
+    number='P<number>',
+    decimals="P<decimals>",
+    scale="P<scale>",
+    base="P<base>",
+    exponent="P<exponent>",
+    fraction="P<fraction>")
 
 RAN_PATTERN = r'''                        # Pattern for a range of numbers
 
@@ -171,7 +163,7 @@ RAN_PATTERN = r'''                        # Pattern for a range of numbers
         \ ?(?:(?:-\ )?to|-|and|\+/-|±)\ ?  # Group for ranges or uncertainties
     %s)?
 
-''' % (NUM_PATTERN, NUM_PATTERN)
+''' % (NUM_PATTERN_NO_GROUPS, NUM_PATTERN_NO_GROUPS)
 
 TXT_PATTERN = r'''            # Pattern for extracting mixed digit-spelled num
     (?:
@@ -181,7 +173,7 @@ TXT_PATTERN = r'''            # Pattern for extracting mixed digit-spelled num
     [ -]?(?:%s)
     [ -]?(?:%s)?[ -]?(?:%s)?[ -]?(?:%s)?
     [ -]?(?:%s)?[ -]?(?:%s)?[ -]?(?:%s)?
-''' % tuple([NUM_PATTERN] + 7 * [ALL_NUM])
+''' % tuple([NUM_PATTERN_NO_GROUPS] + 7 * [ALL_NUM])
 
 REG_TXT = re.compile(TXT_PATTERN, re.VERBOSE | re.IGNORECASE)
 
