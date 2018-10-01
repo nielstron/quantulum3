@@ -266,7 +266,6 @@ If you'd like to contribute follow these steps:
 (Optional, will be done automatically after pushing)
 8. Create a Pull Request when having commited and pushed your changes
 
-
 Language support
 ----------------
 [![Travis dev build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=language_support "Travis dev build state")](https://travis-ci.com/nielstron/quantulum3)
