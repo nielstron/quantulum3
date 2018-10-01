@@ -9,6 +9,7 @@ import os
 import re
 import json
 import unittest
+import functools
 
 # Dependencies
 try:
@@ -25,11 +26,62 @@ from .. import language
 COLOR1 = '\033[94m%s\033[0m'
 COLOR2 = '\033[91m%s\033[0m'
 TOPDIR = os.path.dirname(__file__) or "."
-lang = 'en_US'
+
+
+def multilang(funct_or_langs):
+    """
+    Wrapper to make a unittest test several languages
+    :param funct_or_langs: Function to test all languages or a set of languages to test
+    :return:
+    """
+    # The actual wrapper
+    def multilang_(funct):
+
+        def multilang_test(*args, **kwargs):
+            print()
+            for lang in langs:
+                print('lang={}'.format(lang))
+                funct(*args, lang=lang, **kwargs)
+
+        return multilang_test
+
+    # Decide whether we *are* the wrapper or are to create it
+    if callable(funct_or_langs):
+        langs = load.LANGUAGES
+        return multilang_(funct_or_langs)
+
+    langs = funct_or_langs
+    return multilang_
+
+
+def add_type_equalities(testcase):
+    """
+    Add handcrafted equality functions for quantulum specific types
+    :param testcase:
+    :return:
+    """
+
+    def quantity_equality_func(first, second, msg=None):
+        if first != second:
+            if not msg:
+                diffs = {'value', 'surface', 'span', 'uncertainty'}
+                for diff in diffs:
+                    firstval = getattr(first, diff)
+                    secondval = getattr(second, diff)
+                    if firstval != secondval:
+                        msg = 'Quantities {first} and {second} are differing in attribute "{attribute}": "{firstval}" != "{secondval}"'
+                        msg = msg.format(attribute=diff, firstval=firstval, secondval=secondval, first=fist, second=second)
+                        break
+            if not msg:
+                if first.unit != second.unit:
+                    msg = 'Quantity units are differing:\n{}\n{}'.format(first.unit.__dict__, second.unit.__dict__)
+            raise testcase.failureException(msg)
+
+    testcase.addTypeEqualityFunc(cls.Quantity, quantity_equality_func)
 
 
 ################################################################################
-def wiki_test(page='CERN'):  # pragma: no cover
+def wiki_test(page='CERN', lang='en_US'):  # pragma: no cover
     """
     Download a wikipedia page and test the parser on its content.
     A test, designed for a human's look.
@@ -44,8 +96,9 @@ def wiki_test(page='CERN'):  # pragma: no cover
         )
         return
 
+    wikipedia.set_lang(lang)
     content = wikipedia.page(page).content
-    parsed = p.parse(content)
+    parsed = p.parse(content, lang=lang)
     parts = int(round(len(content) * 1.0 / 1000))
 
     print()
@@ -77,7 +130,7 @@ def wiki_test(page='CERN'):  # pragma: no cover
 
 
 ################################################################################
-def load_quantity_tests(ambiguity=True):
+def load_quantity_tests(ambiguity=True, lang='en_US'):
     """
     Load all tests from quantities.json.
     """
@@ -146,7 +199,7 @@ def load_quantity_tests(ambiguity=True):
 
 
 ################################################################################
-def load_expand_tests():
+def load_expand_tests(lang='en_US'):
     with open(
             os.path.join(language.topdir(lang), 'tests', 'expand.json'), 'r',
             encoding='utf-8') as testfile:
@@ -158,19 +211,21 @@ def load_expand_tests():
 class SetupTest(unittest.TestCase):
     """Test suite for the quantulum3 project."""
 
-    def test_load_tests(self):
+    @multilang
+    def test_load_tests(self, lang='en_US'):
         """ Test that loading tests works """
-        self.assertIsNotNone(load_quantity_tests(True))
-        self.assertIsNotNone(load_quantity_tests(False))
-        self.assertIsNotNone(load_expand_tests())
+        self.assertIsNotNone(load_quantity_tests(True, lang))
+        self.assertIsNotNone(load_quantity_tests(False, lang))
+        self.assertIsNotNone(load_expand_tests(lang))
 
-    def test_build_script(self):
+    @multilang(['en_US'])
+    def test_common_words(self, lang):
         """ Test that the build script has run correctly """
         # Read raw 4 letter file
         words = language.get('load', lang).build_common_words()
         built = language.get('load', lang).COMMON_WORDS
         for length, word_list in words.items():
-            self.assertListEqual(
+            self.assertEqual(
                 built[length], word_list,
                 "Build script has not been run since change to critical files")
 

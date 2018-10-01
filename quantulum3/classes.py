@@ -108,9 +108,9 @@ class Unit(object):
 
         if isinstance(other, self.__class__):
             return (
-                self.name == other.name and self.surfaces == other.surfaces
-                and self.entity == other.entity and self.uri == other.uri
-                and self.symbols == other.symbols and all(
+                self.name == other.name
+                and self.entity == other.entity
+                and all(
                     dim1['base'] == dim2['base']
                     and dim1['power'] == dim2['power']
                     for dim1, dim2 in zip(self.dimensions, other.dimensions)))
@@ -148,8 +148,7 @@ class Entity(object):
 
         if isinstance(other, self.__class__):
             return (self.name == other.name
-                    and self.dimensions == other.dimensions
-                    and self.uri == other.uri)
+                    and self.dimensions == other.dimensions)
         else:
             return False
 

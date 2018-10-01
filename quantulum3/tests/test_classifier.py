@@ -17,7 +17,7 @@ from .. import load
 from .. import parser as p
 from .. import classifier as clf
 from .. import language
-from .test_setup import load_expand_tests, load_quantity_tests
+from .test_setup import load_expand_tests, load_quantity_tests, multilang, add_type_equalities
 
 # sklearn
 from sklearn.externals import joblib
@@ -25,32 +25,38 @@ from sklearn.externals import joblib
 COLOR1 = '\033[94m%s\033[0m'
 COLOR2 = '\033[91m%s\033[0m'
 TOPDIR = os.path.dirname(__file__) or "."
-lang = 'en_US'
 
 
 ################################################################################
 class ClassifierTest(unittest.TestCase):
     """Test suite for the quantulum3 project."""
 
-    def test_parse_classifier(self):
+    def setUp(self):
+        add_type_equalities(self)
+
+    @multilang
+    def test_parse_classifier(self, lang='en_US'):
         """ Test that parsing works with classifier usage """
         # forcedly activate classifier
         clf.USE_CLF = True
 
-        all_tests = load_quantity_tests(False)
+        all_tests = load_quantity_tests(False, lang=lang)
         for test in sorted(all_tests, key=lambda x: len(x['req'])):
-            quants = p.parse(test['req'])
-            self.assertEqual(
-                quants, test['res'],
-                "{} \n {}".format([quant.__dict__ for quant in quants],
-                                  [quant.__dict__ for quant in test['res']]))
+            quants = p.parse(test['req'], lang=lang)
+            for index, quant in enumerate(quants):
+                self.assertEqual(
+                    quant, test['res'][index])
+            self.assertEqual(len(test['res']), len(quants),
+                             msg='Differing amount of quantities parsed, expected {}, got {}: {}, {}'.format(
+                                 len(test['res']), len(quants), test['res'], quants)
+                             )
 
-        classifier_tests = load_quantity_tests(True)
+        classifier_tests = load_quantity_tests(True, lang)
         correct = 0
         total = len(classifier_tests)
         error = []
         for test in sorted(classifier_tests, key=lambda x: len(x['req'])):
-            quants = p.parse(test['req'])
+            quants = p.parse(test['req'], lang=lang)
             if quants == test['res']:
                 correct += 1
             else:
@@ -66,22 +72,25 @@ class ClassifierTest(unittest.TestCase):
                           for test in error)))
 
     @unittest.skip
-    def test_training(self):
+    @multilang
+    def test_training(self, lang='en_US'):
         """ Test that classifier training works """
         # Test that no errors are thrown during training
         obj = clf.train_classifier(store=False, lang=lang)
         # Test that the classifier works with the currently downloaded data
-        load._CACHE_DICT[id(clf.classifier)]['en_US'] = clf.Classifier(
+        load._CACHE_DICT[id(clf.classifier)][lang] = clf.Classifier(
             obj=obj, lang='en_US')
-        self.test_parse_classifier()
+        self.test_parse_classifier(lang=lang)
 
-    def test_expand(self):
-        all_tests = load_expand_tests()
+    @multilang
+    def test_expand(self, lang='en_US'):
+        all_tests = load_expand_tests(lang=lang)
         for test in all_tests:
-            result = p.inline_parse_and_expand(test['req'])
+            result = p.inline_parse_and_expand(test['req'], lang=lang)
             self.assertEqual(result, test['res'])
 
-    def test_classifier_up_to_date(self):
+    @multilang
+    def test_classifier_up_to_date(self, lang='en_US'):
         """ Test that the classifier has been built with the latest version of scikit-learn """
         path = os.path.join(language.topdir(lang), 'clf.joblib')
         with open(path, 'rb') as clf_file:

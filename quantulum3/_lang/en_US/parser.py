@@ -132,49 +132,60 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     if unit.entity.dimensions:
         if (len(unit.entity.dimensions) > 1
                 and unit.entity.dimensions[0]['base'] == 'currency' and
-                unit.dimensions[1]['surface'] in reg.suffixes(lang).keys()):
-            suffix = unit.dimensions[1]['surface']
+                unit.original_dimensions[1]['surface'] in reg.suffixes(lang).keys()):
+            suffix = unit.original_dimensions[1]['surface']
             # Only apply if at least last value is suffixed by k, M, etc
             if re.search(r'\d{}\b'.format(suffix), text):
                 values = [
                     value * reg.suffixes(lang)[suffix] for value in values
                 ]
-                unit.dimensions = [unit.dimensions[0]] + unit.dimensions[2:]
+                unit.original_dimensions = [unit.original_dimensions[0]] + unit.original_dimensions[2:]
                 dimension_change = True
 
-        elif unit.dimensions[0]['surface'] in reg.suffixes(lang).keys():
+        elif unit.original_dimensions[0]['surface'] in reg.suffixes(lang).keys():
             # k/M etc is only applied if non-symbolic surfaces of other units (because colloquial)
             # or currency units
             symbolic = all(
                 dim['surface'] in load.units(lang).names[dim['base']].symbols
-                for dim in unit.dimensions[1:]
+                for dim in unit.original_dimensions[1:]
             )
             if not symbolic:
-                suffix = unit.dimensions[0]['surface']
+                suffix = unit.original_dimensions[0]['surface']
                 values = [
                     value * reg.suffixes(lang)[suffix] for value in values
                 ]
-                unit.dimensions = unit.dimensions[1:]
+                unit.original_dimensions = unit.original_dimensions[1:]
                 dimension_change = True
 
     # Usually "1990s" stands for the decade, not the amount of seconds
     elif re.match(r'[1-2]\d\d0s', surface):
-        unit.dimensions = []
+        unit.original_dimensions = []
         dimension_change = True
         surface = surface[:-1]
         span = (span[0], span[1] - 1)
         logging.debug('\tCorrect for "1990s" pattern')
 
     # check if a unit without operators, actually is a common word
-    if unit.dimensions:
-        candidates = [u['power'] == 1 for u in unit.dimensions]
-        for start in range(0, len(unit.dimensions)):
-            for end in reversed(range(start + 1, len(unit.dimensions) + 1)):
+    if hasattr(unit, 'original_dimensions') and unit.original_dimensions:
+
+        # Usually "in" stands for the preposition, not inches
+        if (unit.original_dimensions[-1]['base'] == 'inch'
+                and re.search(r' in$', surface)
+                and '/' not in surface):
+            unit.original_dimensions = unit.original_dimensions[:-1]
+            dimension_change = True
+            surface = surface[:-3]
+            span = (span[0], span[1] - 3)
+            logging.debug('\tCorrect for "in" pattern')
+
+        candidates = [u['power'] == 1 for u in unit.original_dimensions]
+        for start in range(0, len(unit.original_dimensions)):
+            for end in reversed(range(start + 1, len(unit.original_dimensions) + 1)):
                 # Try to match a combination of consecutive surfaces with a common 4 letter word
                 if not all(candidates[start:end]):
                     continue
                 combination = ''.join(
-                    u.get('surface', '') for u in unit.dimensions[start:end])
+                    u.get('surface', '') for u in unit.original_dimensions[start:end])
                 # Combination has to be at least one letter
                 if len(combination) < 1:
                     continue
@@ -196,42 +207,32 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
                     continue
                 span = (span[0], span[0] + match.start())
                 surface = surface[:match.start()]
-                unit.dimensions = unit.dimensions[:start]
+                unit.original_dimensions = unit.original_dimensions[:start]
                 dimension_change = True
                 logging.debug("Detected common word '{}' and removed it".
                               format(combination))
                 break
 
-    # Usually "in" stands for the preposition, not inches
-    if unit.dimensions and (unit.dimensions[-1]['base'] == 'inch'
-                            and re.search(r' in$', surface)
-                            and '/' not in surface):
-        unit.dimensions = unit.dimensions[:-1]
-        dimension_change = True
-        surface = surface[:-3]
-        span = (span[0], span[1] - 3)
-        logging.debug('\tCorrect for "in" pattern')
-
     match = parser.is_quote_artifact(text, item.span())
     if match:
         surface = surface[:-1]
         span = (span[0], span[1] - 1)
-        if unit.dimensions and (unit.dimensions[-1]['surface'] == '"'):
-            unit.dimensions = unit.dimensions[:-1]
+        if unit.original_dimensions and (unit.original_dimensions[-1]['surface'] == '"'):
+            unit.original_dimensions = unit.original_dimensions[:-1]
             dimension_change = True
         logging.debug('\tCorrect for quotes')
 
-    if re.search(r' time$', surface) and len(unit.dimensions) > 1 and \
-            unit.dimensions[-1]['base'] == 'count':
-        unit.dimensions = unit.dimensions[:-1]
+    if re.search(r' time$', surface) and len(unit.original_dimensions) > 1 and \
+            unit.original_dimensions[-1]['base'] == 'count':
+        unit.original_dimensions = unit.original_dimensions[:-1]
         dimension_change = True
         surface = surface[:-5]
         span = (span[0], span[1] - 5)
         logging.debug('\tCorrect for "time"')
 
     if dimension_change:
-        if len(unit.dimensions) >= 1:
-            unit = parser.get_unit_from_dimensions(unit.dimensions, orig_text)
+        if len(unit.original_dimensions) >= 1:
+            unit = parser.get_unit_from_dimensions(unit.original_dimensions, orig_text, lang)
         else:
             unit = load.units(lang).names['dimensionless']
 

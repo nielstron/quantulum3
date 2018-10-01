@@ -203,8 +203,6 @@ def get_unit_from_dimensions(dimensions, text, lang='en_US'):
 
     try:
         unit = load.units(lang).derived[key]
-        # carry on surfaces
-        unit.dimensions = dimensions
     except KeyError:
         logging.debug(u'\tCould not find unit for: %s', key)
         unit = cls.Unit(
@@ -212,6 +210,8 @@ def get_unit_from_dimensions(dimensions, text, lang='en_US'):
             dimensions=dimensions,
             entity=get_entity_from_dimensions(dimensions, text, lang))
 
+    # Carry on original composition
+    unit.original_dimensions = dimensions
     return unit
 
 
@@ -504,7 +504,7 @@ def inline_parse_and_replace(text, lang='en_US', verbose=False):  # pragma: no c
 
 
 ################################################################################
-def inline_parse_and_expand(text, verbose=False):
+def inline_parse_and_expand(text, lang='en_US', verbose=False):
     """
     Parse text and replace qunatities with speakable version
     """

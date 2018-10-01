@@ -11,7 +11,7 @@ import unittest
 # Quantulum
 from .. import parser as p
 from .. import classifier as clf
-from .test_setup import load_quantity_tests
+from .test_setup import load_quantity_tests, multilang, add_type_equalities
 
 COLOR1 = '\033[94m%s\033[0m'
 COLOR2 = '\033[91m%s\033[0m'
@@ -22,23 +22,30 @@ TOPDIR = os.path.dirname(__file__) or "."
 class ParsingTest(unittest.TestCase):
     """Test suite for the quantulum3 project."""
 
-    def test_parse_no_classifier(self):
+    def setUp(self):
+        add_type_equalities(self)
+
+    @multilang
+    def test_parse_no_classifier(self, lang='en_US'):
         """ Test that parsing works without classifier usage """
-        all_tests = load_quantity_tests(False)
+        all_tests = load_quantity_tests(False, lang)
         # Disable classifier usage
         clf.USE_CLF = False
         for test in sorted(all_tests, key=lambda x: len(x['req'])):
-            quants = p.parse(test['req'])
-            self.assertEqual(
-                quants, test['res'], "\nExcpected: {1} \nGot: {0}".format(
-                    [quant.__dict__ for quant in quants],
-                    [quant.__dict__ for quant in test['res']]))
-        classifier_tests = load_quantity_tests(True)
+            quants = p.parse(test['req'], lang=lang)
+            for index, quant in enumerate(quants):
+                self.assertEqual(
+                    quant, test['res'][index])
+            self.assertEqual(len(test['res']), len(quants),
+                             msg='Differing amount of quantities parsed, expected {}, got {}: {}, {}'.format(
+                                 len(test['res']), len(quants), test['res'], quants)
+                             )
+        classifier_tests = load_quantity_tests(True, lang)
         correct = 0
         total = len(classifier_tests)
         error = []
         for test in sorted(classifier_tests, key=lambda x: len(x['req'])):
-            quants = p.parse(test['req'])
+            quants = p.parse(test['req'], lang)
             if quants == test['res']:
                 correct += 1
             else:

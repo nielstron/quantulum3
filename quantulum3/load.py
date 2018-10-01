@@ -33,10 +33,10 @@ def cached(funct):
 
     def cached_function(lang='en_US'):
         try:
-            return _CACHE_DICT[str(id(funct))][lang]
+            return _CACHE_DICT[id(funct)][lang]
         except KeyError:
             result = funct(lang)
-            _CACHE_DICT[str(id(funct))] = {lang: result}
+            _CACHE_DICT[id(funct)] = {lang: result}
             return result
 
     return cached_function
