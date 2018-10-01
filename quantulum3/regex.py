@@ -62,7 +62,7 @@ def ranges(lang="en_US"):
 
 @cached
 def uncertainties(lang="en_US"):
-    uncertainties_ = {'\+/-', '±' }
+    uncertainties_ = {'\+/-', '±'}
     uncertainties_.update(_get_regex(lang).UNCERTAINTIES)
     return uncertainties_
 
@@ -314,7 +314,8 @@ def units_regex(lang='en_US'):
     symbol_keys = sorted(
         list(load.units(lang).prefix_symbols.keys()), key=len, reverse=True)
 
-    exponent = exponents_regex(lang).format(superscripts=unicode_superscript_regex())
+    exponent = exponents_regex(lang).format(
+        superscripts=unicode_superscript_regex())
 
     all_ops = '|'.join([r'{}'.format(re.escape(i)) for i in op_keys])
     all_units = '|'.join([r'{}'.format(re.escape(i)) for i in unit_keys])

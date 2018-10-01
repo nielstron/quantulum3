@@ -270,8 +270,7 @@ class Units(object):
             symbols=unit.get('symbols', []),
             dimensions=unit.get('dimensions', []),
             currency_code=unit.get('currency_code'),
-            lang=self.lang
-        )
+            lang=self.lang)
 
         self.names[unit['name']] = obj
 
@@ -300,11 +299,10 @@ class Units(object):
                 assert len(unit['dimensions']) <= 1
             except AssertionError:  # pragma: no cover
                 raise Exception(
-                    "Prefixing not supported for multiple dimensions in {}"
-                    .format(unit['name']))
+                    "Prefixing not supported for multiple dimensions in {}".
+                    format(unit['name']))
 
-            uri = METRIC_PREFIXES[prefix].capitalize() + unit['URI'].lower(
-            )
+            uri = METRIC_PREFIXES[prefix].capitalize() + unit['URI'].lower()
 
             prefixed_unit = {
                 'name':

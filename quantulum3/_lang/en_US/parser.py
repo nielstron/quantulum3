@@ -93,8 +93,10 @@ def parse_unit(item, unit, slash):
     """
 
     surface = unit.replace('.', '')
-    power = re.findall(r'-?[0-9%s]+' % reg.unicode_superscript_regex(), surface)
-    power_written = re.findall(r'\b(%s)\b' % '|'.join(reg.powers(lang)), surface)
+    power = re.findall(r'-?[0-9%s]+' % reg.unicode_superscript_regex(),
+                       surface)
+    power_written = re.findall(r'\b(%s)\b' % '|'.join(reg.powers(lang)),
+                               surface)
 
     if power:
         power = [
@@ -131,24 +133,26 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     # TODO use classifier to decide if 3K is 3 thousand or 3 Kelvin
     if unit.entity.dimensions:
         if (len(unit.entity.dimensions) > 1
-                and unit.entity.dimensions[0]['base'] == 'currency' and
-                unit.original_dimensions[1]['surface'] in reg.suffixes(lang).keys()):
+                and unit.entity.dimensions[0]['base'] == 'currency'
+                and unit.original_dimensions[1]['surface'] in reg.suffixes(
+                    lang).keys()):
             suffix = unit.original_dimensions[1]['surface']
             # Only apply if at least last value is suffixed by k, M, etc
             if re.search(r'\d{}\b'.format(suffix), text):
                 values = [
                     value * reg.suffixes(lang)[suffix] for value in values
                 ]
-                unit.original_dimensions = [unit.original_dimensions[0]] + unit.original_dimensions[2:]
+                unit.original_dimensions = [unit.original_dimensions[0]
+                                            ] + unit.original_dimensions[2:]
                 dimension_change = True
 
-        elif unit.original_dimensions[0]['surface'] in reg.suffixes(lang).keys():
+        elif unit.original_dimensions[0]['surface'] in reg.suffixes(
+                lang).keys():
             # k/M etc is only applied if non-symbolic surfaces of other units (because colloquial)
             # or currency units
             symbolic = all(
                 dim['surface'] in load.units(lang).names[dim['base']].symbols
-                for dim in unit.original_dimensions[1:]
-            )
+                for dim in unit.original_dimensions[1:])
             if not symbolic:
                 suffix = unit.original_dimensions[0]['surface']
                 values = [
@@ -170,8 +174,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
 
         # Usually "in" stands for the preposition, not inches
         if (unit.original_dimensions[-1]['base'] == 'inch'
-                and re.search(r' in$', surface)
-                and '/' not in surface):
+                and re.search(r' in$', surface) and '/' not in surface):
             unit.original_dimensions = unit.original_dimensions[:-1]
             dimension_change = True
             surface = surface[:-3]
@@ -180,12 +183,15 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
 
         candidates = [u['power'] == 1 for u in unit.original_dimensions]
         for start in range(0, len(unit.original_dimensions)):
-            for end in reversed(range(start + 1, len(unit.original_dimensions) + 1)):
+            for end in reversed(
+                    range(start + 1,
+                          len(unit.original_dimensions) + 1)):
                 # Try to match a combination of consecutive surfaces with a common 4 letter word
                 if not all(candidates[start:end]):
                     continue
                 combination = ''.join(
-                    u.get('surface', '') for u in unit.original_dimensions[start:end])
+                    u.get('surface', '')
+                    for u in unit.original_dimensions[start:end])
                 # Combination has to be at least one letter
                 if len(combination) < 1:
                     continue
@@ -217,7 +223,8 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     if match:
         surface = surface[:-1]
         span = (span[0], span[1] - 1)
-        if unit.original_dimensions and (unit.original_dimensions[-1]['surface'] == '"'):
+        if unit.original_dimensions and (
+                unit.original_dimensions[-1]['surface'] == '"'):
             unit.original_dimensions = unit.original_dimensions[:-1]
             dimension_change = True
         logging.debug('\tCorrect for quotes')
@@ -232,7 +239,8 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
 
     if dimension_change:
         if len(unit.original_dimensions) >= 1:
-            unit = parser.get_unit_from_dimensions(unit.original_dimensions, orig_text, lang)
+            unit = parser.get_unit_from_dimensions(unit.original_dimensions,
+                                                   orig_text, lang)
         else:
             unit = load.units(lang).names['dimensionless']
 
@@ -252,8 +260,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
             surface=surface,
             span=span,
             uncertainty=uncert,
-            lang=lang
-        )
+            lang=lang)
         objs.append(obj)
 
     return objs
@@ -298,5 +305,3 @@ def name_from_dimensions(dimensions):
     name = name.strip()
 
     return name
-
-

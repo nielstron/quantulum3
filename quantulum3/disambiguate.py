@@ -77,5 +77,3 @@ def disambiguate_entity(key, text, lang='en_US'):
         ent = None
 
     return ent
-
-

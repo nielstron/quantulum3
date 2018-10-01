@@ -34,12 +34,20 @@ def multilang(funct_or_langs):
     :param funct_or_langs: Function to test all languages or a set of languages to test
     :return:
     """
+
     # The actual wrapper
     def multilang_(funct):
-
         def multilang_test(*args, **kwargs):
             print()
-            for lang in langs:
+            # Allow for someone to call the method with one explicit language
+            if 'lang' in kwargs:
+                langs_ = [kwargs['lang']]
+                kwargs.pop('lang')
+            else:
+                langs_ = langs
+
+            # Execute the test for all the supplied languages
+            for lang in langs_:
                 print('lang={}'.format(lang))
                 funct(*args, lang=lang, **kwargs)
 
@@ -70,11 +78,17 @@ def add_type_equalities(testcase):
                     secondval = getattr(second, diff)
                     if firstval != secondval:
                         msg = 'Quantities {first} and {second} are differing in attribute "{attribute}": "{firstval}" != "{secondval}"'
-                        msg = msg.format(attribute=diff, firstval=firstval, secondval=secondval, first=fist, second=second)
+                        msg = msg.format(
+                            attribute=diff,
+                            firstval=firstval,
+                            secondval=secondval,
+                            first=fist,
+                            second=second)
                         break
             if not msg:
                 if first.unit != second.unit:
-                    msg = 'Quantity units are differing:\n{}\n{}'.format(first.unit.__dict__, second.unit.__dict__)
+                    msg = 'Quantity units are differing:\n{}\n{}'.format(
+                        first.unit.__dict__, second.unit.__dict__)
             raise testcase.failureException(msg)
 
     testcase.addTypeEqualityFunc(cls.Quantity, quantity_equality_func)
@@ -171,8 +185,7 @@ def load_quantity_tests(ambiguity=True, lang='en_US'):
                     name=item['unit'],
                     dimensions=item.get('dimensions', []),
                     entity=entity,
-                    lang=lang
-                )
+                    lang=lang)
             try:
                 # TODO be aware that there may never be two identical units in a req string
                 span = next(
@@ -191,8 +204,7 @@ def load_quantity_tests(ambiguity=True, lang='en_US'):
                     surface=item['surface'],
                     span=span,
                     uncertainty=uncert,
-                    lang=lang
-                ))
+                    lang=lang))
         test['res'] = [i for i in res]
 
     return tests
@@ -201,7 +213,8 @@ def load_quantity_tests(ambiguity=True, lang='en_US'):
 ################################################################################
 def load_expand_tests(lang='en_US'):
     with open(
-            os.path.join(language.topdir(lang), 'tests', 'expand.json'), 'r',
+            os.path.join(language.topdir(lang), 'tests', 'expand.json'),
+            'r',
             encoding='utf-8') as testfile:
         tests = json.load(testfile)
     return tests

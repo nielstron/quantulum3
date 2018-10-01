@@ -122,7 +122,9 @@ def train_classifier(parameters=None,
         train_target.append(target_names.index(example['unit']))
 
     tfidf_model = TfidfVectorizer(
-        sublinear_tf=True, ngram_range=ngram_range, stop_words=_get_classifier(lang).stop_words())
+        sublinear_tf=True,
+        ngram_range=ngram_range,
+        stop_words=_get_classifier(lang).stop_words())
 
     matrix = tfidf_model.fit_transform(train_data)
 
@@ -173,7 +175,8 @@ class Classifier(object):
 
         cur_scipy_version = pkg_resources.get_distribution(
             'scikit-learn').version
-        if cur_scipy_version != obj.get('scikit-learn_version'):  # pragma: no cover
+        if cur_scipy_version != obj.get(
+                'scikit-learn_version'):  # pragma: no cover
             logging.warning(
                 "The classifier was built using a different scikit-learn version (={}, !={}). The disambiguation tool could behave unexpectedly. Consider running classifier.train_classfier()"
                 .format(obj.get('scikit-learn_version'), cur_scipy_version))

@@ -91,8 +91,10 @@ def get_values(item, lang='en_US'):
 
     value = re.sub(fracs, callback, value, re.IGNORECASE)
 
-    range_separator = re.findall(r'\d+ ?((?:-\ )?(?:%s)) ?\d' % '|'.join(reg.ranges(lang)), value)
-    uncer_separator = re.findall(r'\d+ ?(%s) ?\d' % '|'.join(reg.uncertainties(lang)), value)
+    range_separator = re.findall(
+        r'\d+ ?((?:-\ )?(?:%s)) ?\d' % '|'.join(reg.ranges(lang)), value)
+    uncer_separator = re.findall(
+        r'\d+ ?(%s) ?\d' % '|'.join(reg.uncertainties(lang)), value)
     fract_separator = re.findall(r'\d+/\d+', value)
 
     value = re.sub(' +', ' ', value)
@@ -485,7 +487,8 @@ def inline_parse(text, verbose=False):  # pragma: no cover
 
 
 ################################################################################
-def inline_parse_and_replace(text, lang='en_US', verbose=False):  # pragma: no cover
+def inline_parse_and_replace(text, lang='en_US',
+                             verbose=False):  # pragma: no cover
     """
     Parse text and replace with the standardised quantities as string
     """

@@ -44,12 +44,12 @@ class ClassifierTest(unittest.TestCase):
         for test in sorted(all_tests, key=lambda x: len(x['req'])):
             quants = p.parse(test['req'], lang=lang)
             for index, quant in enumerate(quants):
-                self.assertEqual(
-                    quant, test['res'][index])
-            self.assertEqual(len(test['res']), len(quants),
-                             msg='Differing amount of quantities parsed, expected {}, got {}: {}, {}'.format(
-                                 len(test['res']), len(quants), test['res'], quants)
-                             )
+                self.assertEqual(quant, test['res'][index])
+            self.assertEqual(
+                len(test['res']),
+                len(quants),
+                msg='Differing amount of quantities parsed, expected {}, got {}: {}, {}'
+                .format(len(test['res']), len(quants), test['res'], quants))
 
         classifier_tests = load_quantity_tests(True, lang)
         correct = 0
@@ -71,15 +71,15 @@ class ClassifierTest(unittest.TestCase):
                 '\n'.join('{}: {}'.format(test[0]['req'], test[1])
                           for test in error)))
 
-    @unittest.skip
     @multilang
     def test_training(self, lang='en_US'):
         """ Test that classifier training works """
         # Test that no errors are thrown during training
         obj = clf.train_classifier(store=False, lang=lang)
         # Test that the classifier works with the currently downloaded data
-        load._CACHE_DICT[id(clf.classifier)][lang] = clf.Classifier(
-            obj=obj, lang='en_US')
+        load._CACHE_DICT[id(clf.classifier)] = {
+            lang: clf.Classifier(obj=obj, lang=lang)
+        }
         self.test_parse_classifier(lang=lang)
 
     @multilang

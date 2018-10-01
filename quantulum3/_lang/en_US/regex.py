@@ -67,9 +67,6 @@ NUM_PATTERN = r'''
 RANGES = {'to', 'and'}
 UNCERTAINTIES = {'plus minus'}
 
-POWERS = {
-    'squared': 2,
-    'cubed': 3
-}
+POWERS = {'squared': 2, 'cubed': 3}
 EXPONENTS_REGEX = r'(?:(?:\^?\-?[0-9{{superscripts}}]+)?(?:\ (?:{powers}))?)'.format(
-        powers='|'.join(POWERS.keys()))
+    powers='|'.join(POWERS.keys()))

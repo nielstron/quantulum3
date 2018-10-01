@@ -111,10 +111,8 @@ class Unit(object):
 
         if isinstance(other, self.__class__):
             return (
-                self.name == other.name
-                and self.entity == other.entity
-                and all(
-                    dim1['base'] == dim2['base']
+                self.name == other.name and self.entity == other.entity and
+                all(dim1['base'] == dim2['base']
                     and dim1['power'] == dim2['power']
                     for dim1, dim2 in zip(self.dimensions, other.dimensions)))
         else:

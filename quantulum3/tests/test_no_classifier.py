@@ -34,12 +34,12 @@ class ParsingTest(unittest.TestCase):
         for test in sorted(all_tests, key=lambda x: len(x['req'])):
             quants = p.parse(test['req'], lang=lang)
             for index, quant in enumerate(quants):
-                self.assertEqual(
-                    quant, test['res'][index])
-            self.assertEqual(len(test['res']), len(quants),
-                             msg='Differing amount of quantities parsed, expected {}, got {}: {}, {}'.format(
-                                 len(test['res']), len(quants), test['res'], quants)
-                             )
+                self.assertEqual(quant, test['res'][index])
+            self.assertEqual(
+                len(test['res']),
+                len(quants),
+                msg='Differing amount of quantities parsed, expected {}, got {}: {}, {}'
+                .format(len(test['res']), len(quants), test['res'], quants))
         classifier_tests = load_quantity_tests(True, lang)
         correct = 0
         total = len(classifier_tests)
