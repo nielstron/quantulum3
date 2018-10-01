@@ -166,7 +166,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         logging.debug('\tCorrect for "1990s" pattern')
 
     # check if a unit without operators, actually is a common word
-    if hasattr(unit, 'original_dimensions') and unit.original_dimensions:
+    if unit.original_dimensions:
 
         # Usually "in" stands for the preposition, not inches
         if (unit.original_dimensions[-1]['base'] == 'inch'

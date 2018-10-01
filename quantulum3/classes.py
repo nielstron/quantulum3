@@ -75,6 +75,7 @@ class Unit(object):
                  symbols=None,
                  dimensions=None,
                  currency_code=None,
+                 original_dimensions=None,
                  lang='en_US'):
         """Initialization method."""
         self.name = name
@@ -83,6 +84,8 @@ class Unit(object):
         self.uri = uri
         self.symbols = symbols
         self.dimensions = dimensions
+        # Stores the untampered dimensions that were parsed from the text
+        self.original_dimensions = original_dimensions
         self.currency_code = currency_code
         self.lang = lang
 
