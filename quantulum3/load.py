@@ -33,10 +33,10 @@ def cached(funct):
 
     def cached_function(lang='en_US', *args, **kwargs):
         try:
-            return _CACHE_DICT[id(funct)][lang]
+            return _CACHE_DICT[str(id(funct))][lang]
         except KeyError:
-            result = function(*args, lang=lang, **kwargs)
-            _CACHE_DICT[id(funct)] = {lang: result}
+            result = funct(*args, lang=lang, **kwargs)
+            _CACHE_DICT[str(id(funct))] = {lang: result}
             return result
 
     return cached_function
@@ -54,7 +54,7 @@ def pluralize(singular, count=None, lang='en_US'):
 
 
 def number_to_words(count, lang='en_US'):
-    return _get_load(lang).pluralize(count)
+    return _get_load(lang).number_to_words(count)
 
 
 ################################################################################
@@ -108,71 +108,83 @@ def get_key_from_dimensions(derived):
 
 
 ################################################################################
-def get_dimension_permutations(entities, derived):
+class Entities(object):
+    def __init__(self, lang='en_US'):
+        """
+        Load entities from JSON file.
+        """
+
+        path = os.path.join(TOPDIR, 'entities.json')
+        with open(path, encoding='utf-8') as file:
+            general_entities = json.load(file)
+        names = [i['name'] for i in general_entities]
+
+        try:
+            assert len(set(names)) == len(general_entities)
+        except AssertionError:  # pragma: no cover
+            raise Exception('Entities with same name: %s' %
+                            [i for i in self.names if names.count(i) > 1])
+
+        self.names = dict((
+            k['name'],
+            c.Entity(name=k['name'], dimensions=k['dimensions'], uri=k['URI']))
+            for k in general_entities)
+
+        # Update with language specific URI
+        with open(
+                os.path.join(language.topdir(lang), 'entities.json'),
+                encoding='utf-8') as file:
+            lang_entities = json.load(file)
+        for ent in lang_entities:
+            general_entities[ent['name']].uri = ent['URI']
+
+        # Generate derived units
+        derived_ent = defaultdict(set)
+        for entity in self.names.values():
+            if not entity.dimensions:
+                continue
+            perms = self.get_dimension_permutations(entity.dimensions)
+            for perm in perms:
+                key = get_key_from_dimensions(perm)
+                derived_ent[key].add(entity)
+
+        self.derived = derived_ent
+
+    def get_dimension_permutations(self, derived):
+        """
+        Get all possible dimensional definitions for an entity.
+        """
+
+        new_derived = defaultdict(int)
+        for item in derived:
+            new = self.names[item['base']].dimensions
+            if new:
+                for new_item in new:
+                    new_derived[new_item['base']] += (
+                        new_item['power'] * item['power'])
+            else:
+                new_derived[item['base']] += item['power']
+
+        final = [[{
+            'base': i[0],
+            'power': i[1]
+        } for i in list(new_derived.items())], derived]
+        final = [sorted(i, key=lambda x: x['base']) for i in final]
+
+        candidates = []
+        for item in final:
+            if item not in candidates:
+                candidates.append(item)
+
+        return candidates
+
+
+@cached
+def entities(lang='en_US'):
     """
-    Get all possible dimensional definitions for an entity.
+    Cached entity object
     """
-
-    new_derived = defaultdict(int)
-    for item in derived:
-        new = entities[item['base']].dimensions
-        if new:
-            for new_item in new:
-                new_derived[new_item['base']] += (
-                    new_item['power'] * item['power'])
-        else:
-            new_derived[item['base']] += item['power']
-
-    final = [[{
-        'base': i[0],
-        'power': i[1]
-    } for i in list(new_derived.items())], derived]
-    final = [sorted(i, key=lambda x: x['base']) for i in final]
-
-    candidates = []
-    for item in final:
-        if item not in candidates:
-            candidates.append(item)
-
-    return candidates
-
-
-################################################################################
-def load_entities():
-    """
-    Load entities from JSON file.
-    """
-
-    path = os.path.join(TOPDIR, 'entities.json')
-    string_json = ''.join(open(path, encoding='utf-8').readlines())
-    string_json = get_string_json(string_json)
-    entities = json.loads(string_json)
-    names = [i['name'] for i in entities]
-
-    try:
-        assert len(set(names)) == len(entities)
-    except AssertionError:  # pragma: no cover
-        raise Exception('Entities with same name: %s' %
-                        [i for i in names if names.count(i) > 1])
-
-    entities = dict(
-        (k['name'],
-         c.Entity(name=k['name'], dimensions=k['dimensions'], uri=k['URI']))
-        for k in entities)
-
-    derived_ent = defaultdict(set)
-    for ent in entities:
-        if not entities[ent].dimensions:
-            continue
-        perms = get_dimension_permutations(entities, entities[ent].dimensions)
-        for perm in perms:
-            key = get_key_from_dimensions(perm)
-            derived_ent[key].add(entities[ent])
-
-    return entities, derived_ent
-
-
-ENTITIES, DERIVED_ENT = load_entities()
+    return Entities(lang)
 
 
 ################################################################################
@@ -218,7 +230,7 @@ class Units(object):
         with open(path, encoding='utf-8') as file:
             general_units = json.load(file)
         # load language specifics
-        path = os.path.join(language.get('load', lang).TOPDIR, 'units.json')
+        path = os.path.join(language.topdir(lang), 'units.json')
         with open(path, encoding='utf-8') as file:
             lang_units = json.load(file)
 
@@ -227,7 +239,8 @@ class Units(object):
             units[unit['name']] = unit
         for unit in lang_units:
             # TODO currently overrides unit, does not extend
-            units[unit['name']] = units.get(unit['name'], unit).update(unit)
+            units[unit['name']] = units.get(unit['name'], {})
+            units[unit['name']].update(unit)
 
         for unit in general_units:
             self.load_unit(unit)
@@ -251,11 +264,11 @@ class Units(object):
 
         obj = c.Unit(
             name=unit['name'],
-            surfaces=unit['surfaces'],
-            entity=ENTITIES[unit['entity']],
+            surfaces=unit.get('surfaces', []),
+            entity=entities().names[unit['entity']],
             uri=unit['URI'],
-            symbols=unit['symbols'],
-            dimensions=unit['dimensions'],
+            symbols=unit.get('symbols', []),
+            dimensions=unit.get('dimensions', []),
             currency_code=unit.get('currency_code'))
 
         self.names[unit['name']] = obj

@@ -51,12 +51,12 @@ NUM_PATTERN = r'''
         [+-]?                  #   optional sign
         \.?\d+                 #   required digits
         (?:[{grouping}]\d{{3}})*         #   allowed grouping
-        (?{decimals}[{decimals}]\d+)?    #   optional decimals
+        (?{decimals}[{decimal_operators}]\d+)?    #   optional decimals
     )
     (?{scale}               # optional exponent
         (?:{multipliers})?                #   multiplicative operators
         (?{base}(E|e|\d+)\^?)    #   required exponent prefix
-        (?{exponent}[+-]?\d+|[{superscript])      #   required exponent, superscript or normal
+        (?{exponent}[+-]?\d+|[{superscript}])      #   required exponent, superscript or normal
     )?
     (?{fraction}             # optional fraction
         \ \d+/\d+|\ ?[{unicode_fract}]|/\d+

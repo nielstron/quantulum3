@@ -62,7 +62,7 @@ def numberwords(lang='en_US'):
         numwords[word] = (10**(idx * 3 or 2), 0)
     for word, factor in decimals(lang).items():
         numwords[word] = (factor, 0)
-        numwords[load.PLURALS.plural(word)] = (factor, 0)
+        numwords[load.pluralize(word, lang=lang)] = (factor, 0)
 
     return numwords
 
@@ -157,8 +157,17 @@ def grouping_operators_regex(lang='en_US'):
 
 
 @cached
+def decimal_operators(lang='en_US'):
+    return _get_regex(lang).DECIMAL_OPERATORS
+
+
+def decimal_operators_regex(lang='en_US'):
+    return ''.join(decimal_operators(lang))
+
+
+@cached
 def operators(lang='en_US'):
-    ops = {}
+    ops = set()
     ops.update(multiplication_operators(lang))
     ops.update(division_operators(lang))
     return ops
@@ -181,11 +190,12 @@ def number_pattern_no_groups(lang='en_US'):
         grouping=grouping_operators_regex(lang),
         multipliers=multiplication_operators_regex(lang),
         superscript=unicode_superscript_regex(lang),
-        unicode_fract=unicode_fractions_regex(lang))
+        unicode_fract=unicode_fractions_regex(lang),
+        decimal_operators=decimal_operators_regex(lang))
 
 
 @cached
-def number_patter_groups(lang='en_US'):
+def number_pattern_groups(lang='en_US'):
     return number_pattern(lang).format(
         number='P<number>',
         decimals="P<decimals>",
@@ -196,7 +206,8 @@ def number_patter_groups(lang='en_US'):
         grouping=grouping_operators_regex(lang),
         multipliers=multiplication_operators_regex(lang),
         superscript=unicode_superscript_regex(lang),
-        unicode_fract=unicode_fractions_regex(lang))
+        unicode_fract=unicode_fractions_regex(lang),
+        decimal_operators=decimal_operators_regex(lang))
 
 
 @cached
@@ -267,7 +278,7 @@ def units_regex(lang='en_US'):
 
     """
 
-    op_keys = sorted(list(operators(lang).keys()), key=len, reverse=True)
+    op_keys = sorted(list(operators(lang)), key=len, reverse=True)
     unit_keys = sorted(
         list(load.units(lang).names.keys()) + list(
             load.units(lang).symbols.keys()),

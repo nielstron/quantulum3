@@ -66,7 +66,7 @@ class ClassifierTest(unittest.TestCase):
     def test_training(self):
         """ Test that classifier training works """
         # Test that no errors are thrown during training
-        obj = clf.train_classifier(download=False, store=False)
+        obj = clf.train_classifier(store=False)
         # Test that the classifier works with the currently downloaded data
         load._CACHE_DICT[id(clf.classifier)]['en_US'] = clf.Classifier(
             obj=obj, lang='en_US')

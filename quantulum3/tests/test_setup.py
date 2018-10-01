@@ -17,13 +17,15 @@ except ImportError:
     wikipedia = None
 
 # Quantulum
-from quantulum3 import load
+from .. import load
 from .. import parser as p
 from .. import classes as cls
+from .. import language
 
 COLOR1 = '\033[94m%s\033[0m'
 COLOR2 = '\033[91m%s\033[0m'
 TOPDIR = os.path.dirname(__file__) or "."
+lang = 'en_US'
 
 
 ################################################################################
@@ -90,7 +92,7 @@ def load_quantity_tests(ambiguity=True):
         res = []
         for item in test['res']:
             try:
-                unit = load.UNIT_NAMES[item['unit']]
+                unit = load.units(lang).names[item['unit']]
             except KeyError:
                 try:
                     entity = item['entity']
@@ -100,8 +102,10 @@ def load_quantity_tests(ambiguity=True):
                     return
                 if entity == 'unknown':
                     derived = [{
-                        'base': load.UNIT_NAMES[i['base']].entity.name,
-                        'power': i['power']
+                        'base':
+                        load.units(lang).names[i['base']].entity.name,
+                        'power':
+                        i['power']
                     } for i in item['dimensions']]
                     entity = cls.Entity(name='unknown', dimensions=derived)
                 elif entity in load.ENTITIES:
@@ -160,10 +164,11 @@ class SetupTest(unittest.TestCase):
     def test_build_script(self):
         """ Test that the build script has run correctly """
         # Read raw 4 letter file
-        words = load.build_common_words()
+        words = language.get('load', lang).build_common_words()
+        built = language.get('load', lang).COMMON_WORDS
         for length, word_list in words.items():
             self.assertListEqual(
-                load.COMMON_WORDS[length], word_list,
+                built[length], word_list,
                 "Build script has not been run since change to critical files")
 
 

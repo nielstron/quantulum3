@@ -148,7 +148,7 @@ def resolve_exponents(value, lang='en_US'):
     """
     factors = []
     matches = re.finditer(
-        reg.number_patter_groups(lang), value, re.IGNORECASE | re.VERBOSE)
+        reg.number_pattern_groups(lang), value, re.IGNORECASE | re.VERBOSE)
     for item in matches:
         if item.group('base') and item.group('exponent'):
             base = item.group('base')
@@ -427,7 +427,7 @@ def parse(text, lang='en_US', verbose=False):
     text, shifts = substitute_values(text, values, lang)
 
     quantities = []
-    for item in reg.units_regex().finditer(text):
+    for item in reg.units_regex(lang).finditer(text):
 
         groups = dict(
             [i for i in item.groupdict().items() if i[1] and i[1].strip()])

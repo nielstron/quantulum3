@@ -35,10 +35,6 @@ def _get_classifier(lang='en_US'):
     return language.get('classifier', lang)
 
 
-def _topdir(lang='en_US'):
-    return os.path.join(load.TOPDIR, 'lang', load.LANGUAGES[lang])
-
-
 ################################################################################
 def ambiguous_units(lang='en_US'):  # pragma: no cover
     """
@@ -90,7 +86,7 @@ def download_wiki(store=True, lang='en_US'):  # pragma: no cover
         obj['unit'] = page[0]
         objs.append(obj)
 
-    path = os.path.join(_topdir(lang), 'wiki.json')
+    path = os.path.join(language.topdir(lang), 'wiki.json')
     if store:
         with open(path, 'w') as wiki_file:
             json.dump(objs, wiki_file, indent=4, sort_keys=True)
@@ -111,10 +107,10 @@ def clean_text(text, lang='en_US'):
 def get_training_set(lang='en_US'):
     training_set = []
 
-    path = Path(os.path.join(_topdir(lang), 'train'))
+    path = Path(os.path.join(language.topdir(lang), 'train'))
     for file in path.iterdir():
-        if file.suffix == 'json':
-            with open(file, 'r', encoding='utf-8') as train_file:
+        if file.suffix == '.json':
+            with file.open('r', encoding='utf-8') as train_file:
                 training_set += json.load(train_file)
 
     return training_set
@@ -164,7 +160,7 @@ def train_classifier(parameters=None,
         target_names
     }
     if store:  # pragma: no cover
-        path = os.path.join(_topdir(lang), 'clf.joblib')
+        path = os.path.join(language.topdir(lang), 'clf.joblib')
         with open(path, 'wb') as file:
             joblib.dump(obj, file)
     return obj
@@ -181,7 +177,7 @@ class Classifier(object):
             return
 
         if not obj:
-            path = os.path.join(_topdir(lang), 'clf.joblib')
+            path = os.path.join(language.topdir(lang), 'clf.joblib')
             with open(path, 'rb') as file:
                 obj = joblib.load(file)
 
@@ -194,7 +190,7 @@ class Classifier(object):
                 .format(obj.get('scikit-learn_version'), cur_scipy_version))
 
         self.tfidf_model = obj['tfidf_model']
-        self.classifier = obj['classifier']
+        self.classifier = obj['clf']
         self.target_names = obj['target_names']
 
 
@@ -214,7 +210,7 @@ def disambiguate_entity(key, text, lang='en_US'):
     Resolve ambiguity between entities with same dimensionality.
     """
 
-    if len(load.DERIVED_ENT[key]) > 1:
+    if len(load.entities().derived[key]) > 1:
         transformed = classifier(lang).tfidf_model.transform(
             [clean_text(text)])
         scores = classifier(lang).classifier.predict_proba(
@@ -222,17 +218,17 @@ def disambiguate_entity(key, text, lang='en_US'):
         scores = zip(scores, classifier(lang).target_names)
 
         # Filter for possible names
-        names = [i.name for i in load.DERIVED_ENT[key]]
+        names = [i.name for i in load.entities().derived[key]]
         scores = [i for i in scores if i[1] in names]
 
         # Sort by rank
         scores = sorted(scores, key=lambda x: x[0], reverse=True)
         try:
-            new_ent = load.ENTITIES[scores[0][1]]
+            new_ent = load.entities().names[scores[0][1]]
         except IndexError:
             logging.debug('\tAmbiguity not resolved for "%s"', str(key))
     else:
-        new_ent = next(iter(load.DERIVED_ENT[key]))
+        new_ent = next(iter(load.entities().derived[key]))
 
     return new_ent
 
@@ -243,13 +239,12 @@ def disambiguate_unit(unit, text, lang='en_US'):
     Resolve ambiguity between units with same names, symbols or abbreviations.
     """
 
-    new_unit = load.units(lang).symbols.get(unit) or load.units(
-        lang).surfaces.get(unit)
+    new_unit = (load.units(lang).symbols.get(unit)
+                or load.units(lang).surfaces.get(unit)
+                or load.units(lang).surfaces_lower.get(unit.lower())
+                or load.units(lang).symbols_lower.get(unit.lower()))
     if not new_unit:
-        new_unit = load.units(lang).surfaces_lower.get(
-            unit.lower()) or load.units(lang).symbols_lower.get(unit.lower())
-        if not new_unit:
-            raise KeyError('Could not find unit "%s" from "%s"' % (unit, text))
+        raise KeyError('Could not find unit "%s" from "%s"' % (unit, text))
 
     if len(new_unit) > 1:
         transformed = classifier(lang).tfidf_model.transform(

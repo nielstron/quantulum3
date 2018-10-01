@@ -6,6 +6,7 @@
 
 # Standard library
 from importlib import import_module
+import os
 
 # Quantulum
 from . import load
@@ -25,3 +26,7 @@ def get(module, lang='en_US'):
     module = import_module(
         '._lang.{}.{}'.format(subdir, module), package=__package__)
     return module
+
+
+def topdir(lang='en_US'):
+    return os.path.join(load.TOPDIR, '_lang', load.LANGUAGES[lang])
