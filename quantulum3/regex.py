@@ -13,6 +13,7 @@ from .load import cached
 from . import language
 
 
+################################################################################
 @cached
 def _get_regex(lang='en_US'):
     """
@@ -23,6 +24,7 @@ def _get_regex(lang='en_US'):
     return language.get('regex', lang)
 
 
+################################################################################
 def units(lang='en_US'):
     return _get_regex(lang).UNITS
 
@@ -41,6 +43,28 @@ def decimals(lang='en_US'):
 
 def miscnum(lang='en_US'):
     return _get_regex(lang).MISCNUM
+
+
+def powers(lang='en_US'):
+    return _get_regex(lang).POWERS
+
+
+def exponents_regex(lang='en_US'):
+    return _get_regex(lang).EXPONENTS_REGEX
+
+
+@cached
+def ranges(lang="en_US"):
+    ranges_ = {'-'}
+    ranges_.update(_get_regex(lang).RANGES)
+    return ranges_
+
+
+@cached
+def uncertainties(lang="en_US"):
+    uncertainties_ = {'\+/-', '±' }
+    uncertainties_.update(_get_regex(lang).UNCERTAINTIES)
+    return uncertainties_
 
 
 ################################################################################
@@ -67,6 +91,7 @@ def numberwords(lang='en_US'):
     return numwords
 
 
+@cached
 def numberwords_regex(lang='en_US'):
     all_numbers = r'|'.join(
         r'\b%s\b' % i for i in list(numberwords(lang).keys()) if i)
@@ -78,7 +103,7 @@ def suffixes(lang='en_US'):
     return _get_regex(lang).SUFFIXES
 
 
-def unicode_superscript(lang='en_US'):
+def unicode_superscript():
     uni_super = {
         u'¹': '1',
         u'²': '2',
@@ -94,11 +119,11 @@ def unicode_superscript(lang='en_US'):
     return uni_super
 
 
-def unicode_superscript_regex(lang='en_US'):
-    return re.escape(''.join(list(unicode_superscript(lang).keys())))
+def unicode_superscript_regex():
+    return re.escape(''.join(list(unicode_superscript().keys())))
 
 
-def unicode_fractions(lang='en_US'):
+def unicode_fractions():
     uni_frac = {
         u'¼': '1/4',
         u'½': '1/2',
@@ -122,8 +147,8 @@ def unicode_fractions(lang='en_US'):
     return uni_frac
 
 
-def unicode_fractions_regex(lang='en_US'):
-    return re.escape(''.join(list(unicode_fractions(lang).keys())))
+def unicode_fractions_regex():
+    return re.escape(''.join(list(unicode_fractions().keys())))
 
 
 @cached
@@ -133,6 +158,7 @@ def multiplication_operators(lang='en_US'):
     return mul
 
 
+@cached
 def multiplication_operators_regex(lang='en_US'):
     return r'|'.join(
         r'%s' % re.escape(i) for i in multiplication_operators(lang))
@@ -161,6 +187,7 @@ def decimal_operators(lang='en_US'):
     return _get_regex(lang).DECIMAL_OPERATORS
 
 
+@cached
 def decimal_operators_regex(lang='en_US'):
     return ''.join(decimal_operators(lang))
 
@@ -189,8 +216,8 @@ def number_pattern_no_groups(lang='en_US'):
         fraction=":",
         grouping=grouping_operators_regex(lang),
         multipliers=multiplication_operators_regex(lang),
-        superscript=unicode_superscript_regex(lang),
-        unicode_fract=unicode_fractions_regex(lang),
+        superscript=unicode_superscript_regex(),
+        unicode_fract=unicode_fractions_regex(),
         decimal_operators=decimal_operators_regex(lang))
 
 
@@ -205,8 +232,8 @@ def number_pattern_groups(lang='en_US'):
         fraction="P<fraction>",
         grouping=grouping_operators_regex(lang),
         multipliers=multiplication_operators_regex(lang),
-        superscript=unicode_superscript_regex(lang),
-        unicode_fract=unicode_fractions_regex(lang),
+        superscript=unicode_superscript_regex(),
+        unicode_fract=unicode_fractions_regex(),
         decimal_operators=decimal_operators_regex(lang))
 
 
@@ -220,11 +247,11 @@ def range_pattern(lang='en_US'):
         %s
     )
     (?:                                    # Second number
-        \ ?(?:(?:-\ )?-|%s|%s|\+/-|±)\ ?  # Group for ranges or uncertainties
+        \ ?(?:(?:-\ )?(?:%s|%s))\ ?  # Group for ranges or uncertainties
     %s)?
 
-    ''' % (num_pattern_no_groups, '|'.join(_get_regex(lang).RANGES), '|'.join(
-        _get_regex(lang).UNCERTAINTIES), num_pattern_no_groups)
+    ''' % (num_pattern_no_groups, '|'.join(ranges(lang)), '|'.join(
+        uncertainties(lang)), num_pattern_no_groups)
 
 
 @cached
@@ -280,15 +307,14 @@ def units_regex(lang='en_US'):
 
     op_keys = sorted(list(operators(lang)), key=len, reverse=True)
     unit_keys = sorted(
-        list(load.units(lang).names.keys()) + list(
+        list(load.units(lang).surfaces.keys()) + list(
             load.units(lang).symbols.keys()),
         key=len,
         reverse=True)
     symbol_keys = sorted(
         list(load.units(lang).prefix_symbols.keys()), key=len, reverse=True)
 
-    exponent = r'(?:(?:\^?\-?[0-9{}]+)?(?:\ cubed|\ squared)?)'.format(
-        unicode_superscript_regex(lang))
+    exponent = exponents_regex(lang).format(superscripts=unicode_superscript_regex())
 
     all_ops = '|'.join([r'{}'.format(re.escape(i)) for i in op_keys])
     all_units = '|'.join([r'{}'.format(re.escape(i)) for i in unit_keys])

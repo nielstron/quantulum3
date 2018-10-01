@@ -83,7 +83,7 @@ def load_quantity_tests(ambiguity=True):
     """
 
     path = os.path.join(
-        TOPDIR,
+        language.topdir(lang), 'tests',
         'quantities.ambiguity.json' if ambiguity else 'quantities.json')
     with open(path, 'r', encoding='UTF-8') as testfile:
         tests = json.load(testfile)
@@ -108,8 +108,8 @@ def load_quantity_tests(ambiguity=True):
                         i['power']
                     } for i in item['dimensions']]
                     entity = cls.Entity(name='unknown', dimensions=derived)
-                elif entity in load.ENTITIES:
-                    entity = load.ENTITIES[entity]
+                elif entity in load.entities(lang).names:
+                    entity = load.entities(lang).names[entity]
                 else:  # pragma: no cover
                     print(('Could not find %s, provide "derived" and'
                            ' "entity"' % item['unit']))
@@ -117,10 +117,11 @@ def load_quantity_tests(ambiguity=True):
                 unit = cls.Unit(
                     name=item['unit'],
                     dimensions=item.get('dimensions', []),
-                    entity=entity)
+                    entity=entity,
+                    lang=lang
+                )
             try:
-                # TODO be aware that there may never be two identical units
-                # in a req string
+                # TODO be aware that there may never be two identical units in a req string
                 span = next(
                     re.finditer(re.escape(item['surface']),
                                 test['req'])).span()
@@ -136,7 +137,9 @@ def load_quantity_tests(ambiguity=True):
                     unit=unit,
                     surface=item['surface'],
                     span=span,
-                    uncertainty=uncert))
+                    uncertainty=uncert,
+                    lang=lang
+                ))
         test['res'] = [i for i in res]
 
     return tests
@@ -145,7 +148,7 @@ def load_quantity_tests(ambiguity=True):
 ################################################################################
 def load_expand_tests():
     with open(
-            os.path.join(TOPDIR, 'expand.json'), 'r',
+            os.path.join(language.topdir(lang), 'tests', 'expand.json'), 'r',
             encoding='utf-8') as testfile:
         tests = json.load(testfile)
     return tests

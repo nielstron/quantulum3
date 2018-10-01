@@ -6,6 +6,8 @@
 
 # Quantulum
 from ... import load
+from ... import parser
+from . import lang
 
 
 ################################################################################
@@ -37,7 +39,7 @@ def unit_to_spoken(unit, count=1):
     else:
         # derived unit
         denominator_dimensions = [i for i in unit.dimensions if i['power'] > 0]
-        denominator_string = unit.name_from_dimensions(denominator_dimensions)
+        denominator_string = parser.name_from_dimensions(denominator_dimensions, lang)
         plural_denominator_string = load.pluralize(denominator_string)
         unit_string = unit.name.replace(denominator_string,
                                         plural_denominator_string)

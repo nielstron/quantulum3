@@ -20,13 +20,15 @@ class Quantity(object):
                  unit=None,
                  surface=None,
                  span=None,
-                 uncertainty=None):
+                 uncertainty=None,
+                 lang='en_US'):
 
         self.value = value
         self.unit = unit
         self.surface = surface
         self.span = span
         self.uncertainty = uncertainty
+        self.lang = lang
 
     def __repr__(self):
 
@@ -49,14 +51,14 @@ class Quantity(object):
         return not self.__eq__(other)
 
     def __str__(self):
-        return self.to_spoken()
+        return self.to_spoken(self.lang)
 
-    def to_spoken(self):
+    def to_spoken(self, lang=None):
         """
         Express quantity as a speakable string
         :return: Speakable version of this quantity
         """
-        return speak.quantity_to_spoken(self)
+        return speak.quantity_to_spoken(self, lang or self.lang)
 
 
 ################################################################################
@@ -72,7 +74,8 @@ class Unit(object):
                  uri=None,
                  symbols=None,
                  dimensions=None,
-                 currency_code=None):
+                 currency_code=None,
+                 lang='en_US'):
         """Initialization method."""
         self.name = name
         self.surfaces = surfaces
@@ -81,14 +84,16 @@ class Unit(object):
         self.symbols = symbols
         self.dimensions = dimensions
         self.currency_code = currency_code
+        self.lang = lang
 
-    def to_spoken(self, count=1):
+    def to_spoken(self, count=1, lang=None):
         """
         Convert a given unit to the unit in words, correctly inflected.
         :param count: The value of the quantity (i.e. 1 for one watt, 2 for two seconds)
+        :param lang: Language of result
         :return: A string with the correctly inflected spoken version of the unit
         """
-        return speak.unit_to_spoken(self)
+        return speak.unit_to_spoken(self, count, lang or self.lang)
 
     def __repr__(self):
 

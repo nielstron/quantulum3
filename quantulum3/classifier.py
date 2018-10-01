@@ -8,7 +8,6 @@ import os
 import json
 import logging
 import pkg_resources
-from pathlib import Path
 
 # Semi-dependencies
 try:
@@ -29,6 +28,7 @@ except ImportError:
 from . import load
 from .load import cached
 from . import language
+from . import disambiguate
 
 
 def _get_classifier(lang='en_US'):
@@ -104,19 +104,6 @@ def clean_text(text, lang='en_US'):
 
 
 ################################################################################
-def get_training_set(lang='en_US'):
-    training_set = []
-
-    path = Path(os.path.join(language.topdir(lang), 'train'))
-    for file in path.iterdir():
-        if file.suffix == '.json':
-            with file.open('r', encoding='utf-8') as train_file:
-                training_set += json.load(train_file)
-
-    return training_set
-
-
-################################################################################
 def train_classifier(parameters=None,
                      ngram_range=(1, 1),
                      store=True,
@@ -126,7 +113,7 @@ def train_classifier(parameters=None,
     TODO auto invoke if sklearn version is new or first install or sth
     @:param store (bool) store classifier in clf.joblib
     """
-    training_set = get_training_set(lang)
+    training_set = disambiguate.training_set(lang)
     target_names = list(set([i['unit'] for i in training_set]))
 
     train_data, train_target = [], []
@@ -135,7 +122,7 @@ def train_classifier(parameters=None,
         train_target.append(target_names.index(example['unit']))
 
     tfidf_model = TfidfVectorizer(
-        sublinear_tf=True, ngram_range=ngram_range, stop_words='english')
+        sublinear_tf=True, ngram_range=ngram_range, stop_words=_get_classifier(lang).stop_words())
 
     matrix = tfidf_model.fit_transform(train_data)
 
@@ -172,6 +159,9 @@ class Classifier(object):
         """
         Load the intent classifier
         """
+        self.tfidf_model = None
+        self.classifier = None
+        self.target_names = None
 
         if not USE_CLF:
             return
@@ -183,8 +173,7 @@ class Classifier(object):
 
         cur_scipy_version = pkg_resources.get_distribution(
             'scikit-learn').version
-        if cur_scipy_version != obj.get(
-                'scikit-learn_version'):  # pragma: no cover
+        if cur_scipy_version != obj.get('scikit-learn_version'):  # pragma: no cover
             logging.warning(
                 "The classifier was built using a different scikit-learn version (={}, !={}). The disambiguation tool could behave unexpectedly. Consider running classifier.train_classfier()"
                 .format(obj.get('scikit-learn_version'), cur_scipy_version))
@@ -201,7 +190,7 @@ def classifier(lang='en_US'):
     :param lang:
     :return:
     """
-    return Classifier(lang)
+    return Classifier(lang=lang)
 
 
 ################################################################################
@@ -218,17 +207,17 @@ def disambiguate_entity(key, text, lang='en_US'):
         scores = zip(scores, classifier(lang).target_names)
 
         # Filter for possible names
-        names = [i.name for i in load.entities().derived[key]]
+        names = [i.name for i in load.entities(lang).derived[key]]
         scores = [i for i in scores if i[1] in names]
 
         # Sort by rank
         scores = sorted(scores, key=lambda x: x[0], reverse=True)
         try:
-            new_ent = load.entities().names[scores[0][1]]
+            new_ent = load.entities(lang).names[scores[0][1]]
         except IndexError:
             logging.debug('\tAmbiguity not resolved for "%s"', str(key))
     else:
-        new_ent = next(iter(load.entities().derived[key]))
+        new_ent = next(iter(load.entities(lang).derived[key]))
 
     return new_ent
 

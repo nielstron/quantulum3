@@ -26,16 +26,16 @@ _CACHE_DICT = {}
 def cached(funct):
     """
     Decorator for caching language specific data
-    :param funct: the method, dynamically responding to language
+    :param funct: the method, dynamically responding to language. Only parameter is lang
     :return: the method, dynamically responding to language but also caching results
     """
     assert callable(funct)
 
-    def cached_function(lang='en_US', *args, **kwargs):
+    def cached_function(lang='en_US'):
         try:
             return _CACHE_DICT[str(id(funct))][lang]
         except KeyError:
-            result = funct(*args, lang=lang, **kwargs)
+            result = funct(lang)
             _CACHE_DICT[str(id(funct))] = {lang: result}
             return result
 
@@ -269,17 +269,19 @@ class Units(object):
             uri=unit['URI'],
             symbols=unit.get('symbols', []),
             dimensions=unit.get('dimensions', []),
-            currency_code=unit.get('currency_code'))
+            currency_code=unit.get('currency_code'),
+            lang=self.lang
+        )
 
         self.names[unit['name']] = obj
 
-        for symbol in unit['symbols']:
+        for symbol in unit.get('symbols', []):
             self.symbols[symbol].add(obj)
             self.symbols_lower[symbol.lower()].add(obj)
             if unit['entity'] == 'currency':
-                self.symbols[symbol].add(obj)
+                self.prefix_symbols[symbol].add(obj)
 
-        for surface in unit['surfaces']:
+        for surface in unit.get('surfaces', []):
             self.surfaces[surface].add(obj)
             self.surfaces_lower[surface.lower()].add(obj)
             plural = pluralize(surface, lang=self.lang)
@@ -287,37 +289,36 @@ class Units(object):
             self.surfaces_lower[plural.lower()].add(obj)
 
         # If SI-prefixes are given, add them
-        if unit.get('prefixes'):
-            for prefix in unit['prefixes']:
-                try:
-                    assert prefix in METRIC_PREFIXES
-                except AssertionError:  # pragma: no cover
-                    raise Exception(
-                        "Given prefix '{}' for unit '{}' not supported".format(
-                            prefix, unit['name']))
-                try:
-                    assert len(unit['dimensions']) <= 1
-                except AssertionError:  # pragma: no cover
-                    raise Exception(
-                        "Prefixing not supported for multiple dimensions in {}"
-                        .format(unit['name']))
+        for prefix in unit.get('prefixes', []):
+            try:
+                assert prefix in METRIC_PREFIXES
+            except AssertionError:  # pragma: no cover
+                raise Exception(
+                    "Given prefix '{}' for unit '{}' not supported".format(
+                        prefix, unit['name']))
+            try:
+                assert len(unit['dimensions']) <= 1
+            except AssertionError:  # pragma: no cover
+                raise Exception(
+                    "Prefixing not supported for multiple dimensions in {}"
+                    .format(unit['name']))
 
-                uri = METRIC_PREFIXES[prefix].capitalize() + unit['URI'].lower(
-                )
+            uri = METRIC_PREFIXES[prefix].capitalize() + unit['URI'].lower(
+            )
 
-                prefixed_unit = {
-                    'name':
-                    METRIC_PREFIXES[prefix] + unit['name'],
-                    'surfaces':
-                    [METRIC_PREFIXES[prefix] + i for i in unit['surfaces']],
-                    'entity':
-                    unit['entity'],
-                    'URI':
-                    uri,
-                    'dimensions': [],
-                    'symbols': [prefix + i for i in unit['symbols']]
-                }
-                self.load_unit(prefixed_unit)
+            prefixed_unit = {
+                'name':
+                METRIC_PREFIXES[prefix] + unit['name'],
+                'surfaces':
+                [METRIC_PREFIXES[prefix] + i for i in unit['surfaces']],
+                'entity':
+                unit['entity'],
+                'URI':
+                uri,
+                'dimensions': [],
+                'symbols': [prefix + i for i in unit['symbols']]
+            }
+            self.load_unit(prefixed_unit)
 
 
 @cached

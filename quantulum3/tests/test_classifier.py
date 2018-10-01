@@ -16,6 +16,7 @@ import unittest
 from .. import load
 from .. import parser as p
 from .. import classifier as clf
+from .. import language
 from .test_setup import load_expand_tests, load_quantity_tests
 
 # sklearn
@@ -24,6 +25,7 @@ from sklearn.externals import joblib
 COLOR1 = '\033[94m%s\033[0m'
 COLOR2 = '\033[91m%s\033[0m'
 TOPDIR = os.path.dirname(__file__) or "."
+lang = 'en_US'
 
 
 ################################################################################
@@ -63,10 +65,11 @@ class ClassifierTest(unittest.TestCase):
                 '\n'.join('{}: {}'.format(test[0]['req'], test[1])
                           for test in error)))
 
+    @unittest.skip
     def test_training(self):
         """ Test that classifier training works """
         # Test that no errors are thrown during training
-        obj = clf.train_classifier(store=False)
+        obj = clf.train_classifier(store=False, lang=lang)
         # Test that the classifier works with the currently downloaded data
         load._CACHE_DICT[id(clf.classifier)]['en_US'] = clf.Classifier(
             obj=obj, lang='en_US')
@@ -80,7 +83,7 @@ class ClassifierTest(unittest.TestCase):
 
     def test_classifier_up_to_date(self):
         """ Test that the classifier has been built with the latest version of scikit-learn """
-        path = os.path.join(load.TOPDIR, 'clf.joblib')
+        path = os.path.join(language.topdir(lang), 'clf.joblib')
         with open(path, 'rb') as clf_file:
             obj = joblib.load(clf_file)
         clf_version = obj['scikit-learn_version']

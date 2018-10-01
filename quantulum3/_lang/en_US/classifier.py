@@ -32,3 +32,12 @@ def clean_text(text):
     new_text = ' '.join(new_text)
 
     return new_text
+
+
+################################################################################
+def stop_words():
+    """
+    Return the string, identifying stop word language for TFIDF vectorizer
+    :return:
+    """
+    return 'english'

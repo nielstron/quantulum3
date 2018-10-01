@@ -45,7 +45,7 @@ def extract_spellout_values(text, lang='en_US'):
 
 
 ################################################################################
-def substitute_values(text, values, lang='en_US'):
+def substitute_values(text, values):
     """
     Convert spelled out numbers in a given text to digits.
     """
@@ -72,9 +72,9 @@ def get_values(item, lang='en_US'):
     """
 
     def callback(pattern):
-        return ' %s' % (reg.unicode_fractions(lang)[pattern.group(0)])
+        return ' %s' % (reg.unicode_fractions()[pattern.group(0)])
 
-    fracs = r'|'.join(reg.unicode_fractions(lang))
+    fracs = r'|'.join(reg.unicode_fractions())
 
     value = item.group('value')
     # Remove grouping operators
@@ -91,8 +91,8 @@ def get_values(item, lang='en_US'):
 
     value = re.sub(fracs, callback, value, re.IGNORECASE)
 
-    range_separator = re.findall(r'\d+ ?(-|and|(?:- ?)?to) ?\d', value)
-    uncer_separator = re.findall(r'\d+ ?(\+/-|±) ?\d', value)
+    range_separator = re.findall(r'\d+ ?((?:-\ )?(?:%s)) ?\d' % '|'.join(reg.ranges(lang)), value)
+    uncer_separator = re.findall(r'\d+ ?(%s) ?\d' % '|'.join(reg.uncertainties(lang)), value)
     fract_separator = re.findall(r'\d+/\d+', value)
 
     value = re.sub(' +', ' ', value)
@@ -162,11 +162,10 @@ def resolve_exponents(value, lang='en_US'):
             # either ^ or superscript notation is used
             if re.match(r'\d+\^?', base):
                 if not ('^' in base or re.match(
-                        r'[%s]' % reg.unicode_superscript_regex(lang), exp)):
+                        r'[%s]' % reg.unicode_superscript_regex(), exp)):
                     factors.append(1)
                     continue
-            for superscript, substitute in reg.unicode_superscript(
-                    lang).items():
+            for superscript, substitute in reg.unicode_superscript().items():
                 exp.replace(superscript, substitute)
             exp = float(exp)
             base = float(base.replace('^', ''))
@@ -214,6 +213,24 @@ def get_unit_from_dimensions(dimensions, text, lang='en_US'):
             entity=get_entity_from_dimensions(dimensions, text, lang))
 
     return unit
+
+
+def name_from_dimensions(dimensions, lang='en_US'):
+    """
+    Build the name of a unit from its dimensions.
+    Param:
+        dimensions: List of dimensions
+    """
+    return _get_parser(lang).name_from_dimensions(dimensions)
+
+
+def infer_name(unit):
+    """
+    Return unit name based on dimensions
+    :return: new name of this unit
+    """
+    name = name_from_dimensions(unit.dimensions) if unit.dimensions else None
+    return name
 
 
 ################################################################################
@@ -393,6 +410,7 @@ def clean_text(text, lang='en_US'):
     for element in maps:
         text = text.replace(element, maps[element])
 
+    # Language specific cleaning
     text = _get_parser(lang).clean_text(text)
 
     logging.debug('Clean text: "%s"', text)
@@ -415,16 +433,12 @@ def parse(text, lang='en_US', verbose=False):
         root.setLevel(logging.DEBUG)
         logging.debug('Verbose mode')
 
-    # if isinstance(text, str):
-    #    text = str(text, encoding='utf-8')
-    #    logging.debug('Converted string to unicode (assume utf-8 encoding)')
-
     orig_text = text
     logging.debug('Original text: "%s"', orig_text)
 
     text = clean_text(text, lang)
     values = extract_spellout_values(text, lang)
-    text, shifts = substitute_values(text, values, lang)
+    text, shifts = substitute_values(text, values)
 
     quantities = []
     for item in reg.units_regex(lang).finditer(text):
@@ -434,13 +448,13 @@ def parse(text, lang='en_US', verbose=False):
         logging.debug(u'Quantity found: %s', groups)
 
         try:
-            uncert, values = get_values(item)
+            uncert, values = get_values(item, lang)
 
             unit, unit_shortening = get_unit(item, text)
             surface, span = get_surface(shifts, orig_text, item, text,
                                         unit_shortening)
             objs = build_quantity(orig_text, text, item, values, unit, surface,
-                                  span, uncert)
+                                  span, uncert, lang)
             if objs is not None:
                 quantities += objs
         except ValueError as err:
@@ -471,18 +485,18 @@ def inline_parse(text, verbose=False):  # pragma: no cover
 
 
 ################################################################################
-def inline_parse_and_replace(text, verbose=False):  # pragma: no cover
+def inline_parse_and_replace(text, lang='en_US', verbose=False):  # pragma: no cover
     """
     Parse text and replace with the standardised quantities as string
     """
 
-    parsed = parse(text, verbose=verbose)
+    parsed = parse(text, lang=lang, verbose=verbose)
 
     shift = 0
     for quantity in parsed:
         index_start = quantity.span[0] + shift
         index_end = quantity.span[1] + shift
-        to_add = quantity.as_string()
+        to_add = str(quantity)
         text = text[0:index_start] + to_add + text[index_end:]
         shift += len(to_add) - (quantity.span[1] - quantity.span[0])
 

@@ -4,13 +4,33 @@
 """
 
 # Quantulum
+import json
+import os
+from pathlib import Path
+
+from quantulum3 import language
 from . import classifier as clf
 from . import no_classifier as no_clf
 from . import load
+from .load import cached
 
 
 ################################################################################
-def disambiguate_unit(unit_surface, text, lang):
+@cached
+def training_set(lang='en_US'):
+    training_set_ = []
+
+    path = Path(os.path.join(language.topdir(lang), 'train'))
+    for file in path.iterdir():
+        if file.suffix == '.json':
+            with file.open('r', encoding='utf-8') as train_file:
+                training_set_ += json.load(train_file)
+
+    return training_set_
+
+
+################################################################################
+def disambiguate_unit(unit_surface, text, lang='en_US'):
     """
     Resolve ambiguity between units with same names, symbols or abbreviations.
     :returns (str) unit name of the resolved unit
@@ -48,7 +68,7 @@ def disambiguate_entity(key, text, lang='en_US'):
             derived = load.entities().derived[key]
             if len(derived) > 1:
                 ent = no_clf.disambiguate_no_classifier(derived, text)
-                ent = load.entities().entities[ent]
+                ent = load.entities().names[ent]
             elif len(derived) == 1:
                 ent = next(iter(derived))
             else:
@@ -57,3 +77,5 @@ def disambiguate_entity(key, text, lang='en_US'):
         ent = None
 
     return ent
+
+

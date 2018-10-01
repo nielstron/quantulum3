@@ -36,8 +36,8 @@ def quantity_to_spoken(quantity, lang):
 
 
 ################################################################################
-def unit_to_spoken(unit, lang):
+def unit_to_spoken(unit, count, lang):
     if unit.name == 'dimensionless':
         return ""
     else:
-        return _get_speak(lang).unit_to_spoken(unit)
+        return _get_speak(lang).unit_to_spoken(unit, count)

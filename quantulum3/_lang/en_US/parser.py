@@ -93,26 +93,23 @@ def parse_unit(item, unit, slash):
     """
 
     surface = unit.replace('.', '')
-    power = re.findall(r'-?[0-9%s]+' % reg.unicode_superscript_regex(lang),
-                       surface)
+    power = re.findall(r'-?[0-9%s]+' % reg.unicode_superscript_regex(), surface)
+    power_written = re.findall(r'\b(%s)\b' % '|'.join(reg.powers(lang)), surface)
 
     if power:
         power = [
-            reg.unicode_superscript(lang)[i]
-            if i in reg.unicode_superscript(lang) else i for i in power
+            reg.unicode_superscript()[i]
+            if i in reg.unicode_superscript() else i for i in power
         ]
         power = ''.join(power)
         new_power = (-1 * int(power) if slash else int(power))
-        surface = re.sub(r'\^?-?[0-9%s]+' % reg.unicode_superscript(lang), '',
+        surface = re.sub(r'\^?-?[0-9%s]+' % reg.unicode_superscript(), '',
                          surface)
 
-    elif re.findall(r'\bcubed\b', surface):
-        new_power = (-3 if slash else 3)
-        surface = re.sub(r'\bcubed\b', '', surface).strip()
-
-    elif re.findall(r'\bsquared\b', surface):
-        new_power = (-2 if slash else 2)
-        surface = re.sub(r'\bsquared\b', '', surface).strip()
+    elif power_written:
+        exponent = reg.powers(lang)[power_written[0]]
+        new_power = (-exponent if slash else exponent)
+        surface = re.sub(r'\b%s\b' % power_written[0], '', surface).strip()
 
     else:
         new_power = (-1 if slash else 1)
@@ -149,9 +146,9 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
             # k/M etc is only applied if non-symbolic surfaces of other units (because colloquial)
             # or currency units
             symbolic = all(
-                any(dim['surface'] in unit.symbols
-                    for unit in load.UNITS[dim['base']])
-                for dim in unit.dimensions[1:])
+                dim['surface'] in load.units(lang).names[dim['base']].symbols
+                for dim in unit.dimensions[1:]
+            )
             if not symbolic:
                 suffix = unit.dimensions[0]['surface']
                 values = [
@@ -236,7 +233,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         if len(unit.dimensions) >= 1:
             unit = parser.get_unit_from_dimensions(unit.dimensions, orig_text)
         else:
-            unit = load.UNIT_NAMES['dimensionless']
+            unit = load.units(lang).names['dimensionless']
 
     # Discard irrelevant txt2float extractions, cardinal numbers, codes etc.
     if surface.lower() in ['a', 'an', 'one'] or \
@@ -253,7 +250,9 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
             unit=unit,
             surface=surface,
             span=span,
-            uncertainty=uncert)
+            uncertainty=uncert,
+            lang=lang
+        )
         objs.append(obj)
 
     return objs
@@ -300,10 +299,3 @@ def name_from_dimensions(dimensions):
     return name
 
 
-def infer_name(unit):
-    """
-    Return unit name based on dimensions
-    :return: new name of this unit
-    """
-    name = name_from_dimensions(unit.dimensions) if unit.dimensions else None
-    return name
