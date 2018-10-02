@@ -4,7 +4,6 @@
 """
 
 # Standard library
-import os
 import json
 import logging
 import pkg_resources
@@ -28,7 +27,6 @@ except ImportError:
 from . import load
 from .load import cached
 from . import language
-from . import disambiguate
 
 
 def _get_classifier(lang='en_US'):
@@ -86,9 +84,9 @@ def download_wiki(store=True, lang='en_US'):  # pragma: no cover
         obj['unit'] = page[0]
         objs.append(obj)
 
-    path = os.path.join(language.topdir(lang), 'wiki.json')
+    path = language.topdir(lang).joinpath('wiki.json')
     if store:
-        with open(path, 'w') as wiki_file:
+        with path.open('w') as wiki_file:
             json.dump(objs, wiki_file, indent=4, sort_keys=True)
 
     print('\n---> All done.\n')
@@ -113,7 +111,7 @@ def train_classifier(parameters=None,
     TODO auto invoke if sklearn version is new or first install or sth
     @:param store (bool) store classifier in clf.joblib
     """
-    training_set = disambiguate.training_set(lang)
+    training_set = load.training_set(lang)
     target_names = list(set([i['unit'] for i in training_set]))
 
     train_data, train_target = [], []
@@ -149,8 +147,8 @@ def train_classifier(parameters=None,
         target_names
     }
     if store:  # pragma: no cover
-        path = os.path.join(language.topdir(lang), 'clf.joblib')
-        with open(path, 'wb') as file:
+        path = language.topdir(lang).joinpath('clf.joblib')
+        with path.open('wb') as file:
             joblib.dump(obj, file)
     return obj
 
@@ -169,8 +167,8 @@ class Classifier(object):
             return
 
         if not obj:
-            path = os.path.join(language.topdir(lang), 'clf.joblib')
-            with open(path, 'rb') as file:
+            path = language.topdir(lang).joinpath('clf.joblib')
+            with path.open('rb') as file:
                 obj = joblib.load(file)
 
         cur_scipy_version = pkg_resources.get_distribution(

@@ -9,7 +9,6 @@ import os
 import re
 import json
 import unittest
-import functools
 
 # Dependencies
 try:
@@ -55,7 +54,7 @@ def multilang(funct_or_langs):
 
     # Decide whether we *are* the wrapper or are to create it
     if callable(funct_or_langs):
-        langs = load.LANGUAGES
+        langs = language.LANGUAGES
         return multilang_(funct_or_langs)
 
     langs = funct_or_langs
@@ -149,10 +148,10 @@ def load_quantity_tests(ambiguity=True, lang='en_US'):
     Load all tests from quantities.json.
     """
 
-    path = os.path.join(
-        language.topdir(lang), 'tests',
+    path = language.topdir(lang).joinpath(
+        'tests',
         'quantities.ambiguity.json' if ambiguity else 'quantities.json')
-    with open(path, 'r', encoding='UTF-8') as testfile:
+    with path.open('r', encoding='UTF-8') as testfile:
         tests = json.load(testfile)
 
     for test in tests:
@@ -212,8 +211,7 @@ def load_quantity_tests(ambiguity=True, lang='en_US'):
 
 ################################################################################
 def load_expand_tests(lang='en_US'):
-    with open(
-            os.path.join(language.topdir(lang), 'tests', 'expand.json'),
+    with language.topdir(lang).joinpath('tests', 'expand.json').open(
             'r',
             encoding='utf-8') as testfile:
         tests = json.load(testfile)

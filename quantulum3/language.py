@@ -6,12 +6,26 @@
 
 # Standard library
 from importlib import import_module
-import os
+from pathlib import Path
 
-# Quantulum
-from . import load
+TOPDIR = Path(__file__).parent or Path('.')
 
 
+################################################################################
+def languages():
+    subdirs = [
+        x for x in TOPDIR.joinpath('_lang').iterdir()
+        if x.is_dir() and not x.name.startswith('__')
+    ]
+    langs = dict((x.name, x.name) for x in subdirs)
+    langs.update((x.name[:2], x.name) for x in subdirs)
+    return langs
+
+
+LANGUAGES = languages()
+
+
+################################################################################
 def get(module, lang='en_US'):
     """
     Get module for given language
@@ -20,7 +34,7 @@ def get(module, lang='en_US'):
     :return:
     """
     try:
-        subdir = load.LANGUAGES[lang]
+        subdir = LANGUAGES[lang]
     except KeyError:
         raise NotImplementedError("Unsupported language: {}".format(lang))
     module = import_module(
@@ -28,5 +42,6 @@ def get(module, lang='en_US'):
     return module
 
 
+################################################################################
 def topdir(lang='en_US'):
-    return os.path.join(load.TOPDIR, '_lang', load.LANGUAGES[lang])
+    return TOPDIR.joinpath('_lang', LANGUAGES[lang])

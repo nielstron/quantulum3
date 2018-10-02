@@ -92,8 +92,8 @@ class ClassifierTest(unittest.TestCase):
     @multilang
     def test_classifier_up_to_date(self, lang='en_US'):
         """ Test that the classifier has been built with the latest version of scikit-learn """
-        path = os.path.join(language.topdir(lang), 'clf.joblib')
-        with open(path, 'rb') as clf_file:
+        path = language.topdir(lang).joinpath('clf.joblib')
+        with path.open('rb') as clf_file:
             obj = joblib.load(clf_file)
         clf_version = obj['scikit-learn_version']
         with urllib.request.urlopen(

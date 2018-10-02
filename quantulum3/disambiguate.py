@@ -4,29 +4,9 @@
 """
 
 # Quantulum
-import json
-import os
-from pathlib import Path
-
-from quantulum3 import language
 from . import classifier as clf
 from . import no_classifier as no_clf
 from . import load
-from .load import cached
-
-
-################################################################################
-@cached
-def training_set(lang='en_US'):
-    training_set_ = []
-
-    path = Path(os.path.join(language.topdir(lang), 'train'))
-    for file in path.iterdir():
-        if file.suffix == '.json':
-            with file.open('r', encoding='utf-8') as train_file:
-                training_set_ += json.load(train_file)
-
-    return training_set_
 
 
 ################################################################################
@@ -63,11 +43,11 @@ def disambiguate_entity(key, text, lang='en_US'):
     """
     try:
         if clf.USE_CLF:
-            ent = clf.disambiguate_entity(key, text)
+            ent = clf.disambiguate_entity(key, text, lang)
         else:
             derived = load.entities().derived[key]
             if len(derived) > 1:
-                ent = no_clf.disambiguate_no_classifier(derived, text)
+                ent = no_clf.disambiguate_no_classifier(derived, text, lang)
                 ent = load.entities().names[ent]
             elif len(derived) == 1:
                 ent = next(iter(derived))

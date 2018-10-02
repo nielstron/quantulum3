@@ -4,10 +4,7 @@
 :mod:`Quantulum` unit and entity loading functions.
 """
 
-from builtins import open
-
 # Standard library
-import os
 import json
 from collections import defaultdict
 import re
@@ -17,7 +14,7 @@ from pathlib import Path
 from . import classes as c
 from . import language
 
-TOPDIR = os.path.dirname(__file__) or "."
+TOPDIR = Path(__file__).parent or Path(".")
 
 ################################################################################
 _CACHE_DICT = {}
@@ -114,8 +111,8 @@ class Entities(object):
         Load entities from JSON file.
         """
 
-        path = os.path.join(TOPDIR, 'entities.json')
-        with open(path, encoding='utf-8') as file:
+        path = TOPDIR.joinpath('entities.json')
+        with path.open(encoding='utf-8') as file:
             general_entities = json.load(file)
         names = [i['name'] for i in general_entities]
 
@@ -131,8 +128,7 @@ class Entities(object):
             for k in general_entities)
 
         # Update with language specific URI
-        with open(
-                os.path.join(language.topdir(lang), 'entities.json'),
+        with path.joinpath(language.topdir(lang), 'entities.json').open('r',
                 encoding='utf-8') as file:
             lang_entities = json.load(file)
         for ent in lang_entities:
@@ -226,12 +222,12 @@ class Units(object):
         self.prefix_symbols = defaultdict(set)
 
         # Load general units
-        path = os.path.join(TOPDIR, 'units.json')
-        with open(path, encoding='utf-8') as file:
+        path = TOPDIR.joinpath('units.json')
+        with path.open(encoding='utf-8') as file:
             general_units = json.load(file)
         # load language specifics
-        path = os.path.join(language.topdir(lang), 'units.json')
-        with open(path, encoding='utf-8') as file:
+        path = path.joinpath(language.topdir(lang), 'units.json')
+        with path.open(encoding='utf-8') as file:
             lang_units = json.load(file)
 
         units = {}
@@ -328,14 +324,14 @@ def units(lang='en_US'):
 
 
 ################################################################################
-def languages():
-    subdirs = [
-        x for x in Path(os.path.join(TOPDIR, '_lang')).iterdir()
-        if x.is_dir() and not x.name.startswith('__')
-    ]
-    langs = dict((x.name, x.name) for x in subdirs)
-    langs.update((x.name[:2], x.name) for x in subdirs)
-    return langs
+@cached
+def training_set(lang='en_US'):
+    training_set_ = []
 
+    path = language.topdir(lang).joinpath('train')
+    for file in path.iterdir():
+        if file.suffix == '.json':
+            with file.open('r', encoding='utf-8') as train_file:
+                training_set_ += json.load(train_file)
 
-LANGUAGES = languages()
+    return training_set_
