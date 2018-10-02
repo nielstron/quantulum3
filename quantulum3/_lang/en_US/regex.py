@@ -45,24 +45,18 @@ DIVISION_OPERATORS = {
 GROUPING_OPERATORS = {u',', u' '}
 DECIMAL_OPERATORS = {u'.'}
 
-# Pattern for extracting a digit-based number
-NUM_PATTERN = r''' 
-    (?{number}              # required number
-        [+-]?                  #   optional sign
-        \.?\d+                 #   required digits
-        (?:[{grouping}]\d{{3}})*         #   allowed grouping
-        (?{decimals}[{decimal_operators}]\d+)?    #   optional decimals
-    )
-    (?{scale}               # optional exponent
-        (?:{multipliers})?                #   multiplicative operators
-        (?{base}(E|e|\d+)\^?)    #   required exponent prefix
-        (?{exponent}[+-]?\d+|[{superscript}])      #   required exponent, superscript or normal
-    )?
-    (?{fraction}             # optional fraction
-        \ \d+/\d+|\ ?[{unicode_fract}]|/\d+
-    )?
 
+# Pattern for extracting word based numbers
+TEXT_PATTERN = r'''            # Pattern for extracting mixed digit-spelled num
+(?:
+    (?<![a-zA-Z0-9+.-])    # lookbehind, avoid "Area51"
+    {number_pattern_no_groups}
+)?
+[ -]?(?:{numberwords_regex})
+[ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?
+[ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?
 '''
+
 
 RANGES = {'to', 'and'}
 UNCERTAINTIES = {'plus minus'}

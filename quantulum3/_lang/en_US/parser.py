@@ -269,7 +269,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
 ################################################################################
 def clean_text(text):
     """
-    Clean text before parsing.
+    Clean text before parsing, language specific part
     """
 
     # Replace genitives

@@ -201,13 +201,33 @@ def operators(lang='en_US'):
 
 
 # Pattern for extracting a digit-based number
-def number_pattern(lang='en_US'):
-    return _get_regex(lang).NUM_PATTERN
+NUM_PATTERN = r''' 
+    (?{number}              # required number
+        [+-]?                  #   optional sign
+        \.?\d+                 #   required digits
+        (?:[{grouping}]\d{{3}})*         #   allowed grouping
+        (?{decimals}[{decimal_operators}]\d+)?    #   optional decimals
+    )
+    (?{scale}               # optional exponent
+        (?:{multipliers})?                #   multiplicative operators
+        (?{base}(E|e|\d+)\^?)    #   required exponent prefix
+        (?{exponent}[+-]?\d+|[{superscript}])      #   required exponent, superscript or normal
+    )?
+    (?{fraction}             # optional fraction
+        \ \d+/\d+|\ ?[{unicode_fract}]|/\d+
+    )?
+
+'''
+
+
+# Pattern for extracting a digit-based number
+def number_pattern():
+    return NUM_PATTERN
 
 
 @cached
 def number_pattern_no_groups(lang='en_US'):
-    return number_pattern(lang).format(
+    return NUM_PATTERN.format(
         number=':',
         decimals=":",
         scale=":",
@@ -223,7 +243,7 @@ def number_pattern_no_groups(lang='en_US'):
 
 @cached
 def number_pattern_groups(lang='en_US'):
-    return number_pattern(lang).format(
+    return NUM_PATTERN.format(
         number='P<number>',
         decimals="P<decimals>",
         scale="P<scale>",
@@ -256,16 +276,8 @@ def range_pattern(lang='en_US'):
 
 @cached
 def text_pattern_reg(lang='en_US'):
-    txt_pattern = r'''            # Pattern for extracting mixed digit-spelled num
-    (?:
-        (?<![a-zA-Z0-9+.-])    # lookbehind, avoid "Area51"
-        %s
-    )?
-    [ -]?(?:%s)
-    [ -]?(?:%s)?[ -]?(?:%s)?[ -]?(?:%s)?
-    [ -]?(?:%s)?[ -]?(?:%s)?[ -]?(?:%s)?
-    ''' % tuple([number_pattern_no_groups(lang)] +
-                7 * [numberwords_regex(lang)])
+    txt_pattern = _get_regex(lang).TEXT_PATTERN.format(number_pattern_no_groups=number_pattern_no_groups(lang),
+                                                       numberwords_regex=numberwords_regex(lang))
     reg_txt = re.compile(txt_pattern, re.VERBOSE | re.IGNORECASE)
     return reg_txt
 
