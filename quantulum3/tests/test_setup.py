@@ -243,10 +243,16 @@ class SetupTest(unittest.TestCase):
                 "Build script has not been run since change to critical files")
 
     @unittest.expectedFailure
-    def test_quantity_comparison_fail(self):
+    def test_quantity_comparison_fail_unit(self):
         self.assertEqual(
             cls.Quantity(1, cls.Unit(entity=cls.Entity('water'))),
             cls.Quantity(1, cls.Unit(entity=cls.Entity('air'))))
+
+    @unittest.expectedFailure
+    def test_quantity_comparison_fail_value(self):
+        self.assertEqual(
+            cls.Quantity(1, cls.Unit(entity=cls.Entity('water'))),
+            cls.Quantity(2, cls.Unit(entity=cls.Entity('water'))))
 
     def test_unsupported_language(self):
         try:
