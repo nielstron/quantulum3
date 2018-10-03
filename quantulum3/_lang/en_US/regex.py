@@ -45,7 +45,6 @@ DIVISION_OPERATORS = {
 GROUPING_OPERATORS = {u',', u' '}
 DECIMAL_OPERATORS = {u'.'}
 
-
 # Pattern for extracting word based numbers
 TEXT_PATTERN = r'''            # Pattern for extracting mixed digit-spelled num
 (?:
@@ -56,7 +55,6 @@ TEXT_PATTERN = r'''            # Pattern for extracting mixed digit-spelled num
 [ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?
 [ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?
 '''
-
 
 RANGES = {'to', 'and'}
 UNCERTAINTIES = {'plus minus'}

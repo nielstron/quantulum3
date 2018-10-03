@@ -128,8 +128,8 @@ class Entities(object):
             for k in general_entities)
 
         # Update with language specific URI
-        with path.joinpath(language.topdir(lang), 'entities.json').open('r',
-                encoding='utf-8') as file:
+        with path.joinpath(language.topdir(lang), 'entities.json').open(
+                'r', encoding='utf-8') as file:
             lang_entities = json.load(file)
         for ent in lang_entities:
             general_entities[ent['name']].uri = ent['URI']

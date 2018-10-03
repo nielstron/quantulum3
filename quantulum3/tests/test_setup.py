@@ -212,8 +212,7 @@ def load_quantity_tests(ambiguity=True, lang='en_US'):
 ################################################################################
 def load_expand_tests(lang='en_US'):
     with language.topdir(lang).joinpath('tests', 'expand.json').open(
-            'r',
-            encoding='utf-8') as testfile:
+            'r', encoding='utf-8') as testfile:
         tests = json.load(testfile)
     return tests
 

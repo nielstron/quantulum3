@@ -62,7 +62,7 @@ def ranges(lang="en_US"):
 
 @cached
 def uncertainties(lang="en_US"):
-    uncertainties_ = {'\+/-', '±'}
+    uncertainties_ = {r'\+/-', r'±'}
     uncertainties_.update(_get_regex(lang).UNCERTAINTIES)
     return uncertainties_
 
@@ -201,7 +201,7 @@ def operators(lang='en_US'):
 
 
 # Pattern for extracting a digit-based number
-NUM_PATTERN = r''' 
+NUM_PATTERN = r'''
     (?{number}              # required number
         [+-]?                  #   optional sign
         \.?\d+                 #   required digits
@@ -276,8 +276,9 @@ def range_pattern(lang='en_US'):
 
 @cached
 def text_pattern_reg(lang='en_US'):
-    txt_pattern = _get_regex(lang).TEXT_PATTERN.format(number_pattern_no_groups=number_pattern_no_groups(lang),
-                                                       numberwords_regex=numberwords_regex(lang))
+    txt_pattern = _get_regex(lang).TEXT_PATTERN.format(
+        number_pattern_no_groups=number_pattern_no_groups(lang),
+        numberwords_regex=numberwords_regex(lang))
     reg_txt = re.compile(txt_pattern, re.VERBOSE | re.IGNORECASE)
     return reg_txt
 
