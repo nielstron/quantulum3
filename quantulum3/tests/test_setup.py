@@ -221,6 +221,9 @@ def load_expand_tests(lang='en_US'):
 class SetupTest(unittest.TestCase):
     """Test suite for the quantulum3 project."""
 
+    def setUp(self):
+        add_type_equalities(self)
+
     @multilang
     def test_load_tests(self, lang='en_US'):
         """ Test that loading tests works """
@@ -242,7 +245,8 @@ class SetupTest(unittest.TestCase):
     @unittest.expectedFailure
     def test_quantity_comparison_fail(self):
         self.assertEqual(
-            cls.Quantity(1, cls.Unit()), cls.Quantity(2, cls.Unit()))
+            cls.Quantity(1, cls.Unit(entity=cls.Entity('water'))),
+            cls.Quantity(1, cls.Unit(entity=cls.Entity('air'))))
 
     def test_unsupported_language(self):
         try:
