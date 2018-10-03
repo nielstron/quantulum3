@@ -284,7 +284,3 @@ as in the automatic unittests.
 No changes outside the own language submodule folder (i.e. `_lang.de_DE`) should
 be necessary. If there are problems implementing a new language, don't hesitate to open an issue.
 
-Language support is very beta currently and will thus stay in a separate branch
-until at least one additional language has been added. That way the current parsing
-quality can be assured and meanwhile be extended for additional languages.
-
