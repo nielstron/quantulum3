@@ -55,14 +55,6 @@ def number_to_words(count, lang='en_US'):
 
 
 ################################################################################
-def get_string_json(raw_json_text):
-    text = raw_json_text
-    text = bytes(text, 'utf-8').decode('ascii', 'ignore')
-    text = re.sub(r'[^\x00-\x7f]', r'', text)
-    return text
-
-
-################################################################################
 METRIC_PREFIXES = {
     'Y': 'yotta',
     'Z': 'zetta',
@@ -234,11 +226,10 @@ class Units(object):
         for unit in general_units:
             units[unit['name']] = unit
         for unit in lang_units:
-            # TODO currently overrides unit, does not extend
-            units[unit['name']] = units.get(unit['name'], {})
+            units[unit['name']] = units.get(unit['name'], unit)
             units[unit['name']].update(unit)
 
-        for unit in general_units:
+        for unit in units.values():
             self.load_unit(unit)
 
         self.derived = get_derived_units(self.names)

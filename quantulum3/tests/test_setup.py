@@ -81,7 +81,7 @@ def add_type_equalities(testcase):
                             attribute=diff,
                             firstval=firstval,
                             secondval=secondval,
-                            first=fist,
+                            first=first,
                             second=second)
                         break
             if not msg:
@@ -238,6 +238,19 @@ class SetupTest(unittest.TestCase):
             self.assertEqual(
                 built[length], word_list,
                 "Build script has not been run since change to critical files")
+
+    @unittest.expectedFailure
+    def test_quantity_comparison_fail(self):
+        self.assertEqual(
+            cls.Quantity(1, cls.Unit()), cls.Quantity(2, cls.Unit()))
+
+    def test_unsupported_language(self):
+        try:
+            p.parse('Urgh wooo ddaa eeee!', lang='xx')
+            self.fail('No error was thrown on unsupported language'
+                      )  # pragma: no cover
+        except NotImplementedError:
+            pass
 
 
 ################################################################################

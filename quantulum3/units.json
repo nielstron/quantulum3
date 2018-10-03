@@ -4531,21 +4531,6 @@
     ]
   },
   {
-    "name": "baker's dozen",
-    "surfaces": [
-      "bakers dozen",
-      "baker   dozen",
-      "long dozen",
-      "devils dozen",
-      "devil   dozen",
-      "long measure"
-    ],
-    "entity": "dimensionless",
-    "URI": "Dozen#Baker's_dozen",
-    "dimensions": [],
-    "symbols": []
-  },
-  {
     "name": "dozen",
     "surfaces": [
       "dozen",
@@ -4635,8 +4620,7 @@
     "URI": "Dime_(United_States_coin)",
     "dimensions": [],
     "symbols": [
-      "₫",
-      "d"
+      "₫"
     ]
   },
   {
