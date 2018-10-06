@@ -1061,5 +1061,31 @@
         "uncertainty": null
       }
     ]
+  },
+  {
+    "req": "Look there! This is a 5 metre shark!",
+    "res": [
+      {
+        "value": 5.0,
+        "unit": "metre",
+        "surface": "5 metre",
+        "entity": "length",
+        "dimensions": [],
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "A mouse can get through a 1/4 inch gap",
+    "res": [
+      {
+        "value": 0.25,
+        "unit": "inch",
+        "surface": "1/4 inch",
+        "entity": "length",
+        "dimensions": [],
+        "uncertainty": null
+      }
+    ]
   }
 ]
