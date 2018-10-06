@@ -181,7 +181,8 @@ TXT_PATTERN = r'''            # Pattern for extracting mixed digit-spelled num
     [ -]?(?:%s)
     [ -]?(?:%s)?[ -]?(?:%s)?[ -]?(?:%s)?
     [ -]?(?:%s)?[ -]?(?:%s)?[ -]?(?:%s)?
-''' % tuple([NUM_PATTERN] + 7 * [ALL_NUM])
+    (?!\s?%s)                    # Disallow being followed by only a number
+''' % tuple([NUM_PATTERN] + 7 * [ALL_NUM] + [NUM_PATTERN])
 
 REG_TXT = re.compile(TXT_PATTERN, re.VERBOSE | re.IGNORECASE)
 
