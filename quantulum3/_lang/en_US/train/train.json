@@ -35,7 +35,8 @@
     {"text": "The moon before the stars has a diameter of {quantity}", "unit": "second of arc"},
     {"text": "The moon before the stars has a diameter of {quantity}", "unit": "minute of arc"},
     {"text": "A game of some sports is often delimited to a certain length, up to {quantity}", "unit": "minute"},
-    {"text": "The weather is crazy these days. Its been {quantity} for days", "unit": "temperature"},
-    {"text": "It sure is warm outside. Almost {quantity}", "unit": "temperature"}
+    {"text": "The weather is crazy these days. Its been {quantity} for days", "unit": "degree Celsius"},
+    {"text": "It sure is warm outside. Almost {quantity}", "unit": "degree Celsius"},
+    {"text": "The last days were freezingly cold. It's {quantity} now!", "unit": "degree Celsius"}
 
 ]
