@@ -85,6 +85,7 @@ class ClassifierTest(unittest.TestCase):
 
     @multilang
     def test_expand(self, lang='en_US'):
+        """ Test that parsing and expanding works correctly """
         all_tests = load_expand_tests(lang=lang)
         for test in all_tests:
             result = p.inline_parse_and_expand(test['req'], lang=lang)
