@@ -29,14 +29,6 @@ def _get_parser(lang='en_US'):
 
 
 ################################################################################
-def clean_surface(surface, span, lang='en_US'):
-    """
-    Remove spurious characters from a quantity's surface.
-    """
-    return _get_parser(lang).clean_surface(surface, span)
-
-
-################################################################################
 def extract_spellout_values(text, lang='en_US'):
     """
     Convert spelled out numbers in a given text to digits.
