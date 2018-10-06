@@ -199,6 +199,19 @@
     ]
   },
   {
+    "req": "Weather got cold in the last days. Now its -10C",
+    "res": [
+      {
+        "value": -10.0,
+        "unit": "degree Celsius",
+        "surface": "-10C",
+        "entity": "temperature",
+        "dimensions": [],
+        "uncertainty": null
+      }
+    ]
+  },
+  {
     "req": "Its 30 C outside!",
     "res": [
       {
@@ -266,6 +279,19 @@
         "value": 1500.0,
         "unit": "bit",
         "surface": "1500 b",
+        "entity": "data storage",
+        "dimensions": [],
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "The server receives the 1500b packet of information",
+    "res": [
+      {
+        "value": 1500.0,
+        "unit": "bit",
+        "surface": "1500b",
         "entity": "data storage",
         "dimensions": [],
         "uncertainty": null
