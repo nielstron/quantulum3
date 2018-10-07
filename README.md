@@ -32,25 +32,6 @@ Then,
 $ pip install quantulum3
 ```
 
-Contributing
-------------
-
-If you'd like to contribute follow these steps:
-1. Clone a fork of this project into your workspace
-2. Run `pip install -e .` at the root of your development folder.
-3. `pip install pipenv` and `pipenv shell`
-4. Inside the project folder run `pipenv install --dev`
-5. Make your changes
-6. Run `scripts/format.sh` and `scripts/build.py` from the package root directory.
-7. Test your changes with `coverage run --source=quantulum3 setup.py test` 
-(Optional, will be done automatically after pushing)
-8. Create a Pull Request when having commited and pushed your changes
-
-`dev` build: 
-
-[![Travis dev build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=dev "Travis dev build state")](https://travis-ci.com/nielstron/quantulum3)
-[![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=dev)](https://coveralls.io/github/nielstron/quantulum3?branch=dev)
-
 Usage
 -----
 
@@ -225,7 +206,8 @@ Here is an example of an entry in *entities.json*:
 }
 ```
 
--   *name* and *URI* are self explanatory.
+-   *name* is self explanatory.
+-   *URI* is the name of the wikipedia page of the entity. (i.e. `https://en.wikipedia.org/wiki/Speed` => `Speed`)
 -   *dimensions* is the dimensionality, a list of dictionaries each
     having a *base* (the name of another entity) and a *power* (an
     integer, can be negative).
@@ -237,7 +219,7 @@ Here is an example of an entry in *units.json*:
     "name": "metre per second",
     "surfaces": ["metre per second", "meter per second"],
     "entity": "speed",
-    "URI": "https://en.wikipedia.org/wiki/Metre_per_second",
+    "URI": "Metre_per_second",
     "dimensions": [{"base": "metre", "power": 1}, {"base": "second", "power": -1}],
     "symbols": ["mps"]
 },
@@ -245,14 +227,15 @@ Here is an example of an entry in *units.json*:
     "name": "year",
     "surfaces": [ "year", "annum" ],
     "entity": "time",
-    "URI": "https://en.wikipedia.org/wiki/Year",
+    "URI": "Year",
     "dimensions": [],
     "symbols": [ "a", "y", "yr" ],
     "prefixes": [ "k", "M", "G", "T", "P", "E" ]
 }
 ```
 
--   *name* and *URI* are self explanatory.
+-   *name* is self explanatory.
+-   *URI* follows the same scheme as in the *entities.json*
 -   *surfaces* is a list of strings that refer to that unit. The library
     takes care of plurals, no need to specify them.
 -   *entity* is the name of an entity in *entities.json*
@@ -266,3 +249,38 @@ Here is an example of an entry in *units.json*:
     prefixes version on its own.
 
 All fields are case sensitive.
+
+Contributing
+------------
+`dev` build: 
+
+[![Travis dev build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=dev "Travis dev build state")](https://travis-ci.com/nielstron/quantulum3)
+[![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=dev)](https://coveralls.io/github/nielstron/quantulum3?branch=dev)
+
+If you'd like to contribute follow these steps:
+1. Clone a fork of this project into your workspace
+2. Run `pip install -e .` at the root of your development folder.
+3. `pip install pipenv` and `pipenv shell`
+4. Inside the project folder run `pipenv install --dev`
+5. Make your changes
+6. Run `scripts/format.sh` and `scripts/build.py` from the package root directory.
+7. Test your changes with `coverage run --source=quantulum3 setup.py test` 
+(Optional, will be done automatically after pushing)
+8. Create a Pull Request when having commited and pushed your changes
+
+Language support
+----------------
+[![Travis dev build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=language_support "Travis dev build state")](https://travis-ci.com/nielstron/quantulum3)
+[![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=language_support)](https://coveralls.io/github/nielstron/quantulum3?branch=dev)
+
+There is a branch for language support, namely `language_support`.
+From inspecting the `README` file in the `_lang` subdirectory and
+the functions and values given in the new `_lang.en_US` submodule,
+one should be able to create own language submodules.
+The new language modules should automatically be invoked and be available,
+both through the `lang=` keyword argument in the parser functions as well
+as in the automatic unittests.
+
+No changes outside the own language submodule folder (i.e. `_lang.de_DE`) should
+be necessary. If there are problems implementing a new language, don't hesitate to open an issue.
+

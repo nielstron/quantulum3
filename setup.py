@@ -17,10 +17,13 @@ setup(
     packages=['quantulum3'],
     package_data={
         'quantulum3': [
-            'clf.joblib', 'units.json', 'entities.json', 'train.json',
-            'wiki.json', 'common-words.json', 'tests/expand.json',
-            'tests/quantities.json', 'tests/quantities.ambiguity.json',
-            'similars.json'
+            '_lang/en_US/clf.joblib', 'units.json', 'entities.json',
+            '_lang/en_US/units.json', '_lang/en_US/entities.json',
+            '_lang/en_US/train/train.json', '_lang/en_US/train/wiki.json',
+            '_lang/en_US/common-words.json', '_lang/en_US/tests/expand.json',
+            '_lang/en_US/tests/quantities.json',
+            'lang/en_US/tests/quantities.ambiguity.json',
+            '_lang/en_US/train/similars.json'
         ]
     },
     description='Extract quantities from unstructured text.',

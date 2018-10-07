@@ -17,17 +17,84 @@ except ImportError:
     wikipedia = None
 
 # Quantulum
-from quantulum3 import load
+from .. import load
 from .. import parser as p
 from .. import classes as cls
+from .. import language
 
 COLOR1 = '\033[94m%s\033[0m'
 COLOR2 = '\033[91m%s\033[0m'
 TOPDIR = os.path.dirname(__file__) or "."
 
 
+def multilang(funct_or_langs):
+    """
+    Wrapper to make a unittest test several languages
+    :param funct_or_langs: Function to test all languages or a set of languages to test
+    :return:
+    """
+
+    # The actual wrapper
+    def multilang_(funct):
+        def multilang_test(*args, **kwargs):
+            print()
+            # Allow for someone to call the method with one explicit language
+            if 'lang' in kwargs:
+                langs_ = [kwargs['lang']]
+                kwargs.pop('lang')
+            else:
+                langs_ = langs
+
+            # Execute the test for all the supplied languages
+            for lang in langs_:
+                print('lang={}'.format(lang))
+                funct(*args, lang=lang, **kwargs)
+
+        return multilang_test
+
+    # Decide whether we *are* the wrapper or are to create it
+    if callable(funct_or_langs):
+        langs = language.LANGUAGES
+        return multilang_(funct_or_langs)
+
+    langs = funct_or_langs
+    return multilang_
+
+
+def add_type_equalities(testcase):
+    """
+    Add handcrafted equality functions for quantulum specific types
+    :param testcase:
+    :return:
+    """
+
+    def quantity_equality_func(first, second, msg=None):
+        if first != second:
+            if not msg:
+                diffs = {'value', 'surface', 'span', 'uncertainty'}
+                for diff in diffs:
+                    firstval = getattr(first, diff)
+                    secondval = getattr(second, diff)
+                    if firstval != secondval:
+                        msg = 'Quantities {first} and {second} are differing in attribute "{attribute}": "{firstval}" != "{secondval}"'
+                        msg = msg.format(
+                            attribute=diff,
+                            firstval=firstval,
+                            secondval=secondval,
+                            first=first,
+                            second=second)
+                        break
+            if not msg:
+                if first.unit != second.unit:
+                    msg = 'Quantity units are differing:\n{}\n{}'.format(
+                        first.unit.__dict__, second.unit.__dict__)
+            raise testcase.failureException(msg)
+
+    testcase.addTypeEqualityFunc(cls.Quantity, quantity_equality_func)
+
+
 ################################################################################
-def wiki_test(page='CERN'):  # pragma: no cover
+def wiki_test(page='CERN', lang='en_US'):  # pragma: no cover
     """
     Download a wikipedia page and test the parser on its content.
     A test, designed for a human's look.
@@ -42,8 +109,9 @@ def wiki_test(page='CERN'):  # pragma: no cover
         )
         return
 
+    wikipedia.set_lang(lang)
     content = wikipedia.page(page).content
-    parsed = p.parse(content)
+    parsed = p.parse(content, lang=lang)
     parts = int(round(len(content) * 1.0 / 1000))
 
     print()
@@ -75,22 +143,22 @@ def wiki_test(page='CERN'):  # pragma: no cover
 
 
 ################################################################################
-def load_quantity_tests(ambiguity=True):
+def load_quantity_tests(ambiguity=True, lang='en_US'):
     """
     Load all tests from quantities.json.
     """
 
-    path = os.path.join(
-        TOPDIR,
+    path = language.topdir(lang).joinpath(
+        'tests',
         'quantities.ambiguity.json' if ambiguity else 'quantities.json')
-    with open(path, 'r', encoding='UTF-8') as testfile:
+    with path.open('r', encoding='UTF-8') as testfile:
         tests = json.load(testfile)
 
     for test in tests:
         res = []
         for item in test['res']:
             try:
-                unit = load.NAMES[item['unit']]
+                unit = load.units(lang).names[item['unit']]
             except KeyError:
                 try:
                     entity = item['entity']
@@ -100,12 +168,14 @@ def load_quantity_tests(ambiguity=True):
                     return
                 if entity == 'unknown':
                     derived = [{
-                        'base': load.NAMES[i['base']].entity.name,
-                        'power': i['power']
+                        'base':
+                        load.units(lang).names[i['base']].entity.name,
+                        'power':
+                        i['power']
                     } for i in item['dimensions']]
                     entity = cls.Entity(name='unknown', dimensions=derived)
-                elif entity in load.ENTITIES:
-                    entity = load.ENTITIES[entity]
+                elif entity in load.entities(lang).names:
+                    entity = load.entities(lang).names[entity]
                 else:  # pragma: no cover
                     print(('Could not find %s, provide "derived" and'
                            ' "entity"' % item['unit']))
@@ -113,8 +183,10 @@ def load_quantity_tests(ambiguity=True):
                 unit = cls.Unit(
                     name=item['unit'],
                     dimensions=item.get('dimensions', []),
-                    entity=entity)
+                    entity=entity,
+                    lang=lang)
             try:
+                # TODO be aware that there may never be two identical units in a req string
                 span = next(
                     re.finditer(re.escape(item['surface']),
                                 test['req'])).span()
@@ -130,17 +202,17 @@ def load_quantity_tests(ambiguity=True):
                     unit=unit,
                     surface=item['surface'],
                     span=span,
-                    uncertainty=uncert))
+                    uncertainty=uncert,
+                    lang=lang))
         test['res'] = [i for i in res]
 
     return tests
 
 
 ################################################################################
-def load_expand_tests():
-    with open(
-            os.path.join(TOPDIR, 'expand.json'), 'r',
-            encoding='utf-8') as testfile:
+def load_expand_tests(lang='en_US'):
+    with language.topdir(lang).joinpath('tests', 'expand.json').open(
+            'r', encoding='utf-8') as testfile:
         tests = json.load(testfile)
     return tests
 
@@ -149,20 +221,46 @@ def load_expand_tests():
 class SetupTest(unittest.TestCase):
     """Test suite for the quantulum3 project."""
 
-    def test_load_tests(self):
-        """ Test that loading tests works """
-        self.assertIsNotNone(load_quantity_tests(True))
-        self.assertIsNotNone(load_quantity_tests(False))
-        self.assertIsNotNone(load_expand_tests())
+    def setUp(self):
+        add_type_equalities(self)
 
-    def test_build_script(self):
+    @multilang
+    def test_load_tests(self, lang='en_US'):
+        """ Test that loading tests works """
+        self.assertIsNotNone(load_quantity_tests(True, lang))
+        self.assertIsNotNone(load_quantity_tests(False, lang))
+        self.assertIsNotNone(load_expand_tests(lang))
+
+    @multilang(['en_US'])
+    def test_common_words(self, lang):
         """ Test that the build script has run correctly """
         # Read raw 4 letter file
-        words = load.build_common_words()
+        words = language.get('load', lang).build_common_words()
+        built = language.get('load', lang).COMMON_WORDS
         for length, word_list in words.items():
-            self.assertListEqual(
-                load.COMMON_WORDS[length], word_list,
+            self.assertEqual(
+                built[length], word_list,
                 "Build script has not been run since change to critical files")
+
+    @unittest.expectedFailure
+    def test_quantity_comparison_fail_unit(self):
+        self.assertEqual(
+            cls.Quantity(1, cls.Unit(entity=cls.Entity('water'))),
+            cls.Quantity(1, cls.Unit(entity=cls.Entity('air'))))
+
+    @unittest.expectedFailure
+    def test_quantity_comparison_fail_value(self):
+        self.assertEqual(
+            cls.Quantity(1, cls.Unit(entity=cls.Entity('water'))),
+            cls.Quantity(2, cls.Unit(entity=cls.Entity('water'))))
+
+    def test_unsupported_language(self):
+        try:
+            p.parse('Urgh wooo ddaa eeee!', lang='xx')
+            self.fail('No error was thrown on unsupported language'
+                      )  # pragma: no cover
+        except NotImplementedError:
+            pass
 
 
 ################################################################################
