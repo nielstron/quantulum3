@@ -47,10 +47,16 @@ def _get_load(lang='en_US'):
 
 ################################################################################
 def pluralize(singular, count=None, lang='en_US'):
+    # Make spelling integers more natural
+    if count is not None and count.is_integer():
+        count = int(count)
     return _get_load(lang).pluralize(singular, count)
 
 
 def number_to_words(count, lang='en_US'):
+    # Make spelling integers more natural
+    if count.is_integer():
+        count = int(count)
     return _get_load(lang).number_to_words(count)
 
 

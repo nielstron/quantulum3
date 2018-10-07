@@ -17,8 +17,6 @@ def quantity_to_spoken(quantity):
     :return: Speakable version of this quantity
     """
     count = quantity.value
-    if count.is_integer():
-        count = int(count)
     unit_string = quantity.unit.to_spoken(count)
     return '{}{}{}'.format(
         load.number_to_words(count), " " if len(unit_string) else "",
