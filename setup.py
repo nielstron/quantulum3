@@ -22,7 +22,7 @@ setup(
             '_lang/en_US/train/train.json', '_lang/en_US/train/wiki.json',
             '_lang/en_US/common-words.json', '_lang/en_US/tests/expand.json',
             '_lang/en_US/tests/quantities.json',
-            'lang/en_US/tests/quantities.ambiguity.json',
+            '_lang/en_US/tests/quantities.ambiguity.json',
             '_lang/en_US/train/similars.json'
         ]
     },
