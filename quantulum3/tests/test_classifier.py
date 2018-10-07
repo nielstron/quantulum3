@@ -62,7 +62,6 @@ class ClassifierTest(unittest.TestCase):
                 correct += 1
             else:
                 error.append((test, quants))
-                print(test['req'])
         success_rate = correct / total
         print('Classifier success rate at {:.2f}%'.format(success_rate * 100))
         self.assertGreaterEqual(
