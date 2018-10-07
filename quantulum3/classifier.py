@@ -4,11 +4,8 @@
 """
 
 # Standard library
-import os
 import json
 import logging
-import re
-import string
 import pkg_resources
 
 # Semi-dependencies
@@ -26,29 +23,36 @@ try:
 except ImportError:
     wikipedia = None
 
-try:
-    from stemming.porter2 import stem
-except ImportError:
-    stem = None
-
 # Quantulum
 from . import load
+from .load import cached
+from . import language
+
+
+def _get_classifier(lang='en_US'):
+    return language.get('classifier', lang)
 
 
 ################################################################################
-def ambiguous_units():  # pragma: no cover
+def ambiguous_units(lang='en_US'):  # pragma: no cover
     """
     Determine ambiguous units
     :return: list ( tuple( key, list (Unit) ) )
     """
-    ambiguous = [i for i in list(load.ALL_UNITS.items()) if len(i[1]) > 1]
-    ambiguous += [i for i in list(load.UNIT_SYMBOLS.items()) if len(i[1]) > 1]
-    ambiguous += [i for i in list(load.DERIVED_ENT.items()) if len(i[1]) > 1]
+    ambiguous = [
+        i for i in list(load.units(lang).surfaces_all.items()) if len(i[1]) > 1
+    ]
+    ambiguous += [
+        i for i in list(load.units(lang).symbols.items()) if len(i[1]) > 1
+    ]
+    ambiguous += [
+        i for i in list(load.units(lang).derived.items()) if len(i[1]) > 1
+    ]
     return ambiguous
 
 
 ################################################################################
-def download_wiki(store=True):  # pragma: no cover
+def download_wiki(store=True, lang='en_US'):  # pragma: no cover
     """
     Download WikiPedia pages of ambiguous units.
     @:param store (bool) store wikipedia data in wiki.json file
@@ -66,9 +70,12 @@ def download_wiki(store=True):  # pragma: no cover
     objs = []
     for num, page in enumerate(pages):
 
-        obj = {'url': page[1]}
-        obj['_id'] = obj['url'].replace('https://en.wikipedia.org/wiki/', '')
-        obj['clean'] = obj['_id'].replace('_', ' ')
+        obj = {
+            '_id': page[1],
+            'url': 'https://{}.wikipedia.org/wiki/{}'.format(
+                lang[:2], page[1]),
+            'clean': page[1].replace('_', ' ')
+        }
 
         print('---> Downloading %s (%d of %d)' % (obj['clean'], num + 1,
                                                   len(pages)))
@@ -77,10 +84,9 @@ def download_wiki(store=True):  # pragma: no cover
         obj['unit'] = page[0]
         objs.append(obj)
 
-    path = os.path.join(load.TOPDIR, 'wiki.json')
-    os.remove(path)
+    path = language.topdir(lang).joinpath('wiki.json')
     if store:
-        with open(path, 'w') as wiki_file:
+        with path.open('w') as wiki_file:
             json.dump(objs, wiki_file, indent=4, sort_keys=True)
 
     print('\n---> All done.\n')
@@ -88,60 +94,35 @@ def download_wiki(store=True):  # pragma: no cover
 
 
 ################################################################################
-def clean_text(text):
+def clean_text(text, lang='en_US'):
     """
     Clean text for TFIDF
     """
-    if not stem:
-        raise ImportError("Module stemming is not installed.")
-
-    my_regex = re.compile(r'[%s]' % re.escape(string.punctuation))
-    new_text = my_regex.sub(' ', text)
-
-    new_text = [
-        stem(i) for i in new_text.lower().split()
-        if not re.findall(r'[0-9]', i)
-    ]
-
-    new_text = ' '.join(new_text)
-
-    return new_text
+    return _get_classifier(lang).clean_text(text)
 
 
 ################################################################################
-def train_classifier(download=True,
-                     parameters=None,
+def train_classifier(parameters=None,
                      ngram_range=(1, 1),
-                     store=True):
+                     store=True,
+                     lang='en_US'):
     """
     Train the intent classifier
     TODO auto invoke if sklearn version is new or first install or sth
     @:param store (bool) store classifier in clf.joblib
     """
-    path = os.path.join(load.TOPDIR, 'train.json')
-    with open(path, 'r', encoding='utf-8') as train_file:
-        training_set = json.load(train_file)
+    training_set = load.training_set(lang)
+    target_names = list(set([i['unit'] for i in training_set]))
 
-    wiki_set = download_wiki(store) if download else None
-    if not wiki_set:
-        path = os.path.join(load.TOPDIR, 'wiki.json')
-        with open(path, 'r', encoding='utf-8') as wiki_file:
-            wiki_set = json.load(wiki_file)
-
-    with open(
-            os.path.join(load.TOPDIR, 'similars.json'), 'r',
-            encoding='utf-8') as similar_file:
-        similar_set = json.load(similar_file)
-
-    target_names = list(
-        set([i['unit'] for i in training_set + wiki_set + similar_set]))
     train_data, train_target = [], []
-    for example in training_set + wiki_set + similar_set:
-        train_data.append(clean_text(example['text']))
+    for example in training_set:
+        train_data.append(clean_text(example['text'], lang))
         train_target.append(target_names.index(example['unit']))
 
     tfidf_model = TfidfVectorizer(
-        sublinear_tf=True, ngram_range=ngram_range, stop_words='english')
+        sublinear_tf=True,
+        ngram_range=ngram_range,
+        stop_words=_get_classifier(lang).stop_words())
 
     matrix = tfidf_model.fit_transform(train_data)
 
@@ -166,82 +147,101 @@ def train_classifier(download=True,
         target_names
     }
     if store:  # pragma: no cover
-        path = os.path.join(load.TOPDIR, 'clf.joblib')
-        with open(path, 'wb') as file:
+        path = language.topdir(lang).joinpath('clf.joblib')
+        with path.open('wb') as file:
             joblib.dump(obj, file)
     return obj
 
 
 ################################################################################
-def load_classifier():
+class Classifier(object):
+    def __init__(self, obj=None, lang='en_US'):
+        """
+        Load the intent classifier
+        """
+        self.tfidf_model = None
+        self.classifier = None
+        self.target_names = None
+
+        if not USE_CLF:
+            return
+
+        if not obj:
+            path = language.topdir(lang).joinpath('clf.joblib')
+            with path.open('rb') as file:
+                obj = joblib.load(file)
+
+        cur_scipy_version = pkg_resources.get_distribution(
+            'scikit-learn').version
+        if cur_scipy_version != obj.get(
+                'scikit-learn_version'):  # pragma: no cover
+            logging.warning(
+                "The classifier was built using a different scikit-learn version (={}, !={}). The disambiguation tool could behave unexpectedly. Consider running classifier.train_classfier()"
+                .format(obj.get('scikit-learn_version'), cur_scipy_version))
+
+        self.tfidf_model = obj['tfidf_model']
+        self.classifier = obj['clf']
+        self.target_names = obj['target_names']
+
+
+@cached
+def classifier(lang='en_US'):
     """
-    Load the intent classifier
+    Cached classifier object
+    :param lang:
+    :return:
     """
-
-    path = os.path.join(load.TOPDIR, 'clf.joblib')
-    with open(path, 'rb') as file:
-        obj = joblib.load(file)
-
-    cur_scipy_version = pkg_resources.get_distribution('scikit-learn').version
-    if cur_scipy_version != obj.get(
-            'scikit-learn_version'):  # pragma: no cover
-        logging.warning(
-            "The classifier was built using a different scikit-learn version (={}, !={}). The disambiguation tool could behave unexpectedly. Consider running classifier.train_classfier()"
-            .format(obj.get('scikit-learn_version'), cur_scipy_version))
-
-    return obj['tfidf_model'], obj['clf'], obj['target_names']
-
-
-if USE_CLF:
-    TFIDF_MODEL, CLF, TARGET_NAMES = load_classifier()
-else:
-    TFIDF_MODEL, CLF, TARGET_NAMES = None, None, None
+    return Classifier(lang=lang)
 
 
 ################################################################################
-def disambiguate_entity(key, text):
+def disambiguate_entity(key, text, lang='en_US'):
     """
     Resolve ambiguity between entities with same dimensionality.
     """
 
-    if len(load.DERIVED_ENT[key]) > 1:
-        transformed = TFIDF_MODEL.transform([clean_text(text)])
-        scores = CLF.predict_proba(transformed).tolist()[0]
-        scores = zip(scores, TARGET_NAMES)
+    if len(load.entities().derived[key]) > 1:
+        transformed = classifier(lang).tfidf_model.transform(
+            [clean_text(text)])
+        scores = classifier(lang).classifier.predict_proba(
+            transformed).tolist()[0]
+        scores = zip(scores, classifier(lang).target_names)
 
         # Filter for possible names
-        names = [i.name for i in load.DERIVED_ENT[key]]
+        names = [i.name for i in load.entities(lang).derived[key]]
         scores = [i for i in scores if i[1] in names]
 
         # Sort by rank
         scores = sorted(scores, key=lambda x: x[0], reverse=True)
         try:
-            new_ent = load.ENTITIES[scores[0][1]]
+            new_ent = load.entities(lang).names[scores[0][1]]
         except IndexError:
             logging.debug('\tAmbiguity not resolved for "%s"', str(key))
     else:
-        new_ent = next(iter(load.DERIVED_ENT[key]))
+        new_ent = next(iter(load.entities(lang).derived[key]))
 
     return new_ent
 
 
 ################################################################################
-def disambiguate_unit(unit, text):
+def disambiguate_unit(unit, text, lang='en_US'):
     """
     Resolve ambiguity between units with same names, symbols or abbreviations.
     """
 
-    new_unit = load.UNIT_SYMBOLS.get(unit) or load.UNITS.get(unit)
+    new_unit = (load.units(lang).symbols.get(unit)
+                or load.units(lang).surfaces.get(unit)
+                or load.units(lang).surfaces_lower.get(unit.lower())
+                or load.units(lang).symbols_lower.get(unit.lower()))
     if not new_unit:
-        new_unit = load.LOWER_UNITS.get(
-            unit.lower()) or load.UNIT_SYMBOLS_LOWER.get(unit.lower())
-        if not new_unit:
-            raise KeyError('Could not find unit "%s" from "%s"' % (unit, text))
+        raise KeyError('Could not find unit "%s" from "%s"' % (unit, text))
 
     if len(new_unit) > 1:
-        transformed = TFIDF_MODEL.transform([clean_text(text)])
-        scores = CLF.predict_proba(transformed).tolist()[0]
-        scores = zip(scores, TARGET_NAMES)
+        transformed = classifier(lang).tfidf_model.transform(
+            [clean_text(text)])
+        scores = classifier(lang).classifier.predict_proba(
+            transformed).tolist()[0]
+        scores = zip(scores, classifier(lang).target_names)
 
         # Filter for possible names
         names = [i.name for i in new_unit]
@@ -250,7 +250,7 @@ def disambiguate_unit(unit, text):
         # Sort by rank
         scores = sorted(scores, key=lambda x: x[0], reverse=True)
         try:
-            final = load.UNIT_NAMES[scores[0][1]]
+            final = load.units(lang).names[scores[0][1]]
             logging.debug(
                 '\tAmbiguity resolved for "%s" (%s)' % (unit, scores))
         except IndexError:

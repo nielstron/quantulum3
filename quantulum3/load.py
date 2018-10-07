@@ -4,24 +4,57 @@
 :mod:`Quantulum` unit and entity loading functions.
 """
 
-from builtins import open
-
 # Standard library
-import os
 import json
 from collections import defaultdict
 import re
-
-# Dependencies
-import inflect
+from pathlib import Path
 
 # Quantulum
 from . import classes as c
+from . import language
 
-TOPDIR = os.path.dirname(__file__) or "."
+TOPDIR = Path(__file__).parent or Path(".")
 
-PLURALS = inflect.engine()
+################################################################################
+_CACHE_DICT = {}
 
+
+def cached(funct):
+    """
+    Decorator for caching language specific data
+    :param funct: the method, dynamically responding to language. Only parameter is lang
+    :return: the method, dynamically responding to language but also caching results
+    """
+    assert callable(funct)
+
+    def cached_function(lang='en_US'):
+        try:
+            return _CACHE_DICT[id(funct)][lang]
+        except KeyError:
+            result = funct(lang)
+            _CACHE_DICT[id(funct)] = {lang: result}
+            return result
+
+    return cached_function
+
+
+################################################################################
+@cached
+def _get_load(lang='en_US'):
+    return language.get('load', lang)
+
+
+################################################################################
+def pluralize(singular, count=None, lang='en_US'):
+    return _get_load(lang).pluralize(singular, count)
+
+
+def number_to_words(count, lang='en_US'):
+    return _get_load(lang).number_to_words(count)
+
+
+################################################################################
 METRIC_PREFIXES = {
     'Y': 'yotta',
     'Z': 'zetta',
@@ -54,13 +87,6 @@ METRIC_PREFIXES = {
 }
 
 
-def get_string_json(raw_json_text):
-    text = raw_json_text
-    text = bytes(text, 'utf-8').decode('ascii', 'ignore')
-    text = re.sub(r'[^\x00-\x7f]', r'', text)
-    return text
-
-
 ################################################################################
 def get_key_from_dimensions(derived):
     """
@@ -71,71 +97,82 @@ def get_key_from_dimensions(derived):
 
 
 ################################################################################
-def get_dimension_permutations(entities, derived):
+class Entities(object):
+    def __init__(self, lang='en_US'):
+        """
+        Load entities from JSON file.
+        """
+
+        path = TOPDIR.joinpath('entities.json')
+        with path.open(encoding='utf-8') as file:
+            general_entities = json.load(file)
+        names = [i['name'] for i in general_entities]
+
+        try:
+            assert len(set(names)) == len(general_entities)
+        except AssertionError:  # pragma: no cover
+            raise Exception('Entities with same name: %s' %
+                            [i for i in self.names if names.count(i) > 1])
+
+        self.names = dict((
+            k['name'],
+            c.Entity(name=k['name'], dimensions=k['dimensions'], uri=k['URI']))
+            for k in general_entities)
+
+        # Update with language specific URI
+        with path.joinpath(language.topdir(lang), 'entities.json').open(
+                'r', encoding='utf-8') as file:
+            lang_entities = json.load(file)
+        for ent in lang_entities:
+            general_entities[ent['name']].uri = ent['URI']
+
+        # Generate derived units
+        derived_ent = defaultdict(set)
+        for entity in self.names.values():
+            if not entity.dimensions:
+                continue
+            perms = self.get_dimension_permutations(entity.dimensions)
+            for perm in perms:
+                key = get_key_from_dimensions(perm)
+                derived_ent[key].add(entity)
+
+        self.derived = derived_ent
+
+    def get_dimension_permutations(self, derived):
+        """
+        Get all possible dimensional definitions for an entity.
+        """
+
+        new_derived = defaultdict(int)
+        for item in derived:
+            new = self.names[item['base']].dimensions
+            if new:
+                for new_item in new:
+                    new_derived[new_item['base']] += (
+                        new_item['power'] * item['power'])
+            else:
+                new_derived[item['base']] += item['power']
+
+        final = [[{
+            'base': i[0],
+            'power': i[1]
+        } for i in list(new_derived.items())], derived]
+        final = [sorted(i, key=lambda x: x['base']) for i in final]
+
+        candidates = []
+        for item in final:
+            if item not in candidates:
+                candidates.append(item)
+
+        return candidates
+
+
+@cached
+def entities(lang='en_US'):
     """
-    Get all possible dimensional definitions for an entity.
+    Cached entity object
     """
-
-    new_derived = defaultdict(int)
-    for item in derived:
-        new = entities[item['base']].dimensions
-        if new:
-            for new_item in new:
-                new_derived[new_item['base']] += (
-                    new_item['power'] * item['power'])
-        else:
-            new_derived[item['base']] += item['power']
-
-    final = [[{
-        'base': i[0],
-        'power': i[1]
-    } for i in list(new_derived.items())], derived]
-    final = [sorted(i, key=lambda x: x['base']) for i in final]
-
-    candidates = []
-    for item in final:
-        if item not in candidates:
-            candidates.append(item)
-
-    return candidates
-
-
-################################################################################
-def load_entities():
-    """
-    Load entities from JSON file.
-    """
-
-    path = os.path.join(TOPDIR, 'entities.json')
-    string_json = ''.join(open(path, encoding='utf-8').readlines())
-    string_json = get_string_json(string_json)
-    entities = json.loads(string_json)
-    names = [i['name'] for i in entities]
-
-    try:
-        assert len(set(names)) == len(entities)
-    except AssertionError:  # pragma: no cover
-        raise Exception('Entities with same name: %s' %
-                        [i for i in names if names.count(i) > 1])
-
-    entities = dict(
-        (k['name'],
-         c.Entity(name=k['name'], dimensions=k['dimensions'], uri=k['URI']))
-        for k in entities)
-
-    derived_ent = defaultdict(set)
-    for ent in entities:
-        if not entities[ent].dimensions:
-            continue
-        perms = get_dimension_permutations(entities, entities[ent].dimensions)
-        for perm in perms:
-            key = get_key_from_dimensions(perm)
-            derived_ent[key].add(entities[ent])
-
-    return entities, derived_ent
-
-
-ENTITIES, DERIVED_ENT = load_entities()
+    return Entities(lang)
 
 
 ################################################################################
@@ -163,75 +200,82 @@ def get_derived_units(names):
 
 
 ################################################################################
-def load_units():
-    """
-    Load units from JSON file.
-    """
+class Units(object):
+    def __init__(self, lang='en_US'):
+        """
+        Load units from JSON file.
+        """
+        self.lang = lang
 
-    names = {}
-    unit_symbols, unit_symbols_lower, = defaultdict(set), defaultdict(set)
-    surfaces, lowers, symbols = defaultdict(set), defaultdict(
-        set), defaultdict(set)
+        # names of all units
+        self.names = {}
+        self.symbols, self.symbols_lower = defaultdict(set), defaultdict(set)
+        self.surfaces, self.surfaces_lower = defaultdict(set), defaultdict(set)
+        self.prefix_symbols = defaultdict(set)
 
-    path = os.path.join(TOPDIR, 'units.json')
-    string_json = ''.join(open(path, encoding='utf-8').readlines())
-    for unit in json.loads(string_json):
-        load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces,
-                  lowers, symbols)
+        # Load general units
+        path = TOPDIR.joinpath('units.json')
+        with path.open(encoding='utf-8') as file:
+            general_units = json.load(file)
+        # load language specifics
+        path = path.joinpath(language.topdir(lang), 'units.json')
+        with path.open(encoding='utf-8') as file:
+            lang_units = json.load(file)
 
-    derived_uni = get_derived_units(names)
+        units = {}
+        for unit in general_units:
+            units[unit['name']] = unit
+        for unit in lang_units:
+            units[unit['name']] = units.get(unit['name'], unit)
+            units[unit['name']].update(unit)
 
-    return names, unit_symbols, unit_symbols_lower, surfaces, lowers, symbols, derived_uni
+        for unit in units.values():
+            self.load_unit(unit)
 
+        self.derived = get_derived_units(self.names)
 
-def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
-              symbols):
-    try:
-        assert unit['name'] not in names
-    except AssertionError:  # pragma: no cover
-        msg = 'Two units with same name in units.json: %s' % unit['name']
-        raise Exception(msg)
+        # symbols of all units
+        self.symbols_all = self.symbols.copy()
+        self.symbols_all.update(self.symbols_lower)
 
-    obj = c.Unit(
-        name=unit['name'],
-        surfaces=unit['surfaces'],
-        entity=ENTITIES[unit['entity']],
-        uri=unit['URI'],
-        symbols=unit['symbols'],
-        dimensions=unit['dimensions'],
-        currency_code=unit.get('currency_code'))
+        # surfaces of all units
+        self.surfaces_all = self.surfaces.copy()
+        self.surfaces_all.update(self.surfaces_lower)
 
-    names[unit['name']] = obj
+    def load_unit(self, unit):
+        try:
+            assert unit['name'] not in self.names
+        except AssertionError:  # pragma: no cover
+            msg = 'Two units with same name in units.json: %s' % unit['name']
+            raise Exception(msg)
 
-    for symbol in unit['symbols']:
-        unit_symbols[symbol].add(obj)
-        unit_symbols_lower[symbol.lower()].add(obj)
-        if unit['entity'] == 'currency':
-            symbols[symbol].add(obj)
+        obj = c.Unit(
+            name=unit['name'],
+            surfaces=unit.get('surfaces', []),
+            entity=entities().names[unit['entity']],
+            uri=unit['URI'],
+            symbols=unit.get('symbols', []),
+            dimensions=unit.get('dimensions', []),
+            currency_code=unit.get('currency_code'),
+            lang=self.lang)
 
-    for surface in unit['surfaces']:
-        surfaces[surface].add(obj)
-        lowers[surface.lower()].add(obj)
-        split = surface.split()
-        index = None
-        if ' per ' in surface:
-            index = split.index('per') - 1
-        elif 'degree ' in surface:
-            index = split.index('degree')
-        if index is not None:
-            plural = ' '.join([
-                i if num != index else PLURALS.plural(split[index])
-                for num, i in enumerate(split)
-            ])
-        else:
-            plural = PLURALS.plural(surface)
-        if plural != surface:
-            surfaces[plural].add(obj)
-            lowers[plural.lower()].add(obj)
+        self.names[unit['name']] = obj
 
-    # If SI-prefixes are given, add them
-    if unit.get('prefixes'):
-        for prefix in unit['prefixes']:
+        for symbol in unit.get('symbols', []):
+            self.symbols[symbol].add(obj)
+            self.symbols_lower[symbol.lower()].add(obj)
+            if unit['entity'] == 'currency':
+                self.prefix_symbols[symbol].add(obj)
+
+        for surface in unit.get('surfaces', []):
+            self.surfaces[surface].add(obj)
+            self.surfaces_lower[surface.lower()].add(obj)
+            plural = pluralize(surface, lang=self.lang)
+            self.surfaces[plural].add(obj)
+            self.surfaces_lower[plural.lower()].add(obj)
+
+        # If SI-prefixes are given, add them
+        for prefix in unit.get('prefixes', []):
             try:
                 assert prefix in METRIC_PREFIXES
             except AssertionError:  # pragma: no cover
@@ -245,10 +289,7 @@ def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
                     "Prefixing not supported for multiple dimensions in {}".
                     format(unit['name']))
 
-            uri = unit['URI']
-            slash_position = uri.rfind('/') + 1
-            uri = uri[:slash_position] + METRIC_PREFIXES[prefix].capitalize(
-            ) + uri[slash_position:].lower()
+            uri = METRIC_PREFIXES[prefix].capitalize() + unit['URI'].lower()
 
             prefixed_unit = {
                 'name':
@@ -262,55 +303,26 @@ def load_unit(unit, names, unit_symbols, unit_symbols_lower, surfaces, lowers,
                 'dimensions': [],
                 'symbols': [prefix + i for i in unit['symbols']]
             }
-            load_unit(prefixed_unit, names, unit_symbols, unit_symbols_lower,
-                      surfaces, lowers, symbols)
+            self.load_unit(prefixed_unit)
 
 
-UNIT_NAMES, UNIT_SYMBOLS, UNIT_SYMBOLS_LOWER, UNITS, LOWER_UNITS, PREFIX_SYMBOLS, DERIVED_UNI = load_units(
-)
-ALL_UNIT_SYMBOLS = {}
-ALL_UNIT_SYMBOLS.update(UNIT_SYMBOLS)
-ALL_UNIT_SYMBOLS.update(UNIT_SYMBOLS_LOWER)
-ALL_UNITS = {}
-ALL_UNITS.update(UNITS)
-ALL_UNITS.update(LOWER_UNITS)
-
-################################################################################
-
-
-def build_common_words():
-    # Read raw 4 letter file
-    path = os.path.join(TOPDIR, 'common-words.txt')
-    words = defaultdict(list)  # Collect words based on length
-    with open(path, 'r', encoding='utf-8') as file:
-        for line in file:
-            if line.startswith('#'):
-                continue
-            line = line.rstrip()
-            if line not in ALL_UNITS and line not in UNIT_SYMBOLS:
-                words[len(line)].append(line)
-            plural = PLURALS.plural(line)
-            if plural not in ALL_UNITS and plural not in UNIT_SYMBOLS:
-                words[len(plural)].append(plural)
-    return words
+@cached
+def units(lang='en_US'):
+    """
+    Cached unit object
+    """
+    return Units(lang)
 
 
 ################################################################################
+@cached
+def training_set(lang='en_US'):
+    training_set_ = []
 
+    path = language.topdir(lang).joinpath('train')
+    for file in path.iterdir():
+        if file.suffix == '.json':
+            with file.open('r', encoding='utf-8') as train_file:
+                training_set_ += json.load(train_file)
 
-def load_common_words():
-    path = os.path.join(TOPDIR, 'common-words.json')
-    dumped = {}
-    try:
-        with open(path, 'r', encoding='utf-8') as file:
-            dumped = json.load(file)
-    except OSError:  # pragma: no cover
-        pass
-
-    words = defaultdict(list)  # Collect words based on length
-    for length, word_list in dumped.items():
-        words[int(length)] = word_list
-    return words
-
-
-COMMON_WORDS = load_common_words()
+    return training_set_

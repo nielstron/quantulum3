@@ -10,27 +10,21 @@ from . import load
 
 
 ################################################################################
-def disambiguate_unit(unit_surface, text):
+def disambiguate_unit(unit_surface, text, lang='en_US'):
     """
     Resolve ambiguity between units with same names, symbols or abbreviations.
     :returns (str) unit name of the resolved unit
     """
     if clf.USE_CLF:
-        base = clf.disambiguate_unit(unit_surface, text).name
+        base = clf.disambiguate_unit(unit_surface, text, lang).name
     else:
-        if len(load.UNIT_SYMBOLS[unit_surface]) > 0:
-            base = load.UNIT_SYMBOLS[unit_surface]
-        elif len(load.UNITS[unit_surface]) > 0:
-            base = load.UNITS[unit_surface]
-        elif len(load.UNIT_SYMBOLS_LOWER[unit_surface.lower()]) > 0:
-            base = load.UNIT_SYMBOLS_LOWER[unit_surface.lower()]
-        elif len(load.LOWER_UNITS[unit_surface.lower()]) > 0:
-            base = load.LOWER_UNITS[unit_surface.lower()]
-        else:
-            base = []
+        base = (load.units(lang).symbols[unit_surface]
+                or load.units(lang).surfaces[unit_surface]
+                or load.units(lang).surfaces_lower[unit_surface.lower()]
+                or load.units(lang).symbols_lower[unit_surface.lower()])
 
         if len(base) > 1:
-            base = no_clf.disambiguate_no_classifier(base, text)
+            base = no_clf.disambiguate_no_classifier(base, text, lang)
         elif len(base) == 1:
             base = next(iter(base))
 
@@ -43,18 +37,18 @@ def disambiguate_unit(unit_surface, text):
 
 
 ################################################################################
-def disambiguate_entity(key, text):
+def disambiguate_entity(key, text, lang='en_US'):
     """
     Resolve ambiguity between entities with same dimensionality.
     """
     try:
         if clf.USE_CLF:
-            ent = clf.disambiguate_entity(key, text)
+            ent = clf.disambiguate_entity(key, text, lang)
         else:
-            derived = load.DERIVED_ENT[key]
+            derived = load.entities().derived[key]
             if len(derived) > 1:
-                ent = no_clf.disambiguate_no_classifier(derived, text)
-                ent = load.ENTITIES[ent]
+                ent = no_clf.disambiguate_no_classifier(derived, text, lang)
+                ent = load.entities().names[ent]
             elif len(derived) == 1:
                 ent = next(iter(derived))
             else:
