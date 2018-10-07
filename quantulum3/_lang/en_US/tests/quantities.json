@@ -1087,5 +1087,64 @@
         "uncertainty": null
       }
     ]
+  },
+  {
+    "req": "It starts in early April and peaks in May, with average temperatures near 32 degrees Celsius although occasional heat waves can result in highs close to 45 degrees Celsius (114 degrees Fahrenheit) on some days and therefore higher apparent temperature.",
+    "res": [
+      {
+        "value": 32.0,
+        "unit": "degree Celsius",
+        "surface": "32 degrees Celsius",
+        "entity": "temperature",
+        "dimensions": [],
+        "uncertainty": null
+      },
+      {
+        "value": 45.0,
+        "unit": "degree Celsius",
+        "surface": "45 degrees Celsius",
+        "entity": "temperature",
+        "dimensions": [],
+        "uncertainty": null
+      },
+      {
+        "value": 114.0,
+        "unit": "degree fahrenheit",
+        "surface": "114 degrees Fahrenheit",
+        "entity": "temperature",
+        "dimensions": [],
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "At top speed of 200 kilometres per hour the engine temperature rises to about 800 degrees Celsius.",
+    "res": [
+      {
+        "value": 200.0,
+        "unit": "kilometre per hour",
+        "surface": "200 kilometres per hour",
+        "entity": "speed",
+        "dimensions": [
+          {
+            "base": "length",
+            "power": 1
+          },
+          {
+            "base": "time",
+            "power": -1
+          }
+        ],
+        "uncertainty": null
+      },
+      {
+        "value": 800.0,
+        "unit": "degree Celsius",
+        "surface": "800 degrees Celsius",
+        "entity": "temperature",
+        "dimensions": [],
+        "uncertainty": null
+      }
+    ]
   }
 ]
