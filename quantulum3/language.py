@@ -49,7 +49,8 @@ def get(module, lang='en_US'):
     :return:
     """
     module = import_module(
-        '._lang.{}.{}'.format(subdir(lang), module), package=__package__)
+        '{}._lang.{}.{}'.format(__package__, subdir(lang), module)
+    )
     return module
 
 
