@@ -181,7 +181,8 @@ TXT_PATTERN = r'''            # Pattern for extracting mixed digit-spelled num
     [ -]?(?:%s)
     [ -]?(?:%s)?[ -]?(?:%s)?[ -]?(?:%s)?
     [ -]?(?:%s)?[ -]?(?:%s)?[ -]?(?:%s)?
-''' % tuple([NUM_PATTERN] + 7 * [ALL_NUM])
+    (?!\s?%s)                    # Disallow being followed by only a number
+''' % tuple([NUM_PATTERN] + 7 * [ALL_NUM] + [NUM_PATTERN])
 
 REG_TXT = re.compile(TXT_PATTERN, re.VERBOSE | re.IGNORECASE)
 
@@ -228,7 +229,7 @@ def get_units_regex():
     symbol_keys = sorted(
         list(load.PREFIX_SYMBOLS.keys()), key=len, reverse=True)
 
-    exponent = r'(?:(?:\^?\-?[0-9%s]+)?(?:\ cubed|\ squared)?)' % \
+    exponent = r'(?:(?:\^?[−-]?[0-9%s]+)?(?:\ cubed|\ squared)?)' % \
                SUPERSCRIPTS
 
     all_ops = '|'.join([r'{}'.format(re.escape(i)) for i in op_keys])

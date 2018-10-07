@@ -205,7 +205,7 @@ def disambiguate_entity(key, text):
     """
 
     if len(load.DERIVED_ENT[key]) > 1:
-        transformed = TFIDF_MODEL.transform([text])
+        transformed = TFIDF_MODEL.transform([clean_text(text)])
         scores = CLF.predict_proba(transformed).tolist()[0]
         scores = zip(scores, TARGET_NAMES)
 
@@ -250,10 +250,10 @@ def disambiguate_unit(unit, text):
         # Sort by rank
         scores = sorted(scores, key=lambda x: x[0], reverse=True)
         try:
-            final = next(iter(load.UNITS[scores[0][1]]))
+            final = load.UNIT_NAMES[scores[0][1]]
             logging.debug(
                 '\tAmbiguity resolved for "%s" (%s)' % (unit, scores))
-        except (StopIteration, IndexError):
+        except IndexError:
             logging.debug('\tAmbiguity not resolved for "%s"' % unit)
             final = next(iter(new_unit))
     else:

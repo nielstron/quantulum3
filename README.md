@@ -32,25 +32,6 @@ Then,
 $ pip install quantulum3
 ```
 
-Contributing
-------------
-
-If you'd like to contribute follow these steps:
-1. Clone a fork of this project into your workspace
-2. Run `pip install -e .` at the root of your development folder.
-3. `pip install pipenv` and `pipenv shell`
-4. Inside the project folder run `pipenv install --dev`
-5. Make your changes
-6. Run `scripts/format.sh` and `scripts/build.py` from the package root directory.
-7. Test your changes with `coverage run --source=quantulum3 setup.py test` 
-(Optional, will be done automatically after pushing)
-8. Create a Pull Request when having commited and pushed your changes
-
-`dev` build: 
-
-[![Travis dev build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=dev "Travis dev build state")](https://travis-ci.com/nielstron/quantulum3)
-[![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=dev)](https://coveralls.io/github/nielstron/quantulum3?branch=dev)
-
 Usage
 -----
 
@@ -266,3 +247,42 @@ Here is an example of an entry in *units.json*:
     prefixes version on its own.
 
 All fields are case sensitive.
+
+Contributing
+------------
+`dev` build: 
+
+[![Travis dev build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=dev "Travis dev build state")](https://travis-ci.com/nielstron/quantulum3)
+[![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=dev)](https://coveralls.io/github/nielstron/quantulum3?branch=dev)
+
+If you'd like to contribute follow these steps:
+1. Clone a fork of this project into your workspace
+2. Run `pip install -e .` at the root of your development folder.
+3. `pip install pipenv` and `pipenv shell`
+4. Inside the project folder run `pipenv install --dev`
+5. Make your changes
+6. Run `scripts/format.sh` and `scripts/build.py` from the package root directory.
+7. Test your changes with `coverage run --source=quantulum3 setup.py test` 
+(Optional, will be done automatically after pushing)
+8. Create a Pull Request when having commited and pushed your changes
+
+
+Language support
+----------------
+[![Travis dev build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=language_support "Travis dev build state")](https://travis-ci.com/nielstron/quantulum3)
+[![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=language_support)](https://coveralls.io/github/nielstron/quantulum3?branch=dev)
+
+There is a branch for language support, namely `language_support`.
+From inspecting the functions and values given in the new `_lang.en_US` submodule,
+one should be able to create own language submodules.
+The new language modules should automatically be invoked and be available,
+both through the `lang=` keyword argument in the parser functions as well
+as in the automatic unittests.
+
+No changes above the own language submoduel (i.e. `_lang.de_DE`) should
+be necessary. If there are problems implementing a new language, don't hesitate to open an issue.
+
+Language support is very beta currently and will thus stay in the seperate branch
+until at least one additional language has been added. That way the current parsing
+quality can be assured and meanwhile be extended for additional languages.
+

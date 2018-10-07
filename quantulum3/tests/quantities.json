@@ -952,5 +952,140 @@
         ]
       }
     ]
+  },
+  {
+    "req": "Intel Core i7 860 Processor 2.80 GHz 8 MB LGA1156 CPU I7-860BOX",
+    "res": [
+      {
+        "value": 860.0,
+        "unit": "dimensionless",
+        "surface": "860",
+        "entity": "dimensionless",
+        "dimensions": [],
+        "uncertainty": null
+      },
+      {
+        "value": 2.8,
+        "unit": "gigahertz",
+        "surface": "2.80 GHz",
+        "entity": "frequency",
+        "dimensions": [
+          {
+            "base": "time",
+            "power": -1
+          }
+        ],
+        "uncertainty": null
+      },
+      {
+        "value": 8.0,
+        "unit": "megabyte",
+        "surface": "8 MB",
+        "entity": "data storage",
+        "dimensions": [],
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "The average radiation dose from  a selective CT scan of the abdomen and the pelvis is 14 mGy",
+    "res": [
+      {
+        "value": 14.0,
+        "unit": "milligray",
+        "surface": "14 mGy",
+        "entity": "radiation absorbed dose",
+        "dimensions": [
+          {
+            "base": "energy",
+            "power": 1
+          },
+          {
+            "base": "mass",
+            "power": -1
+          }
+        ],
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "Fermilab's Tevatron took about 4 years to reach 1 fb\u22121 in 2005, while two of CERN's LHC experiments, ATLAS and CMS, reached over 5 fb\u22121 of proton-proton data in 2011 alone.",
+    "res": [
+      {
+        "value": 4.0,
+        "unit": "year",
+        "surface": "4 years",
+        "entity": "time",
+        "dimensions": [],
+        "uncertainty": null
+      },
+      {
+        "value": 1.0,
+        "unit": "inverse femtobarn",
+        "surface": "1 fb\u22121",
+        "entity": "length",
+        "dimensions": [],
+        "uncertainty": null
+      },
+      {
+        "value": 2005.0,
+        "unit": "dimensionless",
+        "surface": "2005",
+        "entity": "dimensionless",
+        "dimensions": [],
+        "uncertainty": null
+      },
+      {
+        "value": 2.0,
+        "unit": "dimensionless",
+        "surface": "two",
+        "entity": "dimensionless",
+        "dimensions": [],
+        "uncertainty": null
+      },
+      {
+        "value": 5.0,
+        "unit": "inverse femtobarn",
+        "surface": "5 fb\u22121",
+        "entity": "length",
+        "dimensions": [],
+        "uncertainty": null
+      },
+      {
+        "value": 2011.0,
+        "unit": "dimensionless",
+        "surface": "2011",
+        "entity": "dimensionless",
+        "dimensions": [],
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "Look there! This is a 5 metre shark!",
+    "res": [
+      {
+        "value": 5.0,
+        "unit": "metre",
+        "surface": "5 metre",
+        "entity": "length",
+        "dimensions": [],
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "A mouse can get through a 1/4 inch gap",
+    "res": [
+      {
+        "value": 0.25,
+        "unit": "inch",
+        "surface": "1/4 inch",
+        "entity": "length",
+        "dimensions": [],
+        "uncertainty": null
+      }
+    ]
   }
 ]
