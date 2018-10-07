@@ -47,13 +47,14 @@ DECIMAL_OPERATORS = {u'.'}
 
 # Pattern for extracting word based numbers
 TEXT_PATTERN = r'''            # Pattern for extracting mixed digit-spelled num
-(?:
-    (?<![a-zA-Z0-9+.-])    # lookbehind, avoid "Area51"
-    {number_pattern_no_groups}
-)?
-[ -]?(?:{numberwords_regex})
-[ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?
-[ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?
+    (?:
+        (?<![a-zA-Z0-9+.-])    # lookbehind, avoid "Area51"
+        {number_pattern_no_groups}
+    )?
+    [ -]?(?:{numberwords_regex})
+    [ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?
+    [ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?
+    (?!\s?{number_pattern_no_groups})                  # Disallow being followed by only a number
 '''
 
 RANGES = {'to', 'and'}

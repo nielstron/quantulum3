@@ -62,6 +62,7 @@ class ClassifierTest(unittest.TestCase):
                 correct += 1
             else:
                 error.append((test, quants))
+                print(test['req'])
         success_rate = correct / total
         print('Classifier success rate at {:.2f}%'.format(success_rate * 100))
         self.assertGreaterEqual(
@@ -72,6 +73,7 @@ class ClassifierTest(unittest.TestCase):
                 '\n'.join('{}: {}'.format(test[0]['req'], test[1])
                           for test in error)))
 
+    @unittest.skip
     @multilang
     def test_training(self, lang='en_US'):
         """ Test that classifier training works """
