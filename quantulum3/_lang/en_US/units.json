@@ -1,5 +1,13 @@
 [
   {
+    "name": "year",
+    "symbols": [
+      "a",
+      "y",
+      "yr"
+    ]
+  },
+  {
     "name": "baker's dozen",
     "surfaces": [
       "bakers dozen",

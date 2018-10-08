@@ -2523,9 +2523,7 @@
     "URI": "Year",
     "dimensions": [],
     "symbols": [
-      "a",
-      "y",
-      "yr"
+      "a"
     ],
     "prefixes": [
       "k",
