@@ -5,7 +5,7 @@
 import sys
 
 try:
-    from setuptools import setup
+    from setuptools import setup, find_packages
 except ImportError:
     print('Please install or upgrade setuptools or pip to continue')
     sys.exit(1)
@@ -14,22 +14,14 @@ import quantulum3
 
 setup(
     name='quantulum3',
-    packages=['quantulum3'],
+    packages=find_packages(),
     package_data={
-        'quantulum3': [
-            '_lang/en_US/clf.joblib', 'units.json', 'entities.json',
-            '_lang/en_US/units.json', '_lang/en_US/entities.json',
-            '_lang/en_US/train/train.json', '_lang/en_US/train/wiki.json',
-            '_lang/en_US/common-words.json', '_lang/en_US/tests/expand.json',
-            '_lang/en_US/tests/quantities.json',
-            '_lang/en_US/tests/quantities.ambiguity.json',
-            '_lang/en_US/train/similars.json'
-        ]
+        '': ['*.json', '*.joblib']
     },
     description='Extract quantities from unstructured text.',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    download_url='https://github.com/marcolagi/quantulum3/tarball/0.1',
+    download_url='https://github.com/nielstron/quantulum3/tarball/master',
     version=quantulum3.__version__,
     url=quantulum3.__url__,
     author=quantulum3.__author__,
