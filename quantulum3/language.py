@@ -48,8 +48,9 @@ def get(module, lang='en_US'):
     :param lang:
     :return:
     """
+
     module = import_module(
-        '{}._lang.{}.{}'.format(__package__, subdir(lang), module)
+        '._lang.{}.{}'.format(__package__, subdir(lang), module), package=__package__
     )
     return module
 
