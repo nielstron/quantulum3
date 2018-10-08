@@ -50,7 +50,7 @@ def get(module, lang='en_US'):
     """
 
     module = import_module(
-        '._lang.{}.{}'.format(__package__, subdir(lang), module), package=__package__
+        '._lang.{}.{}'.format(subdir(lang), module), package=__package__
     )
     return module
 
