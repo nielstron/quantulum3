@@ -244,17 +244,20 @@ class SetupTest(unittest.TestCase):
 
     @unittest.expectedFailure
     def test_quantity_comparison_fail_unit(self):
+        """ Test unequal units (differing only in their entity) """
         self.assertEqual(
             cls.Quantity(1, cls.Unit(entity=cls.Entity('water'))),
             cls.Quantity(1, cls.Unit(entity=cls.Entity('air'))))
 
     @unittest.expectedFailure
     def test_quantity_comparison_fail_value(self):
+        """ Test unequal units (differing only in their value) """
         self.assertEqual(
             cls.Quantity(1, cls.Unit(entity=cls.Entity('water'))),
             cls.Quantity(2, cls.Unit(entity=cls.Entity('water'))))
 
     def test_unsupported_language(self):
+        """ Test if unknown langugage fails """
         try:
             p.parse('Urgh wooo ddaa eeee!', lang='xx')
             self.fail('No error was thrown on unsupported language'
