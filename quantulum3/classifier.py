@@ -46,7 +46,7 @@ def ambiguous_units(lang='en_US'):  # pragma: no cover
         i for i in list(load.units(lang).symbols.items()) if len(i[1]) > 1
     ]
     ambiguous += [
-        i for i in list(load.units(lang).derived.items()) if len(i[1]) > 1
+        i for i in list(load.entities(lang).derived.items()) if len(i[1]) > 1
     ]
     return ambiguous
 
