@@ -19,8 +19,9 @@ from .. import classifier as clf
 from .. import language
 from .test_setup import load_expand_tests, load_quantity_tests, multilang, add_type_equalities
 
-# sklearn
+# Dependencies
 from sklearn.externals import joblib
+import wikipedia
 
 COLOR1 = '\033[94m%s\033[0m'
 COLOR2 = '\033[91m%s\033[0m'
@@ -106,6 +107,19 @@ class ClassifierTest(unittest.TestCase):
             clf_version, cur_version,
             "Classifier has been built with scikit-learn version {}, while the newest version is {}. Please update scikit-learn."
             .format(clf_version, cur_version))
+
+    @multilang
+    def test_wikipedia_pages(self, lang):
+        err = []
+        for unit in load.units(lang).names.values():
+            try:
+                wikipedia.page(unit.uri.replace('_', ' '))
+            except (wikipedia.PageError, wikipedia.DisambiguationError) as e:
+                err.append(e)
+        if err:  # pragma: no cover
+            self.fail("Problematic pages:\n{}".format(
+                "\n".join(err)
+            ))
 
 
 ################################################################################

@@ -4316,6 +4316,27 @@
     ]
   },
   {
+    "name": "baud",
+    "surfaces": [
+      "baud"
+    ],
+    "entity": "data transfer rate",
+    "URI": "Baud",
+    "dimensions": [
+      {
+        "base": "bit",
+        "power": 1
+      },
+      {
+        "base": "second",
+        "power": -1
+      }
+    ],
+    "symbols": [
+      "Bd"
+    ]
+  },
+  {
     "name": "kilobit per second",
     "surfaces": [
       "kilobit per second"

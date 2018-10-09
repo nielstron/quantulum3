@@ -257,8 +257,8 @@ class SetupTest(unittest.TestCase):
     def test_unsupported_language(self):
         try:
             p.parse('Urgh wooo ddaa eeee!', lang='xx')
-            self.fail('No error was thrown on unsupported language'
-                      )  # pragma: no cover
+            self.fail(
+                'No error was thrown on unsupported language')  # pragma: no cover
         except NotImplementedError:
             pass
 
