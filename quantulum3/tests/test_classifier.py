@@ -73,6 +73,7 @@ class ClassifierTest(unittest.TestCase):
                 '\n'.join('{}: {}'.format(test[0]['req'], test[1])
                           for test in error)))
 
+    @unittest.skip
     @multilang
     def test_training(self, lang='en_US'):
         """ Test that classifier training works """
@@ -108,17 +109,18 @@ class ClassifierTest(unittest.TestCase):
             "Classifier has been built with scikit-learn version {}, while the newest version is {}. Please update scikit-learn."
             .format(clf_version, cur_version))
 
-    @multilang
+    @multilang(['en_us'])
     def test_wikipedia_pages(self, lang):
         err = []
         for unit in load.units(lang).names.values():
             try:
                 wikipedia.page(unit.uri.replace('_', ' '))
+                pass
             except (wikipedia.PageError, wikipedia.DisambiguationError) as e:
-                err.append(e)
+                err.append((unit, e))
         if err:  # pragma: no cover
             self.fail("Problematic pages:\n{}".format(
-                "\n".join(err)
+                "\n".join(str(e) for e in err)
             ))
 
 

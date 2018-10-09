@@ -20,5 +20,13 @@
       "₫",
       "d"
     ]
+  },
+  {
+    "name": "terahertz",
+    "URI": "Terahertz_(unit)"
+  },
+  {
+    "name": "teraampere",
+    "URI": "Ampere"
   }
 ]
