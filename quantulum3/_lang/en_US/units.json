@@ -40,5 +40,45 @@
   {
     "name": "millibarn",
     "URI": "Barn_(unit)"
+  },
+  {
+    "name": "microbarn",
+    "URI": "Barn_(unit)"
+  },
+  {
+    "name": "nanobarn",
+    "URI": "Barn_(unit)"
+  },
+  {
+    "name": "picobarn",
+    "URI": "Barn_(unit)"
+  },
+  {
+    "name": "femtobarn",
+    "URI": "Barn_(unit)"
+  },
+  {
+    "name": "attobarn",
+    "URI": "Barn_(unit)"
+  },
+  {
+    "name": "zeptobarn",
+    "URI": "Barn_(unit)"
+  },
+  {
+    "name": "yoctobarn",
+    "URI": "Barn_(unit)"
+  },
+  {
+    "name": "kiloyear",
+    "URI": "Kiloannus"
+  },
+  {
+    "name": "milligray",
+    "URI": "Milligray"
+  },
+  {
+    "name": "kilogray",
+    "URI": "Kilogray"
   }
 ]
