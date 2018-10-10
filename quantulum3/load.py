@@ -229,8 +229,12 @@ class Units(object):
             lang_units = json.load(file)
 
         units = {}
+        for unit in general_units.copy():
+            general_units.extend(self.prefixed_units(unit))
         for unit in general_units:
             units[unit['name']] = unit
+        for unit in lang_units.copy():
+            lang_units.extend(self.prefixed_units(unit))
         for unit in lang_units:
             units[unit['name']] = units.get(unit['name'], unit)
             units[unit['name']].update(unit)
@@ -280,6 +284,8 @@ class Units(object):
             self.surfaces[plural].add(obj)
             self.surfaces_lower[plural.lower()].add(obj)
 
+    def prefixed_units(self, unit):
+        prefixed = []
         # If SI-prefixes are given, add them
         for prefix in unit.get('prefixes', []):
             try:
@@ -309,7 +315,8 @@ class Units(object):
                 'dimensions': [],
                 'symbols': [prefix + i for i in unit['symbols']]
             }
-            self.load_unit(prefixed_unit)
+            prefixed.append(prefixed_unit)
+        return prefixed
 
 
 @cached

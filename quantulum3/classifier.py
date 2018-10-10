@@ -46,7 +46,7 @@ def ambiguous_units(lang='en_US'):  # pragma: no cover
         i for i in list(load.units(lang).symbols.items()) if len(i[1]) > 1
     ]
     ambiguous += [
-        i for i in list(load.units(lang).derived.items()) if len(i[1]) > 1
+        i for i in list(load.entities(lang).derived.items()) if len(i[1]) > 1
     ]
     return ambiguous
 
@@ -62,6 +62,8 @@ def download_wiki(store=True, lang='en_US'):  # pragma: no cover
             "Cannot download wikipedia pages. Install package wikipedia first."
         )
         return
+
+    wikipedia.set_lang(lang[:2])
 
     ambiguous = ambiguous_units()
     pages = set([(j.name, j.uri) for i in ambiguous for j in i[1]])
@@ -80,11 +82,11 @@ def download_wiki(store=True, lang='en_US'):  # pragma: no cover
         print('---> Downloading %s (%d of %d)' % (obj['clean'], num + 1,
                                                   len(pages)))
 
-        obj['text'] = wikipedia.page(obj['clean']).content
+        obj['text'] = wikipedia.page(obj['clean'], auto_suggest=False).content
         obj['unit'] = page[0]
         objs.append(obj)
 
-    path = language.topdir(lang).joinpath('wiki.json')
+    path = language.topdir(lang).joinpath('train/wiki.json')
     if store:
         with path.open('w') as wiki_file:
             json.dump(objs, wiki_file, indent=4, sort_keys=True)

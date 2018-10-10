@@ -29,16 +29,10 @@ def pluralize(singular, count=None):
     split = singular.split(' ')
     if 'per' in split:
         per = split.index('per')
-        return ' '.join(
-            [pluralize(' '.join(split[:per]), count)]
-            + split[per:]
-        )
+        return ' '.join([pluralize(' '.join(split[:per]), count)] +
+                        split[per:])
     if len(split) >= 2 and split[-2] == 'degree':
-        return ' '.join(
-            split[:-2]
-            + ['degrees']
-            + split[-1:]
-        )
+        return ' '.join(split[:-2] + ['degrees'] + split[-1:])
     return PLURALS.plural(singular, count)
 
 

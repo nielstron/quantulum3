@@ -659,7 +659,7 @@
       "milligramme"
     ],
     "entity": "mass",
-    "URI": "Kilogram#SI_multiples",
+    "URI": "Gram",
     "dimensions": [],
     "symbols": [
       "mg"
@@ -3353,7 +3353,7 @@
       "poise"
     ],
     "entity": "dynamic viscosity",
-    "URI": "Poise",
+    "URI": "Poise_(unit)",
     "dimensions": [],
     "symbols": [
       "P"
@@ -3365,7 +3365,7 @@
       "centipoise"
     ],
     "entity": "dynamic viscosity",
-    "URI": "Poise",
+    "URI": "Poise_(unit)",
     "dimensions": [],
     "symbols": [
       "cP"
@@ -3377,7 +3377,7 @@
       "stokes"
     ],
     "entity": "kinematic viscosity",
-    "URI": "Viscosity#Stokes_.28unit.29",
+    "URI": "Viscosity",
     "dimensions": [],
     "symbols": [
       "St"
@@ -3389,7 +3389,7 @@
       "centistokes"
     ],
     "entity": "kinematic viscosity",
-    "URI": "Viscosity#Stokes_.28unit.29",
+    "URI": "Viscosity",
     "dimensions": [],
     "symbols": [
       "cSt"
@@ -4295,8 +4295,7 @@
   {
     "name": "bit per second",
     "surfaces": [
-      "bit per second",
-      "baud"
+      "bit per second"
     ],
     "entity": "data transfer rate",
     "URI": "Bit_rate",
@@ -4311,7 +4310,27 @@
       }
     ],
     "symbols": [
-      "bps",
+      "bps"
+    ]
+  },
+  {
+    "name": "baud",
+    "surfaces": [
+      "baud"
+    ],
+    "entity": "data transfer rate",
+    "URI": "Baud",
+    "dimensions": [
+      {
+        "base": "bit",
+        "power": 1
+      },
+      {
+        "base": "second",
+        "power": -1
+      }
+    ],
+    "symbols": [
       "Bd"
     ]
   },
@@ -4634,5 +4653,68 @@
     "URI": "Qubit",
     "dimensions": [],
     "symbols": []
+  },
+  {
+    "name": "base pair",
+    "surfaces": [
+      "base pair"
+    ],
+    "entity": "length",
+    "URI": "Base_pair",
+    "dimensions": [],
+    "symbols": [
+      "bp"
+    ]
+  },
+  {
+    "name": "kilo base pair",
+    "surfaces": [
+      "kilo base pair"
+    ],
+    "entity": "length",
+    "URI": "Base_pair",
+    "dimensions": [],
+    "symbols": [
+      "kbp",
+      "kb"
+    ]
+  },
+  {
+    "name": "mega base pair",
+    "surfaces": [
+      "mega base pair"
+    ],
+    "entity": "length",
+    "URI": "Base_pair",
+    "dimensions": [],
+    "symbols": [
+      "Mbp",
+      "Mb"
+    ]
+  },
+  {
+    "name": "giga base pair",
+    "surfaces": [
+      "giga base pair"
+    ],
+    "entity": "length",
+    "URI": "Base_pair",
+    "dimensions": [],
+    "symbols": [
+      "Gbp",
+      "Gb"
+    ]
+  },
+  {
+    "name": "nucleotide",
+    "surfaces": [
+      "nucleotide"
+    ],
+    "entity": "length",
+    "URI": "Nucleotide",
+    "dimensions": [],
+    "symbols": [
+      "nt"
+    ]
   }
 ]
