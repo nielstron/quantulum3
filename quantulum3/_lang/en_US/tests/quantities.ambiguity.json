@@ -299,7 +299,7 @@
     ]
   },
   {
-    "req": "As Stephanie Pappas at LiveScience reports, after snapping an image and storing it on its hard drive, New Horizons sends its data back on an antenna that transmits at only 12 watts, moving data at a snail\udce2\udc80\udc99s pace\udce2\udc80\udc94only two kb per second.",
+    "req": "As Stephanie Pappas at LiveScience reports, after snapping an image and storing it on its hard drive, New Horizons sends its data back on an antenna that transmits at only 12 watts, moving data at a snail's pace: only two kb per second.",
     "res": [
       {
         "value": 12.0,
@@ -321,7 +321,7 @@
       {
         "value": 2.0,
         "unit": "kilobit per second",
-        "surface": "two kilobits per second",
+        "surface": "two kb per second",
         "entity": "data transfer rate",
         "dimensions": [
           {
