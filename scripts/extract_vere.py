@@ -35,7 +35,7 @@ arguments = [
         'default':
         'glove.6B.100d.magnitude'
     },
-    #TODO language support
+    # TODO language support
 ]
 
 
@@ -71,7 +71,8 @@ def glove_via_magnitude(topn=500,
             })
     print('Done')
 
-    with language.topdir(lang).joinpath('train/similars.json').open('w', encoding='utf-8') as file:
+    with language.topdir(lang).joinpath('train/similars.json').open(
+            'w', encoding='utf-8') as file:
         json.dump(training_set, file, sort_keys=True, indent=4)
 
 

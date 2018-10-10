@@ -120,9 +120,8 @@ class ClassifierTest(unittest.TestCase):
             except (wikipedia.PageError, wikipedia.DisambiguationError) as e:
                 err.append((unit, e))
         if err:  # pragma: no cover
-            self.fail("Problematic pages:\n{}".format(
-                "\n".join(str(e) for e in err)
-            ))
+            self.fail("Problematic pages:\n{}".format("\n".join(
+                str(e) for e in err)))
 
 
 ################################################################################
