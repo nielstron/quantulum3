@@ -28,5 +28,17 @@
   {
     "name": "teraampere",
     "URI": "Ampere"
+  },
+  {
+    "name": "megabarn",
+    "URI": "Barn_(unit)"
+  },
+  {
+    "name": "kilobarn",
+    "URI": "Barn_(unit)"
+  },
+  {
+    "name": "millibarn",
+    "URI": "Barn_(unit)"
   }
 ]

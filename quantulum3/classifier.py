@@ -63,6 +63,8 @@ def download_wiki(store=True, lang='en_US'):  # pragma: no cover
         )
         return
 
+    wikipedia.set_lang(lang[:2])
+
     ambiguous = ambiguous_units()
     pages = set([(j.name, j.uri) for i in ambiguous for j in i[1]])
 
@@ -80,7 +82,7 @@ def download_wiki(store=True, lang='en_US'):  # pragma: no cover
         print('---> Downloading %s (%d of %d)' % (obj['clean'], num + 1,
                                                   len(pages)))
 
-        obj['text'] = wikipedia.page(obj['clean']).content
+        obj['text'] = wikipedia.page(obj['clean'], auto_suggest=False).content
         obj['unit'] = page[0]
         objs.append(obj)
 
