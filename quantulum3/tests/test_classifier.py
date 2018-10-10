@@ -73,7 +73,6 @@ class ClassifierTest(unittest.TestCase):
                 '\n'.join('{}: {}'.format(test[0]['req'], test[1])
                           for test in error)))
 
-    @unittest.skip
     @multilang
     def test_training(self, lang='en_US'):
         """ Test that classifier training works """
