@@ -8,7 +8,7 @@ import json
 from io import open
 import argparse
 
-from quantulum3 import classifier, classes, load
+from quantulum3 import classifier, classes, load, language
 
 TOPDIR = os.path.dirname(__file__) or '.'
 
@@ -35,12 +35,14 @@ arguments = [
         'default':
         'glove.6B.100d.magnitude'
     },
+    #TODO language support
 ]
 
 
 def glove_via_magnitude(topn=500,
                         min_similarity=None,
-                        filename='glove.6B.100d.magnitude'):
+                        filename='glove.6B.100d.magnitude',
+                        lang='en_US'):
 
     from pymagnitude import Magnitude
 
@@ -69,9 +71,7 @@ def glove_via_magnitude(topn=500,
             })
     print('Done')
 
-    with open(
-            os.path.join(load.TOPDIR, 'similars.json'), 'w',
-            encoding='utf8') as file:
+    with language.topdir(lang).joinpath('train/similars.json').open('w', encoding='utf-8') as file:
         json.dump(training_set, file, sort_keys=True, indent=4)
 
 

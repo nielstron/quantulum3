@@ -86,7 +86,7 @@ def download_wiki(store=True, lang='en_US'):  # pragma: no cover
         obj['unit'] = page[0]
         objs.append(obj)
 
-    path = language.topdir(lang).joinpath('wiki.json')
+    path = language.topdir(lang).joinpath('train/wiki.json')
     if store:
         with path.open('w') as wiki_file:
             json.dump(objs, wiki_file, indent=4, sort_keys=True)
