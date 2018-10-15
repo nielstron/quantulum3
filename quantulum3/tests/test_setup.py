@@ -30,7 +30,8 @@ TOPDIR = os.path.dirname(__file__) or "."
 def multilang(funct_or_langs):
     """
     Wrapper to make a unittest test several languages
-    :param funct_or_langs: Function to test all languages or a set of languages to test
+    :param funct_or_langs: Function to test all languages or a set of languages
+                           to test
     :return:
     """
 
@@ -76,7 +77,9 @@ def add_type_equalities(testcase):
                     firstval = getattr(first, diff)
                     secondval = getattr(second, diff)
                     if firstval != secondval:
-                        msg = 'Quantities {first} and {second} are differing in attribute "{attribute}": "{firstval}" != "{secondval}"'
+                        msg = 'Quantities {first} and {second} are differing '
+                        'in attribute "{attribute}": "{firstval}" != '
+                        '"{secondval}"'
                         msg = msg.format(
                             attribute=diff,
                             firstval=firstval,
@@ -93,7 +96,7 @@ def add_type_equalities(testcase):
     testcase.addTypeEqualityFunc(cls.Quantity, quantity_equality_func)
 
 
-################################################################################
+###############################################################################
 def wiki_test(page='CERN', lang='en_US'):  # pragma: no cover
     """
     Download a wikipedia page and test the parser on its content.
@@ -105,7 +108,8 @@ def wiki_test(page='CERN', lang='en_US'):  # pragma: no cover
     """
     if not wikipedia:
         print(
-            "Cannot activate wiki_test. Please install the package wikipedia first."
+            "Cannot activate wiki_test. Please install the package wikipedia "
+            "first."
         )
         return
 
@@ -117,7 +121,7 @@ def wiki_test(page='CERN', lang='en_US'):  # pragma: no cover
     print()
     end_char = 0
     for num, chunk in enumerate(range(parts)):
-        _ = os.system('clear')
+        os.system('clear')
         print()
         qua = [
             j for j in parsed if chunk * 1000 < j.span[0] < (chunk + 1) * 1000
@@ -137,12 +141,12 @@ def wiki_test(page='CERN', lang='en_US'):  # pragma: no cover
         print(COLOR2 % text)
         print()
         try:
-            _ = input('--------- End part %d of %d\n' % (num + 1, parts))
+            input('--------- End part %d of %d\n' % (num + 1, parts))
         except (KeyboardInterrupt, EOFError):
             return
 
 
-################################################################################
+###############################################################################
 def load_quantity_tests(ambiguity=True, lang='en_US'):
     """
     Load all tests from quantities.json.
@@ -186,7 +190,8 @@ def load_quantity_tests(ambiguity=True, lang='en_US'):
                     entity=entity,
                     lang=lang)
             try:
-                # TODO be aware that there may never be two identical units in a req string
+                # TODO be aware that there may never be two identical units in
+                # a req string
                 span = next(
                     re.finditer(re.escape(item['surface']),
                                 test['req'])).span()
@@ -209,7 +214,7 @@ def load_quantity_tests(ambiguity=True, lang='en_US'):
     return tests
 
 
-################################################################################
+###############################################################################
 def load_expand_tests(lang='en_US'):
     with language.topdir(lang).joinpath('tests', 'expand.json').open(
             'r', encoding='utf-8') as testfile:
@@ -217,7 +222,7 @@ def load_expand_tests(lang='en_US'):
     return tests
 
 
-################################################################################
+###############################################################################
 class SetupTest(unittest.TestCase):
     """Test suite for the quantulum3 project."""
 
@@ -266,7 +271,7 @@ class SetupTest(unittest.TestCase):
             pass
 
 
-################################################################################
+###############################################################################
 if __name__ == '__main__':  # pragma: no cover
 
     unittest.main()

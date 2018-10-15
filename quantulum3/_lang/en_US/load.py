@@ -23,9 +23,10 @@ TOPDIR = os.path.dirname(__file__) or "."
 PLURALS = inflect.engine()
 
 
-################################################################################
+###############################################################################
 def pluralize(singular, count=None):
-    # TODO remove this, as soon as the correct plural branch is merges into inflect
+    # TODO remove this, as soon as the correct plural branch is merges into
+    # inflect
     split = singular.split(' ')
     if 'per' in split:
         per = split.index('per')
@@ -40,7 +41,7 @@ def number_to_words(number):
     return PLURALS.number_to_words(number)
 
 
-################################################################################
+###############################################################################
 def build_common_words():
     # Read raw 4 letter file
     path = os.path.join(TOPDIR, 'common-words.txt')
@@ -62,7 +63,7 @@ def build_common_words():
     return words
 
 
-################################################################################
+###############################################################################
 def load_common_words():
     path = os.path.join(TOPDIR, 'common-words.json')
     dumped = {}

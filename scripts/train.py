@@ -23,7 +23,8 @@ arguments = [
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         'train',
-        description='Train unit disambiguator based on data in quantulum project folder')
+        description='Train unit disambiguator based on data in quantulum '
+        'project folder')
     for arg in arguments:
         parser.add_argument('--{}'.format(arg['dest']), **arg)
     args = parser.parse_args()
