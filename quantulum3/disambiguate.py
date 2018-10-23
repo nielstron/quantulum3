@@ -9,7 +9,7 @@ from . import no_classifier as no_clf
 from . import load
 
 
-################################################################################
+###############################################################################
 def disambiguate_unit(unit_surface, text, lang='en_US'):
     """
     Resolve ambiguity between units with same names, symbols or abbreviations.
@@ -18,10 +18,10 @@ def disambiguate_unit(unit_surface, text, lang='en_US'):
     if clf.USE_CLF:
         base = clf.disambiguate_unit(unit_surface, text, lang).name
     else:
-        base = (load.units(lang).symbols[unit_surface]
-                or load.units(lang).surfaces[unit_surface]
-                or load.units(lang).surfaces_lower[unit_surface.lower()]
-                or load.units(lang).symbols_lower[unit_surface.lower()])
+        base = (load.units(lang).symbols[unit_surface] or
+                load.units(lang).surfaces[unit_surface] or
+                load.units(lang).surfaces_lower[unit_surface.lower()] or
+                load.units(lang).symbols_lower[unit_surface.lower()])
 
         if len(base) > 1:
             base = no_clf.disambiguate_no_classifier(base, text, lang)
@@ -36,7 +36,7 @@ def disambiguate_unit(unit_surface, text, lang='en_US'):
     return base
 
 
-################################################################################
+###############################################################################
 def disambiguate_entity(key, text, lang='en_US'):
     """
     Resolve ambiguity between entities with same dimensionality.

@@ -7,7 +7,7 @@
 # Quantulum
 from . import speak
 
-################################################################################
+###############################################################################
 
 
 class Quantity(object):
@@ -39,10 +39,10 @@ class Quantity(object):
     def __eq__(self, other):
 
         if isinstance(other, self.__class__):
-            return (self.value == other.value and self.unit == other.unit
-                    and self.surface == other.surface
-                    and self.span == other.span
-                    and self.uncertainty == other.uncertainty)
+            return (self.value == other.value and self.unit == other.unit and
+                    self.surface == other.surface and
+                    self.span == other.span and
+                    self.uncertainty == other.uncertainty)
         else:
             return False
 
@@ -61,7 +61,7 @@ class Quantity(object):
         return speak.quantity_to_spoken(self, lang or self.lang)
 
 
-################################################################################
+###############################################################################
 class Unit(object):
     """
     Class for a unit (e.g. "gallon").
@@ -92,9 +92,11 @@ class Unit(object):
     def to_spoken(self, count=1, lang=None):
         """
         Convert a given unit to the unit in words, correctly inflected.
-        :param count: The value of the quantity (i.e. 1 for one watt, 2 for two seconds)
+        :param count: The value of the quantity (i.e. 1 for one watt, 2 for
+                      two seconds)
         :param lang: Language of result
-        :return: A string with the correctly inflected spoken version of the unit
+        :return: A string with the correctly inflected spoken version of the
+                 unit
         """
         return speak.unit_to_spoken(self, count, lang or self.lang)
 
@@ -112,8 +114,8 @@ class Unit(object):
         if isinstance(other, self.__class__):
             return (
                 self.name == other.name and self.entity == other.entity and
-                all(dim1['base'] == dim2['base']
-                    and dim1['power'] == dim2['power']
+                all(dim1['base'] == dim2['base'] and
+                    dim1['power'] == dim2['power']
                     for dim1, dim2 in zip(self.dimensions, other.dimensions)))
         else:
             return False
@@ -127,7 +129,7 @@ class Unit(object):
         return hash(repr(self))
 
 
-################################################################################
+###############################################################################
 class Entity(object):
     """
     Class for an entity (e.g. "volume").
@@ -148,8 +150,8 @@ class Entity(object):
     def __eq__(self, other):
 
         if isinstance(other, self.__class__):
-            return (self.name == other.name
-                    and self.dimensions == other.dimensions)
+            return (self.name == other.name and
+                    self.dimensions == other.dimensions)
         else:
             return False
 

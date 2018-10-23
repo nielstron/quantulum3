@@ -10,13 +10,16 @@ python:
 matrix:
   allow_failures:
     - python: "3.7-dev"
+  fast_finish: true
 
 install:
+  - pip install tox
   - pip install coverage
   - pip install coveralls
   - pip install .
 
 script:
+  - tox
   - coverage run --source=quantulum3 scripts/test_import_error.py
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_setup
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_no_classifier

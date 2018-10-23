@@ -28,7 +28,7 @@ def _get_parser(lang='en_US'):
     return language.get('parser', lang)
 
 
-################################################################################
+###############################################################################
 def extract_spellout_values(text, lang='en_US'):
     """
     Convert spelled out numbers in a given text to digits.
@@ -36,7 +36,7 @@ def extract_spellout_values(text, lang='en_US'):
     return _get_parser(lang).extract_spellout_values(text)
 
 
-################################################################################
+###############################################################################
 def substitute_values(text, values):
     """
     Convert spelled out numbers in a given text to digits.
@@ -57,7 +57,7 @@ def substitute_values(text, values):
     return final_text, shifts
 
 
-################################################################################
+###############################################################################
 def get_values(item, lang='en_US'):
     """
     Extract value from regex hit.
@@ -100,7 +100,8 @@ def get_values(item, lang='en_US'):
         ]
         if values[1] < values[0]:
             raise ValueError(
-                "Invalid range, with second item being smaller than the first item"
+                "Invalid range, with second item being smaller than the first "
+                "item"
             )
         mean = sum(values) / len(values)
         uncertainty = mean - min(values)
@@ -131,7 +132,8 @@ def get_values(item, lang='en_US'):
 
 ###############################################################################
 def resolve_exponents(value, lang='en_US'):
-    """Resolve unusual exponents (like 2^4) and return substituted string and factor
+    """Resolve unusual exponents (like 2^4) and return substituted string and
+       factor
 
     Params:
         value: str, string with only one value
@@ -187,7 +189,7 @@ def build_unit_name(dimensions, lang='en_US'):
     return name
 
 
-################################################################################
+###############################################################################
 def get_unit_from_dimensions(dimensions, text, lang='en_US'):
     """
     Reconcile a unit based on its dimensionality.
@@ -227,11 +229,11 @@ def infer_name(unit):
     return name
 
 
-################################################################################
+###############################################################################
 def get_entity_from_dimensions(dimensions, text, lang='en_US'):
     """
-    Infer the underlying entity of a unit (e.g. "volume" for "m^3") based on its
-    dimensionality.
+    Infer the underlying entity of a unit (e.g. "volume" for "m^3") based on
+    its dimensionality.
     """
 
     new_derived = [{
@@ -250,7 +252,7 @@ def get_entity_from_dimensions(dimensions, text, lang='en_US'):
     return ent
 
 
-################################################################################
+###############################################################################
 def parse_unit(item, unit, slash, lang='en_US'):
     """
     Parse surface and power from unit text.
@@ -258,7 +260,7 @@ def parse_unit(item, unit, slash, lang='en_US'):
     return _get_parser(lang).parse_unit(item, unit, slash)
 
 
-################################################################################
+###############################################################################
 def get_unit(item, text, lang='en_US'):
     """
     Extract unit from regex hit.
@@ -285,17 +287,19 @@ def get_unit(item, text, lang='en_US'):
             # Enforce consistency among multiplication and division operators
             # Single exceptions are colloquial number abbreviations (5k miles)
             if operator in reg.multiplication_operators(lang) or (
-                    operator is None and unit
-                    and not (index == 1 and unit in reg.suffixes(lang))):
+                    operator is None and unit and
+                    not (index == 1 and unit in reg.suffixes(lang))):
                 if multiplication_operator != operator and not (
                         index == 1 and str(operator).isspace()):
                     if multiplication_operator is False:
                         multiplication_operator = operator
                     else:
                         # Cut if inconsistent multiplication operator
-                        # treat the None operator differently - remove the whole word of it
+                        # treat the None operator differently - remove the
+                        # whole word of it
                         if operator is None:
-                            # For this, use the last consistent operator (before the current) with a space
+                            # For this, use the last consistent operator
+                            # (before the current) with a space
                             # which should always be the preceding operator
                             derived.pop()
                             operator_index = group_operators[index - 2]
@@ -303,13 +307,15 @@ def get_unit(item, text, lang='en_US'):
                         unit_shortening = item.end() - item.start(
                             operator_index)
                         logging.debug(
-                            "Because operator inconsistency, cut from operator: '{}', new surface: {}"
+                            "Because operator inconsistency, cut from "
+                            "operator: '{}', new surface: {}"
                             .format(
                                 operator, text[item.start():item.end() -
                                                unit_shortening]))
                         break
 
-            # Determine whether a negative power has to be applied to following units
+            # Determine whether a negative power has to be applied to following
+            # units
             if operator and not slash:
                 slash = any(
                     i in operator for i in reg.division_operators(lang))
@@ -331,7 +337,7 @@ def get_unit(item, text, lang='en_US'):
     return unit, unit_shortening
 
 
-################################################################################
+###############################################################################
 def get_surface(shifts, orig_text, item, text, unit_shortening=0):
     """
     Extract surface from regex hit.
@@ -358,7 +364,7 @@ def get_surface(shifts, orig_text, item, text, unit_shortening=0):
     return surface, real_span
 
 
-################################################################################
+###############################################################################
 def is_quote_artifact(orig_text, span):
     """
     Distinguish between quotes and units.
@@ -375,7 +381,7 @@ def is_quote_artifact(orig_text, span):
     return res
 
 
-################################################################################
+###############################################################################
 def build_quantity(orig_text,
                    text,
                    item,
@@ -393,7 +399,7 @@ def build_quantity(orig_text,
                                             unit, surface, span, uncert)
 
 
-################################################################################
+###############################################################################
 def clean_text(text, lang='en_US'):
     """
     Clean text before parsing.
@@ -412,7 +418,7 @@ def clean_text(text, lang='en_US'):
     return text
 
 
-################################################################################
+###############################################################################
 def parse(text, lang='en_US', verbose=False):
     """
     Extract all quantities from unstructured text.
@@ -460,7 +466,7 @@ def parse(text, lang='en_US', verbose=False):
     return quantities
 
 
-################################################################################
+###############################################################################
 def inline_parse(text, verbose=False):  # pragma: no cover
     """
     Extract all quantities from unstructured text.
@@ -478,7 +484,7 @@ def inline_parse(text, verbose=False):  # pragma: no cover
     return text
 
 
-################################################################################
+###############################################################################
 def inline_parse_and_replace(text, lang='en_US',
                              verbose=False):  # pragma: no cover
     """
@@ -498,7 +504,7 @@ def inline_parse_and_replace(text, lang='en_US',
     return text
 
 
-################################################################################
+###############################################################################
 def inline_parse_and_expand(text, lang='en_US', verbose=False):
     """
     Parse text and replace qunatities with speakable version

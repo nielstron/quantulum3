@@ -13,7 +13,7 @@ from .load import cached
 from . import language
 
 
-################################################################################
+###############################################################################
 @cached
 def _get_regex(lang='en_US'):
     """
@@ -24,7 +24,7 @@ def _get_regex(lang='en_US'):
     return language.get('regex', lang)
 
 
-################################################################################
+###############################################################################
 def units(lang='en_US'):
     return _get_regex(lang).UNITS
 
@@ -67,7 +67,7 @@ def uncertainties(lang="en_US"):
     return uncertainties_
 
 
-################################################################################
+###############################################################################
 @cached
 def numberwords(lang='en_US'):
     """
@@ -98,7 +98,7 @@ def numberwords_regex(lang='en_US'):
     return all_numbers
 
 
-################################################################################
+###############################################################################
 def suffixes(lang='en_US'):
     return _get_regex(lang).SUFFIXES
 
@@ -211,7 +211,8 @@ NUM_PATTERN = r'''
     (?{scale}               # optional exponent
         (?:{multipliers})?                #   multiplicative operators
         (?{base}(E|e|\d+)\^?)    #   required exponent prefix
-        (?{exponent}[+-]?\d+|[{superscript}])      #   required exponent, superscript or normal
+        (?{exponent}[+-]?\d+|[{superscript}]) # required exponent, superscript
+                                              # or normal
     )?
     (?{fraction}             # optional fraction
         \ \d+/\d+|\ ?[{unicode_fract}]|/\d+
@@ -283,7 +284,7 @@ def text_pattern_reg(lang='en_US'):
     return reg_txt
 
 
-################################################################################
+###############################################################################
 @cached
 def units_regex(lang='en_US'):
     """

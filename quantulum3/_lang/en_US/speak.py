@@ -10,7 +10,7 @@ from ... import parser
 from . import lang
 
 
-################################################################################
+###############################################################################
 def quantity_to_spoken(quantity):
     """
     Express quantity as a speakable string
@@ -23,12 +23,13 @@ def quantity_to_spoken(quantity):
         unit_string)
 
 
-################################################################################
+###############################################################################
 def unit_to_spoken(unit, count=1):
     """
     Convert a given unit to the unit in words, correctly inflected.
     :param unit: The unit to be converted
-    :param count: The value of the quantity (i.e. 1 for one watt, 2 for two seconds)
+    :param count: The value of the quantity (i.e. 1 for one watt, 2 for two
+                  seconds)
     :return: A string with the correctly inflected spoken version of the unit
     """
     if unit.surfaces:
