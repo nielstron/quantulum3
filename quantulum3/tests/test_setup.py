@@ -242,9 +242,9 @@ class SetupTest(unittest.TestCase):
         # Read raw 4 letter file
         words = language.get('load', lang).build_common_words()
         built = language.get('load', lang).COMMON_WORDS
-        for length, word_list in words.items():
+        for length, word_list in built.items():
             self.assertEqual(
-                built[length], word_list,
+                words[length], word_list,
                 "Build script has not been run since change to critical files")
 
     @unittest.expectedFailure
