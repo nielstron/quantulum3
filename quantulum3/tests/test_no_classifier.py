@@ -18,7 +18,7 @@ COLOR2 = '\033[91m%s\033[0m'
 TOPDIR = os.path.dirname(__file__) or "."
 
 
-################################################################################
+###############################################################################
 class ParsingTest(unittest.TestCase):
     """Test suite for the quantulum3 project."""
 
@@ -37,7 +37,8 @@ class ParsingTest(unittest.TestCase):
             self.assertEqual(
                 len(test['res']),
                 len(quants),
-                msg='Differing amount of quantities parsed, expected {}, got {}: {}, {}'
+                msg='Differing amount of quantities parsed, expected {}, '
+                'got {}: {}, {}'
                 .format(len(test['res']), len(quants), test['res'], quants))
             for index, quant in enumerate(quants):
                 self.assertEqual(quant, test['res'][index])
@@ -57,14 +58,15 @@ class ParsingTest(unittest.TestCase):
             success_rate * 100))
         self.assertGreaterEqual(
             success_rate, 0.1,
-            'Non-Classifier success rate was at {}%, below 10%.\nFailure at\n{}'
+            'Non-Classifier success rate was at {}%, below 10%.\nFailure '
+            'at\n{}'
             .format(
                 success_rate * 100,
                 '\n'.join('{}: {}'.format(test[0]['req'], test[1])
                           for test in error)))
 
 
-################################################################################
+###############################################################################
 if __name__ == '__main__':  # pragma: no cover
 
     unittest.main()

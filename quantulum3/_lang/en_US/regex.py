@@ -31,7 +31,7 @@ DECIMALS = {
 
 MISCNUM = {'and': (1, 0), 'a': (1, 1), 'an': (1, 1)}
 
-################################################################################
+###############################################################################
 
 SUFFIXES = {'k': 1e3, 'K': 1e3, 'M': 1e6, 'B': 1e9, 'T': 1e12}
 
@@ -52,14 +52,17 @@ TEXT_PATTERN = r'''            # Pattern for extracting mixed digit-spelled num
         {number_pattern_no_groups}
     )?
     [ -]?(?:{numberwords_regex})
-    [ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?
-    [ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?
-    (?!\s?{number_pattern_no_groups})                  # Disallow being followed by only a number
+    [ -]?(?:{numberwords_regex})?
+    [ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?
+    [ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?
+    [ -]?(?:{numberwords_regex})?
+    (?!\s?{number_pattern_no_groups}) # Disallow being followed by only a
+                                      # number
 '''
 
 RANGES = {'to', 'and'}
 UNCERTAINTIES = {'plus minus'}
 
 POWERS = {'squared': 2, 'cubed': 3}
-EXPONENTS_REGEX = r'(?:(?:\^?\-?[0-9{{superscripts}}]+)?(?:\ (?:{powers}))?)'.format(
-    powers='|'.join(POWERS.keys()))
+EXPONENTS_REGEX = (r'(?:(?:\^?\-?[0-9{{superscripts}}]+)?(?:\ (?:{powers}))?)'
+                   .format(powers='|'.join(POWERS.keys())))

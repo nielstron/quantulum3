@@ -5,10 +5,9 @@ Extract the n nearest neighbours of the ambigous units from the word2vec file
 """
 import os
 import json
-from io import open
 import argparse
 
-from quantulum3 import classifier, classes, load
+from quantulum3 import classifier, classes, language
 
 TOPDIR = os.path.dirname(__file__) or '.'
 
@@ -29,18 +28,21 @@ arguments = [
         'dest':
         'filename',
         'help':
-        'path to magnitude file, relative to current path (glove.6B.100d.magnitude)',
+        'path to magnitude file, relative to current path '
+        '(glove.6B.100d.magnitude)',
         'type':
         str,
         'default':
         'glove.6B.100d.magnitude'
     },
+    # TODO language support
 ]
 
 
 def glove_via_magnitude(topn=500,
                         min_similarity=None,
-                        filename='glove.6B.100d.magnitude'):
+                        filename='glove.6B.100d.magnitude',
+                        lang='en_US'):
 
     from pymagnitude import Magnitude
 
@@ -69,16 +71,16 @@ def glove_via_magnitude(topn=500,
             })
     print('Done')
 
-    with open(
-            os.path.join(load.TOPDIR, 'similars.json'), 'w',
-            encoding='utf8') as file:
+    with language.topdir(lang).joinpath('train/similars.json').open(
+            'w', encoding='utf-8') as file:
         json.dump(training_set, file, sort_keys=True, indent=4)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         'extract_vere',
-        description='Extract k-nearest neighbours from word vector file in magnitude format. Store result in quantulum3/similars.json.'
+        description='Extract k-nearest neighbours from word vector file in '
+        'magnitude format. Store result in quantulum3/similars.json.'
     )
     for arg in arguments:
         parser.add_argument('--{}'.format(arg['dest']), **arg)

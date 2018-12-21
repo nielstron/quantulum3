@@ -12,7 +12,7 @@ import re
 TOPDIR = Path(__file__).parent or Path('.')
 
 
-################################################################################
+###############################################################################
 def languages():
     subdirs = [
         x for x in TOPDIR.joinpath('_lang').iterdir()
@@ -40,7 +40,7 @@ def subdir(lang='en_US'):
     return subdir
 
 
-################################################################################
+###############################################################################
 def get(module, lang='en_US'):
     """
     Get module for given language
@@ -50,11 +50,10 @@ def get(module, lang='en_US'):
     """
 
     module = import_module(
-        '._lang.{}.{}'.format(subdir(lang), module), package=__package__
-    )
+        '._lang.{}.{}'.format(subdir(lang), module), package=__package__)
     return module
 
 
-################################################################################
+###############################################################################
 def topdir(lang='en_US'):
     return TOPDIR.joinpath('_lang', subdir(lang))

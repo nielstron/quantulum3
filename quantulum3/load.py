@@ -7,7 +7,6 @@
 # Standard library
 import json
 from collections import defaultdict
-import re
 from pathlib import Path
 
 # Quantulum
@@ -16,15 +15,17 @@ from . import language
 
 TOPDIR = Path(__file__).parent or Path(".")
 
-################################################################################
+###############################################################################
 _CACHE_DICT = {}
 
 
 def cached(funct):
     """
     Decorator for caching language specific data
-    :param funct: the method, dynamically responding to language. Only parameter is lang
-    :return: the method, dynamically responding to language but also caching results
+    :param funct: the method, dynamically responding to language. Only
+                  parameter is lang
+    :return: the method, dynamically responding to language but also caching
+             results
     """
     assert callable(funct)
 
@@ -39,13 +40,13 @@ def cached(funct):
     return cached_function
 
 
-################################################################################
+###############################################################################
 @cached
 def _get_load(lang='en_US'):
     return language.get('load', lang)
 
 
-################################################################################
+###############################################################################
 def pluralize(singular, count=None, lang='en_US'):
     # Make spelling integers more natural
     if count is not None and count.is_integer():
@@ -60,7 +61,7 @@ def number_to_words(count, lang='en_US'):
     return _get_load(lang).number_to_words(count)
 
 
-################################################################################
+###############################################################################
 METRIC_PREFIXES = {
     'Y': 'yotta',
     'Z': 'zetta',
@@ -93,7 +94,7 @@ METRIC_PREFIXES = {
 }
 
 
-################################################################################
+###############################################################################
 def get_key_from_dimensions(derived):
     """
     Translate dimensionality into key for DERIVED_UNI and DERIVED_ENT dicts.
@@ -102,7 +103,7 @@ def get_key_from_dimensions(derived):
     return tuple((i['base'], i['power']) for i in derived)
 
 
-################################################################################
+###############################################################################
 class Entities(object):
     def __init__(self, lang='en_US'):
         """
@@ -181,7 +182,7 @@ def entities(lang='en_US'):
     return Entities(lang)
 
 
-################################################################################
+###############################################################################
 def get_derived_units(names):
     """
     Create dictionary of unit dimensions.
@@ -205,7 +206,7 @@ def get_derived_units(names):
     return derived_uni
 
 
-################################################################################
+###############################################################################
 class Units(object):
     def __init__(self, lang='en_US'):
         """
@@ -229,8 +230,12 @@ class Units(object):
             lang_units = json.load(file)
 
         units = {}
+        for unit in general_units.copy():
+            general_units.extend(self.prefixed_units(unit))
         for unit in general_units:
             units[unit['name']] = unit
+        for unit in lang_units.copy():
+            lang_units.extend(self.prefixed_units(unit))
         for unit in lang_units:
             units[unit['name']] = units.get(unit['name'], unit)
             units[unit['name']].update(unit)
@@ -280,6 +285,8 @@ class Units(object):
             self.surfaces[plural].add(obj)
             self.surfaces_lower[plural.lower()].add(obj)
 
+    def prefixed_units(self, unit):
+        prefixed = []
         # If SI-prefixes are given, add them
         for prefix in unit.get('prefixes', []):
             try:
@@ -309,7 +316,8 @@ class Units(object):
                 'dimensions': [],
                 'symbols': [prefix + i for i in unit['symbols']]
             }
-            self.load_unit(prefixed_unit)
+            prefixed.append(prefixed_unit)
+        return prefixed
 
 
 @cached
@@ -320,7 +328,7 @@ def units(lang='en_US'):
     return Units(lang)
 
 
-################################################################################
+###############################################################################
 @cached
 def training_set(lang='en_US'):
     training_set_ = []

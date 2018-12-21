@@ -15,9 +15,7 @@ import quantulum3
 setup(
     name='quantulum3',
     packages=find_packages(),
-    package_data={
-        '': ['*.json', '*.joblib']
-    },
+    package_data={'': ['*.json', '*.joblib']},
     description='Extract quantities from unstructured text.',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
@@ -43,6 +41,7 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Development Status :: 3 - Alpha', 'Natural Language :: English',
         'Topic :: Text Processing :: Linguistic',
         'Topic :: Scientific/Engineering'

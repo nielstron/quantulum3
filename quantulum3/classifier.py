@@ -33,7 +33,7 @@ def _get_classifier(lang='en_US'):
     return language.get('classifier', lang)
 
 
-################################################################################
+###############################################################################
 def ambiguous_units(lang='en_US'):  # pragma: no cover
     """
     Determine ambiguous units
@@ -46,12 +46,12 @@ def ambiguous_units(lang='en_US'):  # pragma: no cover
         i for i in list(load.units(lang).symbols.items()) if len(i[1]) > 1
     ]
     ambiguous += [
-        i for i in list(load.units(lang).derived.items()) if len(i[1]) > 1
+        i for i in list(load.entities(lang).derived.items()) if len(i[1]) > 1
     ]
     return ambiguous
 
 
-################################################################################
+###############################################################################
 def download_wiki(store=True, lang='en_US'):  # pragma: no cover
     """
     Download WikiPedia pages of ambiguous units.
@@ -62,6 +62,8 @@ def download_wiki(store=True, lang='en_US'):  # pragma: no cover
             "Cannot download wikipedia pages. Install package wikipedia first."
         )
         return
+
+    wikipedia.set_lang(lang[:2])
 
     ambiguous = ambiguous_units()
     pages = set([(j.name, j.uri) for i in ambiguous for j in i[1]])
@@ -80,11 +82,11 @@ def download_wiki(store=True, lang='en_US'):  # pragma: no cover
         print('---> Downloading %s (%d of %d)' % (obj['clean'], num + 1,
                                                   len(pages)))
 
-        obj['text'] = wikipedia.page(obj['clean']).content
+        obj['text'] = wikipedia.page(obj['clean'], auto_suggest=False).content
         obj['unit'] = page[0]
         objs.append(obj)
 
-    path = language.topdir(lang).joinpath('wiki.json')
+    path = language.topdir(lang).joinpath('train/wiki.json')
     if store:
         with path.open('w') as wiki_file:
             json.dump(objs, wiki_file, indent=4, sort_keys=True)
@@ -93,7 +95,7 @@ def download_wiki(store=True, lang='en_US'):  # pragma: no cover
     return objs
 
 
-################################################################################
+###############################################################################
 def clean_text(text, lang='en_US'):
     """
     Clean text for TFIDF
@@ -101,7 +103,7 @@ def clean_text(text, lang='en_US'):
     return _get_classifier(lang).clean_text(text)
 
 
-################################################################################
+###############################################################################
 def train_classifier(parameters=None,
                      ngram_range=(1, 1),
                      store=True,
@@ -153,7 +155,7 @@ def train_classifier(parameters=None,
     return obj
 
 
-################################################################################
+###############################################################################
 class Classifier(object):
     def __init__(self, obj=None, lang='en_US'):
         """
@@ -176,7 +178,9 @@ class Classifier(object):
         if cur_scipy_version != obj.get(
                 'scikit-learn_version'):  # pragma: no cover
             logging.warning(
-                "The classifier was built using a different scikit-learn version (={}, !={}). The disambiguation tool could behave unexpectedly. Consider running classifier.train_classfier()"
+                "The classifier was built using a different scikit-learn "
+                "version (={}, !={}). The disambiguation tool could behave "
+                "unexpectedly. Consider running classifier.train_classfier()"
                 .format(obj.get('scikit-learn_version'), cur_scipy_version))
 
         self.tfidf_model = obj['tfidf_model']
@@ -194,7 +198,7 @@ def classifier(lang='en_US'):
     return Classifier(lang=lang)
 
 
-################################################################################
+###############################################################################
 def disambiguate_entity(key, text, lang='en_US'):
     """
     Resolve ambiguity between entities with same dimensionality.
@@ -223,16 +227,16 @@ def disambiguate_entity(key, text, lang='en_US'):
     return new_ent
 
 
-################################################################################
+###############################################################################
 def disambiguate_unit(unit, text, lang='en_US'):
     """
     Resolve ambiguity between units with same names, symbols or abbreviations.
     """
 
-    new_unit = (load.units(lang).symbols.get(unit)
-                or load.units(lang).surfaces.get(unit)
-                or load.units(lang).surfaces_lower.get(unit.lower())
-                or load.units(lang).symbols_lower.get(unit.lower()))
+    new_unit = (load.units(lang).symbols.get(unit) or
+                load.units(lang).surfaces.get(unit) or
+                load.units(lang).surfaces_lower.get(unit.lower()) or
+                load.units(lang).symbols_lower.get(unit.lower()))
     if not new_unit:
         raise KeyError('Could not find unit "%s" from "%s"' % (unit, text))
 

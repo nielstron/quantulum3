@@ -17,17 +17,19 @@ from .. import load
 from .. import parser as p
 from .. import classifier as clf
 from .. import language
-from .test_setup import load_expand_tests, load_quantity_tests, multilang, add_type_equalities
+from .test_setup import load_expand_tests, load_quantity_tests, multilang, \
+    add_type_equalities
 
-# sklearn
+# Dependencies
 from sklearn.externals import joblib
+import wikipedia
 
 COLOR1 = '\033[94m%s\033[0m'
 COLOR2 = '\033[91m%s\033[0m'
 TOPDIR = os.path.dirname(__file__) or "."
 
 
-################################################################################
+###############################################################################
 class ClassifierTest(unittest.TestCase):
     """Test suite for the quantulum3 project."""
 
@@ -47,7 +49,8 @@ class ClassifierTest(unittest.TestCase):
             self.assertEqual(
                 len(test['res']),
                 len(quants),
-                msg='Differing amount of quantities parsed, expected {}, got {}: {}, {}'
+                msg='Differing amount of quantities parsed, expected {}, '
+                'got {}: {}, {}'
                 .format(len(test['res']), len(quants), test['res'], quants))
             for index, quant in enumerate(quants):
                 self.assertEqual(quant, test['res'][index])
@@ -93,7 +96,10 @@ class ClassifierTest(unittest.TestCase):
 
     @multilang
     def test_classifier_up_to_date(self, lang='en_US'):
-        """ Test that the classifier has been built with the latest version of scikit-learn """
+        """
+        Test that the classifier has been built with the latest version of
+        scikit-learn
+        """
         path = language.topdir(lang).joinpath('clf.joblib')
         with path.open('rb') as clf_file:
             obj = joblib.load(clf_file)
@@ -104,11 +110,26 @@ class ClassifierTest(unittest.TestCase):
                 response.read().decode('utf-8'))['info']['version']
         self.assertEqual(
             clf_version, cur_version,
-            "Classifier has been built with scikit-learn version {}, while the newest version is {}. Please update scikit-learn."
+            "Classifier has been built with scikit-learn version {}, while the"
+            " newest version is {}. Please update scikit-learn."
             .format(clf_version, cur_version))
 
+    @multilang(['en_us'])
+    def test_wikipedia_pages(self, lang):
+        wikipedia.set_lang(lang[:2])
+        err = []
+        for unit in load.units(lang).names.values():
+            try:
+                wikipedia.page(unit.uri.replace('_', ' '), auto_suggest=False)
+                pass
+            except (wikipedia.PageError, wikipedia.DisambiguationError) as e:
+                err.append((unit, e))
+        if err:  # pragma: no cover
+            self.fail("Problematic pages:\n{}".format("\n".join(
+                str(e) for e in err)))
 
-################################################################################
+
+###############################################################################
 if __name__ == '__main__':  # pragma: no cover
 
     unittest.main()
