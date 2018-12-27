@@ -1146,5 +1146,17 @@
         "uncertainty": null
       }
     ]
+  },
+  {
+    "req": "In the quantum-mechanical description, matter (solid) at absolute zero is in its ground state, the point of lowest internal energy.",
+    "res": [
+      {
+        "value": 0,
+        "unit": "kelvin",
+        "surface": "absolute zero",
+        "entity": "temperature",
+        "uncertainty": null
+      }
+    ]
   }
 ]

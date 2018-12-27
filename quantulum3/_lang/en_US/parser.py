@@ -128,6 +128,21 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     # Re parse unit if a change occurred
     dimension_change = False
 
+    # Extract "absolute " ...
+    _absolute = "absolute "
+    try:
+        if (
+                unit.name == "dimensionless"
+                and _absolute == orig_text[span[0]-len(_absolute):span[0]]
+        ):
+            unit = load.units(lang).names["kelvin"]
+            unit.original_dimensions = unit.dimensions
+            surface = _absolute + surface
+            span = (span[0] - len(_absolute), span[1])
+            dimension_change = True
+    except KeyError:
+        pass
+
     # Usually "$3T" does not stand for "dollar tesla"
     # this holds as well for "3k miles"
     # TODO use classifier to decide if 3K is 3 thousand or 3 Kelvin
