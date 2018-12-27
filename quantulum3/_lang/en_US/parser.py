@@ -131,10 +131,8 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     # Extract "absolute " ...
     _absolute = "absolute "
     try:
-        if (
-                unit.name == "dimensionless"
-                and _absolute == orig_text[span[0]-len(_absolute):span[0]]
-        ):
+        if (unit.name == "dimensionless"
+                and _absolute == orig_text[span[0] - len(_absolute):span[0]]):
             unit = load.units(lang).names["kelvin"]
             unit.original_dimensions = unit.dimensions
             surface = _absolute + surface
@@ -147,11 +145,10 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     # this holds as well for "3k miles"
     # TODO use classifier to decide if 3K is 3 thousand or 3 Kelvin
     if unit.entity.dimensions:
-        if (
-            len(unit.entity.dimensions) > 1 and
-            unit.entity.dimensions[0]['base'] == 'currency' and
-            unit.original_dimensions[1]['surface'] in reg.suffixes(lang).keys()
-        ):
+        if (len(unit.entity.dimensions) > 1
+                and unit.entity.dimensions[0]['base'] == 'currency'
+                and unit.original_dimensions[1]['surface'] in reg.suffixes(
+                    lang).keys()):
             suffix = unit.original_dimensions[1]['surface']
             # Only apply if at least last value is suffixed by k, M, etc
             if re.search(r'\d{}\b'.format(suffix), text):
@@ -189,11 +186,8 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     if unit.original_dimensions:
 
         # Usually "in" stands for the preposition, not inches
-        if (
-            unit.original_dimensions[-1]['base'] == 'inch' and
-            re.search(r' in$', surface) and
-            '/' not in surface
-        ):
+        if (unit.original_dimensions[-1]['base'] == 'inch'
+                and re.search(r' in$', surface) and '/' not in surface):
             unit.original_dimensions = unit.original_dimensions[:-1]
             dimension_change = True
             surface = surface[:-3]
@@ -218,8 +212,8 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
                 # Combination has to be all lower or capitalized in the first
                 # or all letters
                 if not (combination.islower() or (len(combination) > 2 and (
-                    (combination[0].isupper() and combination[1:].islower()) or
-                        combination.isupper()))):
+                    (combination[0].isupper() and combination[1:].islower())
+                        or combination.isupper()))):
                     continue
                 # Combination has to be inside the surface
                 if combination not in surface:
@@ -250,11 +244,8 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
             dimension_change = True
         logging.debug('\tCorrect for quotes')
 
-    if (
-        re.search(r' time$', surface) and
-        len(unit.original_dimensions) > 1 and
-        unit.original_dimensions[-1]['base'] == 'count'
-    ):
+    if (re.search(r' time$', surface) and len(unit.original_dimensions) > 1
+            and unit.original_dimensions[-1]['base'] == 'count'):
         unit.original_dimensions = unit.original_dimensions[:-1]
         dimension_change = True
         surface = surface[:-5]

@@ -31,7 +31,7 @@ def disambiguate_no_classifier(entities, text, lang='en_US'):
             relative = count / total
         except ZeroDivisionError:
             relative = 0
-        if relative > max_relative or (relative == max_relative and
-                                       count > max_count):
+        if relative > max_relative or (relative == max_relative
+                                       and count > max_count):
             max_entity, max_count, max_relative = entity, count, relative
     return max_entity
