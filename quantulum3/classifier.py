@@ -180,8 +180,8 @@ class Classifier(object):
             logging.warning(
                 "The classifier was built using a different scikit-learn "
                 "version (={}, !={}). The disambiguation tool could behave "
-                "unexpectedly. Consider running classifier.train_classfier()"
-                .format(obj.get('scikit-learn_version'), cur_scipy_version))
+                "unexpectedly. Consider running classifier.train_classfier()".
+                format(obj.get('scikit-learn_version'), cur_scipy_version))
 
         self.tfidf_model = obj['tfidf_model']
         self.classifier = obj['clf']
@@ -233,10 +233,10 @@ def disambiguate_unit(unit, text, lang='en_US'):
     Resolve ambiguity between units with same names, symbols or abbreviations.
     """
 
-    new_unit = (load.units(lang).symbols.get(unit) or
-                load.units(lang).surfaces.get(unit) or
-                load.units(lang).surfaces_lower.get(unit.lower()) or
-                load.units(lang).symbols_lower.get(unit.lower()))
+    new_unit = (load.units(lang).symbols.get(unit)
+                or load.units(lang).surfaces.get(unit)
+                or load.units(lang).surfaces_lower.get(unit.lower())
+                or load.units(lang).symbols_lower.get(unit.lower()))
     if not new_unit:
         raise KeyError('Could not find unit "%s" from "%s"' % (unit, text))
 

@@ -336,6 +336,34 @@
         "uncertainty": null
       }
     ]
+  },
+  {
+    "req": "The theoretical temperature is determined by extrapolating the ideal gas law; by international agreement, absolute zero is taken as −273.15° on the Celsius scale (International System of Units), which equals −459.67° on the Fahrenheit scale (United States customary units or Imperial units)",
+    "res": [
+      {
+        "value": 0,
+        "unit": "kelvin",
+        "surface": "absolute zero",
+        "entity": "temperature",
+        "uncertainty": null
+      },
+      {
+        "value": -273.15,
+        "unit": "degree Celsius",
+        "surface": "−273.15°",
+        "entity": "temperature",
+        "dimensions": [],
+        "uncertainty": null
+      },
+      {
+        "value": -459.67,
+        "unit": "degree Fahrenheit",
+        "surface": "−459.67°",
+        "entity": "temperature",
+        "dimensions": [],
+        "uncertainty": null
+      }
+    ]
   }
 
 ]

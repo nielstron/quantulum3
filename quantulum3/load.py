@@ -47,17 +47,29 @@ def _get_load(lang='en_US'):
 
 
 ###############################################################################
+def to_int_iff_int(value):
+    """
+    Returns int type number if the value is an integer value
+    :param value:
+    :return:
+    """
+    try:
+        if int(value) == value:
+            return int(value)
+    except (TypeError, ValueError):
+        pass
+    return value
+
+
 def pluralize(singular, count=None, lang='en_US'):
     # Make spelling integers more natural
-    if count is not None and count.is_integer():
-        count = int(count)
+    count = to_int_iff_int(count)
     return _get_load(lang).pluralize(singular, count)
 
 
 def number_to_words(count, lang='en_US'):
     # Make spelling integers more natural
-    if count.is_integer():
-        count = int(count)
+    count = to_int_iff_int(count)
     return _get_load(lang).number_to_words(count)
 
 

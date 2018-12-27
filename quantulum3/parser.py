@@ -101,8 +101,7 @@ def get_values(item, lang='en_US'):
         if values[1] < values[0]:
             raise ValueError(
                 "Invalid range, with second item being smaller than the first "
-                "item"
-            )
+                "item")
         mean = sum(values) / len(values)
         uncertainty = mean - min(values)
         values = [mean]
@@ -287,8 +286,8 @@ def get_unit(item, text, lang='en_US'):
             # Enforce consistency among multiplication and division operators
             # Single exceptions are colloquial number abbreviations (5k miles)
             if operator in reg.multiplication_operators(lang) or (
-                    operator is None and unit and
-                    not (index == 1 and unit in reg.suffixes(lang))):
+                    operator is None and unit
+                    and not (index == 1 and unit in reg.suffixes(lang))):
                 if multiplication_operator != operator and not (
                         index == 1 and str(operator).isspace()):
                     if multiplication_operator is False:
@@ -308,8 +307,7 @@ def get_unit(item, text, lang='en_US'):
                             operator_index)
                         logging.debug(
                             "Because operator inconsistency, cut from "
-                            "operator: '{}', new surface: {}"
-                            .format(
+                            "operator: '{}', new surface: {}".format(
                                 operator, text[item.start():item.end() -
                                                unit_shortening]))
                         break

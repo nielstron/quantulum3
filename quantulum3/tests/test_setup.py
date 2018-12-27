@@ -77,9 +77,10 @@ def add_type_equalities(testcase):
                     firstval = getattr(first, diff)
                     secondval = getattr(second, diff)
                     if firstval != secondval:
-                        msg = 'Quantities {first} and {second} are differing '
-                        'in attribute "{attribute}": "{firstval}" != '
-                        '"{secondval}"'
+                        msg = (
+                            'Quantities {first} and {second} are differing '
+                            'in attribute "{attribute}:'
+                            '{firstval}" != "{secondval}')
                         msg = msg.format(
                             attribute=diff,
                             firstval=firstval,
@@ -109,8 +110,7 @@ def wiki_test(page='CERN', lang='en_US'):  # pragma: no cover
     if not wikipedia:
         print(
             "Cannot activate wiki_test. Please install the package wikipedia "
-            "first."
-        )
+            "first.")
         return
 
     wikipedia.set_lang(lang)

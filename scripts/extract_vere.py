@@ -80,8 +80,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         'extract_vere',
         description='Extract k-nearest neighbours from word vector file in '
-        'magnitude format. Store result in quantulum3/similars.json.'
-    )
+        'magnitude format. Store result in quantulum3/similars.json.')
     for arg in arguments:
         parser.add_argument('--{}'.format(arg['dest']), **arg)
     args = parser.parse_args()

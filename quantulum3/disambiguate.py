@@ -18,10 +18,10 @@ def disambiguate_unit(unit_surface, text, lang='en_US'):
     if clf.USE_CLF:
         base = clf.disambiguate_unit(unit_surface, text, lang).name
     else:
-        base = (load.units(lang).symbols[unit_surface] or
-                load.units(lang).surfaces[unit_surface] or
-                load.units(lang).surfaces_lower[unit_surface.lower()] or
-                load.units(lang).symbols_lower[unit_surface.lower()])
+        base = (load.units(lang).symbols[unit_surface]
+                or load.units(lang).surfaces[unit_surface]
+                or load.units(lang).surfaces_lower[unit_surface.lower()]
+                or load.units(lang).symbols_lower[unit_surface.lower()])
 
         if len(base) > 1:
             base = no_clf.disambiguate_no_classifier(base, text, lang)
