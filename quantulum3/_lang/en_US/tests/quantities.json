@@ -1158,5 +1158,17 @@
         "uncertainty": null
       }
     ]
+  },
+  {
+    "req": "Zero is a small number.",
+    "res": [
+      {
+        "value": 0,
+        "unit": "dimensionless",
+        "surface": "Zero",
+        "entity": "unk",
+        "uncertainty": null
+      }
+    ]
   }
 ]
