@@ -139,7 +139,7 @@ class Entities(object):
             for k in general_entities)
 
         # Update with language specific URI
-        with path.joinpath(language.topdir(lang), 'entities.json').open(
+        with TOPDIR.joinpath(language.topdir(lang), 'entities.json').open(
                 'r', encoding='utf-8') as file:
             lang_entities = json.load(file)
         for ent in lang_entities:
@@ -237,7 +237,7 @@ class Units(object):
         with path.open(encoding='utf-8') as file:
             general_units = json.load(file)
         # load language specifics
-        path = path.joinpath(language.topdir(lang), 'units.json')
+        path = TOPDIR.joinpath(language.topdir(lang), 'units.json')
         with path.open(encoding='utf-8') as file:
             lang_units = json.load(file)
 
