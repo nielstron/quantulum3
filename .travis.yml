@@ -20,12 +20,32 @@ install:
 
 script:
 # - tox
+  # Check for import errors
   - coverage run --source=quantulum3 scripts/test_import_error.py
+  # Test basic functionality
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_setup
+  # Test whether quantulum works without classifier
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_no_classifier
+  # Test requirements.txt, classifier building and classifier functionality
   - pip install -r requirements_classifier.txt
-  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier
+  # Note that the classifier trained here is included in the target package
+  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier ClassifierBuild
+  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier ClassifierTest
 
 after_success:
   - coverage report
   - coveralls
+
+deploy:
+
+  provider: pypi
+  on:
+    branch: master
+  distributions: "sdist bdist_wheel"
+  skip_existing: true
+  # Keep the generated classifier
+  skip_cleanup: true
+
+  username: 'nielstron'
+  password:
+    secure: pMlFF6b9PscrGYOpno97cvkiYTn0evwXeX7eZ5XaKduCeA4Yx1RU98WqF0/w4cSVawpPiRexB2IL+JG7o+hCqYfh2/LW2C0k42+9CsTv6IHOF1ki31BiOLv2byL24c5dWTxiv0YVSzXqcLKAVtn70Z3hlPO1e9MmCmIa++79pa3HUVl/paMvU0NV0U5BiJyn+9togGDE/4ouSls1IXIiefegbdJfmRAkDF06CDyMxF/rV0QXuQRosS1+sRyd4bqH3G9LEOI6XtcispgEpg30D9reK12fdQz1N2Z7ZUSsbZlXvo5Mp0ooZkkwavcKFWcPYAX1UP6Om/Z98IfoKuB5i9vvrYbdDTkNoHnMF0QZSWknikxxADNaYk9TdZoLjRL8syPxw4LWSpjUyBjs75n+MS83pCVFvBAfKQ8Bdp0C87Eb+U4SGoTAJ/RlToGbPZr8xKpEK1bvK559fRoC63n3wqSCQxOBGrVcOf96T6VONlGX9EY3WFJIkUwdaBNn7KAQwjKuVkt1cfrsrRer0ZAD8MyQutOgatkuK5uJTyj/jBjnn86griJNTBLYMAnEywC/Xayc79P9ld5YOazY+cT+HqnlchRVFDzYe2vNoPYxeGvMlvWSuIIxo2uJmb7So8HOgj7I/Kb178JPvAiMqz5sK5LxQAomgc9MxHyysf1bGMg=
