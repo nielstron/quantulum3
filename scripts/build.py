@@ -20,4 +20,4 @@ if __name__ == '__main__':
     words = load.build_common_words()
     build_file = os.path.join(load.TOPDIR, 'common-words.json')
     with open(build_file, 'w', encoding='utf-8') as file:
-        json.dump(words, file, indent=2, sort_keys=True)
+        json.dump(words, file, sort_keys=True, separators=(',', ':'))

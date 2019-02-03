@@ -38,8 +38,8 @@ class ParsingTest(unittest.TestCase):
                 len(test['res']),
                 len(quants),
                 msg='Differing amount of quantities parsed, expected {}, '
-                'got {}: {}, {}'
-                .format(len(test['res']), len(quants), test['res'], quants))
+                'got {}: {}, {}'.format(
+                    len(test['res']), len(quants), test['res'], quants))
             for index, quant in enumerate(quants):
                 self.assertEqual(quant, test['res'][index])
 
@@ -59,8 +59,7 @@ class ParsingTest(unittest.TestCase):
         self.assertGreaterEqual(
             success_rate, 0.1,
             'Non-Classifier success rate was at {}%, below 10%.\nFailure '
-            'at\n{}'
-            .format(
+            'at\n{}'.format(
                 success_rate * 100,
                 '\n'.join('{}: {}'.format(test[0]['req'], test[1])
                           for test in error)))

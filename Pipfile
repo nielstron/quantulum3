@@ -16,7 +16,7 @@ num2words = "*"
 yapf = "*"
 autopep8 = "*"
 coverage = "*"
-magnitude = "*"
+pymagnitude = "*"
 
 [requires]
 python_version = "3.6"

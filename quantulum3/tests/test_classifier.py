@@ -50,8 +50,8 @@ class ClassifierTest(unittest.TestCase):
                 len(test['res']),
                 len(quants),
                 msg='Differing amount of quantities parsed, expected {}, '
-                'got {}: {}, {}'
-                .format(len(test['res']), len(quants), test['res'], quants))
+                'got {}: {}, {}'.format(
+                    len(test['res']), len(quants), test['res'], quants))
             for index, quant in enumerate(quants):
                 self.assertEqual(quant, test['res'][index])
 
@@ -111,8 +111,8 @@ class ClassifierTest(unittest.TestCase):
         self.assertEqual(
             clf_version, cur_version,
             "Classifier has been built with scikit-learn version {}, while the"
-            " newest version is {}. Please update scikit-learn."
-            .format(clf_version, cur_version))
+            " newest version is {}. Please update scikit-learn.".format(
+                clf_version, cur_version))
 
     @multilang(['en_us'])
     def test_wikipedia_pages(self, lang):
