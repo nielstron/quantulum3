@@ -29,8 +29,8 @@ script:
   # Test requirements.txt, classifier building and classifier functionality
   - pip install -r requirements_classifier.txt
   # Note that the classifier trained here is included in the target package
-  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier ClassifierBuild
-  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier ClassifierTest
+  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier.ClassifierBuild
+  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier.ClassifierTest
 
 after_success:
   - coverage report
