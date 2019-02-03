@@ -264,7 +264,7 @@ If you'd like to contribute follow these steps:
 4. Inside the project folder run `pipenv install --dev`
 5. Make your changes
 6. Run `scripts/format.sh` and `scripts/build.py` from the package root directory.
-7. Test your changes with `setup.py test` 
+7. Test your changes with `python3 setup.py test` 
 (Optional, will be done automatically after pushing)
 8. Create a Pull Request when having commited and pushed your changes
 
