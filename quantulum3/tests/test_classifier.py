@@ -136,7 +136,8 @@ class ClassifierTest(unittest.TestCase):
             try:
                 wikipedia.page(unit.uri.replace('_', ' '), auto_suggest=False)
                 pass
-            except (wikipedia.PageError, wikipedia.DisambiguationError) as e:  # pragma: no cover
+            except (wikipedia.PageError,
+                    wikipedia.DisambiguationError) as e:  # pragma: no cover
                 err.append((unit, e))
         if err:  # pragma: no cover
             self.fail("Problematic pages:\n{}".format("\n".join(
