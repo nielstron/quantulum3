@@ -252,7 +252,7 @@ class Units(object):
             unit_dict[unit['name']] = unit_dict.get(unit['name'], unit)
             unit_dict[unit['name']].update(unit)
 
-        for unit in units.values():
+        for unit in unit_dict.values():
             self.load_unit(unit)
 
         self.derived = get_derived_units(self.names)
