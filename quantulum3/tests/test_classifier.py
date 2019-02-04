@@ -95,6 +95,7 @@ class ClassifierTest(unittest.TestCase):
             result = p.inline_parse_and_expand(test['req'], lang=lang)
             self.assertEqual(result, test['res'])
 
+    @unittest.skip("Not necessary, as classifier is live built")
     @multilang
     def test_classifier_up_to_date(self, lang='en_US'):
         """
@@ -115,9 +116,7 @@ class ClassifierTest(unittest.TestCase):
             " newest version is {}. Please update scikit-learn.".format(
                 clf_version, cur_version))
 
-    @unittest.skip(
-        "Skipped, as already run in build. Run to check training without storing result."
-    )
+    @unittest.skip("Skipped, as already run in build")
     @multilang
     def test_training(self, lang='en_US'):
         """ Test that classifier training works """

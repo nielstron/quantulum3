@@ -28,6 +28,7 @@ from . import load
 from .load import cached
 from . import language
 
+_LOGGER = logging.getLogger(__name__)
 
 def _get_classifier(lang='en_US'):
     return language.get('classifier', lang)
@@ -113,9 +114,11 @@ def train_classifier(parameters=None,
     TODO auto invoke if sklearn version is new or first install or sth
     @:param store (bool) store classifier in clf.joblib
     """
+    _LOGGER.info("Loading training set")
     training_set = load.training_set(lang)
     target_names = list(set([i['unit'] for i in training_set]))
 
+    _LOGGER.info("Preparing training set")
     train_data, train_target = [], []
     for example in training_set:
         train_data.append(clean_text(example['text'], lang))
@@ -126,17 +129,21 @@ def train_classifier(parameters=None,
         ngram_range=ngram_range,
         stop_words=_get_classifier(lang).stop_words())
 
+    _LOGGER.info("Fit TFIDF Model")
     matrix = tfidf_model.fit_transform(train_data)
 
     if parameters is None:
         parameters = {
             'loss': 'log',
             'penalty': 'l2',
-            'max_iter': 50,
-            'alpha': 0.00001,
-            'fit_intercept': True
+            'tol': 1e-3,
+            'n_jobs': -1,
+            'alpha': 0.0001,
+            'fit_intercept': True,
+            'random_state': 0,
         }
 
+    _LOGGER.info("Fit SGD Classifier")
     clf = SGDClassifier(**parameters).fit(matrix, train_target)
     obj = {
         'scikit-learn_version':
@@ -150,6 +157,7 @@ def train_classifier(parameters=None,
     }
     if store:  # pragma: no cover
         path = language.topdir(lang).joinpath('clf.joblib')
+        _LOGGER.info("Store classifier at {}".format(path))
         with path.open('wb') as file:
             joblib.dump(obj, file)
     return obj
@@ -177,7 +185,7 @@ class Classifier(object):
             'scikit-learn').version
         if cur_scipy_version != obj.get(
                 'scikit-learn_version'):  # pragma: no cover
-            logging.warning(
+            _LOGGER.warning(
                 "The classifier was built using a different scikit-learn "
                 "version (={}, !={}). The disambiguation tool could behave "
                 "unexpectedly. Consider running classifier.train_classfier()".
@@ -204,6 +212,7 @@ def disambiguate_entity(key, text, lang='en_US'):
     Resolve ambiguity between entities with same dimensionality.
     """
 
+    new_ent = next(iter(load.entities(lang).derived[key]))
     if len(load.entities().derived[key]) > 1:
         transformed = classifier(lang).tfidf_model.transform(
             [clean_text(text)])
@@ -220,9 +229,7 @@ def disambiguate_entity(key, text, lang='en_US'):
         try:
             new_ent = load.entities(lang).names[scores[0][1]]
         except IndexError:
-            logging.debug('\tAmbiguity not resolved for "%s"', str(key))
-    else:
-        new_ent = next(iter(load.entities(lang).derived[key]))
+            _LOGGER.debug('\tAmbiguity not resolved for "%s"', str(key))
 
     return new_ent
 
@@ -255,10 +262,10 @@ def disambiguate_unit(unit, text, lang='en_US'):
         scores = sorted(scores, key=lambda x: x[0], reverse=True)
         try:
             final = load.units(lang).names[scores[0][1]]
-            logging.debug(
+            _LOGGER.debug(
                 '\tAmbiguity resolved for "%s" (%s)' % (unit, scores))
         except IndexError:
-            logging.debug('\tAmbiguity not resolved for "%s"' % unit)
+            _LOGGER.debug('\tAmbiguity not resolved for "%s"' % unit)
             final = next(iter(new_unit))
     else:
         final = next(iter(new_unit))
