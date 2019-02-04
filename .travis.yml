@@ -16,6 +16,7 @@ install:
   - pip install tox
   - pip install coverage
   - pip install coveralls
+  # Check if installing works
   - pip install .
 
 script:
@@ -37,10 +38,10 @@ after_success:
   - coveralls
 
 deploy:
-
   provider: pypi
   on:
     branch: master
+    python: "3.7"
   distributions: "sdist bdist_wheel"
   skip_existing: true
   # Keep the generated classifier
