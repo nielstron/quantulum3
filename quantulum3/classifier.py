@@ -185,7 +185,7 @@ class Classifier(object):
             'scikit-learn').version
         if cur_scipy_version != obj.get(
                 'scikit-learn_version'):  # pragma: no cover
-            logging.warning(
+            _LOGGER.warning(
                 "The classifier was built using a different scikit-learn "
                 "version (={}, !={}). The disambiguation tool could behave "
                 "unexpectedly. Consider running classifier.train_classfier()".
@@ -212,6 +212,7 @@ def disambiguate_entity(key, text, lang='en_US'):
     Resolve ambiguity between entities with same dimensionality.
     """
 
+    new_ent = next(iter(load.entities(lang).derived[key]))
     if len(load.entities().derived[key]) > 1:
         transformed = classifier(lang).tfidf_model.transform(
             [clean_text(text)])
@@ -228,9 +229,7 @@ def disambiguate_entity(key, text, lang='en_US'):
         try:
             new_ent = load.entities(lang).names[scores[0][1]]
         except IndexError:
-            logging.debug('\tAmbiguity not resolved for "%s"', str(key))
-    else:
-        new_ent = next(iter(load.entities(lang).derived[key]))
+            _LOGGER.debug('\tAmbiguity not resolved for "%s"', str(key))
 
     return new_ent
 
@@ -263,10 +262,10 @@ def disambiguate_unit(unit, text, lang='en_US'):
         scores = sorted(scores, key=lambda x: x[0], reverse=True)
         try:
             final = load.units(lang).names[scores[0][1]]
-            logging.debug(
+            _LOGGER.debug(
                 '\tAmbiguity resolved for "%s" (%s)' % (unit, scores))
         except IndexError:
-            logging.debug('\tAmbiguity not resolved for "%s"' % unit)
+            _LOGGER.debug('\tAmbiguity not resolved for "%s"' % unit)
             final = next(iter(new_unit))
     else:
         final = next(iter(new_unit))
