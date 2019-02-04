@@ -4,6 +4,7 @@ deploy
 deploy.py
 .idea
 Pipfile.lock
+*.joblib
 
 # GloVe data files
 glove.*.zip
