@@ -38,7 +38,7 @@ class ClassifierBuild(unittest.TestCase):
         """ Test that classifier training works """
         # Test that no errors are thrown during training
         # Also stores result, to be included in package
-        clf.train_classifier(store=True, lang=lang)
+        self.assertIsNotNone(clf.train_classifier(store=True, lang=lang))
 
 
 ###############################################################################

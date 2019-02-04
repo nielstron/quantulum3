@@ -297,7 +297,8 @@ class Units(object):
             self.surfaces[plural].add(obj)
             self.surfaces_lower[plural.lower()].add(obj)
 
-    def prefixed_units(self, unit):
+    @staticmethod
+    def prefixed_units(unit):
         prefixed = []
         # If SI-prefixes are given, add them
         for prefix in unit.get('prefixes', []):
