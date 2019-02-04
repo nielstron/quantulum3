@@ -20,9 +20,10 @@ install:
   - pip install .
 
 script:
-# - tox
   # Check for import errors
   - coverage run --source=quantulum3 scripts/test_import_error.py
+  # Build common words
+  - coverage run --source=quantulum3 scripts/build.py
   # Test basic functionality
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_setup
   # Test whether quantulum works without classifier
