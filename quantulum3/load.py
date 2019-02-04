@@ -241,16 +241,16 @@ class Units(object):
         with path.open(encoding='utf-8') as file:
             lang_units = json.load(file)
 
-        units = {}
+        unit_dict = {}
         for unit in general_units.copy():
             general_units.extend(self.prefixed_units(unit))
         for unit in general_units:
-            units[unit['name']] = unit
+            unit_dict[unit['name']] = unit
         for unit in lang_units.copy():
             lang_units.extend(self.prefixed_units(unit))
         for unit in lang_units:
-            units[unit['name']] = units.get(unit['name'], unit)
-            units[unit['name']].update(unit)
+            unit_dict[unit['name']] = unit_dict.get(unit['name'], unit)
+            unit_dict[unit['name']].update(unit)
 
         for unit in units.values():
             self.load_unit(unit)

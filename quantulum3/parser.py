@@ -507,7 +507,7 @@ def inline_parse_and_expand(text, lang='en_US', verbose=False):
     """
     Parse text and replace qunatities with speakable version
     """
-    parsed = parse(text, verbose=verbose)
+    parsed = parse(text, lang=lang, verbose=verbose)
 
     shift = 0
     for quantity in parsed:

@@ -1,18 +1,36 @@
+[GENERAL]
+# Use all processors
+jobs=0
+
+exit-zero=false
+
+[REPORTS]
+
+output-format=colorized
+
 [MESSAGES CONTROL]
 
-# Disable the message, report, category or checker with the given id(s). You
-# can either give multiple identifiers separated by comma (,) or put this
-# option multiple times (only on the command line, not in the configuration
-# file where it should appear only once).You can also use "--disable=all" to
-# disable everything first and then reenable specific checks. For example, if
-# you want to run only the similarities checker, you can use "--disable=all
-# --enable=similarities". If you want to run only the classes checker, but have
-# no Warning level messages displayed, use"--disable=all --enable=classes
-# --disable=W"
+# Disable all but whitelisted messages
 disable=all
-
-# Enable the message, report, category or checker with the given id(s). You can
-# either give multiple identifier separated by comma (,) or put this option
-# multiple time (only on the command line, not in the configuration file where
-# it should appear only once). See also the "--disable" option for examples.
-enable=E, F #missing-docstring, W, E, F
+enable=E, F,
+        W0621,
+        W0106,
+        W0121,
+        W0122,
+        W0221,
+        W0301,
+        W0234,
+        W0311,
+        W0312,
+        W0403,
+        W0406,
+        W0611,
+        W0612,
+        W0613,
+        W0701,
+        W0702,
+        W0703,
+        W0704,
+        W1001,
+        W140*,
+        W1501
