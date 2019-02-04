@@ -20,8 +20,6 @@ install:
   - pip install -e .
 
 script:
-  # Lint package
-  - pylint quantulum3
   # Check for import errors
   - coverage run --source=quantulum3 scripts/test_import_error.py
   # Build common words
@@ -30,8 +28,11 @@ script:
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_setup
   # Test whether quantulum works without classifier
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_no_classifier
-  # Test requirements.txt, classifier building and classifier functionality
+  # Test requirements.txt
   - pip install -r requirements_classifier.txt
+  # Lint package, now that all requirements are installed
+  - pylint quantulum3
+  # Test classifier building and classifier functionality
   # Note that the classifier trained here is included in the target package
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier.ClassifierBuild
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier.ClassifierTest
