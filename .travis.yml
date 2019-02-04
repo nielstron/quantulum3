@@ -13,19 +13,45 @@ matrix:
   fast_finish: true
 
 install:
-  - pip install tox
+  - pip install pylint
   - pip install coverage
   - pip install coveralls
-  - pip install .
+  # Check if installing works
+  - pip install -e .
 
 script:
-# - tox
+  # Check for import errors
   - coverage run --source=quantulum3 scripts/test_import_error.py
+  # Build common words
+  - coverage run --source=quantulum3 scripts/build.py
+  # Test basic functionality
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_setup
+  # Test whether quantulum works without classifier
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_no_classifier
+  # Test requirements.txt
   - pip install -r requirements_classifier.txt
-  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier
+  # Lint package, now that all requirements are installed
+  - pylint quantulum3
+  # Test classifier building and classifier functionality
+  # Note that the classifier trained here is included in the target package
+  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier.ClassifierBuild
+  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier.ClassifierTest
 
 after_success:
   - coverage report
   - coveralls
+
+deploy:
+  provider: pypi
+  on:
+    branch: master
+    python: "3.7"
+  distributions: "sdist bdist_wheel"
+  skip_existing: true
+  # Keep the generated classifier
+  skip_cleanup: true
+
+  username: "nielstron"
+  password:
+    secure: "D4z+rdEkCtg3ABCFDeRv+YsO2maKezX7F54wZbDeycxSBOFcRIRvGfKDWDwXzAqmPhtjZbntqQN6Dks1X/I06t1iXXbrvklVFynwlftOqVg+jGXl9Arpp0DUO0XPvma6rDDXPGxKBgVi2f56Q+ulCtYLMjAUnUDObOZIDYBQHHsjbeiKS1u02olwQTrdqJxNaLu8+thmmkcmgOs2mlXpL7CNn+DvJTI7D74KwOckarA7CjOJ3V2Fvyq+WB1/3GCj90CxOoejqlCbxn5CJa4bGyRwutP0C+SHUJFtH+2ZTgv2KayiqBO+rC2nVrEzvE/VmsFXdC2Ai/UryDcCSb1K6RWU4MqyFsHtEGRq7iwdEGr5UNClCYeZU+H+LJAkk066j33rfq+PM5OZ1T9FEasgzMBexa1aZv8g5jbq6Ak9Q/XU7JelLvtUzu39FdF6oy+BTUPKKqpN1Z09OpCWrMmOQZDkQcVDwqhMIaQ6Yp5Kz7hzIL+VeVozgabW6B8thEe/tb/lBqc1hq/Ypy/MGbyu27BlwIe60l4uZ7I/gaXQCxUOAJa9pK03bXozBa+j1+ysoVmeO3G6dXRKMoySnE8iYIVXnzfhlXRrDHyH7UbG3TOOdxSEKsLfKpmW+v6c/Wxgba6raupiW9+l5uY+PoLzNGCtPz6QfgXDdllHbS1HZXc="
+

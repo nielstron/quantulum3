@@ -30,6 +30,18 @@ TOPDIR = os.path.dirname(__file__) or "."
 
 
 ###############################################################################
+class ClassifierBuild(unittest.TestCase):
+    """Test suite for the quantulum3 project."""
+
+    @multilang
+    def test_training(self, lang='en_US'):
+        """ Test that classifier training works """
+        # Test that no errors are thrown during training
+        # Also stores result, to be included in package
+        self.assertIsNotNone(clf.train_classifier(store=True, lang=lang))
+
+
+###############################################################################
 class ClassifierTest(unittest.TestCase):
     """Test suite for the quantulum3 project."""
 
@@ -76,17 +88,6 @@ class ClassifierTest(unittest.TestCase):
                           for test in error)))
 
     @multilang
-    def test_training(self, lang='en_US'):
-        """ Test that classifier training works """
-        # Test that no errors are thrown during training
-        obj = clf.train_classifier(store=False, lang=lang)
-        # Test that the classifier works with the currently downloaded data
-        load._CACHE_DICT[id(clf.classifier)] = {
-            lang: clf.Classifier(obj=obj, lang=lang)
-        }
-        self.test_parse_classifier(lang=lang)
-
-    @multilang
     def test_expand(self, lang='en_US'):
         """ Test that parsing and expanding works correctly """
         all_tests = load_expand_tests(lang=lang)
@@ -94,6 +95,7 @@ class ClassifierTest(unittest.TestCase):
             result = p.inline_parse_and_expand(test['req'], lang=lang)
             self.assertEqual(result, test['res'])
 
+    @unittest.skip("Not necessary, as classifier is live built")
     @multilang
     def test_classifier_up_to_date(self, lang='en_US'):
         """
@@ -114,6 +116,18 @@ class ClassifierTest(unittest.TestCase):
             " newest version is {}. Please update scikit-learn.".format(
                 clf_version, cur_version))
 
+    @unittest.skip("Skipped, as already run in build")
+    @multilang
+    def test_training(self, lang='en_US'):
+        """ Test that classifier training works """
+        # Test that no errors are thrown during training
+        obj = clf.train_classifier(store=False, lang=lang)
+        # Test that the classifier works with the currently downloaded data
+        load._CACHE_DICT[id(clf.classifier)] = {
+            lang: clf.Classifier(obj=obj, lang=lang)
+        }
+        self.test_parse_classifier(lang=lang)
+
     @multilang(['en_us'])
     def test_wikipedia_pages(self, lang):
         wikipedia.set_lang(lang[:2])
@@ -122,7 +136,8 @@ class ClassifierTest(unittest.TestCase):
             try:
                 wikipedia.page(unit.uri.replace('_', ' '), auto_suggest=False)
                 pass
-            except (wikipedia.PageError, wikipedia.DisambiguationError) as e:
+            except (wikipedia.PageError,
+                    wikipedia.DisambiguationError) as e:  # pragma: no cover
                 err.append((unit, e))
         if err:  # pragma: no cover
             self.fail("Problematic pages:\n{}".format("\n".join(

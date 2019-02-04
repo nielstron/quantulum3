@@ -17,6 +17,8 @@ from ... import classes as cls
 from ... import parser
 from .load import COMMON_WORDS
 
+_LOGGER = logging.getLogger(__name__)
+
 
 ###############################################################################
 def clean_surface(surface, span):
@@ -87,7 +89,7 @@ def extract_spellout_values(text):
 
 
 ###############################################################################
-def parse_unit(item, unit, slash):
+def parse_unit(_, unit, slash):
     """
     Parse surface and power from unit text.
     """
@@ -177,7 +179,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         dimension_change = True
         surface = surface[:-1]
         span = (span[0], span[1] - 1)
-        logging.debug('\tCorrect for "1990s" pattern')
+        _LOGGER.debug('\tCorrect for "1990s" pattern')
 
     # check if a unit without operators, actually is a common word
     if unit.original_dimensions:
@@ -189,7 +191,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
             dimension_change = True
             surface = surface[:-3]
             span = (span[0], span[1] - 3)
-            logging.debug('\tCorrect for "in" pattern')
+            _LOGGER.debug('\tCorrect for "in" pattern')
 
         candidates = [u['power'] == 1 for u in unit.original_dimensions]
         for start in range(0, len(unit.original_dimensions)):
@@ -227,7 +229,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
                 surface = surface[:match.start()]
                 unit.original_dimensions = unit.original_dimensions[:start]
                 dimension_change = True
-                logging.debug("Detected common word '{}' and removed it".
+                _LOGGER.debug("Detected common word '{}' and removed it".
                               format(combination))
                 break
 
@@ -239,7 +241,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
                 unit.original_dimensions[-1]['surface'] == '"'):
             unit.original_dimensions = unit.original_dimensions[:-1]
             dimension_change = True
-        logging.debug('\tCorrect for quotes')
+        _LOGGER.debug('\tCorrect for quotes')
 
     if (re.search(r' time$', surface) and len(unit.original_dimensions) > 1
             and unit.original_dimensions[-1]['base'] == 'count'):
@@ -247,7 +249,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         dimension_change = True
         surface = surface[:-5]
         span = (span[0], span[1] - 5)
-        logging.debug('\tCorrect for "time"')
+        _LOGGER.debug('\tCorrect for "time"')
 
     if dimension_change:
         if len(unit.original_dimensions) >= 1:
@@ -261,7 +263,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
             re.search(r'1st|2nd|3rd|[04-9]th', surface) or \
             re.search(r'\d+[A-Z]+\d+', surface) or \
             re.search(r'\ba second\b', surface, re.IGNORECASE):
-        logging.debug('\tMeaningless quantity ("%s"), discard', surface)
+        _LOGGER.debug('\tMeaningless quantity ("%s"), discard', surface)
         return
 
     objs = []

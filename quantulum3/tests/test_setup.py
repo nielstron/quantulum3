@@ -77,10 +77,9 @@ def add_type_equalities(testcase):
                     firstval = getattr(first, diff)
                     secondval = getattr(second, diff)
                     if firstval != secondval:
-                        msg = (
-                            'Quantities {first} and {second} are differing '
-                            'in attribute "{attribute}:'
-                            '{firstval}" != "{secondval}')
+                        msg = ('Quantities {first} and {second} are differing '
+                               'in attribute "{attribute}:'
+                               '{firstval}" != "{secondval}')
                         msg = msg.format(
                             attribute=diff,
                             firstval=firstval,
@@ -235,17 +234,6 @@ class SetupTest(unittest.TestCase):
         self.assertIsNotNone(load_quantity_tests(True, lang))
         self.assertIsNotNone(load_quantity_tests(False, lang))
         self.assertIsNotNone(load_expand_tests(lang))
-
-    @multilang(['en_US'])
-    def test_common_words(self, lang):
-        """ Test that the build script has run correctly """
-        # Read raw 4 letter file
-        words = language.get('load', lang).build_common_words()
-        built = language.get('load', lang).COMMON_WORDS
-        for length, word_list in built.items():
-            self.assertEqual(
-                words[length], word_list,
-                "Build script has not been run since change to critical files")
 
     @unittest.expectedFailure
     def test_quantity_comparison_fail_unit(self):

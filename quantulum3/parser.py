@@ -9,7 +9,6 @@ import re
 import logging
 from fractions import Fraction
 from collections import defaultdict
-from math import pow
 
 # Quantulum
 from . import load
@@ -17,6 +16,8 @@ from . import regex as reg
 from . import classes as cls
 from . import disambiguate as dis
 from . import language
+
+_LOGGER = logging.getLogger(__name__)
 
 
 def _get_parser(lang='en_US'):
@@ -52,7 +53,7 @@ def substitute_values(text, values):
         for char in range(first + 1, len(final_text)):
             shifts[char] = shift
 
-    logging.debug('Text after numeric conversion: "%s"', final_text)
+    _LOGGER.debug('Text after numeric conversion: "%s"', final_text)
 
     return final_text, shifts
 
@@ -79,7 +80,7 @@ def get_values(item, lang='en_US'):
         'e', value)
     # calculate other exponents
     value, factors = resolve_exponents(value)
-    logging.debug("After exponent resolution: {}".format(value))
+    _LOGGER.debug("After exponent resolution: {}".format(value))
 
     value = re.sub(fracs, callback, value, re.IGNORECASE)
 
@@ -123,8 +124,8 @@ def get_values(item, lang='en_US'):
     else:
         values = [float(re.sub(r'-$', '', value)) * factors[0]]
 
-    logging.debug('\tUncertainty: %s', uncertainty)
-    logging.debug('\tValues: %s', values)
+    _LOGGER.debug('\tUncertainty: %s', uncertainty)
+    _LOGGER.debug('\tValues: %s', values)
 
     return uncertainty, values
 
@@ -164,11 +165,11 @@ def resolve_exponents(value, lang='en_US'):
                 exp.replace(superscript, substitute)
             exp = float(exp)
             base = float(base.replace('^', ''))
-            factor = pow(base, exp)
+            factor = base**exp
             stripped = str(value).replace(item.group('scale'), '')
             value = stripped
             factors.append(factor)
-            logging.debug("Replaced {} by factor {}".format(
+            _LOGGER.debug("Replaced {} by factor {}".format(
                 item.group('scale'), factor))
         else:
             factors.append(1)
@@ -183,7 +184,7 @@ def build_unit_name(dimensions, lang='en_US'):
     """
     name = _get_parser(lang).name_from_dimensions(dimensions)
 
-    logging.debug('\tUnit inferred name: %s', name)
+    _LOGGER.debug('\tUnit inferred name: %s', name)
 
     return name
 
@@ -199,7 +200,7 @@ def get_unit_from_dimensions(dimensions, text, lang='en_US'):
     try:
         unit = load.units(lang).derived[key]
     except KeyError:
-        logging.debug(u'\tCould not find unit for: %s', key)
+        _LOGGER.debug(u'\tCould not find unit for: %s', key)
         unit = cls.Unit(
             name=build_unit_name(dimensions, lang),
             dimensions=dimensions,
@@ -245,7 +246,7 @@ def get_entity_from_dimensions(dimensions, text, lang='en_US'):
 
     ent = dis.disambiguate_entity(key, text, lang)
     if ent is None:
-        logging.debug('\tCould not find entity for: %s', key)
+        _LOGGER.debug('\tCould not find entity for: %s', key)
         ent = cls.Entity(name='unknown', dimensions=new_derived)
 
     return ent
@@ -305,7 +306,7 @@ def get_unit(item, text, lang='en_US'):
                         # Remove (original length - new end) characters
                         unit_shortening = item.end() - item.start(
                             operator_index)
-                        logging.debug(
+                        _LOGGER.debug(
                             "Because operator inconsistency, cut from "
                             "operator: '{}', new surface: {}".format(
                                 operator, text[item.start():item.end() -
@@ -329,8 +330,8 @@ def get_unit(item, text, lang='en_US'):
 
         unit = get_unit_from_dimensions(derived, text, lang)
 
-    logging.debug('\tUnit: %s', unit)
-    logging.debug('\tEntity: %s', unit.entity)
+    _LOGGER.debug('\tUnit: %s', unit)
+    _LOGGER.debug('\tEntity: %s', unit.entity)
 
     return unit, unit_shortening
 
@@ -344,11 +345,11 @@ def get_surface(shifts, orig_text, item, text, unit_shortening=0):
     # handle cut end
     span = (item.start(), item.end() - unit_shortening)
 
-    logging.debug('\tInitial span: %s ("%s")', span, text[span[0]:span[1]])
+    _LOGGER.debug('\tInitial span: %s ("%s")', span, text[span[0]:span[1]])
 
     real_span = (span[0] - shifts[span[0]], span[1] - shifts[span[1] - 1])
     surface = orig_text[real_span[0]:real_span[1]]
-    logging.debug('\tShifted span: %s ("%s")', real_span, surface)
+    _LOGGER.debug('\tShifted span: %s ("%s")', real_span, surface)
 
     while any(surface.endswith(i) for i in [' ', '-']):
         surface = surface[:-1]
@@ -358,7 +359,7 @@ def get_surface(shifts, orig_text, item, text, unit_shortening=0):
         surface = surface[1:]
         real_span = (real_span[0] + 1, real_span[1])
 
-    logging.debug('\tFinal span: %s ("%s")', real_span, surface)
+    _LOGGER.debug('\tFinal span: %s ("%s")', real_span, surface)
     return surface, real_span
 
 
@@ -411,7 +412,7 @@ def clean_text(text, lang='en_US'):
     # Language specific cleaning
     text = _get_parser(lang).clean_text(text)
 
-    logging.debug('Clean text: "%s"', text)
+    _LOGGER.debug('Clean text: "%s"', text)
 
     return text
 
@@ -424,15 +425,14 @@ def parse(text, lang='en_US', verbose=False):
 
     log_format = '%(asctime)s --- %(message)s'
     logging.basicConfig(format=log_format)
-    root = logging.getLogger()
 
     if verbose:  # pragma: no cover
-        level = root.level
-        root.setLevel(logging.DEBUG)
-        logging.debug('Verbose mode')
+        prev_level = _LOGGER.getEffectiveLevel()
+        _LOGGER.setLevel(logging.DEBUG)
+        _LOGGER.debug('Verbose mode')
 
     orig_text = text
-    logging.debug('Original text: "%s"', orig_text)
+    _LOGGER.debug('Original text: "%s"', orig_text)
 
     text = clean_text(text, lang)
     values = extract_spellout_values(text, lang)
@@ -443,7 +443,7 @@ def parse(text, lang='en_US', verbose=False):
 
         groups = dict(
             [i for i in item.groupdict().items() if i[1] and i[1].strip()])
-        logging.debug(u'Quantity found: %s', groups)
+        _LOGGER.debug(u'Quantity found: %s', groups)
 
         try:
             uncert, values = get_values(item, lang)
@@ -456,10 +456,10 @@ def parse(text, lang='en_US', verbose=False):
             if objs is not None:
                 quantities += objs
         except ValueError as err:
-            logging.debug('Could not parse quantity: %s', err)
+            _LOGGER.debug('Could not parse quantity: %s', err)
 
     if verbose:  # pragma: no cover
-        root.level = level
+        _LOGGER.setLevel(prev_level)
 
     return quantities
 
@@ -507,7 +507,7 @@ def inline_parse_and_expand(text, lang='en_US', verbose=False):
     """
     Parse text and replace qunatities with speakable version
     """
-    parsed = parse(text, verbose=verbose)
+    parsed = parse(text, lang=lang, verbose=verbose)
 
     shift = 0
     for quantity in parsed:

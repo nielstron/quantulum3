@@ -5,6 +5,10 @@
 from quantulum3.classifier import train_classifier
 
 import argparse
+import logging
+
+_LOGGER = logging.getLogger(__name__)
+
 arguments = [
     {
         'dest': 'store',
@@ -21,6 +25,8 @@ arguments = [
 ]
 
 if __name__ == '__main__':
+
+    logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser(
         'train',
         description='Train unit disambiguator based on data in quantulum '
@@ -28,7 +34,9 @@ if __name__ == '__main__':
     for arg in arguments:
         parser.add_argument('--{}'.format(arg['dest']), **arg)
     args = parser.parse_args()
-    print('Start training for language {}, {} storing the classifier'.format(
-        args.lang, '' if args.store else 'not'))
+
+    _LOGGER.info(
+        'Start training for language {}, {}storing the classifier'.format(
+            args.lang, '' if args.store else 'not '))
     train_classifier(store=args.store, lang=args.lang)
-    print('Done')
+    _LOGGER.info('Done')

@@ -1,0 +1,41 @@
+[GENERAL]
+# Use all processors
+jobs=0
+
+exit-zero=false
+
+[REPORTS]
+
+output-format=colorized
+
+[MESSAGES CONTROL]
+
+# Disable all but whitelisted messages
+disable=all
+enable=E, F,
+        W0621,
+        W0106,
+        W0121,
+        W0122,
+        W0221,
+        W0301,
+        W0234,
+        W0311,
+        W0312,
+        W0403,
+        W0406,
+        W0611,
+        W0612,
+        W0613,
+        W0701,
+        W0702,
+        W0703,
+        W0704,
+        W1001,
+        W1401,
+        W1402,
+        W1403,
+        W1501,
+        R0401,
+        R0201,
+
