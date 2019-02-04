@@ -113,6 +113,7 @@ def train_classifier(parameters=None,
     TODO auto invoke if sklearn version is new or first install or sth
     @:param store (bool) store classifier in clf.joblib
     """
+    print("Loading training set")
     training_set = load.training_set(lang)
     target_names = list(set([i['unit'] for i in training_set]))
 
@@ -126,17 +127,21 @@ def train_classifier(parameters=None,
         ngram_range=ngram_range,
         stop_words=_get_classifier(lang).stop_words())
 
+    print("Fit TFIDF Model")
     matrix = tfidf_model.fit_transform(train_data)
 
     if parameters is None:
         parameters = {
             'loss': 'log',
             'penalty': 'l2',
-            'max_iter': 50,
-            'alpha': 0.00001,
-            'fit_intercept': True
+            'tol': 1e-3,
+            'n_jobs': -1,
+            'alpha': 0.0001,
+            'fit_intercept': True,
+            'random_state': 0,
         }
 
+    print("Fit SGD Classifier")
     clf = SGDClassifier(**parameters).fit(matrix, train_target)
     obj = {
         'scikit-learn_version':
