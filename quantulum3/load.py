@@ -131,7 +131,7 @@ class Entities(object):
             assert len(set(names)) == len(general_entities)
         except AssertionError:  # pragma: no cover
             raise Exception('Entities with same name: %s' %
-                            [i for i in self.names if names.count(i) > 1])
+                            [i for i in names if names.count(i) > 1])
 
         self.names = dict((
             k['name'],
@@ -241,18 +241,18 @@ class Units(object):
         with path.open(encoding='utf-8') as file:
             lang_units = json.load(file)
 
-        units = {}
+        unit_dict = {}
         for unit in general_units.copy():
             general_units.extend(self.prefixed_units(unit))
         for unit in general_units:
-            units[unit['name']] = unit
+            unit_dict[unit['name']] = unit
         for unit in lang_units.copy():
             lang_units.extend(self.prefixed_units(unit))
         for unit in lang_units:
-            units[unit['name']] = units.get(unit['name'], unit)
-            units[unit['name']].update(unit)
+            unit_dict[unit['name']] = unit_dict.get(unit['name'], unit)
+            unit_dict[unit['name']].update(unit)
 
-        for unit in units.values():
+        for unit in unit_dict.values():
             self.load_unit(unit)
 
         self.derived = get_derived_units(self.names)
@@ -297,7 +297,8 @@ class Units(object):
             self.surfaces[plural].add(obj)
             self.surfaces_lower[plural.lower()].add(obj)
 
-    def prefixed_units(self, unit):
+    @staticmethod
+    def prefixed_units(unit):
         prefixed = []
         # If SI-prefixes are given, add them
         for prefix in unit.get('prefixes', []):

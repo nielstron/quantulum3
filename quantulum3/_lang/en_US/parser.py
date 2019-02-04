@@ -89,7 +89,7 @@ def extract_spellout_values(text):
 
 
 ###############################################################################
-def parse_unit(item, unit, slash):
+def parse_unit(_, unit, slash):
     """
     Parse surface and power from unit text.
     """

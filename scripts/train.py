@@ -35,7 +35,8 @@ if __name__ == '__main__':
         parser.add_argument('--{}'.format(arg['dest']), **arg)
     args = parser.parse_args()
 
-    _LOGGER.info('Start training for language {}, {}storing the classifier'.format(
-        args.lang, '' if args.store else 'not '))
+    _LOGGER.info(
+        'Start training for language {}, {}storing the classifier'.format(
+            args.lang, '' if args.store else 'not '))
     train_classifier(store=args.store, lang=args.lang)
     _LOGGER.info('Done')

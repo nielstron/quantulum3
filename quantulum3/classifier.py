@@ -30,6 +30,7 @@ from . import language
 
 _LOGGER = logging.getLogger(__name__)
 
+
 def _get_classifier(lang='en_US'):
     return language.get('classifier', lang)
 

@@ -34,10 +34,10 @@ def subdir(lang='en_US'):
     lang = re.sub(r'[\s\-]', '_', lang).lower()
     try:
         # search for correct submodule
-        subdir = _SUBDIRS[lang]
+        subdirs = _SUBDIRS[lang]
     except KeyError:
         raise NotImplementedError("Unsupported language: {}".format(lang))
-    return subdir
+    return subdirs
 
 
 ###############################################################################
