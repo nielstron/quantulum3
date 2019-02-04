@@ -28,6 +28,7 @@ from . import load
 from .load import cached
 from . import language
 
+_LOGGER = logging.getLogger(__name__)
 
 def _get_classifier(lang='en_US'):
     return language.get('classifier', lang)
@@ -113,10 +114,11 @@ def train_classifier(parameters=None,
     TODO auto invoke if sklearn version is new or first install or sth
     @:param store (bool) store classifier in clf.joblib
     """
-    print("Loading training set")
+    _LOGGER.info("Loading training set")
     training_set = load.training_set(lang)
     target_names = list(set([i['unit'] for i in training_set]))
 
+    _LOGGER.info("Preparing training set")
     train_data, train_target = [], []
     for example in training_set:
         train_data.append(clean_text(example['text'], lang))
@@ -127,7 +129,7 @@ def train_classifier(parameters=None,
         ngram_range=ngram_range,
         stop_words=_get_classifier(lang).stop_words())
 
-    print("Fit TFIDF Model")
+    _LOGGER.info("Fit TFIDF Model")
     matrix = tfidf_model.fit_transform(train_data)
 
     if parameters is None:
@@ -141,7 +143,7 @@ def train_classifier(parameters=None,
             'random_state': 0,
         }
 
-    print("Fit SGD Classifier")
+    _LOGGER.info("Fit SGD Classifier")
     clf = SGDClassifier(**parameters).fit(matrix, train_target)
     obj = {
         'scikit-learn_version':
@@ -155,6 +157,7 @@ def train_classifier(parameters=None,
     }
     if store:  # pragma: no cover
         path = language.topdir(lang).joinpath('clf.joblib')
+        _LOGGER.info("Store classifier at {}".format(path))
         with path.open('wb') as file:
             joblib.dump(obj, file)
     return obj
