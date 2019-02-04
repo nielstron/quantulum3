@@ -5,6 +5,7 @@ deploy.py
 .idea
 Pipfile.lock
 *.joblib
+*common-words.json
 
 # GloVe data files
 glove.*.zip
