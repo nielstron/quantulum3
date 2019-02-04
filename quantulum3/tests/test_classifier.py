@@ -129,7 +129,6 @@ class ClassifierTest(unittest.TestCase):
         }
         self.test_parse_classifier(lang=lang)
 
-    @unittest.skip('Skip')
     @multilang(['en_us'])
     def test_wikipedia_pages(self, lang):
         wikipedia.set_lang(lang[:2])
