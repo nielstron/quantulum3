@@ -131,7 +131,7 @@ class Entities(object):
             assert len(set(names)) == len(general_entities)
         except AssertionError:  # pragma: no cover
             raise Exception('Entities with same name: %s' %
-                            [i for i in self.names if names.count(i) > 1])
+                            [i for i in names if names.count(i) > 1])
 
         self.names = dict((
             k['name'],

@@ -13,13 +13,15 @@ matrix:
   fast_finish: true
 
 install:
-  - pip install tox
+  - pip install pylint
   - pip install coverage
   - pip install coveralls
   # Check if installing works
   - pip install -e .
 
 script:
+  # Lint package
+  - pylint quantulum3
   # Check for import errors
   - coverage run --source=quantulum3 scripts/test_import_error.py
   # Build common words

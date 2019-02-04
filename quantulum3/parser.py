@@ -9,7 +9,6 @@ import re
 import logging
 from fractions import Fraction
 from collections import defaultdict
-from math import pow
 
 # Quantulum
 from . import load
@@ -166,7 +165,7 @@ def resolve_exponents(value, lang='en_US'):
                 exp.replace(superscript, substitute)
             exp = float(exp)
             base = float(base.replace('^', ''))
-            factor = pow(base, exp)
+            factor = base**exp
             stripped = str(value).replace(item.group('scale'), '')
             value = stripped
             factors.append(factor)
@@ -428,6 +427,7 @@ def parse(text, lang='en_US', verbose=False):
     logging.basicConfig(format=log_format)
 
     if verbose:  # pragma: no cover
+        prev_level = _LOGGER.getEffectiveLevel()
         _LOGGER.setLevel(logging.DEBUG)
         _LOGGER.debug('Verbose mode')
 
@@ -459,7 +459,7 @@ def parse(text, lang='en_US', verbose=False):
             _LOGGER.debug('Could not parse quantity: %s', err)
 
     if verbose:  # pragma: no cover
-        root.level = level
+        _LOGGER.setLevel(prev_level)
 
     return quantities
 
