@@ -115,7 +115,9 @@ class ClassifierTest(unittest.TestCase):
             " newest version is {}. Please update scikit-learn.".format(
                 clf_version, cur_version))
 
-    @unittest.skip("Skipped, as already run in build. Run to check training without storing result.")
+    @unittest.skip(
+        "Skipped, as already run in build. Run to check training without storing result."
+    )
     @multilang
     def test_training(self, lang='en_US'):
         """ Test that classifier training works """
