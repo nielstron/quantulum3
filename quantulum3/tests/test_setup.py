@@ -258,6 +258,16 @@ class SetupTest(unittest.TestCase):
         except NotImplementedError:
             pass
 
+    @multilang(['en_US'])
+    def test_common_words(self, lang):
+        """ Test that the build script has run correctly (*might* fail locally) """
+        # Read raw 4 letter file
+        words = language.get('load', lang).build_common_words()
+        built = language.get('load', lang).COMMON_WORDS
+        for length, word_list in built.items():
+            self.assertEqual(
+                words[length], word_list,
+                "Build script has not been run since change to critical files")
 
 ###############################################################################
 if __name__ == '__main__':  # pragma: no cover
