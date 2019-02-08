@@ -31,6 +31,7 @@ from . import language
 _LOGGER = logging.getLogger(__name__)
 
 
+@cached
 def _get_classifier(lang='en_US'):
     return language.get('classifier', lang)
 
@@ -117,7 +118,7 @@ def train_classifier(parameters=None,
     """
     _LOGGER.info("Loading training set")
     training_set = load.training_set(lang)
-    target_names = list(set([i['unit'] for i in training_set]))
+    target_names = list(frozenset([i['unit'] for i in training_set]))
 
     _LOGGER.info("Preparing training set")
     train_data, train_target = [], []
