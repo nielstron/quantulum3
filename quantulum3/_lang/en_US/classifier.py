@@ -12,7 +12,7 @@ try:
 except ImportError:
     stem = None
 
-_WORD_DIV = re.compile(r'[%s\s]' % re.escape(string.punctuation))
+_WORD_DIV = re.compile(r'[%s]' % re.escape(string.punctuation))
 _NUMBERS = re.compile(r'[0-9]')
 
 
@@ -24,10 +24,9 @@ def clean_text(text):
     if not stem:
         raise ImportError("Module stemming is not installed.")
 
-    new_text = _WORD_DIV.split(text.lower())
-    new_text = [i for i in new_text if not _NUMBERS.search(i)]
+    new_text = _WORD_DIV.sub(' ', text.lower())
 
-    new_text = [stem(i) for i in new_text]
+    new_text = [stem(i) for i in new_text.split() if not _NUMBERS.search(i)]
 
     new_text = ' '.join(new_text)
 
