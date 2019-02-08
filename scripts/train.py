@@ -6,6 +6,7 @@ from quantulum3.classifier import train_classifier
 
 import argparse
 import logging
+import time
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -38,5 +39,7 @@ if __name__ == '__main__':
     _LOGGER.info(
         'Start training for language {}, {}storing the classifier'.format(
             args.lang, '' if args.store else 'not '))
+    start = time.process_time()
     train_classifier(store=args.store, lang=args.lang)
-    _LOGGER.info('Done')
+    end = time.process_time()
+    _LOGGER.info('Done in {} s'.format(end-start))
