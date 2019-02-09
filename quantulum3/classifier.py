@@ -215,9 +215,9 @@ def disambiguate_entity(key, text, lang='en_US'):
     """
 
     new_ent = next(iter(load.entities(lang).derived[key]))
-    if len(load.entities().derived[key]) > 1:
+    if len(load.entities(lang).derived[key]) > 1:
         transformed = classifier(lang).tfidf_model.transform(
-            [clean_text(text)])
+            [clean_text(text, lang)])
         scores = classifier(lang).classifier.predict_proba(
             transformed).tolist()[0]
         scores = zip(scores, classifier(lang).target_names)
@@ -251,7 +251,7 @@ def disambiguate_unit(unit, text, lang='en_US'):
 
     if len(new_unit) > 1:
         transformed = classifier(lang).tfidf_model.transform(
-            [clean_text(text)])
+            [clean_text(text, lang)])
         scores = classifier(lang).classifier.predict_proba(
             transformed).tolist()[0]
         scores = zip(scores, classifier(lang).target_names)
