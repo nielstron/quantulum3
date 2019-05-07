@@ -7,6 +7,8 @@
 import json
 import logging
 import pkg_resources
+import os
+import multiprocessing
 
 # Semi-dependencies
 try:
@@ -31,6 +33,7 @@ from . import language
 _LOGGER = logging.getLogger(__name__)
 
 
+@cached
 def _get_classifier(lang='en_US'):
     return language.get('classifier', lang)
 
@@ -105,25 +108,36 @@ def clean_text(text, lang='en_US'):
     return _get_classifier(lang).clean_text(text)
 
 
+def _clean_text_lang(lang):
+    return _get_classifier(lang).clean_text
+
+
 ###############################################################################
 def train_classifier(parameters=None,
                      ngram_range=(1, 1),
                      store=True,
-                     lang='en_US'):
+                     lang='en_US',
+                     n_jobs=len(os.sched_getaffinity(0))):
     """
     Train the intent classifier
     TODO auto invoke if sklearn version is new or first install or sth
     @:param store (bool) store classifier in clf.joblib
     """
+    _LOGGER.info("Started training, parallelized with {} jobs".format(n_jobs))
     _LOGGER.info("Loading training set")
     training_set = load.training_set(lang)
-    target_names = list(set([i['unit'] for i in training_set]))
+    target_names = list(frozenset([i['unit'] for i in training_set]))
 
     _LOGGER.info("Preparing training set")
-    train_data, train_target = [], []
-    for example in training_set:
-        train_data.append(clean_text(example['text'], lang))
-        train_target.append(target_names.index(example['unit']))
+
+    if n_jobs > 1:
+        with multiprocessing.Pool(processes=n_jobs) as p:
+            train_data = p.map(_clean_text_lang(lang), [ex['text'] for ex in training_set])
+    else:
+        # This allows for classifier training in the interactive python shell
+        train_data = [_clean_text_lang(lang)(ex['text']) for ex in training_set]
+
+    train_target = [target_names.index(example['unit']) for example in training_set]
 
     tfidf_model = TfidfVectorizer(
         sublinear_tf=True,
@@ -138,7 +152,7 @@ def train_classifier(parameters=None,
             'loss': 'log',
             'penalty': 'l2',
             'tol': 1e-3,
-            'n_jobs': -1,
+            'n_jobs': n_jobs,
             'alpha': 0.0001,
             'fit_intercept': True,
             'random_state': 0,
@@ -214,9 +228,9 @@ def disambiguate_entity(key, text, lang='en_US'):
     """
 
     new_ent = next(iter(load.entities(lang).derived[key]))
-    if len(load.entities().derived[key]) > 1:
+    if len(load.entities(lang).derived[key]) > 1:
         transformed = classifier(lang).tfidf_model.transform(
-            [clean_text(text)])
+            [clean_text(text, lang)])
         scores = classifier(lang).classifier.predict_proba(
             transformed).tolist()[0]
         scores = zip(scores, classifier(lang).target_names)
@@ -250,7 +264,7 @@ def disambiguate_unit(unit, text, lang='en_US'):
 
     if len(new_unit) > 1:
         transformed = classifier(lang).tfidf_model.transform(
-            [clean_text(text)])
+            [clean_text(text, lang)])
         scores = classifier(lang).classifier.predict_proba(
             transformed).tolist()[0]
         scores = zip(scores, classifier(lang).target_names)
