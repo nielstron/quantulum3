@@ -11,6 +11,7 @@ sklearn = "*"
 wikipedia = "*"
 stemming = "*"
 num2words = "*"
+joblib = "*"
 
 [dev-packages]
 yapf = "*"

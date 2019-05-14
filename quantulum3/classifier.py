@@ -14,7 +14,7 @@ import multiprocessing
 try:
     from sklearn.linear_model import SGDClassifier
     from sklearn.feature_extraction.text import TfidfVectorizer
-    from sklearn.externals import joblib
+    import joblib
     USE_CLF = True
 except ImportError:
     SGDClassifier, TfidfVectorizer = None, None
