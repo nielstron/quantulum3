@@ -14,7 +14,7 @@ import multiprocessing
 try:
     from sklearn.linear_model import SGDClassifier
     from sklearn.feature_extraction.text import TfidfVectorizer
-    from sklearn.externals import joblib
+    import joblib
     USE_CLF = True
 except ImportError:
     SGDClassifier, TfidfVectorizer = None, None
@@ -117,7 +117,7 @@ def train_classifier(parameters=None,
                      ngram_range=(1, 1),
                      store=True,
                      lang='en_US',
-                     n_jobs=len(os.sched_getaffinity(0))):
+                     n_jobs=None):
     """
     Train the intent classifier
     TODO auto invoke if sklearn version is new or first install or sth
@@ -130,12 +130,16 @@ def train_classifier(parameters=None,
 
     _LOGGER.info("Preparing training set")
 
-    if n_jobs > 1:
-        with multiprocessing.Pool(processes=n_jobs) as p:
-            train_data = p.map(_clean_text_lang(lang), [ex['text'] for ex in training_set])
-    else:
-        # This allows for classifier training in the interactive python shell
-        train_data = [_clean_text_lang(lang)(ex['text']) for ex in training_set]
+    if n_jobs is None:
+        try:
+            # Retreive the number of cpus that can be used
+            n_jobs = len(os.sched_getaffinity(0))
+        except AttributeError:
+            # n_jobs stays None such that Pool will try to
+            # automatically set the number of processes appropriately
+            pass
+    with multiprocessing.Pool(processes=n_jobs) as p:
+        train_data = p.map(_clean_text_lang(lang), [ex['text'] for ex in training_set])
 
     train_target = [target_names.index(example['unit']) for example in training_set]
 
