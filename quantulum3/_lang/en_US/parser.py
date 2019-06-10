@@ -191,7 +191,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
                 and unit.original_dimensions[-1]['base'] == 'inch'
                 and re.search(r' in$', surface)
                 and '/' not in surface
-                and not re.search(r' in(\.|,|\?|!)', orig_text[span[0]:min(len(orig_text), span[1]+1)])
+                and not re.search(r' in(\.|,|\?|!|$)', orig_text[span[0]:min(len(orig_text), span[1]+1)])
         ):
             unit.original_dimensions = unit.original_dimensions[:-1]
             dimension_change = True

@@ -1182,5 +1182,29 @@
         "uncertainty": null
       }
     ]
+  },
+  {
+    "req": "The length of my pencil is 2 in.",
+    "res": [
+      {
+        "value": 2,
+        "unit": "inch",
+        "surface": "2 in",
+        "entity": "length",
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "The length of my pencil is 2 in",
+    "res": [
+      {
+        "value": 2,
+        "unit": "inch",
+        "surface": "2 in",
+        "entity": "length",
+        "uncertainty": null
+      }
+    ]
   }
 ]
