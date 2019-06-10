@@ -182,7 +182,23 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         _LOGGER.debug('\tCorrect for "1990s" pattern')
 
     # check if a unit without operators, actually is a common word
-    if unit.original_dimensions:
+    pruned_common_word = unit.original_dimensions
+    while pruned_common_word:
+        pruned_common_word = False
+
+        # Usually "in" stands for the preposition, not inches
+        if (unit.original_dimensions
+                and unit.original_dimensions[-1]['base'] == 'inch'
+                and re.search(r' in$', surface)
+                and '/' not in surface
+                and not re.search(r' in(\.|,|\?|!)', orig_text[span[0]:min(len(orig_text), span[1]+1)])
+        ):
+            unit.original_dimensions = unit.original_dimensions[:-1]
+            dimension_change = True
+            pruned_common_word = True
+            surface = surface[:-3]
+            span = (span[0], span[1] - 3)
+            _LOGGER.debug('\tCorrect for \'in\' pattern')
 
         candidates = [u['power'] == 1 for u in unit.original_dimensions]
         for start in range(0, len(unit.original_dimensions)):
@@ -220,19 +236,10 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
                 surface = surface[:match.start()]
                 unit.original_dimensions = unit.original_dimensions[:start]
                 dimension_change = True
+                pruned_common_word = True
                 _LOGGER.debug("\tDetected common word '{}' and removed it".
                               format(combination))
                 break
-
-        # Usually "in" stands for the preposition, not inches
-        if unit.original_dimensions and (unit.original_dimensions[-1]['base'] == 'inch'
-                and re.search(r' in$', surface) and '/' not in surface):
-            unit.original_dimensions = unit.original_dimensions[:-1]
-            dimension_change = True
-            surface = surface[:-3]
-            span = (span[0], span[1] - 3)
-            _LOGGER.debug('\tCorrect for "in" pattern')
-
 
     match = parser.is_quote_artifact(text, item.span())
     if match:
