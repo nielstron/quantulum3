@@ -128,7 +128,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     """
     # TODO rerun if change occurred
     # Re parse unit if a change occurred
-    dimension_change = False
+    dimension_change = True
 
     # Extract "absolute " ...
     _absolute = "absolute "
@@ -184,15 +184,6 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     # check if a unit without operators, actually is a common word
     if unit.original_dimensions:
 
-        # Usually "in" stands for the preposition, not inches
-        if (unit.original_dimensions[-1]['base'] == 'inch'
-                and re.search(r' in$', surface) and '/' not in surface):
-            unit.original_dimensions = unit.original_dimensions[:-1]
-            dimension_change = True
-            surface = surface[:-3]
-            span = (span[0], span[1] - 3)
-            _LOGGER.debug('\tCorrect for "in" pattern')
-
         candidates = [u['power'] == 1 for u in unit.original_dimensions]
         for start in range(0, len(unit.original_dimensions)):
             for end in reversed(
@@ -229,9 +220,19 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
                 surface = surface[:match.start()]
                 unit.original_dimensions = unit.original_dimensions[:start]
                 dimension_change = True
-                _LOGGER.debug("Detected common word '{}' and removed it".
+                _LOGGER.debug("\tDetected common word '{}' and removed it".
                               format(combination))
                 break
+
+        # Usually "in" stands for the preposition, not inches
+        if unit.original_dimensions and (unit.original_dimensions[-1]['base'] == 'inch'
+                and re.search(r' in$', surface) and '/' not in surface):
+            unit.original_dimensions = unit.original_dimensions[:-1]
+            dimension_change = True
+            surface = surface[:-3]
+            span = (span[0], span[1] - 3)
+            _LOGGER.debug('\tCorrect for "in" pattern')
+
 
     match = parser.is_quote_artifact(text, item.span())
     if match:
@@ -243,7 +244,8 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
             dimension_change = True
         _LOGGER.debug('\tCorrect for quotes')
 
-    if (re.search(r' time$', surface) and len(unit.original_dimensions) > 1
+    if (re.search(r' time$', surface) and unit.original_dimensions
+            and len(unit.original_dimensions) > 1
             and unit.original_dimensions[-1]['base'] == 'count'):
         unit.original_dimensions = unit.original_dimensions[:-1]
         dimension_change = True
@@ -252,7 +254,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         _LOGGER.debug('\tCorrect for "time"')
 
     if dimension_change:
-        if len(unit.original_dimensions) >= 1:
+        if unit.original_dimensions:
             unit = parser.get_unit_from_dimensions(unit.original_dimensions,
                                                    orig_text, lang)
         else:

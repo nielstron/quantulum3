@@ -1170,5 +1170,17 @@
         "uncertainty": null
       }
     ]
+  },
+  {
+    "req": "There are two in my car",
+    "res": [
+      {
+        "value": 2,
+        "unit": "dimensionless",
+        "surface": "two",
+        "entity": "unk",
+        "uncertainty": null
+      }
+    ]
   }
 ]
