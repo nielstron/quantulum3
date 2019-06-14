@@ -427,8 +427,8 @@ def parse(text, lang='en_US', verbose=False):
     logging.basicConfig(format=log_format)
 
     if verbose:  # pragma: no cover
-        prev_level = _LOGGER.getEffectiveLevel()
-        _LOGGER.setLevel(logging.DEBUG)
+        prev_level = logging.root.getEffectiveLevel()
+        logging.root.setLevel(logging.DEBUG)
         _LOGGER.debug('Verbose mode')
 
     orig_text = text
@@ -459,7 +459,7 @@ def parse(text, lang='en_US', verbose=False):
             _LOGGER.debug('Could not parse quantity: %s', err)
 
     if verbose:  # pragma: no cover
-        _LOGGER.setLevel(prev_level)
+        logging.root.setLevel(prev_level)
 
     return quantities
 

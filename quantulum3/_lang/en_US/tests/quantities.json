@@ -1170,5 +1170,41 @@
         "uncertainty": null
       }
     ]
+  },
+  {
+    "req": "There are two in my car",
+    "res": [
+      {
+        "value": 2,
+        "unit": "dimensionless",
+        "surface": "two",
+        "entity": "unk",
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "The length of my pencil is 2 in.",
+    "res": [
+      {
+        "value": 2,
+        "unit": "inch",
+        "surface": "2 in",
+        "entity": "length",
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "The length of my pencil is 2 in",
+    "res": [
+      {
+        "value": 2,
+        "unit": "inch",
+        "surface": "2 in",
+        "entity": "length",
+        "uncertainty": null
+      }
+    ]
   }
 ]
