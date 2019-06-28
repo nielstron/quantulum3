@@ -9,6 +9,7 @@ import logging
 import pkg_resources
 import os
 import multiprocessing
+import psutil
 
 # Semi-dependencies
 try:
@@ -133,7 +134,7 @@ def train_classifier(parameters=None,
     if n_jobs is None:
         try:
             # Retreive the number of cpus that can be used
-            n_jobs = len(os.sched_getaffinity(0))
+            n_jobs = psutil.cpu_count()
         except AttributeError:
             # n_jobs stays None such that Pool will try to
             # automatically set the number of processes appropriately

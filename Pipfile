@@ -12,6 +12,8 @@ wikipedia = "*"
 stemming = "*"
 num2words = "*"
 joblib = "*"
+psutil = "*"
+e1839a8 = {editable = true,path = "."}
 
 [dev-packages]
 yapf = "*"
