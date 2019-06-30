@@ -22,7 +22,7 @@ Installation
 ------------
 
 First, install [`numpy`](https://pypi.org/project/numpy/), [`scipy`](https://www.scipy.org/install.html) and [`sklearn`](http://scikit-learn.org/stable/install.html).
-Quantulum would still work without then, but it wouldn\'t be able to
+Quantulum would still work without those packages, but it wouldn\'t be able to
 disambiguate between units with the same name (e.g. *pound* as currency
 or as unit of mass).
 
