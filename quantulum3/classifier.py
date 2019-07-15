@@ -118,6 +118,7 @@ def train_classifier(parameters=None,
                      store=True,
                      lang='en_US',
                      n_jobs=None):
+
     """
     Train the intent classifier
     TODO auto invoke if sklearn version is new or first install or sth
