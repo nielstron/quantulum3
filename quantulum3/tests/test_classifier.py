@@ -21,7 +21,7 @@ from .test_setup import load_expand_tests, load_quantity_tests, multilang, \
     add_type_equalities
 
 # Dependencies
-from sklearn.externals import joblib
+import joblib
 import wikipedia
 
 COLOR1 = '\033[94m%s\033[0m'

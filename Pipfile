@@ -11,6 +11,7 @@ sklearn = "*"
 wikipedia = "*"
 stemming = "*"
 num2words = "*"
+joblib = "*"
 
 [dev-packages]
 yapf = "*"
@@ -19,4 +20,4 @@ coverage = "*"
 pymagnitude = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.7"
