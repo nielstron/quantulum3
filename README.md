@@ -11,18 +11,18 @@ and their units from unstructured text. It is able to disambiguate between simil
 looking units based on their *k-nearest neighbours* in their [GloVe](https://nlp.stanford.edu/projects/glove/) vector representation
 and their [Wikipedia](https://en.wikipedia.org/) page.
 
-It is Python 3 compatible fork of [recastrodiaz\'
+This is the Python 3 compatible fork of [recastrodiaz\'
 fork](https://github.com/recastrodiaz/quantulum) of [grhawks\'
 fork](https://github.com/grhawk/quantulum) of [the original by Marco
 Lagi](https://github.com/marcolagi/quantulum).
-The compatability with the newest version of sklearn is based on
+The compatibility with the newest version of sklearn is based on
 the fork of [sohrabtowfighi](https://github.com/sohrabtowfighi/quantulum).
 
 Installation
 ------------
 
 First, install [`numpy`](https://pypi.org/project/numpy/), [`scipy`](https://www.scipy.org/install.html) and [`sklearn`](http://scikit-learn.org/stable/install.html).
-Quantulum would still work without it, but it wouldn\'t be able to
+Quantulum would still work without those packages, but it wouldn\'t be able to
 disambiguate between units with the same name (e.g. *pound* as currency
 or as unit of mass).
 
