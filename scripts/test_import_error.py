@@ -7,4 +7,4 @@ unittest
 
 from quantulum3 import parser
 
-__all__ = ['parser']
+__all__ = ["parser"]

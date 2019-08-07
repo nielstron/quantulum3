@@ -14,10 +14,9 @@ num2words = "*"
 joblib = "*"
 
 [dev-packages]
-yapf = "*"
-autopep8 = "*"
 coverage = "*"
 pymagnitude = "*"
+black = "*"
 
 [requires]
 python_version = "3.7"

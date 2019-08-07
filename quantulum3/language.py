@@ -9,14 +9,15 @@ from importlib import import_module
 from pathlib import Path
 import re
 
-TOPDIR = Path(__file__).parent or Path('.')
+TOPDIR = Path(__file__).parent or Path(".")
 
 
 ###############################################################################
 def languages():
     subdirs = [
-        x for x in TOPDIR.joinpath('_lang').iterdir()
-        if x.is_dir() and not x.name.startswith('__')
+        x
+        for x in TOPDIR.joinpath("_lang").iterdir()
+        if x.is_dir() and not x.name.startswith("__")
     ]
     langs = dict((x.name.lower(), x.name) for x in subdirs)
     langs.update((x.name[:2].lower(), x.name) for x in subdirs)
@@ -29,9 +30,9 @@ _SUBDIRS = languages()
 LANGUAGES = _SUBDIRS.keys()
 
 
-def subdir(lang='en_US'):
+def subdir(lang="en_US"):
     # convert to language string
-    lang = re.sub(r'[\s\-]', '_', lang).lower()
+    lang = re.sub(r"[\s\-]", "_", lang).lower()
     try:
         # search for correct submodule
         subdirs = _SUBDIRS[lang]
@@ -41,7 +42,7 @@ def subdir(lang='en_US'):
 
 
 ###############################################################################
-def get(module, lang='en_US'):
+def get(module, lang="en_US"):
     """
     Get module for given language
     :param module:
@@ -50,10 +51,11 @@ def get(module, lang='en_US'):
     """
 
     module = import_module(
-        '._lang.{}.{}'.format(subdir(lang), module), package=__package__)
+        "._lang.{}.{}".format(subdir(lang), module), package=__package__
+    )
     return module
 
 
 ###############################################################################
-def topdir(lang='en_US'):
-    return TOPDIR.joinpath('_lang', subdir(lang))
+def topdir(lang="en_US"):
+    return TOPDIR.joinpath("_lang", subdir(lang))

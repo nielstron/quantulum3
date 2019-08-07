@@ -164,7 +164,18 @@
     "symbols": [
       "b"
     ],
-    "prefixes": ["M", "k", "m", "µ", "n", "p", "f", "a", "z", "y"]
+    "prefixes": [
+      "M",
+      "k",
+      "m",
+      "µ",
+      "n",
+      "p",
+      "f",
+      "a",
+      "z",
+      "y"
+    ]
   },
   {
     "name": "inverse femtobarn",
@@ -173,11 +184,13 @@
     ],
     "entity": "length",
     "URI": "Barn_(unit)",
-    "dimensions": [{
-      "base": "femtobarn",
-      "power": -1,
-      "surface": "fb-1"
-    }],
+    "dimensions": [
+      {
+        "base": "femtobarn",
+        "power": -1,
+        "surface": "fb-1"
+      }
+    ],
     "symbols": [
       "fb-1",
       "fb−1"
@@ -195,7 +208,21 @@
     "symbols": [
       "m"
     ],
-    "prefixes": ["E", "P", "T", "G", "M", "k", "m", "n", "p", "f", "a", "z", "y"]
+    "prefixes": [
+      "E",
+      "P",
+      "T",
+      "G",
+      "M",
+      "k",
+      "m",
+      "n",
+      "p",
+      "f",
+      "a",
+      "z",
+      "y"
+    ]
   },
   {
     "name": "hectometre",
@@ -3418,7 +3445,14 @@
       "㎐",
       "rps"
     ],
-    "prefixes": ["k", "M", "G", "T", "P", "E"]
+    "prefixes": [
+      "k",
+      "M",
+      "G",
+      "T",
+      "P",
+      "E"
+    ]
   },
   {
     "name": "inverse second",
@@ -3919,7 +3953,10 @@
     "symbols": [
       "Gy"
     ],
-    "prefixes": ["m", "k"]
+    "prefixes": [
+      "m",
+      "k"
+    ]
   },
   {
     "name": "pixel",
