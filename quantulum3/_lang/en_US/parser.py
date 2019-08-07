@@ -196,6 +196,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     while pruned_common_word:
         pruned_common_word = False
 
+        # TODO quick hack that works, do remove and eventually merge with common word removal
         # Usually "in" stands for the preposition, not inches
         if (unit.original_dimensions
                 and unit.original_dimensions[-1]['base'] == 'inch'
@@ -209,6 +210,22 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
             surface = surface[:-3]
             span = (span[0], span[1] - 3)
             _LOGGER.debug('\tCorrect for \'in\' pattern')
+            continue
+
+        # Usually "my" stands for the determiner, not megayear
+        if (unit.original_dimensions
+                and unit.original_dimensions[-1]['base'] == 'megayear'
+                and re.search(r' my$', surface)
+                and '/' not in surface
+                and not re.search(r' my(\.|,|\?|!|$)', orig_text[span[0]:min(len(orig_text), span[1]+1)])
+        ):
+            unit.original_dimensions = unit.original_dimensions[:-1]
+            dimension_change = True
+            pruned_common_word = True
+            surface = surface[:-3]
+            span = (span[0], span[1] - 3)
+            _LOGGER.debug('\tCorrect for \'my\' pattern')
+            continue
 
         candidates = [u['power'] == 1 for u in unit.original_dimensions]
         for start in range(0, len(unit.original_dimensions)):
@@ -249,7 +266,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
                 pruned_common_word = True
                 _LOGGER.debug("\tDetected common word '{}' and removed it".
                               format(combination))
-                break
+                continue
 
     match = parser.is_quote_artifact(text, item.span())
     if match:
