@@ -78,8 +78,8 @@ def add_type_equalities(testcase):
                     secondval = getattr(second, diff)
                     if firstval != secondval:
                         msg = ('Quantities {first} and {second} are differing '
-                               'in attribute "{attribute}:'
-                               '{firstval}" != "{secondval}')
+                               'in attribute "{attribute}":'
+                               '{firstval} != {secondval}')
                         msg = msg.format(
                             attribute=diff,
                             firstval=firstval,
