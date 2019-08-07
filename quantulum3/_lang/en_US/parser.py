@@ -184,9 +184,9 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     # Usually "1am", "5.12 pm" stand for the time, not pico- or attometer
     if (
             len(unit.dimensions) == 1 and
-            ("pm" == item['unit1'] or "am" == item['unit1']) and
+            ("pm" == item.group('unit1') or "am" == item.group('unit1')) and
             unit.entity.name == "length" and
-            re.fullmatch(r"\d(\.\d\d)?", item['value'])
+            re.fullmatch(r"\d(\.\d\d)?", item.group('value'))
     ):
         _LOGGER.debug('\tCorrect for am/pm time pattern')
         return
