@@ -194,85 +194,8 @@
     "dimensions": [],
     "symbols": [
       "m"
-    ]
-  },
-  {
-    "name": "exametre",
-    "surfaces": [
-      "exametre",
-      "exameter"
     ],
-    "entity": "length",
-    "URI": "1_exametre",
-    "dimensions": [],
-    "symbols": [
-      "Em"
-    ]
-  },
-  {
-    "name": "petametre",
-    "surfaces": [
-      "petametre",
-      "petameter"
-    ],
-    "entity": "length",
-    "URI": "1_petametre",
-    "dimensions": [],
-    "symbols": [
-      "Pm"
-    ]
-  },
-  {
-    "name": "terametre",
-    "surfaces": [
-      "terametre",
-      "terameter"
-    ],
-    "entity": "length",
-    "URI": "1_terametre",
-    "dimensions": [],
-    "symbols": [
-      "Tm"
-    ]
-  },
-  {
-    "name": "gigametre",
-    "surfaces": [
-      "gigametre",
-      "gigameter"
-    ],
-    "entity": "length",
-    "URI": "Gigametre",
-    "dimensions": [],
-    "symbols": [
-      "Gm"
-    ]
-  },
-  {
-    "name": "megametre",
-    "surfaces": [
-      "megametre",
-      "megameter"
-    ],
-    "entity": "length",
-    "URI": "Megametre",
-    "dimensions": [],
-    "symbols": [
-      "Mm"
-    ]
-  },
-  {
-    "name": "kilometre",
-    "surfaces": [
-      "kilometre",
-      "kilometer"
-    ],
-    "entity": "length",
-    "URI": "Kilometre",
-    "dimensions": [],
-    "symbols": [
-      "km"
-    ]
+    "prefixes": ["E", "P", "T", "G", "M", "k", "m", "n", "p", "f", "a", "z", "y"]
   },
   {
     "name": "hectometre",
@@ -331,19 +254,6 @@
     ]
   },
   {
-    "name": "millimetre",
-    "surfaces": [
-      "millimetre",
-      "millimeter"
-    ],
-    "entity": "length",
-    "URI": "Millimetre",
-    "dimensions": [],
-    "symbols": [
-      "mm"
-    ]
-  },
-  {
     "name": "micrometre",
     "surfaces": [
       "micrometre",
@@ -355,45 +265,6 @@
     "dimensions": [],
     "symbols": [
       "µm"
-    ]
-  },
-  {
-    "name": "nanometre",
-    "surfaces": [
-      "nanometre",
-      "nanometer"
-    ],
-    "entity": "length",
-    "URI": "Nanometre",
-    "dimensions": [],
-    "symbols": [
-      "nm"
-    ]
-  },
-  {
-    "name": "picometre",
-    "surfaces": [
-      "picometre",
-      "picometer"
-    ],
-    "entity": "length",
-    "URI": "Picometre",
-    "dimensions": [],
-    "symbols": [
-      "pm"
-    ]
-  },
-  {
-    "name": "femtometre",
-    "surfaces": [
-      "femtometre",
-      "femtometer"
-    ],
-    "entity": "length",
-    "URI": "Femtometre",
-    "dimensions": [],
-    "symbols": [
-      "fm"
     ]
   },
   {

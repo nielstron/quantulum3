@@ -41,7 +41,7 @@ class ParsingTest(unittest.TestCase):
                 'got {}: {}, {}'.format(
                     len(test['res']), len(quants), test['res'], quants))
             for index, quant in enumerate(quants):
-                self.assertEqual(quant, test['res'][index])
+                self.assertEqual(test['res'][index], quant)
 
         classifier_tests = load_quantity_tests(True, lang)
         correct = 0

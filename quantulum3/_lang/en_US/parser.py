@@ -181,6 +181,16 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         span = (span[0], span[1] - 1)
         _LOGGER.debug('\tCorrect for "1990s" pattern')
 
+    # Usually "1am", "5.12 pm" stand for the time, not pico- or attometer
+    if (
+            len(unit.dimensions) == 1 and
+            ("pm" == item['unit1'] or "am" == item['unit1']) and
+            unit.entity.name == "length" and
+            re.fullmatch(r"\d(\.\d\d)?", item['value'])
+    ):
+        _LOGGER.debug('\tCorrect for am/pm time pattern')
+        return
+
     # check if a unit without operators, actually is a common word
     if unit.original_dimensions:
 
@@ -196,9 +206,9 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         candidates = [u['power'] == 1 for u in unit.original_dimensions]
         for start in range(0, len(unit.original_dimensions)):
             for end in reversed(
-                    range(start + 1,
-                          len(unit.original_dimensions) + 1)):
-                # Try to match a combination of consecutive surfaces with a
+                    range(start + 2,
+                          len(unit.original_dimensions)+1)):
+                # Try to match a combination of >1 consecutive surfaces with a
                 # common 4 letter word
                 if not all(candidates[start:end]):
                     continue
