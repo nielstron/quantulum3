@@ -200,6 +200,14 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         _LOGGER.debug("\tCorrect for am/pm time pattern")
         return
 
+    # When it comes to currencies, some users prefer the format ($99.99) instead of -$99.99
+    if unit.entity.name == "currency" and values[0] < 0:
+        surface_elements = surface.split(
+            "-"
+        )  # Get currnecy sign and its value (surface_elements[0] = '$' and surface_elements[0] = '12' )
+        span = (span[0] - 1, span[1] + 1)
+        surface = "({0}{1})".format(surface_elements[0], surface_elements[1])
+
     # check if a unit without operators, actually is a common word
     pruned_common_word = unit.original_dimensions
     while pruned_common_word:
