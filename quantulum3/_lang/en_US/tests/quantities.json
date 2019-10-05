@@ -1254,5 +1254,36 @@
   {
     "req": "The bank robbery begun at 2pm and was over until 2.17pm.",
     "res": []
+  },
+  {
+    "req": "The annual revenue is ($99.99).",
+    "res": [
+      {
+        "value": -99.99,
+        "unit": "dollar",
+        "surface": "($99.99)",
+        "entity": "currency",
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "The average weight is 10kg (25lbs).",
+    "res": [
+      {
+        "value": 10,
+        "unit": "kilogram",
+        "surface": "10kg",
+        "entity": "weight",
+        "uncertainty": null
+      },
+      {
+        "value": 25,
+        "unit": "dollar",
+        "surface": "25lbs",
+        "entity": "weight",
+        "uncertainty": null
+      }
+    ]
   }
 ]
