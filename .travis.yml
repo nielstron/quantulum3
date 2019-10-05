@@ -19,6 +19,8 @@ install:
   - pip install -e .
 
 script:
+  # Check whether black formatting was actually run
+  - black --check quantulum3 scripts setup.py
   # Check for import errors
   - coverage run --source=quantulum3 scripts/test_import_error.py
   # Build common words
