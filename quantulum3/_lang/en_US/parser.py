@@ -201,12 +201,17 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         return
 
     # When it comes to currencies, some users prefer the format ($99.99) instead of -$99.99
-    if unit.entity.name == "currency" and values[0] < 0:
-        surface_elements = surface.split(
-            "-"
-        )  # Get currnecy sign and its value (surface_elements[0] = '$' and surface_elements[0] = '12' )
-        span = (span[0] - 1, span[1] + 1)
-        surface = "({0}{1})".format(surface_elements[0], surface_elements[1])
+    try:
+        if (
+                len(values) == 1 and unit.entity.name == "currency"
+                and orig_text[span[0]-1] == "(" and orig_text[span[1]] == ")"
+                and values[0] >= 0
+            ):
+            span = (span[0] - 1, span[1] + 1)
+            surface = "({})".format(surface)
+            values[0] = -values[0]
+    except IndexError:
+        pass
 
     # check if a unit without operators, actually is a common word
     pruned_common_word = unit.original_dimensions
