@@ -3,7 +3,6 @@ dist/
 deploy
 deploy.py
 .idea
-Pipfile.lock
 *.joblib
 *common-words.json
 

@@ -4,5 +4,4 @@
 # Run from git directory root
 # TODO make this a python file
 SOURCES="quantulum3 scripts setup.py"
-yapf -i -r ${SOURCES}
-autopep8 -i -r ${SOURCES}
+black ${SOURCES}

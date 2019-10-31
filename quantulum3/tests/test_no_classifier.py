@@ -13,8 +13,8 @@ from .. import parser as p
 from .. import classifier as clf
 from .test_setup import load_quantity_tests, multilang, add_type_equalities
 
-COLOR1 = '\033[94m%s\033[0m'
-COLOR2 = '\033[91m%s\033[0m'
+COLOR1 = "\033[94m%s\033[0m"
+COLOR2 = "\033[91m%s\033[0m"
 TOPDIR = os.path.dirname(__file__) or "."
 
 
@@ -26,46 +26,49 @@ class ParsingTest(unittest.TestCase):
         add_type_equalities(self)
 
     @multilang
-    def test_parse_no_classifier(self, lang='en_US'):
+    def test_parse_no_classifier(self, lang="en_US"):
         """ Test that parsing works without classifier usage """
         all_tests = load_quantity_tests(False, lang)
         # Disable classifier usage
         clf.USE_CLF = False
-        for test in sorted(all_tests, key=lambda x: len(x['req'])):
-            quants = p.parse(test['req'], lang=lang)
+        for test in sorted(all_tests, key=lambda x: len(x["req"])):
+            quants = p.parse(test["req"], lang=lang)
 
             self.assertEqual(
-                len(test['res']),
+                len(test["res"]),
                 len(quants),
-                msg='Differing amount of quantities parsed, expected {}, '
-                'got {}: {}, {}'.format(
-                    len(test['res']), len(quants), test['res'], quants))
+                msg="Differing amount of quantities parsed, expected {}, "
+                "got {}: {}, {}".format(
+                    len(test["res"]), len(quants), test["res"], quants
+                ),
+            )
             for index, quant in enumerate(quants):
-                self.assertEqual(quant, test['res'][index])
+                self.assertEqual(test["res"][index], quant)
 
         classifier_tests = load_quantity_tests(True, lang)
         correct = 0
         total = len(classifier_tests)
         error = []
-        for test in sorted(classifier_tests, key=lambda x: len(x['req'])):
-            quants = p.parse(test['req'], lang)
-            if quants == test['res']:
+        for test in sorted(classifier_tests, key=lambda x: len(x["req"])):
+            quants = p.parse(test["req"], lang)
+            if quants == test["res"]:
                 correct += 1
             else:
                 error.append((test, quants))
         success_rate = correct / total
-        print('Non-Classifier success rate at {:.2f}%'.format(
-            success_rate * 100))
+        print("Non-Classifier success rate at {:.2f}%".format(success_rate * 100))
         self.assertGreaterEqual(
-            success_rate, 0.1,
-            'Non-Classifier success rate was at {}%, below 10%.\nFailure '
-            'at\n{}'.format(
+            success_rate,
+            0.1,
+            "Non-Classifier success rate was at {}%, below 10%.\nFailure "
+            "at\n{}".format(
                 success_rate * 100,
-                '\n'.join('{}: {}'.format(test[0]['req'], test[1])
-                          for test in error)))
+                "\n".join("{}: {}".format(test[0]["req"], test[1]) for test in error),
+            ),
+        )
 
 
 ###############################################################################
-if __name__ == '__main__':  # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
 
     unittest.main()

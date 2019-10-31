@@ -13,7 +13,7 @@ from . import language
 
 ###############################################################################
 def _get_speak(lang):
-    return language.get('speak', lang)
+    return language.get("speak", lang)
 
 
 ###############################################################################
@@ -26,10 +26,8 @@ def quantity_to_spoken(quantity, lang):
     if quantity.unit.entity.name == "currency" and quantity.unit.currency_code:
         try:
             return num2words.num2words(
-                count,
-                lang=lang,
-                to='currency',
-                currency=quantity.unit.currency_code)
+                count, lang=lang, to="currency", currency=quantity.unit.currency_code
+            )
         except NotImplementedError:
             pass
     return _get_speak(lang).quantity_to_spoken(quantity)
@@ -37,7 +35,7 @@ def quantity_to_spoken(quantity, lang):
 
 ###############################################################################
 def unit_to_spoken(unit, count, lang):
-    if unit.name == 'dimensionless':
+    if unit.name == "dimensionless":
         return ""
     else:
         return _get_speak(lang).unit_to_spoken(unit, count)

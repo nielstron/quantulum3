@@ -15,13 +15,15 @@ class Quantity(object):
     Class for a quantity (e.g. "4.2 gallons").
     """
 
-    def __init__(self,
-                 value=None,
-                 unit=None,
-                 surface=None,
-                 span=None,
-                 uncertainty=None,
-                 lang='en_US'):
+    def __init__(
+        self,
+        value=None,
+        unit=None,
+        surface=None,
+        span=None,
+        uncertainty=None,
+        lang="en_US",
+    ):
 
         self.value = value
         self.unit = unit
@@ -39,10 +41,13 @@ class Quantity(object):
     def __eq__(self, other):
 
         if isinstance(other, self.__class__):
-            return (self.value == other.value and self.unit == other.unit and
-                    self.surface == other.surface and
-                    self.span == other.span and
-                    self.uncertainty == other.uncertainty)
+            return (
+                self.value == other.value
+                and self.unit == other.unit
+                and self.surface == other.surface
+                and self.span == other.span
+                and self.uncertainty == other.uncertainty
+            )
         else:
             return False
 
@@ -67,16 +72,18 @@ class Unit(object):
     Class for a unit (e.g. "gallon").
     """
 
-    def __init__(self,
-                 name=None,
-                 surfaces=None,
-                 entity=None,
-                 uri=None,
-                 symbols=None,
-                 dimensions=None,
-                 currency_code=None,
-                 original_dimensions=None,
-                 lang='en_US'):
+    def __init__(
+        self,
+        name=None,
+        surfaces=None,
+        entity=None,
+        uri=None,
+        symbols=None,
+        dimensions=None,
+        currency_code=None,
+        original_dimensions=None,
+        lang="en_US",
+    ):
         """Initialization method."""
         self.name = name
         self.surfaces = surfaces
@@ -113,10 +120,13 @@ class Unit(object):
 
         if isinstance(other, self.__class__):
             return (
-                self.name == other.name and self.entity == other.entity
-                and all(dim1['base'] == dim2['base'] and
-                    dim1['power'] == dim2['power']
-                    for dim1, dim2 in zip(self.dimensions, other.dimensions)))
+                self.name == other.name
+                and self.entity == other.entity
+                and all(
+                    dim1["base"] == dim2["base"] and dim1["power"] == dim2["power"]
+                    for dim1, dim2 in zip(self.dimensions, other.dimensions)
+                )
+            )
         else:
             return False
 
@@ -150,8 +160,7 @@ class Entity(object):
     def __eq__(self, other):
 
         if isinstance(other, self.__class__):
-            return (self.name == other.name and
-                    self.dimensions == other.dimensions)
+            return self.name == other.name and self.dimensions == other.dimensions
         else:
             return False
 

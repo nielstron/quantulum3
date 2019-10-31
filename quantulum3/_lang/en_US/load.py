@@ -35,31 +35,33 @@ def number_to_words(number):
 ###############################################################################
 def build_common_words():
     # Read raw 4 letter file
-    path = os.path.join(TOPDIR, 'common-words.txt')
+    path = os.path.join(TOPDIR, "common-words.txt")
     words = defaultdict(list)  # Collect words based on length
-    with open(path, 'r', encoding='utf-8') as file:
+    with open(path, "r", encoding="utf-8") as file:
         for line in file:
-            if line.startswith('#'):
+            if line.startswith("#"):
                 continue
             line = line.rstrip()
-            if line not in load.units(
-                    lang).surfaces_all and line not in load.units(
-                        lang).symbols:
+            if (
+                line not in load.units(lang).surfaces_all
+                and line not in load.units(lang).symbols
+            ):
                 words[len(line)].append(line)
             plural = load.pluralize(line)
-            if plural not in load.units(
-                    lang).surfaces_all and plural not in load.units(
-                        lang).symbols:
+            if (
+                plural not in load.units(lang).surfaces_all
+                and plural not in load.units(lang).symbols
+            ):
                 words[len(plural)].append(plural)
     return words
 
 
 ###############################################################################
 def load_common_words():
-    path = os.path.join(TOPDIR, 'common-words.json')
+    path = os.path.join(TOPDIR, "common-words.json")
     dumped = {}
     try:
-        with open(path, 'r', encoding='utf-8') as file:
+        with open(path, "r", encoding="utf-8") as file:
             dumped = json.load(file)
     except OSError:  # pragma: no cover
         pass

@@ -1172,18 +1172,6 @@
     ]
   },
   {
-    "req": "There are two in my car",
-    "res": [
-      {
-        "value": 2,
-        "unit": "dimensionless",
-        "surface": "two",
-        "entity": "unk",
-        "uncertainty": null
-      }
-    ]
-  },
-  {
     "req": "The length of my pencil is 2 in.",
     "res": [
       {
@@ -1206,5 +1194,77 @@
         "uncertainty": null
       }
     ]
+  },
+  {
+    "req": "There are two in my car",
+    "res": [
+      {
+        "value": 2,
+        "unit": "dimensionless",
+        "surface": "two",
+        "entity": "unk",
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "At 2 pm everybody will be gone.",
+    "res": []
+  },
+  {
+    "req": "This nano grid has a size of 2.1 pm.",
+    "res": [
+      {
+        "value": 2.1,
+        "unit": "picometre",
+        "surface": "2.1 pm",
+        "entity": "length",
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "This nano grid has a size of 2.123 pm.",
+    "res": [
+      {
+        "value": 2.123,
+        "unit": "picometre",
+        "surface": "2.123 pm",
+        "entity": "length",
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "This nano grid has a size of 2.123 am.",
+    "res": [
+      {
+        "value": 2.123,
+        "unit": "attometre",
+        "surface": "2.123 am",
+        "entity": "length",
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "I arrived at 2.13 am.",
+    "res": []
+  },
+  {
+    "req": "Lets take the large 100 cl bottle instead.",
+    "res": [
+      {
+        "value": 100,
+        "unit": "centilitre",
+        "surface": "100 cl",
+        "entity": "volume",
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "The bank robbery begun at 2pm and was over until 2.17pm.",
+    "res": []
   }
 ]
