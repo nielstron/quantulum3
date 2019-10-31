@@ -1252,6 +1252,18 @@
     "res": []
   },
   {
+    "req": "Lets take the large 100 cl bottle instead.",
+    "res": [
+      {
+        "value": 100,
+        "unit": "centilitre",
+        "surface": "100 cl",
+        "entity": "volume",
+        "uncertainty": null
+      }
+    ]
+  },
+  {
     "req": "The bank robbery begun at 2pm and was over until 2.17pm.",
     "res": []
   }

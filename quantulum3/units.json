@@ -1048,7 +1048,65 @@
     "symbols": [
       "l",
       "L",
-      "ltr"
+      "ltr",
+      "ℓ"
+    ]
+  },
+  {
+    "name": "centilitre",
+    "surfaces": [
+      "centiliter",
+      "centilitre"
+    ],
+    "entity": "volume",
+    "URI": "Centilitre",
+    "dimensions": [
+      {
+        "base": "centimetre",
+        "power": 3
+      }
+    ],
+    "symbols": [
+      "cl",
+      "cL"
+    ]
+  },
+  {
+    "name": "hectolitre",
+    "surfaces": [
+      "hectorlitre",
+      "hectorliter"
+    ],
+    "entity": "volume",
+    "URI": "Hectolitre",
+    "dimensions": [
+      {
+        "base": "decimetre",
+        "power": 3
+      }
+    ],
+    "symbols": [
+      "hl",
+      "hL"
+    ]
+  },
+  {
+    "name": "decilitre",
+    "surfaces": [
+      "decilitre",
+      "deciliter"
+    ],
+    "entity": "volume",
+    "URI": "Decilitre",
+    "dimensions": [
+      {
+        "base": "centimetre",
+        "power": 3
+      }
+    ],
+    "symbols": [
+      "dl",
+      "dL"
     ]
   },
   {
