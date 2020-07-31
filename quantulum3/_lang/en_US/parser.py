@@ -66,36 +66,40 @@ def extract_spellout_values(text):
     """
 
     values = []
-    for item in reg.text_pattern_reg(lang).finditer(text):
-        surface, span = clean_surface(item.group(0), item.span())
-        if not surface or surface.lower() in reg.scales(lang):
-            continue
-        curr = result = 0.0
-        for word in surface.split():
-            try:
-                scale, increment = (
-                    1,
-                    float(
-                        re.sub(
-                            r"(-$|[%s])" % reg.grouping_operators_regex(lang),
-                            "",
-                            word.lower(),
-                        )
-                    ),
-                )
-            except ValueError:
-                scale, increment = reg.numberwords(lang)[word.lower()]
-            curr = curr * scale + increment
-            if scale > 100:
-                result += curr
-                curr = 0.0
-        values.append(
-            {
-                "old_surface": surface,
-                "old_span": span,
-                "new_surface": str(result + curr),
-            }
-        )
+    try:
+        for item in reg.text_pattern_reg(lang).finditer(text):
+            surface, span = clean_surface(item.group(0), item.span())
+            if not surface or surface.lower() in reg.scales(lang):
+                continue
+            curr = result = 0.0
+            for word in surface.split():
+                try:
+                    scale, increment = (
+                        1,
+                        float(
+                            re.sub(
+                                r"(-$|[%s])" % reg.grouping_operators_regex(lang),
+                                "",
+                                word.lower(),
+                            )
+                        ),
+                    )
+                except ValueError:
+                    scale, increment = reg.numberwords(lang)[word.lower()]
+                curr = curr * scale + increment
+                if scale > 100:
+                    result += curr
+                    curr = 0.0
+            values.append(
+                {
+                    "old_surface": surface,
+                    "old_span": span,
+                    "new_surface": str(result + curr),
+                }
+            )
+    except KeyError:
+        # just ignore the whole match if there would be an error
+        values = []
 
     return sorted(values, key=lambda x: x["old_span"][0])
 
