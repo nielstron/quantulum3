@@ -1,3 +1,7 @@
+# ignore pipfile.lock
+Pipfile.lock
+
+
 *.py[co]
 dist/
 deploy
