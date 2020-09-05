@@ -202,8 +202,7 @@ def operators(lang="en_US"):
 NUM_PATTERN = r"""
     (?{number}              # required number
         [+-]?                  #   optional sign
-        (\.?\d+)|                 #   required digits
-        (\ \d+/\d+|\ ?[{unicode_fract}]|/\d+) # or required unicode fraction
+        (\.?\d+|[{unicode_fract}])     #   required digits or unicode fraction
         (?:[{grouping}]\d{{3}})*         #   allowed grouping
         (?{decimals}[{decimal_operators}]\d+)?    #   optional decimals
     )
