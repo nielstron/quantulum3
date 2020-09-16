@@ -77,7 +77,7 @@ def resolve_ambiguity(units, unit, text):
         )
     )
     # Deterministically getting something out of units.
-    return next(iter(sorted(units))).name
+    return next(iter(sorted(u.name for u in units)))
 
 
 ###############################################################################
