@@ -65,7 +65,10 @@ def get_a_better_one(old, new):
 
 def resolve_ambiguity(units, unit, text):
     if not units:
-        raise KeyError('Could not find unit "%s" from "%s"' % (unit, text))
+        if clf.USE_CLF:
+            raise KeyError('Could not find unit "%s" from "%s"' % (unit, text))
+        else:
+            return "unk"
     if len(units) == 1:
         return next(iter(units)).name
     _LOGGER.warning(
