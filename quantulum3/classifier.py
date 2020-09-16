@@ -299,8 +299,9 @@ def disambiguate_unit_by_score(unit, text, lang):
     # Sort by rank
     scores = sorted(scores, key=lambda x: x[0], reverse=True)
     try:
+        new_unit = [load.units(lang).names[scores[0][1]]]
         _LOGGER.debug('\tAmbiguity resolved for "%s" (%s)' % (unit, scores))
-        return [load.units(lang).names[scores[0][1]]]
+        return new_unit
     except IndexError:
         _LOGGER.debug('\tAmbiguity not resolved for "%s"' % unit)
         return new_unit
