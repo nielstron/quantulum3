@@ -32,10 +32,16 @@ def disambiguate_unit(unit_surface, text, lang="en_US"):
     # except the first letter.
     if len(unit_surface) > 2:
         unit_changed = unit_surface[0] + unit_surface[1:].lower()
+        if unit_changed == unit_surface:
+            return resolve_ambiguity(units, unit_surface, text)
         text_changed = text.replace(unit_surface, unit_changed)
         new_units = attempt_disambiguate_unit(unit_changed, text_changed, lang)
         units = get_a_better_one(units, new_units)
-        return resolve_ambiguity(units, units, text)
+        return resolve_ambiguity(units, unit_surface, text)
+
+    if unit_surface[0] not in load.METRIC_PREFIXES.keys():
+        # Only apply next work around if the first letter is a SI-prefix
+        return resolve_ambiguity(units, unit_surface, text)
 
     unit_changed = unit_surface[:-1] + unit_surface[-1].swapcase()
     text_changed = text.replace(unit_surface, unit_changed)
