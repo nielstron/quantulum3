@@ -3,42 +3,84 @@
 :mod:`Quantulum` disambiguation functions.
 """
 
+import logging
+
 # Quantulum
 from . import classifier as clf
-from . import no_classifier as no_clf
 from . import load
+from . import no_classifier as no_clf
 
+_LOGGER = logging.getLogger(__name__)
 
 ###############################################################################
+
+
 def disambiguate_unit(unit_surface, text, lang="en_US"):
     """
     Resolve ambiguity between units with same names, symbols or abbreviations.
     :returns (str) unit name of the resolved unit
     """
-    if clf.USE_CLF:
-        base = clf.disambiguate_unit(unit_surface, text, lang).name
-    else:
-        base = (
-            load.units(lang).symbols[unit_surface]
-            or load.units(lang).surfaces[unit_surface]
-            or load.units(lang).surfaces_lower[unit_surface.lower()]
-            or load.units(lang).symbols_lower[unit_surface.lower()]
-        )
+    units = attempt_disambiguate_unit(unit_surface, text, lang)
+    if units and len(units) == 1:
+        return next(iter(units)).name
 
-        if len(base) > 1:
-            base = no_clf.disambiguate_no_classifier(base, text, lang)
-        elif len(base) == 1:
-            base = next(iter(base))
+    if len(unit_surface) > 2:
+        # We will lower case everything except the first letter and see if
+        # there is a better match.
+        unit_changed = unit_surface[0] + unit_surface[1:].lower()
+        text_changed = text.replace(unit_surface, unit_changed)
+        new_units = attempt_disambiguate_unit(unit_changed, text_changed, lang)
+        units = get_a_better_one(units, new_units)
+        return resolve_ambiguity(units, unit_surface, text)
 
-        if base:
-            base = base.name
+    # Change the capitalization of the last letter to find a better match.
+    # The last better is sometimes cause of confusion, but the
+    # capitalization of the prefix is too important to alter.
+    unit_changed = unit_surface[:-1] + unit_surface[-1].swapcase()
+    text_changed = text.replace(unit_surface, unit_changed)
+    new_units = attempt_disambiguate_unit(unit_changed, text_changed, lang)
+    units = get_a_better_one(units, new_units)
+    return resolve_ambiguity(units, unit_surface, text)
+
+
+def attempt_disambiguate_unit(unit_surface, text, lang):
+    """Returns list of possibilities"""
+    try:
+        if clf.USE_CLF:
+            return clf.attempt_disambiguate_unit(unit_surface, text, lang)
         else:
-            base = "unk"
+            return no_clf.attempt_disambiguate_no_classifier(unit_surface, text, lang)
+    except KeyError:
+        return None
 
-    return base
+
+def get_a_better_one(old, new):
+    """Decide if we pick new over old, considering them being None, and 
+    preferring the smaller one."""
+    if not new:
+        return old
+    if not old:
+        return new
+    if len(new) < len(old):
+        return new
+    return old
+
+
+def resolve_ambiguity(units, unit, text):
+    if not units:
+        raise KeyError('Could not find unit "%s" from "%s"' % (unit, text))
+    if len(units) == 1:
+        return next(iter(units)).name
+    _LOGGER.warning(
+        "Could not resolve ambiguous units: '{}'. For unit '{}' in text '{}'. "
+        "Taking a random.".format(", ".join(str(u) for u in units), unit, text)
+    )
+    return next(iter(units)).name
 
 
 ###############################################################################
+
+
 def disambiguate_entity(key, text, lang="en_US"):
     """
     Resolve ambiguity between entities with same dimensionality.

@@ -11,6 +11,10 @@ import os
 
 import pkg_resources
 
+# Quantulum
+from . import language, load
+from .load import cached
+
 # Semi-dependencies
 try:
     from sklearn.linear_model import SGDClassifier
@@ -26,10 +30,6 @@ try:
     import wikipedia
 except ImportError:
     wikipedia = None
-
-# Quantulum
-from . import language, load
-from .load import cached
 
 
 _LOGGER = logging.getLogger(__name__)
@@ -241,39 +241,11 @@ def disambiguate_entity(key, text, lang="en_US"):
 
 
 ###############################################################################
-def disambiguate_unit(unit, text, lang="en_US"):
-    """
-    Resolve ambiguity between units with same names, symbols or abbreviations.
-    """
-    new_unit = disambiguate_unit_by_score(unit, text, lang)
-    if len(new_unit) == 1:
-        return next(iter(new_unit))
-
-    try:
-        # Instead of picking a random one now, we first change the
-        # capitalization of the unit and see if we can improve.
-        unit_changed = unit[:-1] + unit[-1].swapcase()
-        text_changed = text.replace(unit, unit_changed)
-
-        new_unit_changed = disambiguate_unit_by_score(unit_changed, text_changed, lang)
-        if len(new_unit_changed) == 1:
-            return next(iter(new_unit_changed))
-
-        if 0 < len(new_unit_changed) < len(new_unit):
-            # See if we have improved, otherwise we stick with the old new_unit.
-            new_unit = new_unit_changed
-
-    except KeyError:
-        pass  # Attempt failed, we just pick a random from new_unit now.
-
-    _LOGGER.warning(
-        "Could not resolve ambiguous units: '{}'. For unit '{}' in text '{}'. "
-        "Taking a random.".format(", ".join(str(u) for u in new_unit), unit, text)
-    )
-    return next(iter(new_unit))
 
 
-def disambiguate_unit_by_score(unit, text, lang):
+def attempt_disambiguate_unit(unit, text, lang):
+    """Resolve ambiguity between units with same names, symbols or abbreviations.
+    Returns list of possibilities"""
     new_unit = (
         load.units(lang).symbols.get(unit)
         or load.units(lang).surfaces.get(unit)
