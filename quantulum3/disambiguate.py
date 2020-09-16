@@ -72,8 +72,9 @@ def resolve_ambiguity(units, unit, text):
     if len(units) == 1:
         return next(iter(units)).name
     _LOGGER.warning(
-        "Could not resolve ambiguous units: '{}'. For unit '{}' in text '{}'. "
-        "Taking a random.".format(", ".join(str(u) for u in units), unit, text)
+        "Could not resolve ambiguous units: '{}'. For unit '{}' in text '{}'. ".format(
+            ", ".join(str(u) for u in units), unit, text
+        )
     )
     # Deterministically getting something out of units.
     return next(iter(sorted(units))).name
