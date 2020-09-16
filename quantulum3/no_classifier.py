@@ -48,7 +48,6 @@ def attempt_disambiguate_no_classifier(unit_surface, text, lang):
         raise KeyError('Could not find unit "%s" from "%s"' % (unit_surface, text))
     if len(base) > 1:
         possible_base = disambiguate_no_classifier(base, text, lang)
-    if not possible_base:
-        return base
-    else:
-        return [possible_base]
+        if possible_base:
+            return [possible_base]
+    return base
