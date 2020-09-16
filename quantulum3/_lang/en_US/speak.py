@@ -5,8 +5,7 @@
 """
 
 # Quantulum
-from ... import load
-from ... import parser
+from ... import load, parser
 from . import lang
 
 

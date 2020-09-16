@@ -8,9 +8,8 @@
 import re
 
 # Quantulum
-from . import load
+from . import language, load
 from .load import cached
-from . import language
 
 
 ###############################################################################

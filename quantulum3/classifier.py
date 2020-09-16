@@ -6,9 +6,14 @@
 # Standard library
 import json
 import logging
-import pkg_resources
-import os
 import multiprocessing
+import os
+
+import pkg_resources
+
+# Quantulum
+from . import language, load
+from .load import cached
 
 # Semi-dependencies
 try:
@@ -26,10 +31,6 @@ try:
 except ImportError:
     wikipedia = None
 
-# Quantulum
-from . import load
-from .load import cached
-from . import language
 
 _LOGGER = logging.getLogger(__name__)
 
