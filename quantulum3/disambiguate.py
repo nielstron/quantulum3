@@ -28,9 +28,13 @@ def disambiguate_unit(unit_surface, text, lang="en_US"):
     # Capitalization is sometimes cause of confusion, but the
     # capitalization of the prefix is too important to alter.
 
-    # We don't change capitalization for units longer than 2.
-    # Than capitalization would not be a reason for problems.
+    # If the unit is longer than two prefixes, we set everything to lower
+    # except the first letter.
     if len(unit_surface) > 2:
+        unit_changed = unit_surface[0] + unit_surface[1:].lower()
+        text_changed = text.replace(unit_surface, unit_changed)
+        new_units = attempt_disambiguate_unit(unit_changed, text_changed, lang)
+        units = get_a_better_one(units, new_units)
         return resolve_ambiguity(units, units, text)
 
     unit_changed = unit_surface[:-1] + unit_surface[-1].swapcase()
