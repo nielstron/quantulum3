@@ -24,18 +24,15 @@ def disambiguate_unit(unit_surface, text, lang="en_US"):
     if units and len(units) == 1:
         return next(iter(units)).name
 
-    if len(unit_surface) > 2:
-        # We will lower case everything except the first letter and see if
-        # there is a better match.
-        unit_changed = unit_surface[0] + unit_surface[1:].lower()
-        text_changed = text.replace(unit_surface, unit_changed)
-        new_units = attempt_disambiguate_unit(unit_changed, text_changed, lang)
-        units = get_a_better_one(units, new_units)
-        return resolve_ambiguity(units, unit_surface, text)
-
     # Change the capitalization of the last letter to find a better match.
-    # The last better is sometimes cause of confusion, but the
+    # Capitalization is sometimes cause of confusion, but the
     # capitalization of the prefix is too important to alter.
+
+    # We don't change capitalization for units longer than 2.
+    # Than capitalization would not be a reason for problems.
+    if len(unit_surface) > 2:
+        return resolve_ambiguity(units, units, text)
+
     unit_changed = unit_surface[:-1] + unit_surface[-1].swapcase()
     text_changed = text.replace(unit_surface, unit_changed)
     new_units = attempt_disambiguate_unit(unit_changed, text_changed, lang)
@@ -55,7 +52,7 @@ def attempt_disambiguate_unit(unit_surface, text, lang):
 
 
 def get_a_better_one(old, new):
-    """Decide if we pick new over old, considering them being None, and 
+    """Decide if we pick new over old, considering them being None, and
     preferring the smaller one."""
     if not new:
         return old
@@ -75,7 +72,8 @@ def resolve_ambiguity(units, unit, text):
         "Could not resolve ambiguous units: '{}'. For unit '{}' in text '{}'. "
         "Taking a random.".format(", ".join(str(u) for u in units), unit, text)
     )
-    return next(iter(units)).name
+    # Deterministically getting something out of units.
+    return next(iter(sorted(units))).name
 
 
 ###############################################################################
