@@ -1266,5 +1266,86 @@
   {
     "req": "The bank robbery begun at 2pm and was over until 2.17pm.",
     "res": []
+  },
+  {
+    "req": "The annual revenue is ($99.99).",
+    "res": [
+      {
+        "value": -99.99,
+        "unit": "dollar",
+        "surface": "($99.99)",
+        "entity": "currency",
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "The annual revenue is -15€ ($-99.99).",
+    "res": [
+      {
+        "value": -15,
+        "unit": "euro",
+        "surface": "-15€",
+        "entity": "currency",
+        "uncertainty": null
+      },
+      {
+        "value": -99.99,
+        "unit": "dollar",
+        "surface": "$-99.99",
+        "entity": "currency",
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "The average weight is 10kg (25lbs).",
+    "res": [
+      {
+        "value": 10,
+        "unit": "kilogram",
+        "surface": "10kg",
+        "entity": "mass",
+        "uncertainty": null
+      },
+      {
+        "value": 25,
+        "unit": "pound-mass",
+        "surface": "25lbs",
+        "entity": "mass",
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "There is a ⅓ cup of sauce and ½ tbsp of salt in this recipe.",
+    "res": [
+      {
+        "value": 0.3333333333333333,
+        "unit": "cup",
+        "surface": "⅓ cup",
+        "entity": "volume",
+        "dimensions": [
+          {
+            "base": "length",
+            "power": 3
+          }
+        ],
+        "uncertainty": null
+      },
+      {
+        "value": 0.5,
+        "unit": "tablespoon",
+        "surface": "½ tbsp",
+        "entity": "volume",
+        "dimensions": [
+          {
+            "base": "length",
+            "power": 3
+          }
+        ],
+        "uncertainty": null
+      }
+    ]
   }
 ]
