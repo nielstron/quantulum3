@@ -6,27 +6,23 @@
 
 from __future__ import division
 
+import json
 # Standard library
 import os
-import json
-import urllib.request
 import unittest
-
-# Quantulum
-from .. import load
-from .. import parser as p
-from .. import classifier as clf
-from .. import language
-from .test_setup import (
-    load_expand_tests,
-    load_quantity_tests,
-    multilang,
-    add_type_equalities,
-)
+import urllib.request
 
 # Dependencies
 import joblib
 import wikipedia
+
+# Quantulum
+from .. import classifier as clf
+from .. import language, load
+from .. import parser as p
+from ..classes import Entity, Quantity, Unit
+from .test_setup import (add_type_equalities, load_expand_tests,
+                         load_quantity_tests, multilang)
 
 COLOR1 = "\033[94m%s\033[0m"
 COLOR2 = "\033[91m%s\033[0m"
@@ -153,6 +149,24 @@ class ClassifierTest(unittest.TestCase):
                 err.append((unit, e))
         if err:  # pragma: no cover
             self.fail("Problematic pages:\n{}".format("\n".join(str(e) for e in err)))
+
+
+class ClassifierTestEdgeCases(unittest.TestCase):
+    """Test suite that tests certain specifically designed edge cases to confuse the classifier."""
+
+    def test_wrong_capitalization(self):
+        parsed_unit = p.parse('1nw')
+        unit = Quantity(
+            value=1,
+            unit=Unit(
+                name="nanowatt",
+                entity=Entity("power"),
+                dimensions=[
+                    {"base": "nanowatt", "power": 1, "surface": "nW"}
+                ]
+            )
+        )
+        self.assertEqual(parsed_unit, unit)
 
 
 ###############################################################################
