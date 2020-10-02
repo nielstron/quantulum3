@@ -56,18 +56,19 @@ class ClassifierTest(unittest.TestCase):
 
         all_tests = load_quantity_tests(False, lang=lang)
         for test in sorted(all_tests, key=lambda x: len(x["req"])):
-            quants = p.parse(test["req"], lang=lang)
+            with self.subTest(input=test["req"]):
+                quants = p.parse(test["req"], lang=lang)
 
-            self.assertEqual(
-                len(test["res"]),
-                len(quants),
-                msg="Differing amount of quantities parsed, expected {}, "
-                "got {}: {}, {}".format(
-                    len(test["res"]), len(quants), test["res"], quants
-                ),
-            )
-            for index, quant in enumerate(quants):
-                self.assertEqual(quant, test["res"][index])
+                self.assertEqual(
+                    len(test["res"]),
+                    len(quants),
+                    msg="Differing amount of quantities parsed, expected {}, "
+                    "got {}: {}, {}".format(
+                        len(test["res"]), len(quants), test["res"], quants
+                    ),
+                )
+                for index, quant in enumerate(quants):
+                    self.assertEqual(quant, test["res"][index])
 
         classifier_tests = load_quantity_tests(True, lang)
         correct = 0
@@ -95,8 +96,9 @@ class ClassifierTest(unittest.TestCase):
         """ Test that parsing and expanding works correctly """
         all_tests = load_expand_tests(lang=lang)
         for test in all_tests:
-            result = p.inline_parse_and_expand(test["req"], lang=lang)
-            self.assertEqual(result, test["res"])
+            with self.subTest(input=test["req"]):
+                result = p.inline_parse_and_expand(test["req"], lang=lang)
+                self.assertEqual(result, test["res"])
 
     @unittest.skip("Not necessary, as classifier is live built")
     @multilang
