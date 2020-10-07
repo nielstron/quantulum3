@@ -199,12 +199,10 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     # When it comes to currencies, some users prefer the format ($99.99) instead of -$99.99
     try:
         if (
-            len(values) == 1
-            and unit.entity.name == "currency"
-            and orig_text[span[0] - 1] == "("
-            and orig_text[span[1]] == ")"
-            and values[0] >= 0
-        ):
+                len(values) == 1 and unit.entity.name == "currency"
+                and orig_text[span[0]-1] == "(" and orig_text[span[1]] == ")"
+                and values[0] >= 0
+            ):
             span = (span[0] - 1, span[1] + 1)
             surface = "({})".format(surface)
             values[0] = -values[0]
