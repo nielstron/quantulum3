@@ -7,6 +7,7 @@
 import json
 from collections import defaultdict
 from pathlib import Path
+
 from . import classes as c
 from . import language
 

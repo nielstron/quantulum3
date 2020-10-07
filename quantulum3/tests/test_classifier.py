@@ -10,13 +10,19 @@ import json
 import os
 import unittest
 import urllib.request
+
 import joblib
 import wikipedia
+
 from .. import classifier as clf
 from .. import language, load
 from .. import parser as p
-from .test_setup import (add_type_equalities, load_expand_tests,
-                         load_quantity_tests, multilang)
+from .test_setup import (
+    add_type_equalities,
+    load_expand_tests,
+    load_quantity_tests,
+    multilang,
+)
 
 COLOR1 = "\033[94m%s\033[0m"
 COLOR2 = "\033[91m%s\033[0m"

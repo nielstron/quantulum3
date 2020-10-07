@@ -7,7 +7,7 @@ import sys
 import quantulum3
 
 try:
-    from setuptools import setup, find_packages
+    from setuptools import find_packages, setup
 except ImportError:
     print("Please install or upgrade setuptools or pip to continue")
     sys.exit(1)

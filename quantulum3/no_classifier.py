@@ -3,6 +3,7 @@
 :mod:`Quantulum` disambiguation functions when no classifier is available
 """
 from __future__ import division
+
 from . import load
 
 
