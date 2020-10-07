@@ -9,9 +9,9 @@ import os
 import unittest
 
 # Quantulum
-from .. import parser as p
 from .. import classifier as clf
-from .test_setup import load_quantity_tests, multilang, add_type_equalities
+from .. import parser as p
+from .test_setup import add_type_equalities, load_quantity_tests, multilang
 
 COLOR1 = "\033[94m%s\033[0m"
 COLOR2 = "\033[91m%s\033[0m"

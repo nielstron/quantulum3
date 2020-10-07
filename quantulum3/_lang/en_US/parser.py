@@ -4,17 +4,15 @@
 :mod:`Quantulum` parser.
 """
 
-from . import lang
-
+import logging
 # Standard library
 import re
-import logging
 
 # Quantulum
-from ... import load
-from ... import regex as reg
 from ... import classes as cls
-from ... import parser
+from ... import load, parser
+from ... import regex as reg
+from . import lang
 from .load import COMMON_WORDS
 
 _LOGGER = logging.getLogger(__name__)
@@ -203,10 +201,12 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     # When it comes to currencies, some users prefer the format ($99.99) instead of -$99.99
     try:
         if (
-                len(values) == 1 and unit.entity.name == "currency"
-                and orig_text[span[0]-1] == "(" and orig_text[span[1]] == ")"
-                and values[0] >= 0
-            ):
+            len(values) == 1
+            and unit.entity.name == "currency"
+            and orig_text[span[0] - 1] == "("
+            and orig_text[span[1]] == ")"
+            and values[0] >= 0
+        ):
             span = (span[0] - 1, span[1] + 1)
             surface = "({})".format(surface)
             values[0] = -values[0]

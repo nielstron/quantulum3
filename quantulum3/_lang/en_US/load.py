@@ -4,11 +4,10 @@
 :mod:`Quantulum` unit and entity loading functions.
 """
 
-from builtins import open
-
+import json
 # Standard library
 import os
-import json
+from builtins import open
 from collections import defaultdict
 
 # Dependencies

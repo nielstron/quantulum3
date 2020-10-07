@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 """ Train the disambiguator """
 
-from quantulum3.classifier import train_classifier
-
 import argparse
 import logging
 import time
+
+from quantulum3.classifier import train_classifier
 
 _LOGGER = logging.getLogger(__name__)
 
