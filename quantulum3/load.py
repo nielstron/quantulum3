@@ -305,12 +305,16 @@ class Units(object):
         prefixed = []
         # If SI-prefixes are given, add them
         for prefix in unit.get("prefixes", []):
-            assert prefix in METRIC_PREFIXES, "Given prefix '{}' for unit '{}' not supported".format(
-                        prefix, unit["name"]
-                    )
-            assert len(unit["dimensions"]) <= 1, "Prefixing not supported for multiple dimensions in {}".format(
-                        unit["name"]
-                    )
+            assert (
+                prefix in METRIC_PREFIXES
+            ), "Given prefix '{}' for unit '{}' not supported".format(
+                prefix, unit["name"]
+            )
+            assert (
+                len(unit["dimensions"]) <= 1
+            ), "Prefixing not supported for multiple dimensions in {}".format(
+                unit["name"]
+            )
 
             uri = METRIC_PREFIXES[prefix].capitalize() + unit["URI"].lower()
             # we usually do not want the "_(unit)" postfix for prefixed units
