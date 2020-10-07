@@ -4,18 +4,15 @@
 :mod:`Quantulum` parser.
 """
 
-# Standard library
-import re
 import logging
-from fractions import Fraction
+import re
 from collections import defaultdict
+from fractions import Fraction
 
-# Quantulum
-from . import load
-from . import regex as reg
 from . import classes as cls
 from . import disambiguate as dis
-from . import language
+from . import language, load
+from . import regex as reg
 
 _LOGGER = logging.getLogger(__name__)
 

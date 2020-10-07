@@ -4,23 +4,20 @@
 :mod:`Quantulum` tests.
 """
 
-# Standard library
+import json
 import os
 import re
-import json
 import unittest
 
-# Dependencies
+from .. import classes as cls
+from .. import language, load
+from .. import parser as p
+
 try:
     import wikipedia
 except ImportError:
     wikipedia = None
 
-# Quantulum
-from .. import load
-from .. import parser as p
-from .. import classes as cls
-from .. import language
 
 COLOR1 = "\033[94m%s\033[0m"
 COLOR2 = "\033[91m%s\033[0m"

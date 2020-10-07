@@ -6,27 +6,23 @@
 
 from __future__ import division
 
-# Standard library
-import os
 import json
-import urllib.request
+import os
 import unittest
+import urllib.request
 
-# Quantulum
-from .. import load
-from .. import parser as p
+import joblib
+import wikipedia
+
 from .. import classifier as clf
-from .. import language
+from .. import language, load
+from .. import parser as p
 from .test_setup import (
+    add_type_equalities,
     load_expand_tests,
     load_quantity_tests,
     multilang,
-    add_type_equalities,
 )
-
-# Dependencies
-import joblib
-import wikipedia
 
 COLOR1 = "\033[94m%s\033[0m"
 COLOR2 = "\033[91m%s\033[0m"

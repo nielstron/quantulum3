@@ -4,13 +4,14 @@
 
 import sys
 
+import quantulum3
+
 try:
-    from setuptools import setup, find_packages
+    from setuptools import find_packages, setup
 except ImportError:
     print("Please install or upgrade setuptools or pip to continue")
     sys.exit(1)
 
-import quantulum3
 
 setup(
     name="quantulum3",
@@ -45,10 +46,10 @@ setup(
         "Operating System :: POSIX",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "Development Status :: 3 - Alpha",
         "Natural Language :: English",
         "Topic :: Text Processing :: Linguistic",

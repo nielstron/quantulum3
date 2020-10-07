@@ -4,10 +4,9 @@
 :mod:`Quantulum` parser.
 """
 
-# Standard library
+import re
 from importlib import import_module
 from pathlib import Path
-import re
 
 TOPDIR = Path(__file__).parent or Path(".")
 

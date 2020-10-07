@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import json
 import os
 from io import open
-import json
 
 from quantulum3._lang.en_US import load
 
