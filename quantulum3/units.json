@@ -1634,30 +1634,14 @@
     "entity": "pressure",
     "URI": "Bar_(unit)",
     "dimensions": [],
-    "symbols": []
-  },
-  {
-    "name": "millibar",
-    "surfaces": [
-      "millibar"
-    ],
-    "entity": "pressure",
-    "URI": "Bar_(unit)",
-    "dimensions": [],
-    "symbols": [
-      "mbar"
-    ]
-  },
-  {
-    "name": "microbar",
-    "surfaces": [
-      "microbar"
-    ],
-    "entity": "pressure",
-    "URI": "Bar_(unit)",
-    "dimensions": [],
-    "symbols": [
-      "µbar"
+    "symbols": [],
+    "prefixes": [
+      "M",
+      "k",
+      "d",
+      "c",
+      "m",
+      "µ"
     ]
   },
   {
