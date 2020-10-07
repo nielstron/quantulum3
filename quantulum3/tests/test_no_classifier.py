@@ -4,11 +4,8 @@
 :mod:`Quantulum` tests.
 """
 
-# Standard library
 import os
 import unittest
-
-# Quantulum
 from .. import classifier as clf
 from .. import parser as p
 from .test_setup import add_type_equalities, load_quantity_tests, multilang

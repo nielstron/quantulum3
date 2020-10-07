@@ -5,15 +5,10 @@
 """
 
 import json
-# Standard library
 import os
 from builtins import open
 from collections import defaultdict
-
-# Dependencies
 import inflect
-
-# Quantulum
 from ... import load
 from . import lang
 

@@ -4,12 +4,9 @@
 :mod:`Quantulum` unit and entity loading functions.
 """
 
-# Standard library
 import json
 from collections import defaultdict
 from pathlib import Path
-
-# Quantulum
 from . import classes as c
 from . import language
 

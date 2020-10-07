@@ -7,16 +7,11 @@
 from __future__ import division
 
 import json
-# Standard library
 import os
 import unittest
 import urllib.request
-
-# Dependencies
 import joblib
 import wikipedia
-
-# Quantulum
 from .. import classifier as clf
 from .. import language, load
 from .. import parser as p

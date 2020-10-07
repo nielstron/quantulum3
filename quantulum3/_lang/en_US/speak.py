@@ -4,7 +4,6 @@
 :mod:`Quantulum` class to spoken conversion.
 """
 
-# Quantulum
 from ... import load, parser
 from . import lang
 

@@ -5,10 +5,7 @@
 """
 
 import logging
-# Standard library
 import re
-
-# Quantulum
 from ... import classes as cls
 from ... import load, parser
 from ... import regex as reg

@@ -3,15 +3,11 @@
 :mod:`Quantulum` classifier functions.
 """
 
-# Standard library
 import json
 import logging
 import multiprocessing
 import os
-
 import pkg_resources
-
-# Quantulum
 from . import language, load
 from .load import cached
 

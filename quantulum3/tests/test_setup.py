@@ -5,17 +5,13 @@
 """
 
 import json
-# Standard library
 import os
 import re
 import unittest
-
-# Quantulum
 from .. import classes as cls
 from .. import language, load
 from .. import parser as p
 
-# Dependencies
 try:
     import wikipedia
 except ImportError:

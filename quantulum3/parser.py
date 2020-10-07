@@ -5,12 +5,9 @@
 """
 
 import logging
-# Standard library
 import re
 from collections import defaultdict
 from fractions import Fraction
-
-# Quantulum
 from . import classes as cls
 from . import disambiguate as dis
 from . import language, load
