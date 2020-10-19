@@ -19,6 +19,7 @@ from .. import language, load
 from .. import parser as p
 from .test_setup import (
     add_type_equalities,
+    load_error_tests,
     load_expand_tests,
     load_quantity_tests,
     multilang,
@@ -100,6 +101,18 @@ class ClassifierTest(unittest.TestCase):
                 result = p.inline_parse_and_expand(test["req"], lang=lang)
                 self.assertEqual(result, test["res"])
 
+    @multilang
+    def test_errors(self, lang="en_US"):
+        """ Test that no errors are thrown in edge cases """
+        all_tests = load_error_tests(lang=lang)
+        for test in all_tests:
+            with self.subTest(input=test):
+                # pylint: disable=broad-except
+                try:
+                    p.parse(test, lang=lang)
+                except Exception as e:
+                    self.fail("Input caused an unhandled exception {}".format(e))
+
     @unittest.skip("Not necessary, as classifier is live built")
     @multilang
     def test_classifier_up_to_date(self, lang="en_US"):
@@ -155,5 +168,4 @@ class ClassifierTest(unittest.TestCase):
 
 ###############################################################################
 if __name__ == "__main__":  # pragma: no cover
-
     unittest.main()

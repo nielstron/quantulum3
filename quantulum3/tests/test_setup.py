@@ -8,6 +8,7 @@ import json
 import os
 import re
 import unittest
+from typing import Dict, List
 
 from .. import classes as cls
 from .. import language, load
@@ -223,8 +224,17 @@ def load_quantity_tests(ambiguity=True, lang="en_US"):
 
 
 ###############################################################################
-def load_expand_tests(lang="en_US"):
+def load_expand_tests(lang="en_US") -> List[Dict[str, str]]:
     with language.topdir(lang).joinpath("tests", "expand.json").open(
+        "r", encoding="utf-8"
+    ) as testfile:
+        tests = json.load(testfile)
+    return tests
+
+
+###############################################################################
+def load_error_tests(lang="en_US") -> List[str]:
+    with language.topdir(lang).joinpath("tests", "errors.json").open(
         "r", encoding="utf-8"
     ) as testfile:
         tests = json.load(testfile)
@@ -244,6 +254,7 @@ class SetupTest(unittest.TestCase):
         self.assertIsNotNone(load_quantity_tests(True, lang))
         self.assertIsNotNone(load_quantity_tests(False, lang))
         self.assertIsNotNone(load_expand_tests(lang))
+        self.assertIsNotNone(load_error_tests(lang))
 
     @unittest.expectedFailure
     def test_quantity_comparison_fail_unit(self):
