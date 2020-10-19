@@ -341,13 +341,14 @@ def units_regex(lang="en_US"):
         (?<!\w)                                     # "begin" of word
         (?P<prefix>(?:%s)(?![a-zA-Z]))?         # Currencies, mainly
         (?P<value>%s)-?                           # Number
-        (?:(?P<operator1>%s)?(?P<unit1>(?:%s)%s)?)    # Operator + Unit (1)
-        (?:(?P<operator2>%s)?(?P<unit2>(?:%s)%s)?)    # Operator + Unit (2)
-        (?:(?P<operator3>%s)?(?P<unit3>(?:%s)%s)?)    # Operator + Unit (3)
-        (?:(?P<operator4>%s)?(?P<unit4>(?:%s)%s)?)    # Operator + Unit (4)
+        (?:(?P<operator1>%s)?(?P<unit1>(?(operator1)(?:(%s)%s)|(?:(%s)%s)?)))    # Operator + Unit (1)
+        (?:(?P<operator2>%s)?(?P<unit2>(?(operator2)(?:(%s)%s)|(?:(%s)%s)?)))    # Operator + Unit (2)
+        (?:(?P<operator3>%s)?(?P<unit3>(?(operator3)(?:(%s)%s)|(?:(%s)%s)?)))    # Operator + Unit (3)
+        (?:(?P<operator4>%s)?(?P<unit4>(?(operator4)(?:(%s)%s)|(?:(%s)%s)?)))    # Operator + Unit (4)
         (?!\w)                                      # "end" of word
     """ % tuple(
-        [all_symbols, range_pattern(lang)] + 4 * [all_ops, all_units, exponent]
+        [all_symbols, range_pattern(lang)]
+        + 4 * [all_ops, all_units, exponent, all_units, exponent]
     )
     regex = re.compile(pattern, re.VERBOSE | re.IGNORECASE)
 
