@@ -252,7 +252,7 @@ def disambiguate_unit(unit, text, lang="en_US"):
         or load.units(lang).symbols_lower.get(unit.lower())
     )
     if not new_unit:
-        raise KeyError('Could not find unit "%s" from "%s"' % (unit, text))
+        return load.units(lang).names.get("unk")
 
     if len(new_unit) > 1:
         transformed = classifier(lang).tfidf_model.transform([clean_text(text, lang)])
