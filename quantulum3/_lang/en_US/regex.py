@@ -54,7 +54,7 @@ DECIMALS = {
     "ninth": 1 / 9,
 }
 
-MISCNUM = {"and": (1, 0), "a": (1, 1), "an": (1, 1)}
+MISCNUM = {"&": (1, 0), "and": (1, 0), "a": (1, 1), "an": (1, 1)}
 
 ###############################################################################
 
@@ -75,8 +75,10 @@ TEXT_PATTERN = r"""            # Pattern for extracting mixed digit-spelled num
     )?
     [ -]?(?:{numberwords_regex})
     [ -]?(?:{numberwords_regex})?
-    [ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?
-    [ -]?(?:{numberwords_regex})?[ -]?(?:{numberwords_regex})?
+    [ -]?(?:{numberwords_regex})?
+    [ -]?(?:{numberwords_regex})?
+    [ -]?(?:{numberwords_regex})?
+    [ -]?(?:{numberwords_regex})?
     [ -]?(?:{numberwords_regex})?
     (?!\s?{number_pattern_no_groups}) # Disallow being followed by only a
                                       # number

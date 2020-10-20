@@ -90,7 +90,9 @@ def numberwords(lang="en_US"):
 
 @cached
 def numberwords_regex(lang="en_US"):
-    all_numbers = r"|".join(r"\b%s\b" % i for i in list(numberwords(lang).keys()) if i)
+    all_numbers = r"|".join(
+        r"((?<=\W)|^)%s((?=\W)|$)" % i for i in list(numberwords(lang).keys()) if i
+    )
     return all_numbers
 
 
