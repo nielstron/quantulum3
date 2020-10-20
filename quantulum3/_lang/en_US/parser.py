@@ -68,7 +68,7 @@ def extract_spellout_values(text):
             if not surface or surface.lower() in reg.scales(lang):
                 continue
             curr = result = 0.0
-            for word in re.finditer(reg.numberwords_regex(), surface):
+            for word in surface.lower().split():
                 try:
                     scale, increment = (
                         1,
@@ -76,12 +76,13 @@ def extract_spellout_values(text):
                             re.sub(
                                 r"(-$|[%s])" % reg.grouping_operators_regex(lang),
                                 "",
-                                word[0].lower(),
+                                word,
                             )
                         ),
                     )
                 except ValueError:
-                    scale, increment = reg.numberwords(lang)[word[0].lower()]
+                    match = re.search(reg.numberwords_regex(), word)
+                    scale, increment = reg.numberwords(lang)[match.group(0)]
                 curr = curr * scale + increment
                 if scale > 100:
                     result += curr
@@ -93,7 +94,7 @@ def extract_spellout_values(text):
                     "new_surface": str(result + curr),
                 }
             )
-        except KeyError:
+        except (KeyError, TypeError):
             # just ignore the match if an error occurred
             values = []
 
