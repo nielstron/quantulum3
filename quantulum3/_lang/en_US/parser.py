@@ -272,19 +272,8 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
                 # Combination has to be at least one letter
                 if len(combination) < 1:
                     continue
-                # Combination has to be all lower or capitalized in the first
-                # or all letters
-                if not (
-                    combination.islower()
-                    or (
-                        len(combination) > 2
-                        and (
-                            (combination[0].isupper() and combination[1:].islower())
-                            or combination.isupper()
-                        )
-                    )
-                ):
-                    continue
+                # Combination may have any capitalization due to possible common names
+                # i.e. PayPal, iPhone, LaTeX
                 # Combination has to be inside the surface
                 if combination not in surface:
                     continue
