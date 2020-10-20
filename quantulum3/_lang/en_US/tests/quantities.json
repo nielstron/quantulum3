@@ -1347,5 +1347,9 @@
         "uncertainty": null
       }
     ]
+  },
+  {
+    "req": "I sent some money using a PayPal account",
+    "res": []
   }
 ]
