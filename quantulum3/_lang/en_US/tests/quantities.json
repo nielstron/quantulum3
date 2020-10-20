@@ -1351,5 +1351,15 @@
   {
     "req": "I sent some money using a PayPal account",
     "res": []
+  },
+  {
+    "req": "three million, two hundred & forty, you say?",
+    "res": [
+        {
+          "value": 3000240,
+          "unit": "dimensionless",
+          "surface": "three million, two hundred & forty"
+        }
+      ]
   }
 ]
