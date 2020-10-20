@@ -62,13 +62,13 @@ def extract_spellout_values(text):
     """
 
     values = []
-    try:
-        for item in reg.text_pattern_reg(lang).finditer(text):
+    for item in reg.text_pattern_reg(lang).finditer(text):
+        try:
             surface, span = clean_surface(item.group(0), item.span())
             if not surface or surface.lower() in reg.scales(lang):
                 continue
             curr = result = 0.0
-            for word in surface.split():
+            for word in re.finditer(reg.numberwords_regex(), surface):
                 try:
                     scale, increment = (
                         1,
@@ -76,12 +76,12 @@ def extract_spellout_values(text):
                             re.sub(
                                 r"(-$|[%s])" % reg.grouping_operators_regex(lang),
                                 "",
-                                word.lower(),
+                                word[0].lower(),
                             )
                         ),
                     )
                 except ValueError:
-                    scale, increment = reg.numberwords(lang)[word.lower()]
+                    scale, increment = reg.numberwords(lang)[word[0].lower()]
                 curr = curr * scale + increment
                 if scale > 100:
                     result += curr
@@ -93,9 +93,9 @@ def extract_spellout_values(text):
                     "new_surface": str(result + curr),
                 }
             )
-    except KeyError:
-        # just ignore the match if an error occurred
-        values = []
+        except KeyError:
+            # just ignore the match if an error occurred
+            values = []
 
     return sorted(values, key=lambda x: x["old_span"][0])
 
