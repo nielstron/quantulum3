@@ -256,9 +256,7 @@ def attempt_disambiguate_unit(unit, text, lang):
         return new_unit
 
     # Start scoring
-    transformed = classifier(lang).tfidf_model.transform(
-        [clean_text(text, lang)]
-    )
+    transformed = classifier(lang).tfidf_model.transform([clean_text(text, lang)])
     scores = classifier(lang).classifier.predict_proba(transformed).tolist()[0]
     scores = zip(scores, classifier(lang).target_names)
 

@@ -171,16 +171,14 @@ class ClassifierTestEdgeCases(unittest.TestCase):
     """Test suite that tests certain specifically designed edge cases to confuse the classifier."""
 
     def test_wrong_capitalization(self):
-        parsed_unit = p.parse('1nw')
+        parsed_unit = p.parse("1nw")
         unit = Quantity(
             value=1,
             unit=Unit(
                 name="nanowatt",
                 entity=Entity("power"),
-                dimensions=[
-                    {"base": "nanowatt", "power": 1, "surface": "nW"}
-                ]
-            )
+                dimensions=[{"base": "nanowatt", "power": 1, "surface": "nW"}],
+            ),
         )
         self.assertEqual(parsed_unit, unit)
 
