@@ -357,11 +357,19 @@ def clean_text(text):
     """
     Clean text before parsing, language specific part
     """
+    values = []
 
     # Replace genitives
-    text = re.sub(r"(?<=\w)(\'s\b|s\')(?!\w)", "  ", text)
+    for match in re.finditer(r"(?<=\w)(\w+)(\'s\b|s\')(?!\w)", text):
+        values.append(
+            {
+                "old_surface": match.group(0),
+                "old_span": match.span(),
+                "new_surface": match.group(1),
+            }
+        )
 
-    return text
+    return values
 
 
 ###############################################################################

@@ -8,6 +8,7 @@ import logging
 import re
 from collections import defaultdict
 from fractions import Fraction
+from typing import List
 
 from . import classes as cls
 from . import disambiguate as dis
@@ -35,23 +36,28 @@ def extract_spellout_values(text, lang="en_US"):
 
 
 ###############################################################################
-def substitute_values(text, values):
+def substitute_values(text, values, shift_map):
     """
     Convert spelled out numbers in a given text to digits.
+    shift_map: for every original letter the position in the final text
     """
 
-    shift, final_text, shifts = 0, text, defaultdict(int)
+    shift, final_text = 0, text
     for value in values:
         first = value["old_span"][0] + shift
         second = value["old_span"][1] + shift
         final_text = final_text[0:first] + value["new_surface"] + final_text[second:]
-        shift += len(value["new_surface"]) - len(value["old_surface"])
-        for char in range(first + 1, len(final_text)):
-            shifts[char] = shift
+        shift_change = len(value["new_surface"]) - len(value["old_surface"])
+        shift += shift_change
+        new_shift_map = defaultdict(int)
+        for char in range(0, second):
+            new_shift_map[char] = shift_map[char]
+        for char in range(second, len(final_text)):
+            new_shift_map[char] += shift_change
 
     _LOGGER.debug('Text after numeric conversion: "%s"', final_text)
 
-    return final_text, shifts
+    return final_text
 
 
 ###############################################################################
@@ -398,21 +404,28 @@ def clean_text(text, lang="en_US"):
     Clean text before parsing.
     """
 
+    values = []
     # Replace a few nasty unicode characters with their ASCII equivalent
     maps = {"×": "x", "–": "-", "−": "-"}
-    for element in maps:
-        text = text.replace(element, maps[element])
+    for match in re.finditer(r"|".join(maps.keys()), text):
+        values.append(
+            {
+                "old_surface": match.group(0),
+                "old_span": match.span(),
+                "new_surface": maps[match.group(0)],
+            }
+        )
 
     # Language specific cleaning
-    text = _get_parser(lang).clean_text(text)
+    values.extend(_get_parser(lang).clean_text(text))
 
     _LOGGER.debug('Clean text: "%s"', text)
 
-    return text
+    return values
 
 
 ###############################################################################
-def parse(text, lang="en_US", verbose=False):
+def parse(text, lang="en_US", verbose=False) -> List[cls.Quantity]:
     """
     Extract all quantities from unstructured text.
     """
@@ -428,9 +441,12 @@ def parse(text, lang="en_US", verbose=False):
     orig_text = text
     _LOGGER.debug('Original text: "%s"', orig_text)
 
-    text = clean_text(text, lang)
-    values = extract_spellout_values(text, lang)
-    text, shifts = substitute_values(text, values)
+    shift_map = defaultdict(int)
+    new_subs = clean_text(text, lang)
+    text, shift_map = substitute_values(text, new_subs, shift_map)
+    new_subs = extract_spellout_values(text, lang)
+    text = substitute_values(text, new_subs)
+    subs.extend(new_subs)
 
     quantities = []
     for item in reg.units_regex(lang).finditer(text):
