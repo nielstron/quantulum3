@@ -96,7 +96,7 @@ def extract_spellout_values(text):
             )
         except (KeyError, AttributeError):
             # just ignore the match if an error occurred
-            values = []
+            pass
 
     return sorted(values, key=lambda x: x["old_span"][0])
 
