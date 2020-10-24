@@ -206,6 +206,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         if (
             len(values) == 1
             and unit.entity.name == "currency"
+            and span[0] > 0
             and orig_text[span[0] - 1] == "("
             and orig_text[span[1]] == ")"
             and values[0] >= 0

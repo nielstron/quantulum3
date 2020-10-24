@@ -1280,6 +1280,18 @@
     ]
   },
   {
+    "req": "$99.99)(",
+    "res": [
+      {
+        "value": 99.99,
+        "unit": "dollar",
+        "surface": "$99.99",
+        "entity": "currency",
+        "uncertainty": null
+      }
+    ]
+  },
+  {
     "req": "The annual revenue is -15€ ($-99.99).",
     "res": [
       {

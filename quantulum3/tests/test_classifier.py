@@ -110,7 +110,7 @@ class ClassifierTest(unittest.TestCase):
                 # pylint: disable=broad-except
                 try:
                     p.parse(test, lang=lang)
-                except Exception as e:
+                except Exception as e:  # pragma: no cover
                     self.fail("Input caused an unhandled exception {}".format(e))
 
     @unittest.skip("Not necessary, as classifier is live built")
