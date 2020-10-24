@@ -94,7 +94,7 @@ def extract_spellout_values(text):
                     "new_surface": str(result + curr),
                 }
             )
-        except (KeyError, TypeError):
+        except (KeyError, AttributeError):
             # just ignore the match if an error occurred
             values = []
 
