@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 """ Download new WikiPedia pages """
 
-from quantulum3.classifier import download_wiki
-
 import argparse
+
+from quantulum3.classifier import download_wiki
 
 arguments = [
     {

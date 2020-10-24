@@ -3,7 +3,6 @@
 :mod:`Quantulum` classifier functions.
 """
 
-# Standard library
 import re
 import string
 

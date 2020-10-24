@@ -4,18 +4,15 @@
 :mod:`Quantulum` parser.
 """
 
-# Standard library
-import re
 import logging
-from fractions import Fraction
+import re
 from collections import defaultdict
+from fractions import Fraction
 
-# Quantulum
-from . import load
-from . import regex as reg
 from . import classes as cls
 from . import disambiguate as dis
-from . import language
+from . import language, load
+from . import regex as reg
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -346,6 +343,11 @@ def get_surface(shifts, orig_text, item, text, unit_shortening=0):
 
     # handle cut end
     span = (item.start(), item.end() - unit_shortening)
+    # extend with as many spaces as are possible (this is to handle cleaned text)
+    i = span[1]
+    while i < len(text) and text[i] == " ":
+        i += 1
+    span = (span[0], i)
 
     _LOGGER.debug('\tInitial span: %s ("%s")', span, text[span[0] : span[1]])
 

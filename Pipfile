@@ -12,6 +12,7 @@ wikipedia = "*"
 stemming = "*"
 num2words = "*"
 joblib = "*"
+quantulum3 = {editable = true,path = "."}
 
 [dev-packages]
 coverage = "*"
@@ -19,4 +20,4 @@ pymagnitude = "*"
 black = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"

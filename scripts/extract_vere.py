@@ -3,11 +3,11 @@
 """
 Extract the n nearest neighbours of the ambigous units from the word2vec file
 """
-import os
-import json
 import argparse
+import json
+import os
 
-from quantulum3 import classifier, classes, language
+from quantulum3 import classes, classifier, language
 
 TOPDIR = os.path.dirname(__file__) or "."
 

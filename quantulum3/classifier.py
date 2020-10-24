@@ -3,18 +3,21 @@
 :mod:`Quantulum` classifier functions.
 """
 
-# Standard library
 import json
 import logging
-import pkg_resources
-import os
 import multiprocessing
+import os
+
+import pkg_resources
+
+from . import language, load
+from .load import cached
 
 # Semi-dependencies
 try:
-    from sklearn.linear_model import SGDClassifier
-    from sklearn.feature_extraction.text import TfidfVectorizer
     import joblib
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.linear_model import SGDClassifier
 
     USE_CLF = True
 except ImportError:
@@ -26,10 +29,6 @@ try:
 except ImportError:
     wikipedia = None
 
-# Quantulum
-from . import load
-from .load import cached
-from . import language
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -253,7 +252,7 @@ def disambiguate_unit(unit, text, lang="en_US"):
         or load.units(lang).symbols_lower.get(unit.lower())
     )
     if not new_unit:
-        raise KeyError('Could not find unit "%s" from "%s"' % (unit, text))
+        return load.units(lang).names.get("unk")
 
     if len(new_unit) > 1:
         transformed = classifier(lang).tfidf_model.transform([clean_text(text, lang)])

@@ -4,23 +4,21 @@
 :mod:`Quantulum` tests.
 """
 
-# Standard library
+import json
 import os
 import re
-import json
 import unittest
+from typing import Dict, List
 
-# Dependencies
+from .. import classes as cls
+from .. import language, load
+from .. import parser as p
+
 try:
     import wikipedia
 except ImportError:
     wikipedia = None
 
-# Quantulum
-from .. import load
-from .. import parser as p
-from .. import classes as cls
-from .. import language
 
 COLOR1 = "\033[94m%s\033[0m"
 COLOR2 = "\033[91m%s\033[0m"
@@ -226,8 +224,17 @@ def load_quantity_tests(ambiguity=True, lang="en_US"):
 
 
 ###############################################################################
-def load_expand_tests(lang="en_US"):
+def load_expand_tests(lang="en_US") -> List[Dict[str, str]]:
     with language.topdir(lang).joinpath("tests", "expand.json").open(
+        "r", encoding="utf-8"
+    ) as testfile:
+        tests = json.load(testfile)
+    return tests
+
+
+###############################################################################
+def load_error_tests(lang="en_US") -> List[str]:
+    with language.topdir(lang).joinpath("tests", "errors.json").open(
         "r", encoding="utf-8"
     ) as testfile:
         tests = json.load(testfile)
@@ -247,6 +254,7 @@ class SetupTest(unittest.TestCase):
         self.assertIsNotNone(load_quantity_tests(True, lang))
         self.assertIsNotNone(load_quantity_tests(False, lang))
         self.assertIsNotNone(load_expand_tests(lang))
+        self.assertIsNotNone(load_error_tests(lang))
 
     @unittest.expectedFailure
     def test_quantity_comparison_fail_unit(self):

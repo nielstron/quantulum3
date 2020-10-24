@@ -4,10 +4,8 @@
 :mod:`Quantulum` classes.
 """
 
-# Dependencies
 import num2words
 
-# Quantulum
 from . import language
 
 

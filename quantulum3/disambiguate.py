@@ -3,10 +3,9 @@
 :mod:`Quantulum` disambiguation functions.
 """
 
-# Quantulum
 from . import classifier as clf
-from . import no_classifier as no_clf
 from . import load
+from . import no_classifier as no_clf
 
 
 ###############################################################################

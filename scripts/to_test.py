@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 """ Try to create a test case from a sentence """
 
-import sys
 import json
+import sys
 
-from quantulum3 import parser, classes
+from quantulum3 import classes, parser
 
 if __name__ == "__main__":
     sentence = " ".join(sys.argv[1:])

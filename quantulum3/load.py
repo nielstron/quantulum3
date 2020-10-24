@@ -4,12 +4,10 @@
 :mod:`Quantulum` unit and entity loading functions.
 """
 
-# Standard library
 import json
 from collections import defaultdict
 from pathlib import Path
 
-# Quantulum
 from . import classes as c
 from . import language
 
@@ -307,24 +305,20 @@ class Units(object):
         prefixed = []
         # If SI-prefixes are given, add them
         for prefix in unit.get("prefixes", []):
-            try:
-                assert prefix in METRIC_PREFIXES
-            except AssertionError:  # pragma: no cover
-                raise Exception(
-                    "Given prefix '{}' for unit '{}' not supported".format(
-                        prefix, unit["name"]
-                    )
-                )
-            try:
-                assert len(unit["dimensions"]) <= 1
-            except AssertionError:  # pragma: no cover
-                raise Exception(
-                    "Prefixing not supported for multiple dimensions in {}".format(
-                        unit["name"]
-                    )
-                )
+            assert (
+                prefix in METRIC_PREFIXES
+            ), "Given prefix '{}' for unit '{}' not supported".format(
+                prefix, unit["name"]
+            )
+            assert (
+                len(unit["dimensions"]) <= 1
+            ), "Prefixing not supported for multiple dimensions in {}".format(
+                unit["name"]
+            )
 
             uri = METRIC_PREFIXES[prefix].capitalize() + unit["URI"].lower()
+            # we usually do not want the "_(unit)" postfix for prefixed units
+            uri = uri.replace("_(unit)", "")
 
             prefixed_unit = {
                 "name": METRIC_PREFIXES[prefix] + unit["name"],
