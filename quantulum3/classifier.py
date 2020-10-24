@@ -3,7 +3,6 @@
 :mod:`Quantulum` classifier functions.
 """
 
-# Standard library
 import json
 import logging
 import multiprocessing
@@ -11,15 +10,14 @@ import os
 
 import pkg_resources
 
-# Quantulum
 from . import language, load
 from .load import cached
 
 # Semi-dependencies
 try:
-    from sklearn.linear_model import SGDClassifier
-    from sklearn.feature_extraction.text import TfidfVectorizer
     import joblib
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.linear_model import SGDClassifier
 
     USE_CLF = True
 except ImportError:

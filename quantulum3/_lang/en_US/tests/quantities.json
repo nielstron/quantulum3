@@ -1280,6 +1280,18 @@
     ]
   },
   {
+    "req": "$99.99)(",
+    "res": [
+      {
+        "value": 99.99,
+        "unit": "dollar",
+        "surface": "$99.99",
+        "entity": "currency",
+        "uncertainty": null
+      }
+    ]
+  },
+  {
     "req": "The annual revenue is -15€ ($-99.99).",
     "res": [
       {
@@ -1316,5 +1328,50 @@
         "uncertainty": null
       }
     ]
+  },
+  {
+    "req": "There is a ⅓ cup of sauce and ½ tbsp of salt in this recipe.",
+    "res": [
+      {
+        "value": 0.3333333333333333,
+        "unit": "cup",
+        "surface": "⅓ cup",
+        "entity": "volume",
+        "dimensions": [
+          {
+            "base": "length",
+            "power": 3
+          }
+        ],
+        "uncertainty": null
+      },
+      {
+        "value": 0.5,
+        "unit": "tablespoon",
+        "surface": "½ tbsp",
+        "entity": "volume",
+        "dimensions": [
+          {
+            "base": "length",
+            "power": 3
+          }
+        ],
+        "uncertainty": null
+      }
+    ]
+  },
+  {
+    "req": "I sent some money using a PayPal account",
+    "res": []
+  },
+  {
+    "req": "three million, two hundred & forty, you say?",
+    "res": [
+        {
+          "value": 3000240,
+          "unit": "dimensionless",
+          "surface": "three million, two hundred & forty"
+        }
+      ]
   }
 ]

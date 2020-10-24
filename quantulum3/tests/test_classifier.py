@@ -7,22 +7,24 @@
 from __future__ import division
 
 import json
-# Standard library
 import os
 import unittest
 import urllib.request
 
-# Dependencies
 import joblib
 import wikipedia
 
-# Quantulum
 from .. import classifier as clf
 from .. import language, load
 from .. import parser as p
 from ..classes import Entity, Quantity, Unit
-from .test_setup import (add_type_equalities, load_expand_tests,
-                         load_quantity_tests, multilang)
+from .test_setup import (
+    add_type_equalities,
+    load_error_tests,
+    load_expand_tests,
+    load_quantity_tests,
+    multilang,
+)
 
 COLOR1 = "\033[94m%s\033[0m"
 COLOR2 = "\033[91m%s\033[0m"
@@ -56,18 +58,19 @@ class ClassifierTest(unittest.TestCase):
 
         all_tests = load_quantity_tests(False, lang=lang)
         for test in sorted(all_tests, key=lambda x: len(x["req"])):
-            quants = p.parse(test["req"], lang=lang)
+            with self.subTest(input=test["req"]):
+                quants = p.parse(test["req"], lang=lang)
 
-            self.assertEqual(
-                len(test["res"]),
-                len(quants),
-                msg="Differing amount of quantities parsed, expected {}, "
-                "got {}: {}, {}".format(
-                    len(test["res"]), len(quants), test["res"], quants
-                ),
-            )
-            for index, quant in enumerate(quants):
-                self.assertEqual(quant, test["res"][index])
+                self.assertEqual(
+                    len(test["res"]),
+                    len(quants),
+                    msg="Differing amount of quantities parsed, expected {}, "
+                    "got {}: {}, {}".format(
+                        len(test["res"]), len(quants), test["res"], quants
+                    ),
+                )
+                for index, quant in enumerate(quants):
+                    self.assertEqual(quant, test["res"][index])
 
         classifier_tests = load_quantity_tests(True, lang)
         correct = 0
@@ -95,8 +98,21 @@ class ClassifierTest(unittest.TestCase):
         """ Test that parsing and expanding works correctly """
         all_tests = load_expand_tests(lang=lang)
         for test in all_tests:
-            result = p.inline_parse_and_expand(test["req"], lang=lang)
-            self.assertEqual(result, test["res"])
+            with self.subTest(input=test["req"]):
+                result = p.inline_parse_and_expand(test["req"], lang=lang)
+                self.assertEqual(result, test["res"])
+
+    @multilang
+    def test_errors(self, lang="en_US"):
+        """ Test that no errors are thrown in edge cases """
+        all_tests = load_error_tests(lang=lang)
+        for test in all_tests:
+            with self.subTest(input=test):
+                # pylint: disable=broad-except
+                try:
+                    p.parse(test, lang=lang)
+                except Exception as e:  # pragma: no cover
+                    self.fail("Input caused an unhandled exception {}".format(e))
 
     @unittest.skip("Not necessary, as classifier is live built")
     @multilang
@@ -171,5 +187,4 @@ class ClassifierTestEdgeCases(unittest.TestCase):
 
 ###############################################################################
 if __name__ == "__main__":  # pragma: no cover
-
     unittest.main()

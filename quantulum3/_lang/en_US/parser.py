@@ -4,17 +4,13 @@
 :mod:`Quantulum` parser.
 """
 
-from . import lang
-
-# Standard library
-import re
 import logging
+import re
 
-# Quantulum
-from ... import load
-from ... import regex as reg
 from ... import classes as cls
-from ... import parser
+from ... import load, parser
+from ... import regex as reg
+from . import lang
 from .load import COMMON_WORDS
 
 _LOGGER = logging.getLogger(__name__)
@@ -67,35 +63,40 @@ def extract_spellout_values(text):
 
     values = []
     for item in reg.text_pattern_reg(lang).finditer(text):
-        surface, span = clean_surface(item.group(0), item.span())
-        if not surface or surface.lower() in reg.scales(lang):
-            continue
-        curr = result = 0.0
-        for word in surface.split():
-            try:
-                scale, increment = (
-                    1,
-                    float(
-                        re.sub(
-                            r"(-$|[%s])" % reg.grouping_operators_regex(lang),
-                            "",
-                            word.lower(),
-                        )
-                    ),
-                )
-            except ValueError:
-                scale, increment = reg.numberwords(lang)[word.lower()]
-            curr = curr * scale + increment
-            if scale > 100:
-                result += curr
-                curr = 0.0
-        values.append(
-            {
-                "old_surface": surface,
-                "old_span": span,
-                "new_surface": str(result + curr),
-            }
-        )
+        try:
+            surface, span = clean_surface(item.group(0), item.span())
+            if not surface or surface.lower() in reg.scales(lang):
+                continue
+            curr = result = 0.0
+            for word in surface.lower().split():
+                try:
+                    scale, increment = (
+                        1,
+                        float(
+                            re.sub(
+                                r"(-$|[%s])" % reg.grouping_operators_regex(lang),
+                                "",
+                                word,
+                            )
+                        ),
+                    )
+                except ValueError:
+                    match = re.search(reg.numberwords_regex(), word)
+                    scale, increment = reg.numberwords(lang)[match.group(0)]
+                curr = curr * scale + increment
+                if scale > 100:
+                    result += curr
+                    curr = 0.0
+            values.append(
+                {
+                    "old_surface": surface,
+                    "old_span": span,
+                    "new_surface": str(result + curr),
+                }
+            )
+        except (KeyError, AttributeError):
+            # just ignore the match if an error occurred
+            pass
 
     return sorted(values, key=lambda x: x["old_span"][0])
 
@@ -203,10 +204,13 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     # When it comes to currencies, some users prefer the format ($99.99) instead of -$99.99
     try:
         if (
-                len(values) == 1 and unit.entity.name == "currency"
-                and orig_text[span[0]-1] == "(" and orig_text[span[1]] == ")"
-                and values[0] >= 0
-            ):
+            len(values) == 1
+            and unit.entity.name == "currency"
+            and span[0] > 0
+            and orig_text[span[0] - 1] == "("
+            and orig_text[span[1]] == ")"
+            and values[0] >= 0
+        ):
             span = (span[0] - 1, span[1] + 1)
             surface = "({})".format(surface)
             values[0] = -values[0]
@@ -270,19 +274,8 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
                 # Combination has to be at least one letter
                 if len(combination) < 1:
                     continue
-                # Combination has to be all lower or capitalized in the first
-                # or all letters
-                if not (
-                    combination.islower()
-                    or (
-                        len(combination) > 2
-                        and (
-                            (combination[0].isupper() and combination[1:].islower())
-                            or combination.isupper()
-                        )
-                    )
-                ):
-                    continue
+                # Combination may have any capitalization due to possible common names
+                # i.e. PayPal, iPhone, LaTeX
                 # Combination has to be inside the surface
                 if combination not in surface:
                     continue

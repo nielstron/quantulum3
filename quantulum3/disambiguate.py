@@ -5,7 +5,6 @@
 
 import logging
 
-# Quantulum
 from . import classifier as clf
 from . import load
 from . import no_classifier as no_clf
@@ -33,21 +32,21 @@ def disambiguate_unit(unit_surface, text, lang="en_US"):
     if len(unit_surface) > 2:
         unit_changed = unit_surface[0] + unit_surface[1:].lower()
         if unit_changed == unit_surface:
-            return resolve_ambiguity(units, unit_surface, text)
+            return resolve_ambiguity(units, unit_surface, text, lang)
         text_changed = text.replace(unit_surface, unit_changed)
         new_units = attempt_disambiguate_unit(unit_changed, text_changed, lang)
         units = get_a_better_one(units, new_units)
-        return resolve_ambiguity(units, unit_surface, text)
+        return resolve_ambiguity(units, unit_surface, text, lang)
 
     if unit_surface[0] not in load.METRIC_PREFIXES.keys():
         # Only apply next work around if the first letter is a SI-prefix
-        return resolve_ambiguity(units, unit_surface, text)
+        return resolve_ambiguity(units, unit_surface, text, lang)
 
     unit_changed = unit_surface[:-1] + unit_surface[-1].swapcase()
     text_changed = text.replace(unit_surface, unit_changed)
     new_units = attempt_disambiguate_unit(unit_changed, text_changed, lang)
     units = get_a_better_one(units, new_units)
-    return resolve_ambiguity(units, unit_surface, text)
+    return resolve_ambiguity(units, unit_surface, text, lang)
 
 
 def attempt_disambiguate_unit(unit_surface, text, lang):
@@ -73,12 +72,12 @@ def get_a_better_one(old, new):
     return old
 
 
-def resolve_ambiguity(units, unit, text):
+def resolve_ambiguity(units, unit, text, lang):
     if not units:
         if clf.USE_CLF:
             raise KeyError('Could not find unit "%s" from "%s"' % (unit, text))
         else:
-            return "unk"
+            return load.units(lang).names.get("unk")
     if len(units) == 1:
         return next(iter(units)).name
     _LOGGER.warning(

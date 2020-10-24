@@ -4,7 +4,6 @@
 """
 from __future__ import division
 
-# Quantulum
 from . import load
 
 
