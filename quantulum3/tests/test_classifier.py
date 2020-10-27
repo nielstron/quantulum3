@@ -17,7 +17,6 @@ import wikipedia
 from .. import classifier as clf
 from .. import language, load
 from .. import parser as p
-from ..classes import Entity, Quantity, Unit
 from .test_setup import (
     add_type_equalities,
     load_error_tests,
