@@ -38,7 +38,7 @@ def disambiguate_unit(unit_surface, text, lang="en_US"):
         units = get_a_better_one(units, new_units)
         return resolve_ambiguity(units, unit_surface, text, lang)
 
-    if unit_surface[0] not in load.METRIC_PREFIXES.keys():
+    if not unit_surface or unit_surface[0] not in load.METRIC_PREFIXES.keys():
         # Only apply next work around if the first letter is a SI-prefix
         return resolve_ambiguity(units, unit_surface, text, lang)
 
@@ -74,10 +74,10 @@ def get_a_better_one(old, new):
 
 def resolve_ambiguity(units, unit, text, lang):
     if not units:
-        if clf.USE_CLF:
+        if unit and clf.USE_CLF:
             raise KeyError('Could not find unit "%s" from "%s"' % (unit, text))
         else:
-            return load.units(lang).names.get("unk")
+            return 'unk'
     if len(units) == 1:
         return next(iter(units)).name
     _LOGGER.warning(
