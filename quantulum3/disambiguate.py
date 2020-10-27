@@ -77,7 +77,7 @@ def resolve_ambiguity(units, unit, text):
         if unit and clf.USE_CLF:
             raise KeyError('Could not find unit "%s" from "%s"' % (unit, text))
         else:
-            return 'unk'
+            return "unk"
     if len(units) == 1:
         return next(iter(units)).name
     _LOGGER.warning(
