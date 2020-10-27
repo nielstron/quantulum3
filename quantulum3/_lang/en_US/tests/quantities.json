@@ -1380,7 +1380,7 @@
         {
             "value": 2,
             "unit": "nanowatt",
-            "surface": "2nW"
+            "surface": "2nw"
         }
     ]
   }
