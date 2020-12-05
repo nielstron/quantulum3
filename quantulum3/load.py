@@ -322,7 +322,8 @@ class Units(object):
 
             prefixed_unit = {
                 "name": METRIC_PREFIXES[prefix] + unit["name"],
-                "surfaces": [METRIC_PREFIXES[prefix] + i for i in unit["surfaces"]],
+                "surfaces": [prefix + i for i in unit["surfaces"]]
+                + [METRIC_PREFIXES[prefix] + i for i in unit["surfaces"]],
                 "entity": unit["entity"],
                 "URI": uri,
                 "dimensions": [],

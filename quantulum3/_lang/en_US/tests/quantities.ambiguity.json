@@ -364,6 +364,62 @@
         "uncertainty": null
       }
     ]
+  },
+  {
+    "req": "Secondary sewage from the Hyperion works is now used in a variety of ways to alleviate this. In one application, commissioned in 1997, Memcor processes are used in 15 Mlitre/day CMF/RO system to supply the nearby Mobil and Chevron refineries with feed for their boiler water plants. In an earlier project Memcor supplied an 11.5 Mlitre/day CMF plant as pretreatment for RO to provide water used for injection in a barrier scheme to keep out further sea water.",
+    "res": [
+      {
+        "value": 1997,
+        "unit": "dimensionless",
+        "surface": "1997",
+        "entity": "unk",
+        "uncertainty": null
+      },
+      {
+        "value": 15,
+        "unit": "megalitre per day",
+        "surface": "15 Mlitre/day",
+        "entity": "volumetric flow",
+        "dimensions": [
+          {
+            "base": "volume",
+            "power": 1
+          },
+          {
+            "base": "time",
+            "power": -1
+          }
+        ]
+      },
+      {
+        "value": 11.5,
+        "unit": "megalitre per day",
+        "surface": "11.5 Mlitre/day",
+        "entity": "volumetric flow",
+        "dimensions": [
+          {
+            "base": "volume",
+            "power": 1
+          },
+          {
+            "base": "time",
+            "power": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "This extremely sharp tool is precise up to 0.5 mmeter",
+    "res": [
+      {
+        "value": 0.5,
+        "unit": "millimetre",
+        "surface": "0.5 mmetre",
+        "entity": "length",
+        "dimensions": []
+      }
+    ]
   }
 ]
 
