@@ -7,7 +7,7 @@
 import json
 from collections import defaultdict
 from pathlib import Path
-from typing import Union
+from typing import Any, List, Tuple, Union
 
 from . import classes as c
 from . import language
@@ -39,6 +39,19 @@ def cached(funct):
     return cached_function
 
 
+def object_pairs_hook_defer_duplicate_keys(object_pairs: List[Tuple[str, Any]]):
+    keys = [x[0] for x in object_pairs]
+    try:
+        assert len(set(keys)) == len(keys)
+    except AssertionError:
+        raise AssertionError(
+            "Dictionary has entries with same name: {}".format(
+                [object_pairs[i] for i, k in enumerate(keys) if keys.count(k) > 1]
+            )
+        )
+    return dict(object_pairs)
+
+
 ###############################################################################
 @cached
 def _get_load(lang="en_US"):
@@ -62,11 +75,15 @@ def _load_json_dict(path_or_string: Union[Path, str, dict]):
         isinstance(path_or_string, str) and path_or_string.endswith(".json")
     ):
         with open(path_or_string, "r", encoding="utf-8") as jsonfile:
-            return json.load(jsonfile)
+            return json.load(
+                jsonfile, object_pairs_hook=object_pairs_hook_defer_duplicate_keys
+            )
     if isinstance(path_or_string, dict):
         return path_or_string
     if isinstance(path_or_string, str):
-        return json.loads(path_or_string)
+        return json.loads(
+            path_or_string, object_pairs_hook=object_pairs_hook_defer_duplicate_keys
+        )
 
 
 ###############################################################################
@@ -140,32 +157,23 @@ def get_key_from_dimensions(derived):
 
 ###############################################################################
 class Entities(object):
-    def __init__(self, lang="en_US"):
+    def __init__(self, entity_dicts: List[Union[Path, str, dict]]):
         """
         Load entities from JSON file.
         """
 
-        general_entities = _load_json_dict(GENERAL_ENTITIES_PATH)
-
-        # Update with language specific URI
-        lang_entities = _load_json_dict(LANGUAGE_ENTITIES_PATH(lang))
-        for ent in lang_entities:
-            general_entities[ent["name"]].uri = ent["URI"]
-
-        names = [i["name"] for i in general_entities]
-        try:
-            assert len(set(names)) == len(general_entities)
-        except AssertionError:  # pragma: no cover
-            raise Exception(
-                "Entities with same name: %s" % [i for i in names if names.count(i) > 1]
-            )
+        # Merge entity dictionarys
+        general_entities = defaultdict(dict)
+        for ed in entity_dicts:
+            for new_ent in _load_json_dict(ed):
+                general_entities[new_ent["name"]].update(new_ent)
 
         self.names = dict(
             (
-                k["name"],
-                c.Entity(name=k["name"], dimensions=k["dimensions"], uri=k["URI"]),
+                name,
+                c.Entity(name=name, dimensions=props["dimensions"], uri=props["URI"]),
             )
-            for k in general_entities
+            for name, props in general_entities
         )
 
         # Generate derived units
@@ -213,7 +221,7 @@ def entities(lang="en_US"):
     """
     Cached entity object
     """
-    return Entities(lang)
+    return Entities([GENERAL_UNITS_PATH, LANGUAGE_ENTITIES_PATH(lang)])
 
 
 ###############################################################################
@@ -242,33 +250,23 @@ def get_derived_units(names):
 
 ###############################################################################
 class Units(object):
-    def __init__(self, lang="en_US"):
+    def __init__(self, unit_dicts: List[Union[str, Path, dict]], lang="en_US"):
         """
         Load units from JSON file.
         """
-        self.lang = lang
 
         # names of all units
         self.names = {}
         self.symbols, self.symbols_lower = defaultdict(set), defaultdict(set)
         self.surfaces, self.surfaces_lower = defaultdict(set), defaultdict(set)
         self.prefix_symbols = defaultdict(set)
+        self.lang = lang
 
-        # Load general units
-        general_units = _load_json_dict(GENERAL_UNITS_PATH)
-        # load language specifics
-        lang_units = _load_json_dict(LANGUAGE_UNITS_PATH(lang))
-
-        unit_dict = {}
-        for unit in general_units.copy():
-            general_units.extend(self.prefixed_units(unit))
-        for unit in general_units:
-            unit_dict[unit["name"]] = unit
-        for unit in lang_units.copy():
-            lang_units.extend(self.prefixed_units(unit))
-        for unit in lang_units:
-            unit_dict[unit["name"]] = unit_dict.get(unit["name"], unit)
-            unit_dict[unit["name"]].update(unit)
+        unit_dict = defaultdict(dict)
+        for ud in unit_dicts:
+            for name, unit in ud:
+                for nname, nunit in self.prefixed_units(name, unit):
+                    unit_dict[nname].update(nunit)
 
         for unit in unit_dict.values():
             self.load_unit(unit)
@@ -317,34 +315,32 @@ class Units(object):
             self.surfaces_lower[plural.lower()].add(obj)
 
     @staticmethod
-    def prefixed_units(unit):
-        prefixed = []
+    def prefixed_units(name, unit):
+        prefixed = {}
         # If SI-prefixes are given, add them
         for prefix in unit.get("prefixes", []):
             assert (
                 prefix in METRIC_PREFIXES
-            ), "Given prefix '{}' for unit '{}' not supported".format(
-                prefix, unit["name"]
-            )
+            ), "Given prefix '{}' for unit '{}' not supported".format(prefix, name)
             assert (
                 len(unit["dimensions"]) <= 1
-            ), "Prefixing not supported for multiple dimensions in {}".format(
-                unit["name"]
-            )
+            ), "Prefixing not supported for multiple dimensions in {}".format(name)
 
             uri = METRIC_PREFIXES[prefix].capitalize() + unit["URI"].lower()
             # we usually do not want the "_(unit)" postfix for prefixed units
             uri = uri.replace("_(unit)", "")
 
             prefixed_unit = {
-                "name": METRIC_PREFIXES[prefix] + unit["name"],
-                "surfaces": [METRIC_PREFIXES[prefix] + i for i in unit["surfaces"]],
-                "entity": unit["entity"],
-                "URI": uri,
-                "dimensions": [],
-                "symbols": [prefix + i for i in unit["symbols"]],
+                METRIC_PREFIXES[prefix]
+                + name: {
+                    "surfaces": [METRIC_PREFIXES[prefix] + i for i in unit["surfaces"]],
+                    "entity": unit["entity"],
+                    "URI": uri,
+                    "dimensions": [],
+                    "symbols": [prefix + i for i in unit["symbols"]],
+                }
             }
-            prefixed.append(prefixed_unit)
+            prefixed.update(prefixed_unit)
         return prefixed
 
 
@@ -353,7 +349,7 @@ def units(lang="en_US"):
     """
     Cached unit object
     """
-    return Units(lang)
+    return Units([GENERAL_UNITS_PATH, LANGUAGE_UNITS_PATH(lang), lang])
 
 
 ###############################################################################
