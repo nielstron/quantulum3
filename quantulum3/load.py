@@ -123,8 +123,16 @@ class Entities(object):
         path = TOPDIR.joinpath("entities.json")
         with path.open(encoding="utf-8") as file:
             general_entities = json.load(file)
-        names = [i["name"] for i in general_entities]
 
+        # Update with language specific URI
+        with TOPDIR.joinpath(language.topdir(lang), "entities.json").open(
+            "r", encoding="utf-8"
+        ) as file:
+            lang_entities = json.load(file)
+        for ent in lang_entities:
+            general_entities[ent["name"]].uri = ent["URI"]
+
+        names = [i["name"] for i in general_entities]
         try:
             assert len(set(names)) == len(general_entities)
         except AssertionError:  # pragma: no cover
@@ -139,14 +147,6 @@ class Entities(object):
             )
             for k in general_entities
         )
-
-        # Update with language specific URI
-        with TOPDIR.joinpath(language.topdir(lang), "entities.json").open(
-            "r", encoding="utf-8"
-        ) as file:
-            lang_entities = json.load(file)
-        for ent in lang_entities:
-            general_entities[ent["name"]].uri = ent["URI"]
 
         # Generate derived units
         derived_ent = defaultdict(set)
