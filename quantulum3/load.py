@@ -7,6 +7,7 @@
 import json
 from collections import defaultdict
 from pathlib import Path
+from typing import Union
 
 from . import classes as c
 from . import language
@@ -42,6 +43,30 @@ def cached(funct):
 @cached
 def _get_load(lang="en_US"):
     return language.get("load", lang)
+
+
+GENERAL_UNITS_PATH = TOPDIR.joinpath("units.json")
+GENERAL_ENTITIES_PATH = TOPDIR.joinpath("entities.json")
+
+
+def LANGUAGE_ENTITIES_PATH(lang="en_US"):
+    return TOPDIR.joinpath(language.topdir(lang), "entities.json")
+
+
+def LANGUAGE_UNITS_PATH(lang="en_US"):
+    return TOPDIR.joinpath(language.topdir(lang), "units.json")
+
+
+def _load_json_dict(path_or_string: Union[Path, str, dict]):
+    if isinstance(path_or_string, Path) or (
+        isinstance(path_or_string, str) and path_or_string.endswith(".json")
+    ):
+        with open(path_or_string, "r", encoding="utf-8") as jsonfile:
+            return json.load(jsonfile)
+    if isinstance(path_or_string, dict):
+        return path_or_string
+    if isinstance(path_or_string, str):
+        return json.loads(path_or_string)
 
 
 ###############################################################################
@@ -120,15 +145,10 @@ class Entities(object):
         Load entities from JSON file.
         """
 
-        path = TOPDIR.joinpath("entities.json")
-        with path.open(encoding="utf-8") as file:
-            general_entities = json.load(file)
+        general_entities = _load_json_dict(GENERAL_ENTITIES_PATH)
 
         # Update with language specific URI
-        with TOPDIR.joinpath(language.topdir(lang), "entities.json").open(
-            "r", encoding="utf-8"
-        ) as file:
-            lang_entities = json.load(file)
+        lang_entities = _load_json_dict(LANGUAGE_ENTITIES_PATH(lang))
         for ent in lang_entities:
             general_entities[ent["name"]].uri = ent["URI"]
 
@@ -235,13 +255,9 @@ class Units(object):
         self.prefix_symbols = defaultdict(set)
 
         # Load general units
-        path = TOPDIR.joinpath("units.json")
-        with path.open(encoding="utf-8") as file:
-            general_units = json.load(file)
+        general_units = _load_json_dict(GENERAL_UNITS_PATH)
         # load language specifics
-        path = TOPDIR.joinpath(language.topdir(lang), "units.json")
-        with path.open(encoding="utf-8") as file:
-            lang_units = json.load(file)
+        lang_units = _load_json_dict(LANGUAGE_UNITS_PATH(lang))
 
         unit_dict = {}
         for unit in general_units.copy():
