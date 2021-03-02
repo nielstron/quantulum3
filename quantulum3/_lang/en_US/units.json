@@ -1,1 +1,67 @@
-{"baker's dozen": {"surfaces": ["bakers dozen", "baker   dozen", "long dozen", "devils dozen", "devil   dozen", "long measure"], "entity": "dimensionless", "URI": "Dozen#Baker's_dozen", "dimensions": [], "symbols": []}, "dime": {"symbols": ["\u20ab", "d"]}, "terahertz": {"URI": "Terahertz_(unit)"}, "teraampere": {"URI": "Ampere"}, "megabarn": {"URI": "Barn_(unit)"}, "kilobarn": {"URI": "Barn_(unit)"}, "millibarn": {"URI": "Barn_(unit)"}, "microbarn": {"URI": "Barn_(unit)"}, "nanobarn": {"URI": "Barn_(unit)"}, "picobarn": {"URI": "Barn_(unit)"}, "femtobarn": {"URI": "Barn_(unit)"}, "attobarn": {"URI": "Barn_(unit)"}, "zeptobarn": {"URI": "Barn_(unit)"}, "yoctobarn": {"URI": "Barn_(unit)"}, "kiloyear": {"URI": "Kiloannus"}, "milligray": {"URI": "Milligray"}, "kilogray": {"URI": "Kilogray"}}
+{
+  "baker's dozen": {
+    "surfaces": [
+      "bakers dozen",
+      "baker   dozen",
+      "long dozen",
+      "devils dozen",
+      "devil   dozen",
+      "long measure"
+    ],
+    "entity": "dimensionless",
+    "URI": "Dozen#Baker's_dozen",
+    "dimensions": [],
+    "symbols": []
+  },
+  "dime": {
+    "symbols": [
+      "\u20ab",
+      "d"
+    ]
+  },
+  "terahertz": {
+    "URI": "Terahertz_(unit)"
+  },
+  "teraampere": {
+    "URI": "Ampere"
+  },
+  "megabarn": {
+    "URI": "Barn_(unit)"
+  },
+  "kilobarn": {
+    "URI": "Barn_(unit)"
+  },
+  "millibarn": {
+    "URI": "Barn_(unit)"
+  },
+  "microbarn": {
+    "URI": "Barn_(unit)"
+  },
+  "nanobarn": {
+    "URI": "Barn_(unit)"
+  },
+  "picobarn": {
+    "URI": "Barn_(unit)"
+  },
+  "femtobarn": {
+    "URI": "Barn_(unit)"
+  },
+  "attobarn": {
+    "URI": "Barn_(unit)"
+  },
+  "zeptobarn": {
+    "URI": "Barn_(unit)"
+  },
+  "yoctobarn": {
+    "URI": "Barn_(unit)"
+  },
+  "kiloyear": {
+    "URI": "Kiloannus"
+  },
+  "milligray": {
+    "URI": "Milligray"
+  },
+  "kilogray": {
+    "URI": "Kilogray"
+  }
+}
