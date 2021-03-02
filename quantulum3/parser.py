@@ -8,6 +8,7 @@ import logging
 import re
 from collections import defaultdict
 from fractions import Fraction
+from typing import List
 
 from . import classes as cls
 from . import disambiguate as dis
@@ -417,7 +418,7 @@ def clean_text(text, lang="en_US"):
 
 
 ###############################################################################
-def parse(text, lang="en_US", verbose=False):
+def parse(text, lang="en_US", verbose=False) -> List[cls.Quantity]:
     """
     Extract all quantities from unstructured text.
     """

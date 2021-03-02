@@ -256,20 +256,22 @@ class SetupTest(unittest.TestCase):
         self.assertIsNotNone(load_expand_tests(lang))
         self.assertIsNotNone(load_error_tests(lang))
 
+    # The following two tests test the equality testing setup
+
     @unittest.expectedFailure
     def test_quantity_comparison_fail_unit(self):
         """ Test unequal units (differing only in their entity) """
         self.assertEqual(
-            cls.Quantity(1, cls.Unit(entity=cls.Entity("water"))),
-            cls.Quantity(1, cls.Unit(entity=cls.Entity("air"))),
+            cls.Quantity(1, cls.Unit(name="water", entity=cls.Entity("water"))),
+            cls.Quantity(1, cls.Unit(name="air", entity=cls.Entity("air"))),
         )
 
     @unittest.expectedFailure
     def test_quantity_comparison_fail_value(self):
         """ Test unequal units (differing only in their value) """
         self.assertEqual(
-            cls.Quantity(1, cls.Unit(entity=cls.Entity("water"))),
-            cls.Quantity(2, cls.Unit(entity=cls.Entity("water"))),
+            cls.Quantity(1, cls.Unit(name="water", entity=cls.Entity("water"))),
+            cls.Quantity(2, cls.Unit(name="water", entity=cls.Entity("water"))),
         )
 
     def test_unsupported_language(self):
@@ -278,6 +280,36 @@ class SetupTest(unittest.TestCase):
             p.parse("Urgh wooo ddaa eeee!", lang="xx")
             self.fail("No error was thrown on unsupported language")  # pragma: no cover
         except NotImplementedError:
+            pass
+
+    def test_custom_unit(self):
+        """ Test if custom units work """
+        load.add_custom_unit(name="schlurp", surfaces=["slp"], entity="dimensionless")
+        r = p.parse("This extremely sharp tool is precise up to 0.5 slp")
+        self.assertEqual(
+            r[0].unit.name, "schlurp", "Custom unit was not added correctly"
+        )
+
+        load.remove_custom_unit(name="schlurp")
+        r = p.parse("This extremely sharp tool is precise up to 0.5 schlurp")
+        self.assertNotEqual(
+            r[0].unit.name, "schlurp", "Custom unit was not removed correctly"
+        )
+
+    def test_custom_entity(self):
+        """ Test if custom units work """
+        load.add_custom_entity(name="crazy new test entity")
+        load.add_custom_unit(
+            name="schlurp", surfaces=["slp"], entity="crazy new test entity"
+        )
+        p.parse("This extremely sharp tool is precise up to 0.5 slp")
+        # would throw an error when trying to create the custom unit
+
+        try:
+            load.remove_custom_entity(name="crazy new test entity")
+            p.parse("This extremely sharp tool is precise up to 0.5 schlurp")
+            self.fail("Custom entity was not correctly removed")
+        except KeyError:
             pass
 
     @multilang(["en_US"])
