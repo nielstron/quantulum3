@@ -4,6 +4,8 @@
 :mod:`Quantulum` classes.
 """
 
+from typing import Any, Dict, List, Tuple
+
 from . import speak
 
 ###############################################################################
@@ -24,12 +26,12 @@ class Quantity(object):
         lang="en_US",
     ):
 
-        self.value = value
-        self.unit = unit
-        self.surface = surface
-        self.span = span
-        self.uncertainty = uncertainty
-        self.lang = lang
+        self.value: float = value
+        self.unit: Unit = unit
+        self.surface: str = surface
+        self.span: Tuple[int, int] = span
+        self.uncertainty: float = uncertainty
+        self.lang: str = lang
 
     def __repr__(self):
 
@@ -84,18 +86,18 @@ class Unit(object):
         lang="en_US",
     ):
         """Initialization method."""
-        self.name = name
-        self.surfaces = surfaces
-        self.entity = entity
-        self.uri = uri
-        self.symbols = symbols
-        self.dimensions = dimensions
+        self.name: str = name
+        self.surfaces: str = surfaces
+        self.entity: Entity = entity
+        self.uri: str = uri
+        self.symbols: List[str] = symbols
+        self.dimensions: List[Dict[str, Any]] = dimensions
         # Stores the untampered dimensions that were parsed from the text
-        self.original_dimensions = original_dimensions
-        self.currency_code = currency_code
-        self.lang = lang
+        self.original_dimensions: List[Dict[str, Any]] = original_dimensions
+        self.currency_code: str = currency_code
+        self.lang: str = lang
 
-    def to_spoken(self, count=1, lang=None):
+    def to_spoken(self, count=1, lang=None) -> str:
         """
         Convert a given unit to the unit in words, correctly inflected.
         :param count: The value of the quantity (i.e. 1 for one watt, 2 for
@@ -146,9 +148,9 @@ class Entity(object):
 
     def __init__(self, name=None, dimensions=None, uri=None):
 
-        self.name = name
-        self.dimensions = dimensions
-        self.uri = uri
+        self.name: str = name
+        self.dimensions: List[Dict[str, any]] = dimensions
+        self.uri: str = uri
 
     def __repr__(self):
 

@@ -177,7 +177,11 @@ class Entities(object):
         self.names = dict(
             (
                 name,
-                c.Entity(name=name, dimensions=props["dimensions"], uri=props["URI"]),
+                c.Entity(
+                    name=name,
+                    dimensions=props.get("dimensions", []),
+                    uri=props.get("URI"),
+                ),
             )
             for name, props in all_entities.items()
         )
@@ -300,7 +304,7 @@ class Units(object):
             name=name,
             surfaces=unit.get("surfaces", []),
             entity=entities().names[unit["entity"]],
-            uri=unit.get(["URI"]),
+            uri=unit.get("URI"),
             symbols=unit.get("symbols", []),
             dimensions=unit.get("dimensions", []),
             currency_code=unit.get("currency_code"),
@@ -400,7 +404,7 @@ def add_custom_entity(name: str, **kwargs):
     otherwise will overwrite attributes in existing entities
     :param kwargs: properties of the entity as found in entities.json, i.e. surfaces=["centimetre"]
     """
-    CUSTOM_UNITS[name].update(kwargs)
+    CUSTOM_ENTITIES[name].update(kwargs)
     _CACHE_DICT.clear()
 
 

@@ -280,6 +280,31 @@ class SetupTest(unittest.TestCase):
         except NotImplementedError:
             pass
 
+    def test_custom_unit(self):
+        """ Test if custom units work """
+        load.add_custom_unit(name="schlurp", surfaces=["slp"], entity="dimensionless")
+        r = p.parse("This extremely sharp tool is precise up to 0.5 slp")
+        assert r[0].unit.name == "schlurp", "Custom unit was not added correctly"
+
+        load.remove_custom_unit(name="schlurp")
+        r = p.parse("This extremely sharp tool is precise up to 0.5 schlurp")
+        assert r[0].unit.name != "schlurp", "Custom unit was not removed correctly"
+
+    def test_custom_entity(self):
+        """ Test if custom units work """
+        load.add_custom_entity(name="crazy new test entity")
+        load.add_custom_unit(
+            name="schlurp", surfaces=["slp"], entity="crazy new test entity"
+        )
+        r = p.parse("This extremely sharp tool is precise up to 0.5 slp")
+
+        try:
+            load.remove_custom_entity(name="crazy new test entity")
+            r = p.parse("This extremely sharp tool is precise up to 0.5 schlurp")
+            self.fail("Custom entity was not correctly removed")
+        except KeyError:
+            pass
+
     @multilang(["en_US"])
     def test_common_words(self, lang):
         """ Test that the build script has run correctly (*might* fail locally) """
