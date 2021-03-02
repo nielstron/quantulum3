@@ -188,6 +188,23 @@ Gimme ten billion dollars now and also one terawatt and zero point five joules!
 Extension
 ---------
 
+#### Custom units
+
+It is possible to add custom entities to be parsed by quantulum.
+See below code for an example invocation.
+
+```pycon
+>>> from quantulum3.load import add_custom_unit, remove_custom_unit
+>>> add_custom_unit(name="schlurp", surfaces=["slp"], entity="dimensionless")
+>>> parser.parse("This extremely sharp tool is precise up to 0.5 slp")
+[Quantity(0.5, "Unit(name="schlurp", entity=Entity("dimensionless"), uri=None)")]
+```
+
+The keyword arguments to the function `add_custom_unit` are directly translated
+to the properties of the unit to be created.
+
+#### Extending the set of default units
+
 See *units.json* for the complete list of units and *entities.json* for
 the complete list of entities. The criteria for adding units have been:
 
@@ -199,14 +216,13 @@ It\'s easy to extend these two files to the units/entities of interest.
 Here is an example of an entry in *entities.json*:
 
 ```json
-{
-    "name": "speed",
+"speed": {
     "dimensions": [{"base": "length", "power": 1}, {"base": "time", "power": -1}],
     "URI": "https://en.wikipedia.org/wiki/Speed"
 }
 ```
 
--   *name* is self explanatory.
+-   The *name* of an entity is its key. Names are required to be unique.
 -   *URI* is the name of the wikipedia page of the entity. (i.e. `https://en.wikipedia.org/wiki/Speed` => `Speed`)
 -   *dimensions* is the dimensionality, a list of dictionaries each
     having a *base* (the name of another entity) and a *power* (an
@@ -215,16 +231,14 @@ Here is an example of an entry in *entities.json*:
 Here is an example of an entry in *units.json*:
 
 ```json
-{
-    "name": "metre per second",
+"metre per second": {
     "surfaces": ["metre per second", "meter per second"],
     "entity": "speed",
     "URI": "Metre_per_second",
     "dimensions": [{"base": "metre", "power": 1}, {"base": "second", "power": -1}],
     "symbols": ["mps"]
 },
-{
-    "name": "year",
+"year": {
     "surfaces": [ "year", "annum" ],
     "entity": "time",
     "URI": "Year",
@@ -234,7 +248,7 @@ Here is an example of an entry in *units.json*:
 }
 ```
 
--   *name* is self explanatory.
+-   The *name* of a unit is its key. Names are required to be unique.
 -   *URI* follows the same scheme as in the *entities.json*
 -   *surfaces* is a list of strings that refer to that unit. The library
     takes care of plurals, no need to specify them.
