@@ -7,7 +7,7 @@
 import json
 from collections import defaultdict
 from pathlib import Path
-from typing import Any, List, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 from . import classes as c
 from . import language
@@ -88,6 +88,9 @@ def _load_json_dict(path_or_string: Union[Path, str, dict]):
         object_pairs_hook=object_pairs_hook_defer_duplicate_keys,
     )
 
+
+CUSTOM_ENTITIES = defaultdict(dict)
+CUSTOM_UNITS = defaultdict(dict)
 
 ###############################################################################
 def to_int_iff_int(value):
@@ -224,7 +227,9 @@ def entities(lang="en_US"):
     """
     Cached entity object
     """
-    return Entities([GENERAL_ENTITIES_PATH, LANGUAGE_ENTITIES_PATH(lang)])
+    return Entities(
+        [GENERAL_ENTITIES_PATH, LANGUAGE_ENTITIES_PATH(lang), CUSTOM_ENTITIES]
+    )
 
 
 ###############################################################################
@@ -295,7 +300,7 @@ class Units(object):
             name=name,
             surfaces=unit.get("surfaces", []),
             entity=entities().names[unit["entity"]],
-            uri=unit["URI"],
+            uri=unit.get(["URI"]),
             symbols=unit.get("symbols", []),
             dimensions=unit.get("dimensions", []),
             currency_code=unit.get("currency_code"),
@@ -347,7 +352,7 @@ def units(lang="en_US"):
     """
     Cached unit object
     """
-    return Units([GENERAL_UNITS_PATH, LANGUAGE_UNITS_PATH(lang)], lang)
+    return Units([GENERAL_UNITS_PATH, LANGUAGE_UNITS_PATH(lang), CUSTOM_UNITS], lang)
 
 
 ###############################################################################
@@ -362,3 +367,48 @@ def training_set(lang="en_US"):
                 training_set_ += json.load(train_file)
 
     return training_set_
+
+
+###############################################################################
+def add_custom_unit(name: str, **kwargs):
+    """
+    Adds a custom unit to the set of default units
+    Note: causes a reload of all units
+    :param name: Name of the unit to add, should preferably be unique,
+    otherwise will overwrite attributes in existing units
+    :param kwargs: properties of the unit as found in units.json, i.e. surfaces=["centimetre"]
+    """
+    CUSTOM_UNITS[name].update(kwargs)
+    _CACHE_DICT.clear()
+
+
+def remove_custom_unit(name: str):
+    """
+    Removes a unit from the set of custom units
+    Note: causes a reload of all units
+    :param name: Name of the unit to remove. This will not affect units that are loaded per default.
+    """
+    CUSTOM_UNITS.pop(name)
+    _CACHE_DICT.clear()
+
+
+def add_custom_entity(name: str, **kwargs):
+    """
+    Adds a custom entity to the set of default entities
+    Note: causes a reload of all entities
+    :param name: Name of the entity to add, should preferably be unique,
+    otherwise will overwrite attributes in existing entities
+    :param kwargs: properties of the entity as found in entities.json, i.e. surfaces=["centimetre"]
+    """
+    CUSTOM_UNITS[name].update(kwargs)
+    _CACHE_DICT.clear()
+
+
+def remove_custom_entity(name: str):
+    """
+    Removes a entity from the set of custom entities
+    Note: causes a reload of all entities
+    :param name: Name of the entity to remove. This will not affect entities that are loaded per default.
+    """
+    CUSTOM_ENTITIES.pop(name)
+    _CACHE_DICT.clear()
