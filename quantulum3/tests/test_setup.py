@@ -256,20 +256,22 @@ class SetupTest(unittest.TestCase):
         self.assertIsNotNone(load_expand_tests(lang))
         self.assertIsNotNone(load_error_tests(lang))
 
+    # The following two tests test the equality testing setup
+
     @unittest.expectedFailure
     def test_quantity_comparison_fail_unit(self):
         """ Test unequal units (differing only in their entity) """
         self.assertEqual(
-            cls.Quantity(1, cls.Unit(entity=cls.Entity("water"))),
-            cls.Quantity(1, cls.Unit(entity=cls.Entity("air"))),
+            cls.Quantity(1, cls.Unit(name="water", entity=cls.Entity("water"))),
+            cls.Quantity(1, cls.Unit(name="air", entity=cls.Entity("air"))),
         )
 
     @unittest.expectedFailure
     def test_quantity_comparison_fail_value(self):
         """ Test unequal units (differing only in their value) """
         self.assertEqual(
-            cls.Quantity(1, cls.Unit(entity=cls.Entity("water"))),
-            cls.Quantity(2, cls.Unit(entity=cls.Entity("water"))),
+            cls.Quantity(1, cls.Unit(name="water", entity=cls.Entity("water"))),
+            cls.Quantity(2, cls.Unit(name="water", entity=cls.Entity("water"))),
         )
 
     def test_unsupported_language(self):
