@@ -18,20 +18,20 @@ class Quantity(object):
 
     def __init__(
         self,
-        value=None,
-        unit=None,
-        surface=None,
-        span=None,
-        uncertainty=None,
+        value: float,
+        unit: Unit,
+        surface: str,
+        span: Tuple[int, int],
+        uncertainty: float,
         lang="en_US",
     ):
 
-        self.value: float = value
-        self.unit: Unit = unit
-        self.surface: str = surface
-        self.span: Tuple[int, int] = span
-        self.uncertainty: float = uncertainty
-        self.lang: str = lang
+        self.value = value
+        self.unit = unit
+        self.surface = surface
+        self.span = span
+        self.uncertainty = uncertainty
+        self.lang = lang
 
     def __repr__(self):
 
@@ -75,27 +75,27 @@ class Unit(object):
 
     def __init__(
         self,
-        name=None,
-        surfaces=None,
-        entity=None,
-        uri=None,
-        symbols=None,
-        dimensions=None,
-        currency_code=None,
-        original_dimensions=None,
+        name: str,
+        surfaces: List[str],
+        entity: Entity,
+        uri: str,
+        symbols: List[str],
+        dimensions: List[Dict[str, Any]],
+        currency_code: str,
+        original_dimensions: List[Dict[str, Any]],
         lang="en_US",
     ):
         """Initialization method."""
-        self.name: str = name
-        self.surfaces: str = surfaces
-        self.entity: Entity = entity
-        self.uri: str = uri
-        self.symbols: List[str] = symbols
-        self.dimensions: List[Dict[str, Any]] = dimensions
+        self.name = name
+        self.surfaces = surfaces
+        self.entity = entity
+        self.uri = uri
+        self.symbols = symbols
+        self.dimensions = dimensions
         # Stores the untampered dimensions that were parsed from the text
-        self.original_dimensions: List[Dict[str, Any]] = original_dimensions
-        self.currency_code: str = currency_code
-        self.lang: str = lang
+        self.original_dimensions = original_dimensions
+        self.currency_code = currency_code
+        self.lang = lang
 
     def to_spoken(self, count=1, lang=None) -> str:
         """
@@ -146,11 +146,11 @@ class Entity(object):
     Class for an entity (e.g. "volume").
     """
 
-    def __init__(self, name=None, dimensions=None, uri=None):
+    def __init__(self, name: str, dimensions: List[Dict[str, Any]], uri: str):
 
-        self.name: str = name
-        self.dimensions: List[Dict[str, any]] = dimensions
-        self.uri: str = uri
+        self.name = name
+        self.dimensions = dimensions
+        self.uri = uri
 
     def __repr__(self):
 
