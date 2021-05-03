@@ -36,7 +36,7 @@ class ClassifierBuild(unittest.TestCase):
 
     @multilang
     def test_training(self, lang="en_US"):
-        """ Test that classifier training works """
+        """Test that classifier training works"""
         # Test that no errors are thrown during training
         # Also stores result, to be included in package
         self.assertIsNotNone(clf.train_classifier(store=True, lang=lang))
@@ -51,7 +51,7 @@ class ClassifierTest(unittest.TestCase):
 
     @multilang
     def test_parse_classifier(self, lang="en_US"):
-        """ Test that parsing works with classifier usage """
+        """Test that parsing works with classifier usage"""
         # forcedly activate classifier
         clf.USE_CLF = True
 
@@ -94,7 +94,7 @@ class ClassifierTest(unittest.TestCase):
 
     @multilang
     def test_expand(self, lang="en_US"):
-        """ Test that parsing and expanding works correctly """
+        """Test that parsing and expanding works correctly"""
         all_tests = load_expand_tests(lang=lang)
         for test in all_tests:
             with self.subTest(input=test["req"]):
@@ -103,7 +103,7 @@ class ClassifierTest(unittest.TestCase):
 
     @multilang
     def test_errors(self, lang="en_US"):
-        """ Test that no errors are thrown in edge cases """
+        """Test that no errors are thrown in edge cases"""
         all_tests = load_error_tests(lang=lang)
         for test in all_tests:
             with self.subTest(input=test):
@@ -137,7 +137,7 @@ class ClassifierTest(unittest.TestCase):
     @unittest.skip("Skipped, as already run in build")
     @multilang
     def test_training(self, lang="en_US"):
-        """ Test that classifier training works """
+        """Test that classifier training works"""
         # Test that no errors are thrown during training
         obj = clf.train_classifier(store=False, lang=lang)
         # Test that the classifier works with the currently downloaded data

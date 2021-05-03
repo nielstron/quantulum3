@@ -1,9 +1,9 @@
 repos:
   - repo: https://github.com/psf/black
-    rev: ''
+    rev: '21.4b2'
     hooks:
       - id: black
   - repo: https://github.com/pycqa/isort
-    rev: ''
+    rev: '5.8.0'
     hooks:
       - id: isort

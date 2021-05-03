@@ -250,7 +250,7 @@ class SetupTest(unittest.TestCase):
 
     @multilang
     def test_load_tests(self, lang="en_US"):
-        """ Test that loading tests works """
+        """Test that loading tests works"""
         self.assertIsNotNone(load_quantity_tests(True, lang))
         self.assertIsNotNone(load_quantity_tests(False, lang))
         self.assertIsNotNone(load_expand_tests(lang))
@@ -260,7 +260,7 @@ class SetupTest(unittest.TestCase):
 
     @unittest.expectedFailure
     def test_quantity_comparison_fail_unit(self):
-        """ Test unequal units (differing only in their entity) """
+        """Test unequal units (differing only in their entity)"""
         self.assertEqual(
             cls.Quantity(1, cls.Unit(name="water", entity=cls.Entity("water"))),
             cls.Quantity(1, cls.Unit(name="air", entity=cls.Entity("air"))),
@@ -268,14 +268,14 @@ class SetupTest(unittest.TestCase):
 
     @unittest.expectedFailure
     def test_quantity_comparison_fail_value(self):
-        """ Test unequal units (differing only in their value) """
+        """Test unequal units (differing only in their value)"""
         self.assertEqual(
             cls.Quantity(1, cls.Unit(name="water", entity=cls.Entity("water"))),
             cls.Quantity(2, cls.Unit(name="water", entity=cls.Entity("water"))),
         )
 
     def test_unsupported_language(self):
-        """ Test if unknown langugage fails """
+        """Test if unknown langugage fails"""
         try:
             p.parse("Urgh wooo ddaa eeee!", lang="xx")
             self.fail("No error was thrown on unsupported language")  # pragma: no cover
@@ -283,7 +283,7 @@ class SetupTest(unittest.TestCase):
             pass
 
     def test_custom_unit(self):
-        """ Test if custom units work """
+        """Test if custom units work"""
         load.add_custom_unit(name="schlurp", surfaces=["slp"], entity="dimensionless")
         r = p.parse("This extremely sharp tool is precise up to 0.5 slp")
         self.assertEqual(
@@ -297,7 +297,7 @@ class SetupTest(unittest.TestCase):
         )
 
     def test_custom_entity(self):
-        """ Test if custom units work """
+        """Test if custom units work"""
         load.add_custom_entity(name="crazy new test entity")
         load.add_custom_unit(
             name="schlurp", surfaces=["slp"], entity="crazy new test entity"
@@ -314,7 +314,7 @@ class SetupTest(unittest.TestCase):
 
     @multilang(["en_US"])
     def test_common_words(self, lang):
-        """ Test that the build script has run correctly (*might* fail locally) """
+        """Test that the build script has run correctly (*might* fail locally)"""
         # Read raw 4 letter file
         words = language.get("load", lang).build_common_words()
         built = language.get("load", lang).COMMON_WORDS
