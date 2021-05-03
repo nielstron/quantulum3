@@ -52,7 +52,7 @@ u'2 liters'
 (7, 15)
 ```
 
-The *value* attibute provides the parsed numeric value and the *unit.name*
+The *value* attribute provides the parsed numeric value and the *unit.name*
 attribute provides the name of the parsed unit:
 
 ```pycon
