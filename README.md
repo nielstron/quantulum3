@@ -52,6 +52,16 @@ u'2 liters'
 (7, 15)
 ```
 
+The *value* attribute provides the parsed numeric value and the *unit.name*
+attribute provides the name of the parsed unit:
+
+```pycon
+>>> quants[0].value
+2.0
+>>> quants[0].unit.name
+'litre'
+```
+
 An inline parser that embeds the parsed quantities in the text is also
 available (especially useful for debugging):
 
