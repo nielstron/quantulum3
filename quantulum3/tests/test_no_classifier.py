@@ -25,7 +25,7 @@ class ParsingTest(unittest.TestCase):
 
     @multilang
     def test_parse_no_classifier(self, lang="en_US"):
-        """ Test that parsing works without classifier usage """
+        """Test that parsing works without classifier usage"""
         all_tests = load_quantity_tests(False, lang)
         # Disable classifier usage
         clf.USE_CLF = False

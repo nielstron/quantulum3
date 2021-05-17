@@ -1,13 +1,11 @@
-[
-  {
-    "name": "unk",
+{
+  "unk": {
     "entity": "dimensionless",
     "URI": "Dimensionless_quantity",
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "dimensionless",
+  "dimensionless": {
     "surfaces": [
       "dimensionless"
     ],
@@ -16,8 +14,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "pair",
+  "pair": {
     "surfaces": [
       "pair"
     ],
@@ -26,8 +23,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "set",
+  "set": {
     "surfaces": [
       "set",
       "pack",
@@ -39,8 +35,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "percentage",
+  "percentage": {
     "surfaces": [
       "percentage",
       "percent"
@@ -54,8 +49,7 @@
       "pct."
     ]
   },
-  {
-    "name": "per mille",
+  "per mille": {
     "surfaces": [
       "per mille",
       "permill",
@@ -68,11 +62,10 @@
     "URI": "Per_mille",
     "dimensions": [],
     "symbols": [
-      "‰"
+      "\u2030"
     ]
   },
-  {
-    "name": "parts-per-million",
+  "parts-per-million": {
     "surfaces": [
       "parts-per-million",
       "parts per million"
@@ -84,8 +77,7 @@
       "ppm"
     ]
   },
-  {
-    "name": "parts-per-billion",
+  "parts-per-billion": {
     "surfaces": [
       "parts-per-billion",
       "parts per billion"
@@ -97,8 +89,7 @@
       "ppb"
     ]
   },
-  {
-    "name": "parts-per-trillion",
+  "parts-per-trillion": {
     "surfaces": [
       "parts-per-trillion",
       "parts per trillion"
@@ -110,8 +101,7 @@
       "ppt"
     ]
   },
-  {
-    "name": "basis point",
+  "basis point": {
     "surfaces": [
       "basis point",
       "bip",
@@ -125,11 +115,10 @@
     "dimensions": [],
     "symbols": [
       "bp",
-      "‱"
+      "\u2031"
     ]
   },
-  {
-    "name": "count",
+  "count": {
     "surfaces": [
       "instance",
       "time",
@@ -140,8 +129,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "turn",
+  "turn": {
     "surfaces": [
       "turn",
       "revolution",
@@ -153,8 +141,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "barn",
+  "barn": {
     "surfaces": [
       "barn"
     ],
@@ -168,7 +155,7 @@
       "M",
       "k",
       "m",
-      "µ",
+      "\u00b5",
       "n",
       "p",
       "f",
@@ -177,8 +164,7 @@
       "y"
     ]
   },
-  {
-    "name": "inverse femtobarn",
+  "inverse femtobarn": {
     "surfaces": [
       "inverse femtobarn"
     ],
@@ -193,11 +179,10 @@
     ],
     "symbols": [
       "fb-1",
-      "fb−1"
+      "fb\u22121"
     ]
   },
-  {
-    "name": "metre",
+  "metre": {
     "surfaces": [
       "metre",
       "meter"
@@ -224,8 +209,7 @@
       "y"
     ]
   },
-  {
-    "name": "hectometre",
+  "hectometre": {
     "surfaces": [
       "hectometre",
       "hectometer"
@@ -237,8 +221,7 @@
       "hm"
     ]
   },
-  {
-    "name": "decametre",
+  "decametre": {
     "surfaces": [
       "decametre",
       "decameter",
@@ -254,8 +237,7 @@
       "dkm"
     ]
   },
-  {
-    "name": "decimetre",
+  "decimetre": {
     "surfaces": [
       "decimetre",
       "decimeter"
@@ -267,8 +249,7 @@
       "dm"
     ]
   },
-  {
-    "name": "centimetre",
+  "centimetre": {
     "surfaces": [
       "centimetre",
       "centimeter"
@@ -280,8 +261,7 @@
       "cm"
     ]
   },
-  {
-    "name": "micrometre",
+  "micrometre": {
     "surfaces": [
       "micrometre",
       "micrometer",
@@ -291,11 +271,10 @@
     "URI": "Micrometre",
     "dimensions": [],
     "symbols": [
-      "µm"
+      "\u00b5m"
     ]
   },
-  {
-    "name": "light-year",
+  "light-year": {
     "surfaces": [
       "light-year",
       "light year"
@@ -307,8 +286,7 @@
       "ly"
     ]
   },
-  {
-    "name": "astronomical unit",
+  "astronomical unit": {
     "surfaces": [
       "astronomical unit"
     ],
@@ -322,8 +300,7 @@
       "UA"
     ]
   },
-  {
-    "name": "league",
+  "league": {
     "surfaces": [
       "league",
       "nautical league"
@@ -339,8 +316,7 @@
       "st league"
     ]
   },
-  {
-    "name": "mile",
+  "mile": {
     "surfaces": [
       "mile",
       "statute mile"
@@ -352,8 +328,7 @@
       "mi"
     ]
   },
-  {
-    "name": "ell",
+  "ell": {
     "surfaces": [
       "ell"
     ],
@@ -362,8 +337,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "furlong",
+  "furlong": {
     "surfaces": [
       "furlong"
     ],
@@ -374,8 +348,7 @@
       "fur"
     ]
   },
-  {
-    "name": "fathom",
+  "fathom": {
     "surfaces": [
       "fathom"
     ],
@@ -386,8 +359,7 @@
       "fath"
     ]
   },
-  {
-    "name": "yard",
+  "yard": {
     "surfaces": [
       "yard"
     ],
@@ -398,8 +370,7 @@
       "yd"
     ]
   },
-  {
-    "name": "foot",
+  "foot": {
     "surfaces": [
       "foot"
     ],
@@ -409,11 +380,10 @@
     "symbols": [
       "ft",
       "'",
-      "′"
+      "\u2032"
     ]
   },
-  {
-    "name": "cubit",
+  "cubit": {
     "surfaces": [
       "cubit"
     ],
@@ -422,8 +392,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "span",
+  "span": {
     "surfaces": [
       "span"
     ],
@@ -432,8 +401,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "inch",
+  "inch": {
     "surfaces": [
       "inch"
     ],
@@ -443,28 +411,26 @@
     "symbols": [
       "in",
       "\"",
-      "″",
-      "”"
+      "\u2033",
+      "\u201d"
     ]
   },
-  {
-    "name": "ångström",
+  "\u00e5ngstr\u00f6m": {
     "surfaces": [
       "Angstrom",
-      "ångström",
-      "ångstrom",
-      "angström",
+      "\u00e5ngstr\u00f6m",
+      "\u00e5ngstrom",
+      "angstr\u00f6m",
       "angstrom"
     ],
     "entity": "length",
-    "URI": "Ångström",
+    "URI": "\u00c5ngstr\u00f6m",
     "dimensions": [],
     "symbols": [
-      "Å"
+      "\u00c5"
     ]
   },
-  {
-    "name": "twip",
+  "twip": {
     "surfaces": [
       "twip"
     ],
@@ -473,8 +439,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "solar mass",
+  "solar mass": {
     "surfaces": [
       "solar mass"
     ],
@@ -482,11 +447,10 @@
     "URI": "Solar_mass",
     "dimensions": [],
     "symbols": [
-      "M☉"
+      "M\u2609"
     ]
   },
-  {
-    "name": "earth mass",
+  "earth mass": {
     "surfaces": [
       "earth mass"
     ],
@@ -494,11 +458,10 @@
     "URI": "Earth_mass",
     "dimensions": [],
     "symbols": [
-      "M⊕"
+      "M\u2295"
     ]
   },
-  {
-    "name": "short ton",
+  "short ton": {
     "surfaces": [
       "short ton",
       "ton"
@@ -508,8 +471,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "long ton",
+  "long ton": {
     "surfaces": [
       "long ton",
       "imperial ton",
@@ -520,8 +482,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "kilogram",
+  "kilogram": {
     "surfaces": [
       "kilogram",
       "kilogramme",
@@ -536,8 +497,7 @@
       "kg"
     ]
   },
-  {
-    "name": "gram",
+  "gram": {
     "surfaces": [
       "gram",
       "gramme"
@@ -550,8 +510,7 @@
       "gm"
     ]
   },
-  {
-    "name": "milligram",
+  "milligram": {
     "surfaces": [
       "milligram",
       "milligramme"
@@ -563,8 +522,7 @@
       "mg"
     ]
   },
-  {
-    "name": "microgram",
+  "microgram": {
     "surfaces": [
       "microgram",
       "microgramme"
@@ -573,12 +531,11 @@
     "URI": "Microgram",
     "dimensions": [],
     "symbols": [
-      "µg",
+      "\u00b5g",
       "mcg"
     ]
   },
-  {
-    "name": "atomic mass unit",
+  "atomic mass unit": {
     "surfaces": [
       "atomic mass unit",
       "unified atomic mass unit",
@@ -593,8 +550,7 @@
       "amu"
     ]
   },
-  {
-    "name": "pound-mass",
+  "pound-mass": {
     "surfaces": [
       "pound",
       "pound-mass"
@@ -608,8 +564,7 @@
       "lbs"
     ]
   },
-  {
-    "name": "ounce",
+  "ounce": {
     "surfaces": [
       "ounce"
     ],
@@ -618,11 +573,10 @@
     "dimensions": [],
     "symbols": [
       "oz",
-      "℥"
+      "\u2125"
     ]
   },
-  {
-    "name": "ton",
+  "ton": {
     "surfaces": [
       "ton"
     ],
@@ -631,8 +585,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "tonne",
+  "tonne": {
     "surfaces": [
       "tonne",
       "metric ton"
@@ -644,8 +597,7 @@
       "t"
     ]
   },
-  {
-    "name": "quintal",
+  "quintal": {
     "surfaces": [
       "quintal"
     ],
@@ -656,8 +608,7 @@
       "q"
     ]
   },
-  {
-    "name": "quarter",
+  "quarter": {
     "surfaces": [
       "quarter"
     ],
@@ -668,8 +619,7 @@
       "qr"
     ]
   },
-  {
-    "name": "carat",
+  "carat": {
     "surfaces": [
       "carat"
     ],
@@ -680,8 +630,7 @@
       "ct"
     ]
   },
-  {
-    "name": "bushel",
+  "bushel": {
     "surfaces": [
       "bushel"
     ],
@@ -693,8 +642,7 @@
       "bu"
     ]
   },
-  {
-    "name": "dollar",
+  "dollar": {
     "surfaces": [
       "dollar"
     ],
@@ -707,8 +655,7 @@
     "currency_code": "USD",
     "comment": "Treat as us-dollar for expanding purposes"
   },
-  {
-    "name": "united states dollar",
+  "united states dollar": {
     "surfaces": [
       "united states dollar",
       "us dollar",
@@ -723,8 +670,7 @@
     ],
     "currency_code": "USD"
   },
-  {
-    "name": "euro",
+  "euro": {
     "surfaces": [
       "euro"
     ],
@@ -732,13 +678,12 @@
     "URI": "Euro",
     "dimensions": [],
     "symbols": [
-      "€",
+      "\u20ac",
       "EUR"
     ],
     "currency_code": "EUR"
   },
-  {
-    "name": "pound sterling",
+  "pound sterling": {
     "surfaces": [
       "pound sterling",
       "pound"
@@ -747,13 +692,12 @@
     "URI": "Pound_sterling",
     "dimensions": [],
     "symbols": [
-      "£",
+      "\u00a3",
       "GBP"
     ],
     "currency_code": "GBP"
   },
-  {
-    "name": "canadian dollar",
+  "canadian dollar": {
     "surfaces": [
       "canadian dollar"
     ],
@@ -766,8 +710,7 @@
     ],
     "currency_code": "CAD"
   },
-  {
-    "name": "australian dollar",
+  "australian dollar": {
     "surfaces": [
       "australian dollar"
     ],
@@ -780,8 +723,7 @@
     ],
     "currency_code": "AUD"
   },
-  {
-    "name": "new zealand dollar",
+  "new zealand dollar": {
     "surfaces": [
       "new zealand dollar"
     ],
@@ -794,8 +736,7 @@
     ],
     "currency_code": "NZD"
   },
-  {
-    "name": "japanese yen",
+  "japanese yen": {
     "surfaces": [
       "japanese yen",
       "yen"
@@ -804,15 +745,14 @@
     "URI": "Japanese_yen",
     "dimensions": [],
     "symbols": [
-      "円",
-      "圓",
-      "¥",
+      "\u5186",
+      "\u5713",
+      "\u00a5",
       "JPY"
     ],
     "currency_code": "JPY"
   },
-  {
-    "name": "swiss franc",
+  "swiss franc": {
     "surfaces": [
       "swiss franc",
       "franc"
@@ -828,8 +768,7 @@
     ],
     "currency_code": "CHF"
   },
-  {
-    "name": "rappen",
+  "rappen": {
     "surfaces": [
       "rappen"
     ],
@@ -838,8 +777,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "south african rand",
+  "south african rand": {
     "surfaces": [
       "south african rand",
       "rand"
@@ -853,8 +791,7 @@
     ],
     "currency_code": "ZAR"
   },
-  {
-    "name": "brazilian real",
+  "brazilian real": {
     "surfaces": [
       "brazilian real",
       "real",
@@ -869,8 +806,7 @@
     ],
     "currency_code": "BRL"
   },
-  {
-    "name": "indian rupee",
+  "indian rupee": {
     "surfaces": [
       "indian rupee",
       "rupee"
@@ -879,13 +815,12 @@
     "URI": "Indian_rupee",
     "dimensions": [],
     "symbols": [
-      "₹",
+      "\u20b9",
       "INR"
     ],
     "currency_code": "INR"
   },
-  {
-    "name": "mexican peso",
+  "mexican peso": {
     "surfaces": [
       "mexican peso",
       "peso"
@@ -898,8 +833,7 @@
     ],
     "currency_code": "MXN"
   },
-  {
-    "name": "russian ruble",
+  "russian ruble": {
     "surfaces": [
       "russian ruble",
       "russian rouble",
@@ -910,13 +844,12 @@
     "URI": "Russian_ruble",
     "dimensions": [],
     "symbols": [
-      "₽",
+      "\u20bd",
       "RUB"
     ],
     "currency_code": "RUB"
   },
-  {
-    "name": "chinese yuan",
+  "chinese yuan": {
     "surfaces": [
       "chinese yuan",
       "yuan"
@@ -925,14 +858,13 @@
     "URI": "Chinese_yuan",
     "dimensions": [],
     "symbols": [
-      "¥",
-      "元",
+      "\u00a5",
+      "\u5143",
       "CNY"
     ],
     "currency_code": "CNY"
   },
-  {
-    "name": "south korean won",
+  "south korean won": {
     "surfaces": [
       "south korean won",
       "won",
@@ -942,14 +874,13 @@
     "URI": "South_Korean_won",
     "dimensions": [],
     "symbols": [
-      "원",
-      "₩",
+      "\uc6d0",
+      "\u20a9",
       "KRW"
     ],
     "currency_code": "KRW"
   },
-  {
-    "name": "cubic metre",
+  "cubic metre": {
     "surfaces": [
       "cubic metre",
       "cubic meter",
@@ -969,8 +900,7 @@
       "kL"
     ]
   },
-  {
-    "name": "cubic kilometre",
+  "cubic kilometre": {
     "surfaces": [
       "cubic kilometre",
       "cubic kilometer"
@@ -985,8 +915,7 @@
     ],
     "symbols": []
   },
-  {
-    "name": "cubic centimetre",
+  "cubic centimetre": {
     "surfaces": [
       "cubic centimetre",
       "cubic centimeter",
@@ -1008,8 +937,7 @@
       "ml"
     ]
   },
-  {
-    "name": "cubic millimetre",
+  "cubic millimetre": {
     "surfaces": [
       "cubic millimetre",
       "cubic millimeter",
@@ -1025,12 +953,11 @@
       }
     ],
     "symbols": [
-      "µl",
-      "µL"
+      "\u00b5l",
+      "\u00b5L"
     ]
   },
-  {
-    "name": "litre",
+  "litre": {
     "surfaces": [
       "cubic decimetre",
       "cubic decimeter",
@@ -1049,11 +976,10 @@
       "l",
       "L",
       "ltr",
-      "ℓ"
+      "\u2113"
     ]
   },
-  {
-    "name": "centilitre",
+  "centilitre": {
     "surfaces": [
       "centiliter",
       "centilitre"
@@ -1071,8 +997,7 @@
       "cL"
     ]
   },
-  {
-    "name": "hectolitre",
+  "hectolitre": {
     "surfaces": [
       "hectorlitre",
       "hectorliter"
@@ -1090,8 +1015,7 @@
       "hL"
     ]
   },
-  {
-    "name": "decilitre",
+  "decilitre": {
     "surfaces": [
       "decilitre",
       "deciliter"
@@ -1109,8 +1033,7 @@
       "dL"
     ]
   },
-  {
-    "name": "drop",
+  "drop": {
     "surfaces": [
       "drop"
     ],
@@ -1119,8 +1042,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "barrel",
+  "barrel": {
     "surfaces": [
       "barrel",
       "barrel dry",
@@ -1134,8 +1056,7 @@
       "bbl dry"
     ]
   },
-  {
-    "name": "gallon",
+  "gallon": {
     "surfaces": [
       "gallon"
     ],
@@ -1146,8 +1067,7 @@
       "gal"
     ]
   },
-  {
-    "name": "quart",
+  "quart": {
     "surfaces": [
       "quart",
       "dry quart",
@@ -1164,8 +1084,7 @@
       "qt dry"
     ]
   },
-  {
-    "name": "pint",
+  "pint": {
     "surfaces": [
       "pint",
       "dry pint",
@@ -1183,8 +1102,7 @@
       "pt dry"
     ]
   },
-  {
-    "name": "cup",
+  "cup": {
     "surfaces": [
       "cup"
     ],
@@ -1193,8 +1111,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "fluid ounce",
+  "fluid ounce": {
     "surfaces": [
       "fluid ounce"
     ],
@@ -1209,8 +1126,7 @@
       "fl. oz"
     ]
   },
-  {
-    "name": "tablespoon",
+  "tablespoon": {
     "surfaces": [
       "tablespoon",
       "table spoon"
@@ -1222,8 +1138,7 @@
       "tbsp"
     ]
   },
-  {
-    "name": "dessertspoon",
+  "dessertspoon": {
     "surfaces": [
       "dessertspoon",
       "dessert spoon"
@@ -1235,8 +1150,7 @@
       "dstspn"
     ]
   },
-  {
-    "name": "teaspoon",
+  "teaspoon": {
     "surfaces": [
       "teaspoon",
       "tea spoon"
@@ -1248,8 +1162,7 @@
       "tsp"
     ]
   },
-  {
-    "name": "cubic mile",
+  "cubic mile": {
     "surfaces": [
       "cubic mile",
       "cu mile"
@@ -1266,8 +1179,7 @@
       "cu mi"
     ]
   },
-  {
-    "name": "cubic yard",
+  "cubic yard": {
     "surfaces": [
       "cubic yard",
       "cu yard"
@@ -1284,8 +1196,7 @@
       "cu yd"
     ]
   },
-  {
-    "name": "cubic foot",
+  "cubic foot": {
     "surfaces": [
       "cubic foot",
       "cu foot"
@@ -1302,8 +1213,7 @@
       "cu ft"
     ]
   },
-  {
-    "name": "cubic inch",
+  "cubic inch": {
     "surfaces": [
       "cubic inch",
       "cu inch"
@@ -1320,8 +1230,7 @@
       "cu in"
     ]
   },
-  {
-    "name": "acre foot",
+  "acre foot": {
     "surfaces": [
       "acre foot",
       "acre-foot"
@@ -1333,8 +1242,7 @@
       "ac*ft"
     ]
   },
-  {
-    "name": "stere",
+  "stere": {
     "surfaces": [
       "stere"
     ],
@@ -1345,8 +1253,7 @@
       "st"
     ]
   },
-  {
-    "name": "peck",
+  "peck": {
     "surfaces": [
       "peck"
     ],
@@ -1357,8 +1264,7 @@
       "pk"
     ]
   },
-  {
-    "name": "kelvin",
+  "kelvin": {
     "surfaces": [
       "kelvin"
     ],
@@ -1367,11 +1273,10 @@
     "dimensions": [],
     "symbols": [
       "K",
-      "°K"
+      "\u00b0K"
     ]
   },
-  {
-    "name": "degree Celsius",
+  "degree Celsius": {
     "surfaces": [
       "degree celsius",
       "degree Celsius",
@@ -1385,11 +1290,10 @@
     "dimensions": [],
     "symbols": [
       "C",
-      "°C"
+      "\u00b0C"
     ]
   },
-  {
-    "name": "degree fahrenheit",
+  "degree fahrenheit": {
     "surfaces": [
       "degree fahrenheit",
       "Fahrenheit"
@@ -1399,11 +1303,10 @@
     "dimensions": [],
     "symbols": [
       "F",
-      "°F"
+      "\u00b0F"
     ]
   },
-  {
-    "name": "degree rankine",
+  "degree rankine": {
     "surfaces": [
       "degree rankine",
       "Rankine"
@@ -1412,12 +1315,11 @@
     "URI": "Rankine_scale",
     "dimensions": [],
     "symbols": [
-      "°R",
-      "°Ra"
+      "\u00b0R",
+      "\u00b0Ra"
     ]
   },
-  {
-    "name": "circular mil",
+  "circular mil": {
     "surfaces": [
       "circular mil"
     ],
@@ -1428,8 +1330,7 @@
       "cmil"
     ]
   },
-  {
-    "name": "square metre",
+  "square metre": {
     "surfaces": [
       "square metre",
       "square meter"
@@ -1446,8 +1347,7 @@
       "sq m"
     ]
   },
-  {
-    "name": "square kilometre",
+  "square kilometre": {
     "surfaces": [
       "square kilometre",
       "square kilometer"
@@ -1464,8 +1364,7 @@
       "sq km"
     ]
   },
-  {
-    "name": "hectare",
+  "hectare": {
     "surfaces": [
       "square hectometre",
       "square hectometer"
@@ -1483,8 +1382,7 @@
       "ha"
     ]
   },
-  {
-    "name": "square mile",
+  "square mile": {
     "surfaces": [
       "square mile"
     ],
@@ -1500,8 +1398,7 @@
       "sq mi"
     ]
   },
-  {
-    "name": "square yard",
+  "square yard": {
     "surfaces": [
       "square yard",
       "gaj"
@@ -1518,8 +1415,7 @@
       "sq yd"
     ]
   },
-  {
-    "name": "square foot",
+  "square foot": {
     "surfaces": [
       "square foot"
     ],
@@ -1535,8 +1431,7 @@
       "sq ft"
     ]
   },
-  {
-    "name": "square inch",
+  "square inch": {
     "surfaces": [
       "square inch"
     ],
@@ -1552,8 +1447,7 @@
       "sq in"
     ]
   },
-  {
-    "name": "acre",
+  "acre": {
     "surfaces": [
       "acre"
     ],
@@ -1564,8 +1458,7 @@
       "ac"
     ]
   },
-  {
-    "name": "pascal",
+  "pascal": {
     "surfaces": [
       "pascal"
     ],
@@ -1574,11 +1467,10 @@
     "dimensions": [],
     "symbols": [
       "Pa",
-      "㎩"
+      "\u33a9"
     ]
   },
-  {
-    "name": "hectopascal",
+  "hectopascal": {
     "surfaces": [
       "hectopascal"
     ],
@@ -1589,8 +1481,7 @@
       "hPa"
     ]
   },
-  {
-    "name": "kilopascal",
+  "kilopascal": {
     "surfaces": [
       "kilopascal"
     ],
@@ -1599,11 +1490,10 @@
     "dimensions": [],
     "symbols": [
       "kPa",
-      "㎪"
+      "\u33aa"
     ]
   },
-  {
-    "name": "megapascal",
+  "megapascal": {
     "surfaces": [
       "megapascal"
     ],
@@ -1614,8 +1504,7 @@
       "MPa"
     ]
   },
-  {
-    "name": "gigapascal",
+  "gigapascal": {
     "surfaces": [
       "gigapascal"
     ],
@@ -1626,8 +1515,7 @@
       "GPa"
     ]
   },
-  {
-    "name": "bar",
+  "bar": {
     "surfaces": [
       "bar"
     ],
@@ -1641,11 +1529,10 @@
       "d",
       "c",
       "m",
-      "µ"
+      "\u00b5"
     ]
   },
-  {
-    "name": "pound per square inch",
+  "pound per square inch": {
     "surfaces": [
       "pound per square inch",
       "pound-force per square inch"
@@ -1666,8 +1553,7 @@
       "psi"
     ]
   },
-  {
-    "name": "torr",
+  "torr": {
     "surfaces": [
       "torr"
     ],
@@ -1678,8 +1564,7 @@
       "Torr"
     ]
   },
-  {
-    "name": "millimeter of mercury",
+  "millimeter of mercury": {
     "surfaces": [
       "millimetre of mercury",
       "millimetre mercury",
@@ -1693,8 +1578,7 @@
       "mmHg"
     ]
   },
-  {
-    "name": "centimeter of water",
+  "centimeter of water": {
     "surfaces": [
       "centimeter of water",
       "centimetre of water"
@@ -1707,8 +1591,7 @@
       "cm H2O"
     ]
   },
-  {
-    "name": "inch of water",
+  "inch of water": {
     "surfaces": [
       "inch of water",
       "inch water column"
@@ -1721,8 +1604,7 @@
       "inAq"
     ]
   },
-  {
-    "name": "inch of mercury",
+  "inch of mercury": {
     "surfaces": [
       "inch of mercury",
       "inch mercury"
@@ -1735,8 +1617,7 @@
       "\"Hg"
     ]
   },
-  {
-    "name": "standard atmosphere",
+  "standard atmosphere": {
     "surfaces": [
       "standard atmosphere",
       "atmosphere"
@@ -1748,8 +1629,7 @@
       "atm"
     ]
   },
-  {
-    "name": "technical atmosphere",
+  "technical atmosphere": {
     "surfaces": [
       "technical atmosphere"
     ],
@@ -1758,8 +1638,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "barye",
+  "barye": {
     "surfaces": [
       "barye",
       "barad",
@@ -1776,8 +1655,7 @@
       "Ba"
     ]
   },
-  {
-    "name": "joule",
+  "joule": {
     "surfaces": [
       "joule"
     ],
@@ -1788,8 +1666,7 @@
       "J"
     ]
   },
-  {
-    "name": "millijoule",
+  "millijoule": {
     "surfaces": [
       "millijoule"
     ],
@@ -1800,8 +1677,7 @@
       "mJ"
     ]
   },
-  {
-    "name": "kilojoule",
+  "kilojoule": {
     "surfaces": [
       "kilojoule"
     ],
@@ -1812,8 +1688,7 @@
       "kJ"
     ]
   },
-  {
-    "name": "electronvolt",
+  "electronvolt": {
     "surfaces": [
       "electron volt",
       "electronvolt",
@@ -1826,8 +1701,7 @@
       "eV"
     ]
   },
-  {
-    "name": "kiloelectronvolt",
+  "kiloelectronvolt": {
     "surfaces": [
       "kiloelectron volt",
       "kiloelectronvolt",
@@ -1840,8 +1714,7 @@
       "keV"
     ]
   },
-  {
-    "name": "megaelectronvolt",
+  "megaelectronvolt": {
     "surfaces": [
       "megaelectron volt",
       "megaelectronvolt",
@@ -1854,8 +1727,7 @@
       "MeV"
     ]
   },
-  {
-    "name": "gigaelectronvolt",
+  "gigaelectronvolt": {
     "surfaces": [
       "gigaelectron volt",
       "gigaelectronvolt",
@@ -1870,8 +1742,7 @@
       "BeV"
     ]
   },
-  {
-    "name": "teraelectronvolt",
+  "teraelectronvolt": {
     "surfaces": [
       "teraelectron volt",
       "teraelectronvolt",
@@ -1884,8 +1755,7 @@
       "TeV"
     ]
   },
-  {
-    "name": "hartree",
+  "hartree": {
     "surfaces": [
       "hartree",
       "hartree energy"
@@ -1898,8 +1768,7 @@
       "Ha"
     ]
   },
-  {
-    "name": "erg",
+  "erg": {
     "surfaces": [
       "erg"
     ],
@@ -1908,8 +1777,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "kilowatt hour",
+  "kilowatt hour": {
     "surfaces": [
       "kilowatt hour",
       "kilowatthour",
@@ -1931,8 +1799,7 @@
       "kWh"
     ]
   },
-  {
-    "name": "watt second",
+  "watt second": {
     "surfaces": [
       "watt second",
       "watt-second",
@@ -1954,8 +1821,7 @@
       "Ws"
     ]
   },
-  {
-    "name": "horsepower-hour",
+  "horsepower-hour": {
     "surfaces": [
       "horsepower hour",
       "horsepowerhour",
@@ -1977,8 +1843,7 @@
       "hph"
     ]
   },
-  {
-    "name": "calorie",
+  "calorie": {
     "surfaces": [
       "calorie",
       "small calorie",
@@ -1991,8 +1856,7 @@
       "cal"
     ]
   },
-  {
-    "name": "kilocalorie",
+  "kilocalorie": {
     "surfaces": [
       "kilocalorie",
       "large calorie",
@@ -2006,8 +1870,7 @@
       "Cal"
     ]
   },
-  {
-    "name": "british thermal unit",
+  "british thermal unit": {
     "surfaces": [
       "british thermal unit"
     ],
@@ -2020,8 +1883,7 @@
       "Btu"
     ]
   },
-  {
-    "name": "mega british thermal unit",
+  "mega british thermal unit": {
     "surfaces": [
       "mega british thermal unit"
     ],
@@ -2034,8 +1896,7 @@
       "mmBtu"
     ]
   },
-  {
-    "name": "quad",
+  "quad": {
     "surfaces": [
       "quad",
       "quadrillion british thermal unit"
@@ -2045,8 +1906,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "gigaton",
+  "gigaton": {
     "surfaces": [
       "gigaton",
       "gigatonne"
@@ -2059,8 +1919,7 @@
       "Gton"
     ]
   },
-  {
-    "name": "megaton",
+  "megaton": {
     "surfaces": [
       "megaton",
       "megatonne"
@@ -2073,8 +1932,7 @@
       "Mton"
     ]
   },
-  {
-    "name": "kiloton",
+  "kiloton": {
     "surfaces": [
       "kiloton",
       "kilotonne"
@@ -2087,8 +1945,7 @@
       "kton"
     ]
   },
-  {
-    "name": "therm",
+  "therm": {
     "surfaces": [
       "therm",
       "thermie"
@@ -2100,8 +1957,7 @@
       "thm"
     ]
   },
-  {
-    "name": "ton of refrigeration",
+  "ton of refrigeration": {
     "surfaces": [
       "ton of refrigeration",
       "refrigeration ton"
@@ -2113,8 +1969,7 @@
       "TR"
     ]
   },
-  {
-    "name": "watt",
+  "watt": {
     "surfaces": [
       "watt"
     ],
@@ -2126,7 +1981,7 @@
       "f",
       "p",
       "n",
-      "µ",
+      "\u00b5",
       "m",
       "k",
       "M",
@@ -2139,8 +1994,7 @@
       "W"
     ]
   },
-  {
-    "name": "horsepower",
+  "horsepower": {
     "surfaces": [
       "horsepower",
       "pferdestarke",
@@ -2157,8 +2011,7 @@
       "hp"
     ]
   },
-  {
-    "name": "volt-ampere",
+  "volt-ampere": {
     "surfaces": [
       "volt-ampere",
       "volt ampere",
@@ -2180,8 +2033,7 @@
       "VA"
     ]
   },
-  {
-    "name": "newton",
+  "newton": {
     "surfaces": [
       "newton"
     ],
@@ -2192,8 +2044,7 @@
       "N"
     ]
   },
-  {
-    "name": "kilonewton",
+  "kilonewton": {
     "surfaces": [
       "kilonewton"
     ],
@@ -2204,8 +2055,7 @@
       "kN"
     ]
   },
-  {
-    "name": "dyne",
+  "dyne": {
     "surfaces": [
       "dyne"
     ],
@@ -2216,8 +2066,7 @@
       "dyn"
     ]
   },
-  {
-    "name": "kilogram-force",
+  "kilogram-force": {
     "surfaces": [
       "kilogram-force",
       "kilogram force",
@@ -2233,8 +2082,7 @@
       "kp"
     ]
   },
-  {
-    "name": "gram-force",
+  "gram-force": {
     "surfaces": [
       "gram-force",
       "gram force",
@@ -2249,8 +2097,7 @@
       "gf"
     ]
   },
-  {
-    "name": "ton-force",
+  "ton-force": {
     "surfaces": [
       "ton-force",
       "ton force",
@@ -2269,8 +2116,7 @@
       "tonf"
     ]
   },
-  {
-    "name": "pound-force",
+  "pound-force": {
     "surfaces": [
       "pound-force",
       "pound force",
@@ -2284,8 +2130,7 @@
       "lbf"
     ]
   },
-  {
-    "name": "ounce-force",
+  "ounce-force": {
     "surfaces": [
       "ounce-force",
       "ounce force",
@@ -2299,8 +2144,7 @@
       "ozf"
     ]
   },
-  {
-    "name": "poundal",
+  "poundal": {
     "surfaces": [
       "poundal"
     ],
@@ -2311,8 +2155,7 @@
       "pdl"
     ]
   },
-  {
-    "name": "kip",
+  "kip": {
     "surfaces": [
       "kip",
       "kip-force",
@@ -2328,8 +2171,7 @@
       "klbf"
     ]
   },
-  {
-    "name": "shake",
+  "shake": {
     "surfaces": [
       "shake"
     ],
@@ -2338,8 +2180,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "second",
+  "second": {
     "surfaces": [
       "second"
     ],
@@ -2350,11 +2191,10 @@
       "s",
       "sec",
       "\"",
-      "″"
+      "\u2033"
     ]
   },
-  {
-    "name": "millisecond",
+  "millisecond": {
     "surfaces": [
       "millisecond"
     ],
@@ -2366,22 +2206,20 @@
       "msec"
     ]
   },
-  {
-    "name": "microsecond",
+  "microsecond": {
     "surfaces": [
-      "µs",
+      "\u00b5s",
       "microsecond"
     ],
     "entity": "time",
     "URI": "Microsecond",
     "dimensions": [],
     "symbols": [
-      "μs",
-      "μsec"
+      "\u03bcs",
+      "\u03bcsec"
     ]
   },
-  {
-    "name": "nanosecond",
+  "nanosecond": {
     "surfaces": [
       "nanosecond"
     ],
@@ -2393,8 +2231,7 @@
       "nsec"
     ]
   },
-  {
-    "name": "minute",
+  "minute": {
     "surfaces": [
       "minute"
     ],
@@ -2404,11 +2241,10 @@
     "symbols": [
       "min",
       "'",
-      "′"
+      "\u2032"
     ]
   },
-  {
-    "name": "hour",
+  "hour": {
     "surfaces": [
       "hour"
     ],
@@ -2421,8 +2257,7 @@
       "hs"
     ]
   },
-  {
-    "name": "day",
+  "day": {
     "surfaces": [
       "day"
     ],
@@ -2433,8 +2268,7 @@
       "d"
     ]
   },
-  {
-    "name": "week",
+  "week": {
     "surfaces": [
       "week"
     ],
@@ -2443,8 +2277,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "month",
+  "month": {
     "surfaces": [
       "month"
     ],
@@ -2453,8 +2286,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "year",
+  "year": {
     "surfaces": [
       "year",
       "annum"
@@ -2476,8 +2308,7 @@
       "E"
     ]
   },
-  {
-    "name": "fortnight",
+  "fortnight": {
     "surfaces": [
       "fortnight"
     ],
@@ -2486,8 +2317,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "lustrum",
+  "lustrum": {
     "surfaces": [
       "lustrum"
     ],
@@ -2496,8 +2326,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "decade",
+  "decade": {
     "surfaces": [
       "decade"
     ],
@@ -2506,8 +2335,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "century",
+  "century": {
     "surfaces": [
       "century"
     ],
@@ -2516,8 +2344,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "millennium",
+  "millennium": {
     "surfaces": [
       "millennium"
     ],
@@ -2526,8 +2353,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "speed of light",
+  "speed of light": {
     "surfaces": [
       "speed of light",
       "lightspeed"
@@ -2539,8 +2365,7 @@
       "c"
     ]
   },
-  {
-    "name": "knot",
+  "knot": {
     "surfaces": [
       "knot"
     ],
@@ -2552,8 +2377,7 @@
       "kt"
     ]
   },
-  {
-    "name": "metre per second",
+  "metre per second": {
     "surfaces": [
       "metre per second",
       "meter per second"
@@ -2574,8 +2398,7 @@
       "mps"
     ]
   },
-  {
-    "name": "metre per hour",
+  "metre per hour": {
     "surfaces": [
       "metre per hour",
       "meter per hour"
@@ -2594,8 +2417,7 @@
     ],
     "symbols": []
   },
-  {
-    "name": "foot per second",
+  "foot per second": {
     "surfaces": [
       "foot per second"
     ],
@@ -2615,8 +2437,7 @@
       "fps"
     ]
   },
-  {
-    "name": "inch per second",
+  "inch per second": {
     "surfaces": [
       "inch per second"
     ],
@@ -2636,8 +2457,7 @@
       "ips"
     ]
   },
-  {
-    "name": "kilometre per hour",
+  "kilometre per hour": {
     "surfaces": [
       "kilometre per hour",
       "kilometer per hour"
@@ -2658,8 +2478,7 @@
       "kph"
     ]
   },
-  {
-    "name": "mile per hour",
+  "mile per hour": {
     "surfaces": [
       "mile per hour"
     ],
@@ -2680,8 +2499,7 @@
       "mph"
     ]
   },
-  {
-    "name": "degree angle",
+  "degree angle": {
     "surfaces": [
       "degree",
       "degree of arc",
@@ -2693,13 +2511,12 @@
     "URI": "Degree_(angle)",
     "dimensions": [],
     "symbols": [
-      "°",
+      "\u00b0",
       "deg",
       "arcdeg"
     ]
   },
-  {
-    "name": "radian",
+  "radian": {
     "surfaces": [
       "radian"
     ],
@@ -2708,11 +2525,10 @@
     "dimensions": [],
     "symbols": [
       "rad",
-      "㎭"
+      "\u33ad"
     ]
   },
-  {
-    "name": "steradian",
+  "steradian": {
     "surfaces": [
       "steradian",
       "square radian"
@@ -2724,8 +2540,7 @@
       "sr"
     ]
   },
-  {
-    "name": "minute of arc",
+  "minute of arc": {
     "surfaces": [
       "minute",
       "minute of arc",
@@ -2739,14 +2554,13 @@
     "dimensions": [],
     "symbols": [
       "'",
-      "′",
+      "\u2032",
       "MOA",
       "arcmin",
       "amin"
     ]
   },
-  {
-    "name": "second of arc",
+  "second of arc": {
     "surfaces": [
       "second",
       "second of arc",
@@ -2760,14 +2574,13 @@
     "dimensions": [],
     "symbols": [
       "\"",
-      "″",
+      "\u2033",
       "SOA",
       "arcsec",
       "asec"
     ]
   },
-  {
-    "name": "bit",
+  "bit": {
     "surfaces": [
       "bit"
     ],
@@ -2778,8 +2591,7 @@
       "b"
     ]
   },
-  {
-    "name": "kilobit",
+  "kilobit": {
     "surfaces": [
       "kilobit"
     ],
@@ -2791,8 +2603,7 @@
       "kbit"
     ]
   },
-  {
-    "name": "megabit",
+  "megabit": {
     "surfaces": [
       "megabit"
     ],
@@ -2804,8 +2615,7 @@
       "Mbit"
     ]
   },
-  {
-    "name": "gigabit",
+  "gigabit": {
     "surfaces": [
       "gigabit"
     ],
@@ -2817,8 +2627,7 @@
       "Gbit"
     ]
   },
-  {
-    "name": "terabit",
+  "terabit": {
     "surfaces": [
       "terabit"
     ],
@@ -2830,8 +2639,7 @@
       "Tbit"
     ]
   },
-  {
-    "name": "petabit",
+  "petabit": {
     "surfaces": [
       "petabit"
     ],
@@ -2843,8 +2651,7 @@
       "Pbit"
     ]
   },
-  {
-    "name": "exabit",
+  "exabit": {
     "surfaces": [
       "exabit"
     ],
@@ -2856,8 +2663,7 @@
       "Ebit"
     ]
   },
-  {
-    "name": "zettabit",
+  "zettabit": {
     "surfaces": [
       "zettabit"
     ],
@@ -2869,8 +2675,7 @@
       "Zbit"
     ]
   },
-  {
-    "name": "yottabit",
+  "yottabit": {
     "surfaces": [
       "yottabit"
     ],
@@ -2882,8 +2687,7 @@
       "Ybit"
     ]
   },
-  {
-    "name": "kibibit",
+  "kibibit": {
     "surfaces": [
       "kibibit"
     ],
@@ -2894,8 +2698,7 @@
       "Kibit"
     ]
   },
-  {
-    "name": "mebibit",
+  "mebibit": {
     "surfaces": [
       "mebibit"
     ],
@@ -2906,8 +2709,7 @@
       "Mibit"
     ]
   },
-  {
-    "name": "gibibit",
+  "gibibit": {
     "surfaces": [
       "gibibit"
     ],
@@ -2918,8 +2720,7 @@
       "Gibit"
     ]
   },
-  {
-    "name": "tebibit",
+  "tebibit": {
     "surfaces": [
       "tebibit"
     ],
@@ -2930,8 +2731,7 @@
       "Tibit"
     ]
   },
-  {
-    "name": "pebibit",
+  "pebibit": {
     "surfaces": [
       "pebibit"
     ],
@@ -2942,8 +2742,7 @@
       "Pibit"
     ]
   },
-  {
-    "name": "exbibit",
+  "exbibit": {
     "surfaces": [
       "exbibit"
     ],
@@ -2954,8 +2753,7 @@
       "Eibit"
     ]
   },
-  {
-    "name": "zebibit",
+  "zebibit": {
     "surfaces": [
       "zebibit"
     ],
@@ -2966,8 +2764,7 @@
       "Zibit"
     ]
   },
-  {
-    "name": "yobibit",
+  "yobibit": {
     "surfaces": [
       "yobibit"
     ],
@@ -2978,8 +2775,7 @@
       "Yibit"
     ]
   },
-  {
-    "name": "byte",
+  "byte": {
     "surfaces": [
       "byte"
     ],
@@ -2990,8 +2786,7 @@
       "B"
     ]
   },
-  {
-    "name": "kilobyte",
+  "kilobyte": {
     "surfaces": [
       "kilobyte"
     ],
@@ -3002,8 +2797,7 @@
       "kB"
     ]
   },
-  {
-    "name": "megabyte",
+  "megabyte": {
     "surfaces": [
       "megabyte"
     ],
@@ -3016,8 +2810,7 @@
       "mb"
     ]
   },
-  {
-    "name": "gigabyte",
+  "gigabyte": {
     "surfaces": [
       "gigabyte"
     ],
@@ -3029,8 +2822,7 @@
       "gb"
     ]
   },
-  {
-    "name": "terabyte",
+  "terabyte": {
     "surfaces": [
       "terabyte"
     ],
@@ -3042,8 +2834,7 @@
       "tb"
     ]
   },
-  {
-    "name": "petabyte",
+  "petabyte": {
     "surfaces": [
       "petabyte"
     ],
@@ -3054,8 +2845,7 @@
       "PB"
     ]
   },
-  {
-    "name": "exabyte",
+  "exabyte": {
     "surfaces": [
       "exabyte"
     ],
@@ -3066,8 +2856,7 @@
       "EB"
     ]
   },
-  {
-    "name": "zettabyte",
+  "zettabyte": {
     "surfaces": [
       "zettabyte"
     ],
@@ -3078,8 +2867,7 @@
       "ZB"
     ]
   },
-  {
-    "name": "yottabyte",
+  "yottabyte": {
     "surfaces": [
       "yottabyte"
     ],
@@ -3090,8 +2878,7 @@
       "YB"
     ]
   },
-  {
-    "name": "kibibyte",
+  "kibibyte": {
     "surfaces": [
       "kibibyte"
     ],
@@ -3104,8 +2891,7 @@
       "KB"
     ]
   },
-  {
-    "name": "mibibyte",
+  "mibibyte": {
     "surfaces": [
       "mibibyte"
     ],
@@ -3116,8 +2902,7 @@
       "MiB"
     ]
   },
-  {
-    "name": "gibibyte",
+  "gibibyte": {
     "surfaces": [
       "gibibyte"
     ],
@@ -3128,8 +2913,7 @@
       "GiB"
     ]
   },
-  {
-    "name": "tebibyte",
+  "tebibyte": {
     "surfaces": [
       "tebibyte"
     ],
@@ -3140,8 +2924,7 @@
       "TiB"
     ]
   },
-  {
-    "name": "pebibyte",
+  "pebibyte": {
     "surfaces": [
       "pebibyte"
     ],
@@ -3152,8 +2935,7 @@
       "PiB"
     ]
   },
-  {
-    "name": "exbibyte",
+  "exbibyte": {
     "surfaces": [
       "exbibyte"
     ],
@@ -3164,8 +2946,7 @@
       "EiB"
     ]
   },
-  {
-    "name": "zebibyte",
+  "zebibyte": {
     "surfaces": [
       "zebibyte"
     ],
@@ -3176,8 +2957,7 @@
       "ZiB"
     ]
   },
-  {
-    "name": "yobibyte",
+  "yobibyte": {
     "surfaces": [
       "yobibyte"
     ],
@@ -3188,8 +2968,7 @@
       "YiB"
     ]
   },
-  {
-    "name": "nibble",
+  "nibble": {
     "surfaces": [
       "nibble",
       "nybble",
@@ -3208,8 +2987,7 @@
       "nibble"
     ]
   },
-  {
-    "name": "gal",
+  "gal": {
     "surfaces": [
       "gal",
       "galileo"
@@ -3221,8 +2999,7 @@
       "Gal"
     ]
   },
-  {
-    "name": "foot per square second",
+  "foot per square second": {
     "surfaces": [
       "foot per second squared",
       "foot per square second"
@@ -3241,8 +3018,7 @@
     ],
     "symbols": []
   },
-  {
-    "name": "metre per square second",
+  "metre per square second": {
     "surfaces": [
       "metre per second squared",
       "meter per second squared",
@@ -3263,8 +3039,7 @@
     ],
     "symbols": []
   },
-  {
-    "name": "newton metre",
+  "newton metre": {
     "surfaces": [
       "newton metre",
       "newton meter",
@@ -3287,8 +3062,7 @@
       "Nm"
     ]
   },
-  {
-    "name": "poise",
+  "poise": {
     "surfaces": [
       "poise"
     ],
@@ -3299,8 +3073,7 @@
       "P"
     ]
   },
-  {
-    "name": "centipoise",
+  "centipoise": {
     "surfaces": [
       "centipoise"
     ],
@@ -3311,8 +3084,7 @@
       "cP"
     ]
   },
-  {
-    "name": "stokes",
+  "stokes": {
     "surfaces": [
       "stokes"
     ],
@@ -3323,8 +3095,7 @@
       "St"
     ]
   },
-  {
-    "name": "centistokes",
+  "centistokes": {
     "surfaces": [
       "centistokes"
     ],
@@ -3335,8 +3106,7 @@
       "cSt"
     ]
   },
-  {
-    "name": "rhe",
+  "rhe": {
     "surfaces": [
       "rhe",
       "reciprocal poise"
@@ -3346,8 +3116,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "decibel",
+  "decibel": {
     "surfaces": [
       "decibel"
     ],
@@ -3358,8 +3127,7 @@
       "dB"
     ]
   },
-  {
-    "name": "stilb",
+  "stilb": {
     "surfaces": [
       "stilb"
     ],
@@ -3370,8 +3138,7 @@
       "sb"
     ]
   },
-  {
-    "name": "candela per square metre",
+  "candela per square metre": {
     "surfaces": [
       "candela per square metre",
       "candela per square meter",
@@ -3393,8 +3160,7 @@
       "nt"
     ]
   },
-  {
-    "name": "candela",
+  "candela": {
     "surfaces": [
       "candela",
       "candle"
@@ -3406,8 +3172,7 @@
       "cd"
     ]
   },
-  {
-    "name": "lumen",
+  "lumen": {
     "surfaces": [
       "lumen"
     ],
@@ -3418,8 +3183,7 @@
       "lm"
     ]
   },
-  {
-    "name": "lux",
+  "lux": {
     "surfaces": [
       "lux"
     ],
@@ -3430,8 +3194,7 @@
       "lx"
     ]
   },
-  {
-    "name": "cycle per second",
+  "cycle per second": {
     "surfaces": [
       "cycle per second"
     ],
@@ -3451,8 +3214,7 @@
       "cps"
     ]
   },
-  {
-    "name": "revolutions per minute",
+  "revolutions per minute": {
     "surfaces": [
       "revolutions per minute"
     ],
@@ -3473,8 +3235,7 @@
       "RPM"
     ]
   },
-  {
-    "name": "hertz",
+  "hertz": {
     "surfaces": [
       "hertz",
       "revolutions per second"
@@ -3484,7 +3245,7 @@
     "dimensions": [],
     "symbols": [
       "Hz",
-      "㎐",
+      "\u3390",
       "rps"
     ],
     "prefixes": [
@@ -3496,8 +3257,7 @@
       "E"
     ]
   },
-  {
-    "name": "inverse second",
+  "inverse second": {
     "surfaces": [
       "inverse second",
       "reciprocal second",
@@ -3513,8 +3273,7 @@
     ],
     "symbols": []
   },
-  {
-    "name": "mole",
+  "mole": {
     "surfaces": [
       "mole"
     ],
@@ -3525,8 +3284,7 @@
       "mol"
     ]
   },
-  {
-    "name": "statcoulomb",
+  "statcoulomb": {
     "surfaces": [
       "statcoulomb",
       "franklin",
@@ -3541,8 +3299,7 @@
       "esu"
     ]
   },
-  {
-    "name": "coulomb",
+  "coulomb": {
     "surfaces": [
       "coulomb"
     ],
@@ -3553,8 +3310,7 @@
       "C"
     ]
   },
-  {
-    "name": "millicoulomb",
+  "millicoulomb": {
     "surfaces": [
       "millicoulomb"
     ],
@@ -3565,8 +3321,7 @@
       "mC"
     ]
   },
-  {
-    "name": "microcoulomb",
+  "microcoulomb": {
     "surfaces": [
       "microcoulomb"
     ],
@@ -3574,11 +3329,10 @@
     "URI": "Coulomb",
     "dimensions": [],
     "symbols": [
-      "µC"
+      "\u00b5C"
     ]
   },
-  {
-    "name": "ampere-hour",
+  "ampere-hour": {
     "surfaces": [
       "ampere-hour",
       "ampere hour",
@@ -3600,8 +3354,7 @@
       "Ah"
     ]
   },
-  {
-    "name": "milliampere-hour",
+  "milliampere-hour": {
     "surfaces": [
       "milliampere-hour",
       "milliampere hour",
@@ -3624,8 +3377,7 @@
       "mah"
     ]
   },
-  {
-    "name": "ampere",
+  "ampere": {
     "surfaces": [
       "ampere"
     ],
@@ -3641,7 +3393,7 @@
       "f",
       "p",
       "n",
-      "µ",
+      "\u00b5",
       "m",
       "k",
       "M",
@@ -3651,8 +3403,7 @@
       "E"
     ]
   },
-  {
-    "name": "statvolt",
+  "statvolt": {
     "surfaces": [
       "statvolt"
     ],
@@ -3661,8 +3412,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "volt",
+  "volt": {
     "surfaces": [
       "volt"
     ],
@@ -3673,8 +3423,7 @@
       "V"
     ]
   },
-  {
-    "name": "ohm",
+  "ohm": {
     "surfaces": [
       "ohm"
     ],
@@ -3682,8 +3431,8 @@
     "URI": "Ohm",
     "dimensions": [],
     "symbols": [
-      "Ω",
-      "Ω"
+      "\u2126",
+      "\u03a9"
     ],
     "prefixes": [
       "m",
@@ -3692,8 +3441,7 @@
       "G"
     ]
   },
-  {
-    "name": "statmho",
+  "statmho": {
     "surfaces": [
       "statmho"
     ],
@@ -3702,8 +3450,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "statohm",
+  "statohm": {
     "surfaces": [
       "statohm"
     ],
@@ -3712,8 +3459,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "siemens",
+  "siemens": {
     "surfaces": [
       "siemens",
       "mho"
@@ -3725,8 +3471,7 @@
       "S"
     ]
   },
-  {
-    "name": "faraday",
+  "faraday": {
     "surfaces": [
       "faraday"
     ],
@@ -3735,8 +3480,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "farad",
+  "farad": {
     "surfaces": [
       "farad"
     ],
@@ -3747,15 +3491,14 @@
       "F"
     ],
     "prefixes": [
-      "µ",
+      "\u00b5",
       "m",
       "k",
       "M",
       "G"
     ]
   },
-  {
-    "name": "henry",
+  "henry": {
     "surfaces": [
       "henry"
     ],
@@ -3766,8 +3509,7 @@
       "H"
     ]
   },
-  {
-    "name": "ampere-turn",
+  "ampere-turn": {
     "surfaces": [
       "ampere-turn",
       "ampere turn"
@@ -3780,8 +3522,7 @@
       "At"
     ]
   },
-  {
-    "name": "oersted",
+  "oersted": {
     "surfaces": [
       "oersted"
     ],
@@ -3792,8 +3533,7 @@
       "Oe"
     ]
   },
-  {
-    "name": "weber",
+  "weber": {
     "surfaces": [
       "weber"
     ],
@@ -3804,8 +3544,7 @@
       "Wb"
     ]
   },
-  {
-    "name": "milliweber",
+  "milliweber": {
     "surfaces": [
       "milliweber"
     ],
@@ -3816,8 +3555,7 @@
       "mWb"
     ]
   },
-  {
-    "name": "microweber",
+  "microweber": {
     "surfaces": [
       "microweber"
     ],
@@ -3825,11 +3563,10 @@
     "URI": "Weber_(unit)",
     "dimensions": [],
     "symbols": [
-      "µWb"
+      "\u00b5Wb"
     ]
   },
-  {
-    "name": "maxwell",
+  "maxwell": {
     "surfaces": [
       "maxwell"
     ],
@@ -3840,8 +3577,7 @@
       "Mx"
     ]
   },
-  {
-    "name": "tesla",
+  "tesla": {
     "surfaces": [
       "tesla"
     ],
@@ -3852,8 +3588,7 @@
       "T"
     ]
   },
-  {
-    "name": "gauss",
+  "gauss": {
     "surfaces": [
       "gauss"
     ],
@@ -3865,8 +3600,7 @@
       "Gs"
     ]
   },
-  {
-    "name": "becquerel",
+  "becquerel": {
     "surfaces": [
       "becquerel"
     ],
@@ -3877,8 +3611,7 @@
       "Bq"
     ]
   },
-  {
-    "name": "millibecquerel",
+  "millibecquerel": {
     "surfaces": [
       "millibecquerel"
     ],
@@ -3889,8 +3622,7 @@
       "mBq"
     ]
   },
-  {
-    "name": "kilobecquerel",
+  "kilobecquerel": {
     "surfaces": [
       "kilobecquerel"
     ],
@@ -3901,8 +3633,7 @@
       "kBq"
     ]
   },
-  {
-    "name": "megabecquerel",
+  "megabecquerel": {
     "surfaces": [
       "megabecquerel"
     ],
@@ -3913,8 +3644,7 @@
       "MBq"
     ]
   },
-  {
-    "name": "gigabecquerel",
+  "gigabecquerel": {
     "surfaces": [
       "gigabecquerel"
     ],
@@ -3925,8 +3655,7 @@
       "GBq"
     ]
   },
-  {
-    "name": "curie",
+  "curie": {
     "surfaces": [
       "curie"
     ],
@@ -3937,8 +3666,7 @@
       "Ci"
     ]
   },
-  {
-    "name": "rutherford",
+  "rutherford": {
     "surfaces": [
       "rutherford"
     ],
@@ -3949,11 +3677,10 @@
       "Rd"
     ]
   },
-  {
-    "name": "roentgen",
+  "roentgen": {
     "surfaces": [
       "roentgen",
-      "röntgen"
+      "r\u00f6ntgen"
     ],
     "entity": "radiation exposure",
     "URI": "Roentgen_(unit)",
@@ -3962,8 +3689,7 @@
       "R"
     ]
   },
-  {
-    "name": "rad",
+  "rad": {
     "surfaces": [
       "rad"
     ],
@@ -3972,8 +3698,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "sievert",
+  "sievert": {
     "surfaces": [
       "sievert"
     ],
@@ -3984,8 +3709,7 @@
       "Sv"
     ]
   },
-  {
-    "name": "gray",
+  "gray": {
     "surfaces": [
       "gray"
     ],
@@ -4000,8 +3724,7 @@
       "k"
     ]
   },
-  {
-    "name": "pixel",
+  "pixel": {
     "surfaces": [
       "pixel",
       "dots",
@@ -4015,8 +3738,7 @@
       "px"
     ]
   },
-  {
-    "name": "megapixel",
+  "megapixel": {
     "surfaces": [
       "megapixel"
     ],
@@ -4027,8 +3749,7 @@
       "MP"
     ]
   },
-  {
-    "name": "board-foot",
+  "board-foot": {
     "surfaces": [
       "board-foot",
       "board foot"
@@ -4042,8 +3763,7 @@
       "BF"
     ]
   },
-  {
-    "name": "katal",
+  "katal": {
     "surfaces": [
       "katal"
     ],
@@ -4054,8 +3774,7 @@
       "kat"
     ]
   },
-  {
-    "name": "gram per cubic centimetre",
+  "gram per cubic centimetre": {
     "surfaces": [
       "gram per cubic centimetre",
       "gram per cubic centimeter"
@@ -4074,8 +3793,7 @@
     ],
     "symbols": []
   },
-  {
-    "name": "kilogram per cubic metre",
+  "kilogram per cubic metre": {
     "surfaces": [
       "kilogram per cubic metre",
       "kilogram per cubic meter"
@@ -4094,8 +3812,7 @@
     ],
     "symbols": []
   },
-  {
-    "name": "gram per litre",
+  "gram per litre": {
     "surfaces": [
       "gram per litre",
       "gram per liter"
@@ -4114,8 +3831,7 @@
     ],
     "symbols": []
   },
-  {
-    "name": "cubic metre per second",
+  "cubic metre per second": {
     "surfaces": [
       "cubic metre per second",
       "cubic meter per second",
@@ -4135,8 +3851,7 @@
     ],
     "symbols": []
   },
-  {
-    "name": "cubic foot per second",
+  "cubic foot per second": {
     "surfaces": [
       "cubic foot per second"
     ],
@@ -4157,8 +3872,7 @@
       "CFM"
     ]
   },
-  {
-    "name": "standard cubic centimetre per minute",
+  "standard cubic centimetre per minute": {
     "surfaces": [
       "standard cubic centimetre per minute"
     ],
@@ -4178,8 +3892,7 @@
       "SCCM"
     ]
   },
-  {
-    "name": "standard cubic feet per minute",
+  "standard cubic feet per minute": {
     "surfaces": [
       "standard cubic feet per minute"
     ],
@@ -4199,8 +3912,7 @@
       "SCFM"
     ]
   },
-  {
-    "name": "standard litre per minute",
+  "standard litre per minute": {
     "surfaces": [
       "standard litre per minute"
     ],
@@ -4221,8 +3933,7 @@
       "SLPM"
     ]
   },
-  {
-    "name": "pound per hour",
+  "pound per hour": {
     "surfaces": [
       "pound per hour"
     ],
@@ -4242,8 +3953,7 @@
       "PPH"
     ]
   },
-  {
-    "name": "bit per second",
+  "bit per second": {
     "surfaces": [
       "bit per second"
     ],
@@ -4263,8 +3973,7 @@
       "bps"
     ]
   },
-  {
-    "name": "baud",
+  "baud": {
     "surfaces": [
       "baud"
     ],
@@ -4284,8 +3993,7 @@
       "Bd"
     ]
   },
-  {
-    "name": "kilobit per second",
+  "kilobit per second": {
     "surfaces": [
       "kilobit per second"
     ],
@@ -4305,8 +4013,7 @@
       "kbps"
     ]
   },
-  {
-    "name": "megabit per second",
+  "megabit per second": {
     "surfaces": [
       "megabit per second"
     ],
@@ -4326,8 +4033,7 @@
       "Mbps"
     ]
   },
-  {
-    "name": "gigabit per second",
+  "gigabit per second": {
     "surfaces": [
       "gigabit per second"
     ],
@@ -4347,8 +4053,7 @@
       "Gbps"
     ]
   },
-  {
-    "name": "darcy",
+  "darcy": {
     "surfaces": [
       "darcy",
       "darcy unit"
@@ -4358,8 +4063,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "langley",
+  "langley": {
     "surfaces": [
       "langley"
     ],
@@ -4370,8 +4074,7 @@
       "Ly"
     ]
   },
-  {
-    "name": "denier",
+  "denier": {
     "surfaces": [
       "denier"
     ],
@@ -4382,8 +4085,7 @@
       "den"
     ]
   },
-  {
-    "name": "tex",
+  "tex": {
     "surfaces": [
       "tex"
     ],
@@ -4392,8 +4094,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "decitex",
+  "decitex": {
     "surfaces": [
       "decitex"
     ],
@@ -4404,8 +4105,7 @@
       "dtex"
     ]
   },
-  {
-    "name": "jansky",
+  "jansky": {
     "surfaces": [
       "jansky"
     ],
@@ -4416,8 +4116,7 @@
       "Jy"
     ]
   },
-  {
-    "name": "millijansky",
+  "millijansky": {
     "surfaces": [
       "millijansky",
       "milli flux unit",
@@ -4432,8 +4131,7 @@
       "m.f.u."
     ]
   },
-  {
-    "name": "penny",
+  "penny": {
     "surfaces": [
       "penny"
     ],
@@ -4445,8 +4143,7 @@
       "d."
     ]
   },
-  {
-    "name": "cent",
+  "cent": {
     "surfaces": [
       "cent"
     ],
@@ -4454,14 +4151,13 @@
     "URI": "Cent_(currency)",
     "dimensions": [],
     "symbols": [
-      "¢",
+      "\u00a2",
       "c",
       "cts",
       "Ct."
     ]
   },
-  {
-    "name": "centavo",
+  "centavo": {
     "surfaces": [
       "centavo"
     ],
@@ -4469,7 +4165,7 @@
     "URI": "Centavo",
     "dimensions": [],
     "symbols": [
-      "¢",
+      "\u00a2",
       "c",
       "cts",
       "ctvs",
@@ -4478,8 +4174,7 @@
       "CT"
     ]
   },
-  {
-    "name": "ton per day",
+  "ton per day": {
     "surfaces": [
       "ton per day"
     ],
@@ -4499,8 +4194,7 @@
       "tpd"
     ]
   },
-  {
-    "name": "dozen",
+  "dozen": {
     "surfaces": [
       "dozen",
       "group of twelve"
@@ -4513,8 +4207,7 @@
       "doz"
     ]
   },
-  {
-    "name": "gross",
+  "gross": {
     "surfaces": [
       "gross",
       "square dozen"
@@ -4532,8 +4225,7 @@
       "gro"
     ]
   },
-  {
-    "name": "great gross",
+  "great gross": {
     "surfaces": [
       "great gross",
       "cubic gross",
@@ -4548,11 +4240,9 @@
         "power": 3
       }
     ],
-    "symbols": [
-    ]
+    "symbols": []
   },
-  {
-    "name": "long hundred",
+  "long hundred": {
     "surfaces": [
       "long hundred",
       "great hundred",
@@ -4567,8 +4257,7 @@
       "c."
     ]
   },
-  {
-    "name": "mill",
+  "mill": {
     "surfaces": [
       "mill",
       "mil"
@@ -4577,11 +4266,10 @@
     "URI": "Mill_(currency)",
     "dimensions": [],
     "symbols": [
-      "₥"
+      "\u20a5"
     ]
   },
-  {
-    "name": "dime",
+  "dime": {
     "surfaces": [
       "dime"
     ],
@@ -4589,11 +4277,10 @@
     "URI": "Dime_(United_States_coin)",
     "dimensions": [],
     "symbols": [
-      "₫"
+      "\u20ab"
     ]
   },
-  {
-    "name": "quantum bit",
+  "quantum bit": {
     "surfaces": [
       "quantum bit",
       "qubit",
@@ -4604,8 +4291,7 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "base pair",
+  "base pair": {
     "surfaces": [
       "base pair"
     ],
@@ -4616,8 +4302,7 @@
       "bp"
     ]
   },
-  {
-    "name": "kilo base pair",
+  "kilo base pair": {
     "surfaces": [
       "kilo base pair"
     ],
@@ -4629,8 +4314,7 @@
       "kb"
     ]
   },
-  {
-    "name": "mega base pair",
+  "mega base pair": {
     "surfaces": [
       "mega base pair"
     ],
@@ -4642,8 +4326,7 @@
       "Mb"
     ]
   },
-  {
-    "name": "giga base pair",
+  "giga base pair": {
     "surfaces": [
       "giga base pair"
     ],
@@ -4655,8 +4338,7 @@
       "Gb"
     ]
   },
-  {
-    "name": "nucleotide",
+  "nucleotide": {
     "surfaces": [
       "nucleotide"
     ],
@@ -4667,4 +4349,4 @@
       "nt"
     ]
   }
-]
+}

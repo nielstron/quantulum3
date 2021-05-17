@@ -1,6 +1,5 @@
-[
-  {
-    "name": "baker's dozen",
+{
+  "baker's dozen": {
     "surfaces": [
       "bakers dozen",
       "baker   dozen",
@@ -14,71 +13,55 @@
     "dimensions": [],
     "symbols": []
   },
-  {
-    "name": "dime",
+  "dime": {
     "symbols": [
-      "₫",
+      "\u20ab",
       "d"
     ]
   },
-  {
-    "name": "terahertz",
+  "terahertz": {
     "URI": "Terahertz_(unit)"
   },
-  {
-    "name": "teraampere",
+  "teraampere": {
     "URI": "Ampere"
   },
-  {
-    "name": "megabarn",
+  "megabarn": {
     "URI": "Barn_(unit)"
   },
-  {
-    "name": "kilobarn",
+  "kilobarn": {
     "URI": "Barn_(unit)"
   },
-  {
-    "name": "millibarn",
+  "millibarn": {
     "URI": "Barn_(unit)"
   },
-  {
-    "name": "microbarn",
+  "microbarn": {
     "URI": "Barn_(unit)"
   },
-  {
-    "name": "nanobarn",
+  "nanobarn": {
     "URI": "Barn_(unit)"
   },
-  {
-    "name": "picobarn",
+  "picobarn": {
     "URI": "Barn_(unit)"
   },
-  {
-    "name": "femtobarn",
+  "femtobarn": {
     "URI": "Barn_(unit)"
   },
-  {
-    "name": "attobarn",
+  "attobarn": {
     "URI": "Barn_(unit)"
   },
-  {
-    "name": "zeptobarn",
+  "zeptobarn": {
     "URI": "Barn_(unit)"
   },
-  {
-    "name": "yoctobarn",
+  "yoctobarn": {
     "URI": "Barn_(unit)"
   },
-  {
-    "name": "kiloyear",
+  "kiloyear": {
     "URI": "Kiloannus"
   },
-  {
-    "name": "milligray",
+  "milligray": {
     "URI": "Milligray"
   },
-  {
-    "name": "kilogray",
+  "kilogray": {
     "URI": "Kilogray"
   }
-]
+}

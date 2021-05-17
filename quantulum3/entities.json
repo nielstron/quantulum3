@@ -1,56 +1,45 @@
-[
-  {
-    "name": "dimensionless",
+{
+  "dimensionless": {
     "dimensions": [],
     "URI": "Dimensionless_quantity"
   },
-  {
-    "name": "length",
+  "length": {
     "dimensions": [],
     "URI": "Length"
   },
-  {
-    "name": "mass",
+  "mass": {
     "dimensions": [],
     "URI": "Mass"
   },
-  {
-    "name": "currency",
+  "currency": {
     "dimensions": [],
     "URI": "Currency"
   },
-  {
-    "name": "time",
+  "time": {
     "dimensions": [],
     "URI": "Time"
   },
-  {
-    "name": "temperature",
+  "temperature": {
     "dimensions": [],
     "URI": "Temperature"
   },
-  {
-    "name": "charge",
+  "charge": {
     "dimensions": [],
     "URI": "Charge_(physics)"
   },
-  {
-    "name": "angle",
+  "angle": {
     "dimensions": [],
     "URI": "Angle"
   },
-  {
-    "name": "data storage",
+  "data storage": {
     "dimensions": [],
     "URI": "Computer_data_storage"
   },
-  {
-    "name": "amount of substance",
+  "amount of substance": {
     "dimensions": [],
     "URI": "Amount_of_substance"
   },
-  {
-    "name": "catalytic activity",
+  "catalytic activity": {
     "dimensions": [
       {
         "base": "amount of substance",
@@ -63,8 +52,7 @@
     ],
     "URI": "Catalysis"
   },
-  {
-    "name": "area",
+  "area": {
     "dimensions": [
       {
         "base": "length",
@@ -73,8 +61,7 @@
     ],
     "URI": "Area"
   },
-  {
-    "name": "volume",
+  "volume": {
     "dimensions": [
       {
         "base": "length",
@@ -83,8 +70,7 @@
     ],
     "URI": "Volume"
   },
-  {
-    "name": "volume (lumber)",
+  "volume (lumber)": {
     "dimensions": [
       {
         "base": "length",
@@ -93,8 +79,7 @@
     ],
     "URI": "Lumber"
   },
-  {
-    "name": "force",
+  "force": {
     "dimensions": [
       {
         "base": "mass",
@@ -107,8 +92,7 @@
     ],
     "URI": "Force"
   },
-  {
-    "name": "pressure",
+  "pressure": {
     "dimensions": [
       {
         "base": "force",
@@ -121,8 +105,7 @@
     ],
     "URI": "Pressure"
   },
-  {
-    "name": "energy",
+  "energy": {
     "dimensions": [
       {
         "base": "force",
@@ -135,8 +118,7 @@
     ],
     "URI": "Energy"
   },
-  {
-    "name": "power",
+  "power": {
     "dimensions": [
       {
         "base": "energy",
@@ -149,8 +131,7 @@
     ],
     "URI": "Power_(physics)"
   },
-  {
-    "name": "speed",
+  "speed": {
     "dimensions": [
       {
         "base": "length",
@@ -163,8 +144,7 @@
     ],
     "URI": "Speed"
   },
-  {
-    "name": "acceleration",
+  "acceleration": {
     "dimensions": [
       {
         "base": "speed",
@@ -177,8 +157,7 @@
     ],
     "URI": "Acceleration"
   },
-  {
-    "name": "fuel economy",
+  "fuel economy": {
     "dimensions": [
       {
         "base": "length",
@@ -191,8 +170,7 @@
     ],
     "URI": "Fuel_efficiency"
   },
-  {
-    "name": "fuel consumption",
+  "fuel consumption": {
     "dimensions": [
       {
         "base": "volume",
@@ -205,8 +183,7 @@
     ],
     "URI": "Fuel_efficiency"
   },
-  {
-    "name": "angular speed",
+  "angular speed": {
     "dimensions": [
       {
         "base": "angle",
@@ -219,8 +196,7 @@
     ],
     "URI": "Angular_velocity"
   },
-  {
-    "name": "angular acceleration",
+  "angular acceleration": {
     "dimensions": [
       {
         "base": "angular speed",
@@ -233,8 +209,7 @@
     ],
     "URI": "Angular_acceleration"
   },
-  {
-    "name": "density",
+  "density": {
     "dimensions": [
       {
         "base": "mass",
@@ -247,8 +222,7 @@
     ],
     "URI": "Density"
   },
-  {
-    "name": "specific volume",
+  "specific volume": {
     "dimensions": [
       {
         "base": "volume",
@@ -261,8 +235,7 @@
     ],
     "URI": "Specific_volume"
   },
-  {
-    "name": "moment of inertia",
+  "moment of inertia": {
     "dimensions": [
       {
         "base": "mass",
@@ -275,8 +248,7 @@
     ],
     "URI": "Moment_of_inertia"
   },
-  {
-    "name": "torque",
+  "torque": {
     "dimensions": [
       {
         "base": "force",
@@ -289,8 +261,7 @@
     ],
     "URI": "Torque"
   },
-  {
-    "name": "thermal resistance",
+  "thermal resistance": {
     "dimensions": [
       {
         "base": "temperature",
@@ -303,8 +274,7 @@
     ],
     "URI": "Thermal_resistance"
   },
-  {
-    "name": "thermal conductivity",
+  "thermal conductivity": {
     "dimensions": [
       {
         "base": "power",
@@ -321,8 +291,7 @@
     ],
     "URI": "Thermal_conductivity"
   },
-  {
-    "name": "specific heat capacity",
+  "specific heat capacity": {
     "dimensions": [
       {
         "base": "energy",
@@ -339,8 +308,7 @@
     ],
     "URI": "Heat_capacity#Specific_heat_capacity"
   },
-  {
-    "name": "volumetric flow",
+  "volumetric flow": {
     "dimensions": [
       {
         "base": "volume",
@@ -353,8 +321,7 @@
     ],
     "URI": "Volumetric_flow_rate"
   },
-  {
-    "name": "mass flow",
+  "mass flow": {
     "dimensions": [
       {
         "base": "mass",
@@ -367,8 +334,7 @@
     ],
     "URI": "Mass_flow_rate"
   },
-  {
-    "name": "concentration",
+  "concentration": {
     "dimensions": [
       {
         "base": "mass",
@@ -381,8 +347,7 @@
     ],
     "URI": "Concentration"
   },
-  {
-    "name": "dynamic viscosity",
+  "dynamic viscosity": {
     "dimensions": [
       {
         "base": "pressure",
@@ -395,8 +360,7 @@
     ],
     "URI": "Viscosity"
   },
-  {
-    "name": "kinematic viscosity",
+  "kinematic viscosity": {
     "dimensions": [
       {
         "base": "area",
@@ -409,8 +373,7 @@
     ],
     "URI": "Viscosity"
   },
-  {
-    "name": "fluidity",
+  "fluidity": {
     "dimensions": [
       {
         "base": "time",
@@ -423,8 +386,7 @@
     ],
     "URI": "Viscosity"
   },
-  {
-    "name": "surface tension",
+  "surface tension": {
     "dimensions": [
       {
         "base": "force",
@@ -437,8 +399,7 @@
     ],
     "URI": "Surface_tension"
   },
-  {
-    "name": "permeability",
+  "permeability": {
     "dimensions": [
       {
         "base": "mass",
@@ -459,28 +420,23 @@
     ],
     "URI": "Permeation"
   },
-  {
-    "name": "sound level",
+  "sound level": {
     "dimensions": [],
     "URI": "Sound_level"
   },
-  {
-    "name": "luminous intensity",
+  "luminous intensity": {
     "dimensions": [],
     "URI": "Luminous_intensity"
   },
-  {
-    "name": "luminous flux",
+  "luminous flux": {
     "dimensions": [],
     "URI": "Luminous_flux"
   },
-  {
-    "name": "illuminance",
+  "illuminance": {
     "dimensions": [],
     "URI": "Illuminance"
   },
-  {
-    "name": "luminance",
+  "luminance": {
     "dimensions": [
       {
         "base": "luminous intensity",
@@ -493,13 +449,11 @@
     ],
     "URI": "Luminance"
   },
-  {
-    "name": "typographical element",
+  "typographical element": {
     "dimensions": [],
     "URI": "Typography"
   },
-  {
-    "name": "image resolution",
+  "image resolution": {
     "dimensions": [
       {
         "base": "typographical element",
@@ -512,8 +466,7 @@
     ],
     "URI": "Image_resolution"
   },
-  {
-    "name": "frequency",
+  "frequency": {
     "dimensions": [
       {
         "base": "time",
@@ -522,8 +475,7 @@
     ],
     "URI": "Frequency"
   },
-  {
-    "name": "instance frequency",
+  "instance frequency": {
     "dimensions": [
       {
         "base": "dimensionless",
@@ -536,8 +488,7 @@
     ],
     "URI": "Frequency"
   },
-  {
-    "name": "flux density",
+  "flux density": {
     "dimensions": [
       {
         "base": "power",
@@ -554,8 +505,7 @@
     ],
     "URI": "Flux"
   },
-  {
-    "name": "linear mass density",
+  "linear mass density": {
     "dimensions": [
       {
         "base": "mass",
@@ -568,8 +518,7 @@
     ],
     "URI": "Linear_density"
   },
-  {
-    "name": "linear charge density",
+  "linear charge density": {
     "dimensions": [
       {
         "base": "charge",
@@ -582,8 +531,7 @@
     ],
     "URI": "Linear_density"
   },
-  {
-    "name": "surface charge density",
+  "surface charge density": {
     "dimensions": [
       {
         "base": "charge",
@@ -596,8 +544,7 @@
     ],
     "URI": "Area_density"
   },
-  {
-    "name": "charge density",
+  "charge density": {
     "dimensions": [
       {
         "base": "charge",
@@ -610,8 +557,7 @@
     ],
     "URI": "Charge_density"
   },
-  {
-    "name": "current",
+  "current": {
     "dimensions": [
       {
         "base": "charge",
@@ -624,8 +570,7 @@
     ],
     "URI": "Electric_current"
   },
-  {
-    "name": "linear current density",
+  "linear current density": {
     "dimensions": [
       {
         "base": "current",
@@ -638,8 +583,7 @@
     ],
     "URI": "Linear_density"
   },
-  {
-    "name": "surface current density",
+  "surface current density": {
     "dimensions": [
       {
         "base": "current",
@@ -652,8 +596,7 @@
     ],
     "URI": "Area_density"
   },
-  {
-    "name": "electric potential",
+  "electric potential": {
     "dimensions": [
       {
         "base": "energy",
@@ -666,8 +609,7 @@
     ],
     "URI": "Electric_potential"
   },
-  {
-    "name": "electric field",
+  "electric field": {
     "dimensions": [
       {
         "base": "electric potential",
@@ -680,8 +622,7 @@
     ],
     "URI": "Electric_field"
   },
-  {
-    "name": "electrical resistance",
+  "electrical resistance": {
     "dimensions": [
       {
         "base": "electric potential",
@@ -694,8 +635,7 @@
     ],
     "URI": "Electrical_resistance_and_conductance"
   },
-  {
-    "name": "electrical resistivity",
+  "electrical resistivity": {
     "dimensions": [
       {
         "base": "electrical resistance",
@@ -708,8 +648,7 @@
     ],
     "URI": "Electrical_resistivity_and_conductivity"
   },
-  {
-    "name": "electrical conductance",
+  "electrical conductance": {
     "dimensions": [
       {
         "base": "electrical resistance",
@@ -718,8 +657,7 @@
     ],
     "URI": "Electrical_resistance_and_conductance"
   },
-  {
-    "name": "electrical conductivity",
+  "electrical conductivity": {
     "dimensions": [
       {
         "base": "electrical resistivity",
@@ -728,8 +666,7 @@
     ],
     "URI": "Electrical_resistivity_and_conductivity"
   },
-  {
-    "name": "capacitance",
+  "capacitance": {
     "dimensions": [
       {
         "base": "energy",
@@ -742,8 +679,7 @@
     ],
     "URI": "Capacitance"
   },
-  {
-    "name": "inductance",
+  "inductance": {
     "dimensions": [
       {
         "base": "energy",
@@ -756,8 +692,7 @@
     ],
     "URI": "Inductance"
   },
-  {
-    "name": "magnetic flux",
+  "magnetic flux": {
     "dimensions": [
       {
         "base": "electric potential",
@@ -770,13 +705,11 @@
     ],
     "URI": "Magnetic_flux"
   },
-  {
-    "name": "reluctance",
+  "reluctance": {
     "dimensions": [],
     "URI": "Magnetic_reluctance"
   },
-  {
-    "name": "magnetomotive force",
+  "magnetomotive force": {
     "dimensions": [
       {
         "base": "reluctance",
@@ -789,8 +722,7 @@
     ],
     "URI": "Magnetomotive_force"
   },
-  {
-    "name": "magnetic field",
+  "magnetic field": {
     "dimensions": [
       {
         "base": "current",
@@ -803,8 +735,7 @@
     ],
     "URI": "Magnetic_field"
   },
-  {
-    "name": "irradiance",
+  "irradiance": {
     "dimensions": [
       {
         "base": "power",
@@ -817,8 +748,7 @@
     ],
     "URI": "Irradiance"
   },
-  {
-    "name": "radiation absorbed dose",
+  "radiation absorbed dose": {
     "dimensions": [
       {
         "base": "energy",
@@ -831,8 +761,7 @@
     ],
     "URI": "Absorbed_dose"
   },
-  {
-    "name": "radioactivity",
+  "radioactivity": {
     "dimensions": [
       {
         "base": "time",
@@ -841,8 +770,7 @@
     ],
     "URI": "Radioactive_decay"
   },
-  {
-    "name": "radiation exposure",
+  "radiation exposure": {
     "dimensions": [
       {
         "base": "charge",
@@ -855,8 +783,7 @@
     ],
     "URI": "Exposure_(radiation)"
   },
-  {
-    "name": "radiation",
+  "radiation": {
     "dimensions": [
       {
         "base": "radiation absorbed dose",
@@ -869,8 +796,7 @@
     ],
     "URI": "Radiation"
   },
-  {
-    "name": "data transfer rate",
+  "data transfer rate": {
     "dimensions": [
       {
         "base": "data storage",
@@ -883,4 +809,4 @@
     ],
     "URI": "Data_transmission"
   }
-]
+}
