@@ -707,6 +707,17 @@
     ]
   },
   {
+    "req": "two and a half miles to the east",
+    "res": [
+      {
+        "value": 2.5,
+        "unit": "mile",
+        "surface": "two and a half miles",
+        "entity": "length"
+      }
+    ]
+  },
+  {
     "req": "The Great Australia mine open cut (south-east of Cloncurry) with a fault visible above the stopes of historical underground workings.",
     "res": []
   },

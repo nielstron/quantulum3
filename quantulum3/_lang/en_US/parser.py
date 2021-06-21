@@ -84,7 +84,7 @@ def extract_spellout_values(text):
                     match = re.search(reg.numberwords_regex(), word)
                     scale, increment = reg.numberwords(lang)[match.group(0)]
                 curr = curr * scale + increment
-                if scale > 100:
+                if scale > 100 or word == "and":
                     result += curr
                     curr = 0.0
             values.append(
