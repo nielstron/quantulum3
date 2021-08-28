@@ -3419,8 +3419,25 @@
     "entity": "electric potential",
     "URI": "Volt",
     "dimensions": [],
+    "prefixes": [
+      "m",
+      "k",
+      "G",
+      "T"
+    ],
     "symbols": [
       "V"
+    ]
+  },
+  "megavolt": {
+    "surfaces": [
+      "megavolt"
+    ],
+    "entity": "electric potential",
+    "URI": "Volt",
+    "dimensions": [],
+    "symbols": [
+      "MV"
     ]
   },
   "ohm": {
