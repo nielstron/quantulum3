@@ -986,12 +986,7 @@
     ],
     "entity": "volume",
     "URI": "Centilitre",
-    "dimensions": [
-      {
-        "base": "centimetre",
-        "power": 3
-      }
-    ],
+    "dimensions": [],
     "symbols": [
       "cl",
       "cL"
@@ -1004,12 +999,7 @@
     ],
     "entity": "volume",
     "URI": "Hectolitre",
-    "dimensions": [
-      {
-        "base": "decimetre",
-        "power": 3
-      }
-    ],
+    "dimensions": [],
     "symbols": [
       "hl",
       "hL"
@@ -1022,12 +1012,7 @@
     ],
     "entity": "volume",
     "URI": "Decilitre",
-    "dimensions": [
-      {
-        "base": "centimetre",
-        "power": 3
-      }
-    ],
+    "dimensions": [],
     "symbols": [
       "dl",
       "dL"
@@ -1237,7 +1222,16 @@
     ],
     "entity": "volume",
     "URI": "Acre-foot",
-    "dimensions": [],
+    "dimensions": [
+      {
+        "base": "acre",
+        "power": 1
+      },
+      {
+        "base": "foot",
+        "power": 1
+      }
+    ],
     "symbols": [
       "ac*ft"
     ]
@@ -3996,16 +3990,7 @@
     ],
     "entity": "data transfer rate",
     "URI": "Baud",
-    "dimensions": [
-      {
-        "base": "bit",
-        "power": 1
-      },
-      {
-        "base": "second",
-        "power": -1
-      }
-    ],
+    "dimensions": [],
     "symbols": [
       "Bd"
     ]
