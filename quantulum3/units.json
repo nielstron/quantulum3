@@ -3823,25 +3823,6 @@
     ],
     "symbols": []
   },
-  "gram per litre": {
-    "surfaces": [
-      "gram per litre",
-      "gram per liter"
-    ],
-    "entity": "concentration",
-    "URI": "Gram_per_litre",
-    "dimensions": [
-      {
-        "base": "gram",
-        "power": 1
-      },
-      {
-        "base": "litre",
-        "power": -1
-      }
-    ],
-    "symbols": []
-  },
   "cubic metre per second": {
     "surfaces": [
       "cubic metre per second",
