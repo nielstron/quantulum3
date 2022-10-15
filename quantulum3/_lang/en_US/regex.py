@@ -62,10 +62,10 @@ SUFFIXES = {"k": 1e3, "K": 1e3, "M": 1e6, "B": 1e9, "T": 1e12}
 
 MULTIPLICATION_OPERATORS = {" times "}
 
-DIVISION_OPERATORS = {u" per ", u" a "}
+DIVISION_OPERATORS = {" per ", " a "}
 
-GROUPING_OPERATORS = {u",", u" "}
-DECIMAL_OPERATORS = {u"."}
+GROUPING_OPERATORS = {",", " "}
+DECIMAL_OPERATORS = {"."}
 
 # Pattern for extracting word based numbers
 TEXT_PATTERN = r"""            # Pattern for extracting mixed digit-spelled num
