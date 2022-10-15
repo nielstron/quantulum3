@@ -14,6 +14,7 @@ sudo: true
 
 install:
   - test ! "$PRE_COMMIT" || pip install pre-commit
+  - if [[ $TRAVIS_PYTHON_VERSION == 3.7 ]]; then pip install -U importlib_metadata; fi
   - pip install pylint
   - pip install coverage
   - pip install coveralls

@@ -164,7 +164,7 @@ def resolve_exponents(value, lang="en_US"):
                 exp.replace(superscript, substitute)
             exp = float(exp)
             base = float(base.replace("^", ""))
-            factor = base ** exp
+            factor = base**exp
             stripped = str(value).replace(item.group("scale"), "")
             value = stripped
             factors.append(factor)
@@ -200,7 +200,7 @@ def get_unit_from_dimensions(dimensions, text, lang="en_US"):
     try:
         unit = load.units(lang).derived[key]
     except KeyError:
-        _LOGGER.debug(u"\tCould not find unit for: %s", key)
+        _LOGGER.debug("\tCould not find unit for: %s", key)
         unit = cls.Unit(
             name=build_unit_name(dimensions, lang),
             dimensions=dimensions,
@@ -442,7 +442,7 @@ def parse(text, lang="en_US", verbose=False) -> List[cls.Quantity]:
     for item in reg.units_regex(lang).finditer(text):
 
         groups = dict([i for i in item.groupdict().items() if i[1] and i[1].strip()])
-        _LOGGER.debug(u"Quantity found: %s", groups)
+        _LOGGER.debug("Quantity found: %s", groups)
 
         try:
             uncert, values = get_values(item, lang)
@@ -474,7 +474,7 @@ def inline_parse(text, verbose=False):  # pragma: no cover
     shift = 0
     for quantity in parsed:
         index = quantity.span[1] + shift
-        to_add = u" {" + str(quantity) + u"}"
+        to_add = " {" + str(quantity) + "}"
         text = text[0:index] + to_add + text[index:]
         shift += len(to_add)
 
