@@ -103,16 +103,16 @@ def suffixes(lang="en_US"):
 
 def unicode_superscript():
     uni_super = {
-        u"¹": "1",
-        u"²": "2",
-        u"³": "3",
-        u"⁴": "4",
-        u"⁵": "5",
-        u"⁶": "6",
-        u"⁷": "7",
-        u"⁸": "8",
-        u"⁹": "9",
-        u"⁰": "0",
+        "¹": "1",
+        "²": "2",
+        "³": "3",
+        "⁴": "4",
+        "⁵": "5",
+        "⁶": "6",
+        "⁷": "7",
+        "⁸": "8",
+        "⁹": "9",
+        "⁰": "0",
     }
     return uni_super
 
@@ -123,24 +123,24 @@ def unicode_superscript_regex():
 
 def unicode_fractions():
     uni_frac = {
-        u"¼": "1/4",
-        u"½": "1/2",
-        u"¾": "3/4",
-        u"⅐": "1/7",
-        u"⅑": "1/9",
-        u"⅒": "1/10",
-        u"⅓": "1/3",
-        u"⅔": "2/3",
-        u"⅕": "1/5",
-        u"⅖": "2/5",
-        u"⅗": "3/5",
-        u"⅘": "4/5",
-        u"⅙": "1/6",
-        u"⅚": "5/6",
-        u"⅛": "1/8",
-        u"⅜": "3/8",
-        u"⅝": "5/8",
-        u"⅞": "7/8",
+        "¼": "1/4",
+        "½": "1/2",
+        "¾": "3/4",
+        "⅐": "1/7",
+        "⅑": "1/9",
+        "⅒": "1/10",
+        "⅓": "1/3",
+        "⅔": "2/3",
+        "⅕": "1/5",
+        "⅖": "2/5",
+        "⅗": "3/5",
+        "⅘": "4/5",
+        "⅙": "1/6",
+        "⅚": "5/6",
+        "⅛": "1/8",
+        "⅜": "3/8",
+        "⅝": "5/8",
+        "⅞": "7/8",
     }
     return uni_frac
 
@@ -151,7 +151,7 @@ def unicode_fractions_regex():
 
 @cached
 def multiplication_operators(lang="en_US"):
-    mul = {u"*", u" ", u"·", u"x"}
+    mul = {"*", " ", "·", "x"}
     mul.update(_get_regex(lang).MULTIPLICATION_OPERATORS)
     return mul
 
@@ -163,7 +163,7 @@ def multiplication_operators_regex(lang="en_US"):
 
 @cached
 def division_operators(lang="en_US"):
-    div = {u"/"}
+    div = {"/"}
     div.update(_get_regex(lang).DIVISION_OPERATORS)
     return div
 
