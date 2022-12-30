@@ -1,6 +1,6 @@
 import unittest
-from ..parser import extract_spellout_values
 
+from ..parser import extract_spellout_values
 
 TEST_CASES = [
     ("one hundred and five", ["105.0"]),
