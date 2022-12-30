@@ -64,7 +64,7 @@ def extract_spellout_values(text):
     for item in reg.text_pattern_reg(lang).finditer(text):
         try:
             surface, span = clean_surface(item.group(0), item.span())
-            if not surface: # or surface.lower() in reg.scales(lang):
+            if not surface:  # or surface.lower() in reg.scales(lang):
                 continue
             curr = result = 0.0
             for word in surface.lower().split():
@@ -82,14 +82,16 @@ def extract_spellout_values(text):
                 except ValueError:
                     match = re.search(reg.numberwords_regex(), word)
                     scale, increment = reg.numberwords(lang)[match.group(0)]
-                if (scale > 0 and increment == 0 and curr == 0.0 and result == 0.0): # "million" in the beginning
+                if (
+                    scale > 0 and increment == 0 and curr == 0.0 and result == 0.0
+                ):  # "million" in the beginning
                     increment = scale
                     scale = 0.0
                 # one hundred and five million --> curr 5.0 result 100.0 scale 1M increment 0
                 # --> curr: 105, results: 0, scale 1M, increment 0
                 if scale > result > 0:
-                  curr = curr + result
-                  result = 0.0
+                    curr = curr + result
+                    result = 0.0
                 curr = curr * scale + increment
                 if scale > 100 or word == "and":
                     result += curr
