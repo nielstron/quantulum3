@@ -54,6 +54,10 @@ def clean_surface(surface, span):
 
     return surface, span
 
+###############################################################################
+def word_before_span(text, span):
+    if span[0] == 0: return ""
+    return text[:span[0]].split()[-1]
 
 ###############################################################################
 def extract_spellout_values(text):
@@ -62,6 +66,10 @@ def extract_spellout_values(text):
     """
     values = []
     for item in reg.text_pattern_reg(lang).finditer(text):
+        # don't allow "seveal hundred", "couple thousand", "some million years ago"
+        # TODO maybe allow "several [scale]", "couple [scale]" and treat as a range?
+        if word_before_span(text, item.span()).lower() in ["several", "couple", "some"]:
+          continue
         try:
             surface, span = clean_surface(item.group(0), item.span())
             if not surface:  # or surface.lower() in reg.scales(lang):
@@ -83,7 +91,7 @@ def extract_spellout_values(text):
                     match = re.search(reg.numberwords_regex(), word)
                     scale, increment = reg.numberwords(lang)[match.group(0)]
                 if (
-                    scale > 0 and increment == 0 and curr == 0.0 and result == 0.0
+                    scale > 0 and increment == 0 and curr == 0.0 and result == 0.0 and word != "zero"
                 ):  # "million" in the beginning
                     increment = scale
                     scale = 0.0

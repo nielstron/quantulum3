@@ -15,6 +15,8 @@ TEST_CASES = [
     ("two and a half million", ["2500000.0"]),
     ("twenty six million and seventy two hundred", ["26007200.0"]),
     ("twenty", ["20.0"]),
+    ("zero", ["0.0"]),
+    ("several hundred years", []),
     # ("a million and a half", ["1500000.0"]), # this is a hard one
     # ("twenty thirty fifty hundred", ["20.0", "30.0", "5000.0"]),
     # ("one, two, three", ["1.0", "2.0", "3.0"]),
@@ -25,7 +27,6 @@ class ExtractSpellout(unittest.TestCase):
     def test_training(self, lang="en_US"):
         """Test that classifier training works"""
         for input, expected in TEST_CASES:
-            print("---------input", input)
             output = [v["new_surface"] for v in extract_spellout_values(input)]
             self.assertEquals(output, expected)
 
