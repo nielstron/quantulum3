@@ -56,66 +56,54 @@ def clean_surface(surface, span):
 
 
 ###############################################################################
-def split_spellout_sequence(text, span):
-    print("text:", text, "span:", span)
-    return [(text, span)]
-
 def extract_spellout_values(text):
     """
     Convert spelled out numbers in a given text to digits.
     """
     values = []
-    items = reg.text_pattern_reg(lang).finditer(text)
-    for item in items:
-        for (text, span) in split_spellout_sequence(item.group(0), item.span()):
-            print("item", item)
-            try:
-                surface, span = clean_surface(item.group(0), item.span())
-                print("clean:",surface, span)
-                if not surface: # or surface.lower() in reg.scales(lang):
-                    print("skipping", surface, "scales", reg.scales(lang))
-                    continue
-                curr = result = 0.0
-                for word in surface.lower().split():
-                    try:
-                        scale, increment = (
-                            1,
-                            float(
-                                re.sub(
-                                    r"(-$|[%s])" % reg.grouping_operators_regex(lang),
-                                    "",
-                                    word,
-                                )
-                            ),
-                        )
-                    except ValueError:
-                        match = re.search(reg.numberwords_regex(), word)
-                        scale, increment = reg.numberwords(lang)[match.group(0)]
-                    if (scale > 0 and increment == 0 and curr == 0.0 and result == 0.0): # "million" in the beginning
-                        increment = scale
-                        scale = 0.0
-                    # one hundred and five million --> curr 5.0 result 100.0 scale 1M increment 0
-                    # --> curr: 105, results: 0, scale 1M, increment 0
-                    if scale > result > 0:
-                      curr = curr + result
-                      result = 0.0
-                    print("curr", curr, "result", result, "scale", scale, "increment", increment)
-                    curr = curr * scale + increment
-                    print("curr", curr)
-                    if scale > 100 or word == "and":
-                        result += curr
-                        curr = 0.0
-                        print("result", result)
-                values.append(
-                    {
-                        "old_surface": surface,
-                        "old_span": span,
-                        "new_surface": str(result + curr),
-                    }
-                )
-            except (KeyError, AttributeError):
-                # just ignore the match if an error occurred
-                pass
+    for item in reg.text_pattern_reg(lang).finditer(text):
+        try:
+            surface, span = clean_surface(item.group(0), item.span())
+            if not surface: # or surface.lower() in reg.scales(lang):
+                continue
+            curr = result = 0.0
+            for word in surface.lower().split():
+                try:
+                    scale, increment = (
+                        1,
+                        float(
+                            re.sub(
+                                r"(-$|[%s])" % reg.grouping_operators_regex(lang),
+                                "",
+                                word,
+                            )
+                        ),
+                    )
+                except ValueError:
+                    match = re.search(reg.numberwords_regex(), word)
+                    scale, increment = reg.numberwords(lang)[match.group(0)]
+                if (scale > 0 and increment == 0 and curr == 0.0 and result == 0.0): # "million" in the beginning
+                    increment = scale
+                    scale = 0.0
+                # one hundred and five million --> curr 5.0 result 100.0 scale 1M increment 0
+                # --> curr: 105, results: 0, scale 1M, increment 0
+                if scale > result > 0:
+                  curr = curr + result
+                  result = 0.0
+                curr = curr * scale + increment
+                if scale > 100 or word == "and":
+                    result += curr
+                    curr = 0.0
+            values.append(
+                {
+                    "old_surface": surface,
+                    "old_span": span,
+                    "new_surface": str(result + curr),
+                }
+            )
+        except (KeyError, AttributeError):
+            # just ignore the match if an error occurred
+            pass
 
     return sorted(values, key=lambda x: x["old_span"][0])
 
