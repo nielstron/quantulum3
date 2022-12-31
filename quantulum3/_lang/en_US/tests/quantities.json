@@ -1384,5 +1384,15 @@
           "surface": "three million, two hundred & forty"
         }
       ]
+  },
+  {
+    "req": "N2H4 hydrate, (80 per cent)",
+    "res": [
+      {
+        "value": 80,
+        "unit": "percent",
+        "surface": "80 per cent"
+      }
+    ]
   }
 ]

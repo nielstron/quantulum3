@@ -38,7 +38,8 @@
   "percentage": {
     "surfaces": [
       "percentage",
-      "percent"
+      "percent",
+      "per cent"
     ],
     "entity": "dimensionless",
     "URI": "Percentage",
