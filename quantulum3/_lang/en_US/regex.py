@@ -62,7 +62,7 @@ SUFFIXES = {"k": 1e3, "K": 1e3, "M": 1e6, "B": 1e9, "T": 1e12}
 
 MULTIPLICATION_OPERATORS = {" times "}
 
-DIVISION_OPERATORS = {" per ", " a ", " / "}
+DIVISION_OPERATORS = {" per ", " a "}
 
 GROUPING_OPERATORS = {",", " "}
 DECIMAL_OPERATORS = {"."}
