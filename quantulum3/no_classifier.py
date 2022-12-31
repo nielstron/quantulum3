@@ -33,3 +33,20 @@ def disambiguate_no_classifier(entities, text, lang="en_US"):
         if relative > max_relative or (relative == max_relative and count > max_count):
             max_entity, max_count, max_relative = entity, count, relative
     return max_entity
+
+
+def attempt_disambiguate_no_classifier(unit_surface, text, lang):
+    """Returns list of possibilities"""
+    base = (
+        load.units(lang).symbols[unit_surface]
+        or load.units(lang).surfaces[unit_surface]
+        or load.units(lang).surfaces_lower[unit_surface.lower()]
+        or load.units(lang).symbols_lower[unit_surface.lower()]
+    )
+    if not base:
+        raise KeyError('Could not find unit "%s" from "%s"' % (unit_surface, text))
+    if len(base) > 1:
+        possible_base = disambiguate_no_classifier(base, text, lang)
+        if possible_base:
+            return [possible_base]
+    return base

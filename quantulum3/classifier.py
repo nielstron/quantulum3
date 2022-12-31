@@ -108,7 +108,6 @@ def _clean_text_lang(lang):
 def train_classifier(
     parameters=None, ngram_range=(1, 1), store=True, lang="en_US", n_jobs=None
 ):
-
     """
     Train the intent classifier
     TODO auto invoke if sklearn version is new or first install or sth
@@ -240,11 +239,11 @@ def disambiguate_entity(key, text, lang="en_US"):
 
 
 ###############################################################################
-def disambiguate_unit(unit, text, lang="en_US"):
-    """
-    Resolve ambiguity between units with same names, symbols or abbreviations.
-    """
 
+
+def attempt_disambiguate_unit(unit, text, lang):
+    """Resolve ambiguity between units with same names, symbols or abbreviations.
+    Returns list of possibilities"""
     new_unit = (
         load.units(lang).symbols.get(unit)
         or load.units(lang).surfaces.get(unit)
@@ -252,26 +251,25 @@ def disambiguate_unit(unit, text, lang="en_US"):
         or load.units(lang).symbols_lower.get(unit.lower())
     )
     if not new_unit:
-        return load.units(lang).names.get("unk")
+        raise KeyError('Could not find unit "%s" from "%s"' % (unit, text))
+    if len(new_unit) == 1:
+        return new_unit
 
-    if len(new_unit) > 1:
-        transformed = classifier(lang).tfidf_model.transform([clean_text(text, lang)])
-        scores = classifier(lang).classifier.predict_proba(transformed).tolist()[0]
-        scores = zip(scores, classifier(lang).target_names)
+    # Start scoring
+    transformed = classifier(lang).tfidf_model.transform([clean_text(text, lang)])
+    scores = classifier(lang).classifier.predict_proba(transformed).tolist()[0]
+    scores = zip(scores, classifier(lang).target_names)
 
-        # Filter for possible names
-        names = [i.name for i in new_unit]
-        scores = [i for i in scores if i[1] in names]
+    # Filter for possible names
+    names = [i.name for i in new_unit]
+    scores = [i for i in scores if i[1] in names]
 
-        # Sort by rank
-        scores = sorted(scores, key=lambda x: x[0], reverse=True)
-        try:
-            final = load.units(lang).names[scores[0][1]]
-            _LOGGER.debug('\tAmbiguity resolved for "%s" (%s)' % (unit, scores))
-        except IndexError:
-            _LOGGER.debug('\tAmbiguity not resolved for "%s"' % unit)
-            final = next(iter(new_unit))
-    else:
-        final = next(iter(new_unit))
-
-    return final
+    # Sort by rank
+    scores = sorted(scores, key=lambda x: x[0], reverse=True)
+    try:
+        new_unit = [load.units(lang).names[scores[0][1]]]
+        _LOGGER.debug('\tAmbiguity resolved for "%s" (%s)' % (unit, scores))
+        return new_unit
+    except IndexError:
+        _LOGGER.debug('\tAmbiguity not resolved for "%s"' % unit)
+        return new_unit

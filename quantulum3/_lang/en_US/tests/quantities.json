@@ -1384,5 +1384,15 @@
           "surface": "three million, two hundred & forty"
         }
       ]
+  },
+  {
+    "req": "The battery has 2nw.",
+    "res": [
+        {
+            "value": 2,
+            "unit": "nanowatt",
+            "surface": "2nw"
+        }
+    ]
   }
 ]
