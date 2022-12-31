@@ -7,9 +7,10 @@ matrix:
     - python: '3.7'
     - python: '3.8'
     - python: '3.9'
+    - python: '3.10'
       env: PRE_COMMIT=1
   fast_finish: true
-dist: xenial
+dist: bionic
 sudo: true
 
 install:
