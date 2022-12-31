@@ -56,9 +56,16 @@ def substitute_values(text, values):
 
 
 ###############################################################################
-def get_values(item, lang="en_US"):
+def words_before_span(text, span, k):
+    if span[0] == 0:
+        return []
+    return [w.strip().lower() for w in text[: span[0]].split()[-k:]]
+
+
+###############################################################################
+def get_values(item, context, lang="en_US"):
     """
-    Extract value from regex hit.
+    Extract value from regex hit. context is the enclosing text on which the regex hit.
     """
 
     def callback(pattern):
@@ -84,6 +91,7 @@ def get_values(item, lang="en_US"):
     range_separator = re.findall(
         r"\d+ ?((?:-\ )?(?:%s)) ?\d" % "|".join(reg.ranges(lang)), value
     )
+
     uncer_separator = re.findall(
         r"\d+ ?(%s) ?\d" % "|".join(reg.uncertainties(lang)), value
     )
@@ -418,6 +426,56 @@ def clean_text(text, lang="en_US"):
 
 
 ###############################################################################
+# TODO this is English specific.. but how do we make it general?
+def extract_range_ands(text):
+    for range_and in re.finditer(r"(?:^|\s+)between\s+\S+(\s+and\s+)", text):
+        yield {
+            "old_surface": " and ",
+            "old_span": range_and.span(1),
+            "new_surface": " to ",
+        }
+
+
+def handle_consecutive_quantities(quantities, context):
+    """
+    [45] and/or [50 mg] --> add unit to first [45 mg] [50 mg]
+    between [44 mg] and [50 mg] --> range [47+/-3 mg]
+    from [44 mg] to [50 mg] --> same
+    !from [44 mg] to [50 mg] --> range [47+/-3 mg]
+    """
+    if len(quantities) < 1:
+        return quantities
+
+    results = []
+    skip_next = False
+    for q1, q2 in zip(quantities, quantities[1:]):
+        if skip_next:
+            skip_next = False
+            continue
+        connective = context[q1.span[1] : q2.span[0]].strip().lower()
+        before = set(words_before_span(context, q1.span, 3))
+        if (connective == "to" and "from" not in before) or (
+            connective == "and" and "between" in before
+        ):
+            if q1.unit.name == q2.unit.name or q1.unit.name == "dimensionless":
+                if q1.uncertainty == None and q2.uncertainty == None:
+                    if q2.value > q1.value:
+                        value = (q2.value + q1.value) / 2.0
+                        uncertainty = q2.value - value
+                        q1 = q1.with_vals(
+                            uncertainty=uncertainty, value=value, unit=q2.unit
+                        )
+                        skip_next = True
+        elif connective in ["and", "or", "but"]:
+            if q1.unit.name == "dimensionless":
+                q1 = q1.with_vals(unit=q2.unit)
+        results.append(q1)
+    if not skip_next:
+        results.append(quantities[-1])
+    return results
+
+
+###############################################################################
 def parse(text, lang="en_US", verbose=False) -> List[cls.Quantity]:
     """
     Extract all quantities from unstructured text.
@@ -436,6 +494,9 @@ def parse(text, lang="en_US", verbose=False) -> List[cls.Quantity]:
 
     text = clean_text(text, lang)
     values = extract_spellout_values(text, lang)
+    values = sorted(
+        list(values) + list(extract_range_ands(text)), key=lambda x: x["old_span"][0]
+    )
     text, shifts = substitute_values(text, values)
 
     quantities = []
@@ -445,7 +506,7 @@ def parse(text, lang="en_US", verbose=False) -> List[cls.Quantity]:
         _LOGGER.debug("Quantity found: %s", groups)
 
         try:
-            uncert, values = get_values(item, lang)
+            uncert, values = get_values(item, text, lang)
 
             unit, unit_shortening = get_unit(item, text)
             surface, span = get_surface(shifts, orig_text, item, text, unit_shortening)
@@ -460,6 +521,7 @@ def parse(text, lang="en_US", verbose=False) -> List[cls.Quantity]:
     if verbose:  # pragma: no cover
         logging.root.setLevel(prev_level)
 
+    quantities = handle_consecutive_quantities(quantities, text)
     return quantities
 
 

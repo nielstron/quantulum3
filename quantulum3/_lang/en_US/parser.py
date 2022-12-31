@@ -56,13 +56,6 @@ def clean_surface(surface, span):
 
 
 ###############################################################################
-def word_before_span(text, span):
-    if span[0] == 0:
-        return ""
-    return text[: span[0]].split()[-1]
-
-
-###############################################################################
 def split_spellout_sequence(text, span):
     units = reg.units(lang)
     tens = reg.tens(lang)
@@ -138,7 +131,14 @@ def extract_spellout_values(text):
     for (seq, span) in number_candidates:
         # don't allow "seveal hundred", "couple thousand", "some million years ago"
         # TODO maybe allow "several [scale]", "couple [scale]" and treat as a range?
-        if word_before_span(text, span).lower() in ["several", "couple", "some"]:
+        if (
+            len(
+                set(parser.words_before_span(text, span, 3)).intersection(
+                    {"several", "couple", "some"}
+                )
+            )
+            > 0
+        ):
             continue
         try:
             surface, span = clean_surface(seq, span)

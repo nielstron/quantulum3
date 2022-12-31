@@ -1384,5 +1384,39 @@
           "surface": "three million, two hundred & forty"
         }
       ]
+  },
+  {
+    "req": "I have seen 45 and 50 cases.",
+    "res": [
+        {
+          "value": 45,
+          "unit": "dimensionless",
+          "surface": "45"
+        },
+        {
+          "value": 50,
+          "unit": "dimensionless",
+          "surface": "50"
+        }
+    ]
+  },
+  {
+    "req": "They were given 45 and 50 mg ethanol.",
+    "res": [
+        {
+          "value": 45,
+          "unit": "milligram",
+          "surface": "45",
+          "entity": "mass",
+          "uncertainty": null
+        },
+        {
+          "value": 50,
+          "unit": "milligram",
+          "surface": "50 mg",
+          "entity": "mass",
+          "uncertainty": null
+        }
+    ]
   }
 ]

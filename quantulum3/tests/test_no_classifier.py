@@ -43,6 +43,11 @@ class ParsingTest(unittest.TestCase):
                 )
                 for index, quant in enumerate(quants):
                     self.assertEqual(test["res"][index], quant)
+                    self.assertEqual(test["res"][index].surface, quant.surface)
+                    self.assertEqual(
+                        test["res"][index].surface,
+                        test["req"][quant.span[0] : quant.span[1]],
+                    )
 
         classifier_tests = load_quantity_tests(True, lang)
         correct = 0
