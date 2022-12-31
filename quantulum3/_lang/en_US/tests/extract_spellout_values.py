@@ -34,12 +34,13 @@ TEST_CASES = [
 
 
 class ExtractSpellout(unittest.TestCase):
-    def test_training(self, lang="en_US"):
+    def test_spellout_values(self, lang="en_US"):
         """Test extraction and conversion of spellout numbers from text"""
         self.assertEqual(lang, "en_US")
         for input, expected in TEST_CASES:
-            output = [v["new_surface"] for v in extract_spellout_values(input)]
-            self.assertEqual(output, expected)
+            with self.subTest(input=input):
+                output = [v["new_surface"] for v in extract_spellout_values(input)]
+                self.assertEqual(output, expected)
 
 
 ###############################################################################
