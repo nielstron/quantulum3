@@ -63,9 +63,9 @@ def words_before_span(text, span, k):
 
 
 ###############################################################################
-def get_values(item, context, lang="en_US"):
+def get_values(item, lang="en_US"):
     """
-    Extract value from regex hit. context is the enclosing text on which the regex hit.
+    Extract value from regex hit.
     """
 
     def callback(pattern):
@@ -506,7 +506,7 @@ def parse(text, lang="en_US", verbose=False) -> List[cls.Quantity]:
         _LOGGER.debug("Quantity found: %s", groups)
 
         try:
-            uncert, values = get_values(item, text, lang)
+            uncert, values = get_values(item, lang)
 
             unit, unit_shortening = get_unit(item, text)
             surface, span = get_surface(shifts, orig_text, item, text, unit_shortening)
