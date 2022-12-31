@@ -142,7 +142,7 @@ def extract_spellout_values(text):
             continue
         try:
             surface, span = clean_surface(seq, span)
-            if not surface:  # or surface.lower() in reg.scales(lang):
+            if not surface:
                 continue
             curr = result = 0.0
             for word in surface.lower().split():
