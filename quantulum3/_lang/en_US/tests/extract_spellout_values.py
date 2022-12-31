@@ -17,9 +17,15 @@ TEST_CASES = [
     ("twenty", ["20.0"]),
     ("zero", ["0.0"]),
     ("several hundred years", []),
+    ("Zero is a small number.", ["0.0", "1.0"]),
     # ("a million and a half", ["1500000.0"]), # this is a hard one
-    # ("twenty thirty fifty hundred", ["20.0", "30.0", "5000.0"]),
-    # ("one, two, three", ["1.0", "2.0", "3.0"]),
+    ## number splitting
+    ("twenty thirty fifty hundred", ["20.0", "30.0", "5000.0"]),
+    ("one, two, three", ["1.0", "2.0", "3.0"]),
+    ("twenty five thirty six one hundred", ["25.0", "36.0", "100.0"]),
+    ("hundred and five hundred and six", ["105.0", "106.0"]), # this is ambiguous..
+    ("hundred and five twenty two", ["105.0", "22.0"]),
+    ("hundred and five twenty two million", ["105.0", "22000000.0"]),
 ]
 
 
