@@ -146,6 +146,24 @@ class Quantity(object):
         self.uncertainty = uncertainty
         self.lang = lang
 
+    def with_vals(
+        self,
+        value=None,
+        unit=None,
+        surface=None,
+        span=None,
+        uncertainty=None,
+        lang=None,
+    ):
+        return Quantity(
+            value if value is not None else self.value,
+            unit if unit is not None else self.unit,
+            surface if surface is not None else self.surface,
+            span if span is not None else self.span,
+            uncertainty if uncertainty is not None else self.uncertainty,
+            lang if lang is not None else self.lang,
+        )
+
     def __repr__(self):
 
         msg = 'Quantity(%g, "%s")'
