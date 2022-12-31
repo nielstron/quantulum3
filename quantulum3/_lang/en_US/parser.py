@@ -59,7 +59,8 @@ def clean_surface(surface, span):
 def word_before_span(text, span):
     if span[0] == 0:
         return ""
-    return text[:span[0]].split()[-1]
+    return text[: span[0]].split()[-1]
+
 
 ###############################################################################
 def split_spellout_sequence(text, span):
@@ -72,7 +73,15 @@ def split_spellout_sequence(text, span):
     last_word_end = last_span_start = 0
     for word_span in re.finditer(r"\w+", text):
         word = word_span.group(0)
-        rank = 1 if word in units else 2 if word in tens else 3 + scales.index(word) if word in scales else 0
+        rank = (
+            1
+            if word in units
+            else 2
+            if word in tens
+            else 3 + scales.index(word)
+            if word in scales
+            else 0
+        )
         # if should start a new seqquence
         # split on:
         #   unit -> unit (one two three)
@@ -80,23 +89,30 @@ def split_spellout_sequence(text, span):
         #   tens -> tens (twenty thirty)
         #   same scale starts  (hundred and one hundred and two)
         should_split = False
-        if (prev_word_rank == 1 and rank in [1,2]):
+        if prev_word_rank == 1 and rank in [1, 2]:
             should_split = True
-        elif (prev_word_rank == 2 and rank == 2):
+        elif prev_word_rank == 2 and rank == 2:
             should_split = True
         elif rank >= 3 and rank == prev_scale:
             should_split = True
             prev_scale = rank
         if should_split:
             # yield up to here
-            yield (text[last_span_start:last_word_end], (last_span_start + start_offset, last_word_end + start_offset))
+            yield (
+                text[last_span_start:last_word_end],
+                (last_span_start + start_offset, last_word_end + start_offset),
+            )
             last_span_start = word_span.span()[0]
         # update the state
-        if rank >= 3: prev_scale = rank
+        if rank >= 3:
+            prev_scale = rank
         prev_word_rank = rank
         last_word_end = word_span.span()[1]
     # yield the last item
-    yield (text[last_span_start:], (last_span_start + start_offset, len(text) + start_offset))
+    yield (
+        text[last_span_start:],
+        (last_span_start + start_offset, len(text) + start_offset),
+    )
 
 
 ###############################################################################
@@ -107,8 +123,8 @@ def extract_spellout_values(text):
     values = []
     number_candidates = []
     for range in reg.text_pattern_reg(lang).finditer(text):
-      for seq, span in split_spellout_sequence(range.group(0), range.span()):
-        number_candidates.append((seq, span))
+        for seq, span in split_spellout_sequence(range.group(0), range.span()):
+            number_candidates.append((seq, span))
 
     for (seq, span) in number_candidates:
         # don't allow "seveal hundred", "couple thousand", "some million years ago"

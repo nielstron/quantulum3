@@ -23,7 +23,7 @@ TEST_CASES = [
     ("twenty thirty fifty hundred", ["20.0", "30.0", "5000.0"]),
     ("one, two, three", ["1.0", "2.0", "3.0"]),
     ("twenty five thirty six one hundred", ["25.0", "36.0", "100.0"]),
-    ("hundred and five hundred and six", ["105.0", "106.0"]), # this is ambiguous..
+    ("hundred and five hundred and six", ["105.0", "106.0"]),  # this is ambiguous..
     ("hundred and five twenty two", ["105.0", "22.0"]),
     ("hundred and five twenty two million", ["105.0", "22000000.0"]),
 ]
