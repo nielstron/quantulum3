@@ -99,7 +99,7 @@ def get_values(item, lang="en_US"):
         ]
         if values[1] < values[0]:
             raise ValueError(
-                "Invalid range, with second item being smaller than the first " "item"
+                "Invalid range, with second item being smaller than the first item"
             )
         mean = sum(values) / len(values)
         uncertainty = mean - min(values)
