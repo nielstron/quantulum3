@@ -71,6 +71,7 @@ def split_spellout_sequence(text, span):
     prev_word_rank = 0
     prev_scale = 0
     last_word_end = last_span_start = 0
+    prev_word = ""
     for word_span in re.finditer(r"\w+", text):
         word = word_span.group(0)
         rank = (
@@ -98,15 +99,23 @@ def split_spellout_sequence(text, span):
             prev_scale = rank
         if should_split:
             # yield up to here
+            adjust = 0
+            if prev_word.lower() in [
+                "and",
+                "&",
+            ]:  # don't include the conjunction in the yield
+                adjust = -(len(prev_word) + 1)
             yield (
-                text[last_span_start:last_word_end],
-                (last_span_start + start_offset, last_word_end + start_offset),
+                text[last_span_start : last_word_end + adjust],
+                (last_span_start + start_offset, last_word_end + start_offset + adjust),
             )
             last_span_start = word_span.span()[0]
         # update the state
         if rank >= 3:
             prev_scale = rank
-        prev_word_rank = rank
+        if word.lower() not in ["and", "&"]:
+            prev_word_rank = rank
+        prev_word = word
         last_word_end = word_span.span()[1]
     # yield the last item
     yield (
