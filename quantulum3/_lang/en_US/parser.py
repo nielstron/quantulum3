@@ -56,16 +56,93 @@ def clean_surface(surface, span):
 
 
 ###############################################################################
+def word_before_span(text, span):
+    if span[0] == 0:
+        return ""
+    return text[: span[0]].split()[-1]
+
+
+###############################################################################
+def split_spellout_sequence(text, span):
+    units = reg.units(lang)
+    tens = reg.tens(lang)
+    scales = reg.scales(lang)
+    start_offset = span[0]
+    prev_word_rank = 0
+    prev_scale = 0
+    last_word_end = last_span_start = 0
+    prev_word = ""
+    for word_span in re.finditer(r"\w+", text):
+        word = word_span.group(0)
+        rank = (
+            1
+            if word in units
+            else 2
+            if word in tens
+            else 3 + scales.index(word)
+            if word in scales
+            else 0
+        )
+        # if should start a new seqquence
+        # split on:
+        #   unit -> unit (one two three)
+        #   unit -> tens (five twenty)
+        #   tens -> tens (twenty thirty)
+        #   same scale starts  (hundred and one hundred and two)
+        should_split = False
+        if prev_word_rank == 1 and rank in [1, 2]:
+            should_split = True
+        elif prev_word_rank == 2 and rank == 2:
+            should_split = True
+        elif rank >= 3 and rank == prev_scale:
+            should_split = True
+            prev_scale = rank
+        if should_split:
+            # yield up to here
+            adjust = 0
+            if prev_word.lower() in [
+                "and",
+                "&",
+            ]:  # don't include the conjunction in the yield
+                adjust = -(len(prev_word) + 1)
+            yield (
+                text[last_span_start : last_word_end + adjust],
+                (last_span_start + start_offset, last_word_end + start_offset + adjust),
+            )
+            last_span_start = word_span.span()[0]
+        # update the state
+        if rank >= 3:
+            prev_scale = rank
+        if word.lower() not in ["and", "&"]:
+            prev_word_rank = rank
+        prev_word = word
+        last_word_end = word_span.span()[1]
+    # yield the last item
+    yield (
+        text[last_span_start:],
+        (last_span_start + start_offset, len(text) + start_offset),
+    )
+
+
+###############################################################################
 def extract_spellout_values(text):
     """
     Convert spelled out numbers in a given text to digits.
     """
-
     values = []
-    for item in reg.text_pattern_reg(lang).finditer(text):
+    number_candidates = []
+    for range in reg.text_pattern_reg(lang).finditer(text):
+        for seq, span in split_spellout_sequence(range.group(0), range.span()):
+            number_candidates.append((seq, span))
+
+    for (seq, span) in number_candidates:
+        # don't allow "seveal hundred", "couple thousand", "some million years ago"
+        # TODO maybe allow "several [scale]", "couple [scale]" and treat as a range?
+        if word_before_span(text, span).lower() in ["several", "couple", "some"]:
+            continue
         try:
-            surface, span = clean_surface(item.group(0), item.span())
-            if not surface or surface.lower() in reg.scales(lang):
+            surface, span = clean_surface(seq, span)
+            if not surface:
                 continue
             curr = result = 0.0
             for word in surface.lower().split():
@@ -83,6 +160,20 @@ def extract_spellout_values(text):
                 except ValueError:
                     match = re.search(reg.numberwords_regex(), word)
                     scale, increment = reg.numberwords(lang)[match.group(0)]
+                if (
+                    scale > 0
+                    and increment == 0
+                    and curr == 0.0
+                    and result == 0.0
+                    and word != "zero"
+                ):  # "million" in the beginning
+                    increment = scale
+                    scale = 0.0
+                # one hundred and five million --> curr 5.0 result 100.0 scale 1M increment 0
+                # --> curr: 105, results: 0, scale 1M, increment 0
+                if scale > result > 0:
+                    curr = curr + result
+                    result = 0.0
                 curr = curr * scale + increment
                 if scale > 100 or word == "and":
                     result += curr
