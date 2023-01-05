@@ -1468,6 +1468,23 @@
     ]
   },
   {
+    "req": "They were given 44 mg to 50 mg ethanol and ten pills.",
+    "res": [
+        {
+          "value": 47,
+          "unit": "milligram",
+          "surface": "44 mg to 50 mg",
+          "entity": "mass",
+          "uncertainty": 3
+        },
+        {
+          "value": 10,
+          "unit": "dimensionless",
+          "surface": "ten"
+        }
+    ]
+  },
+  {
     "req": "They were given from 44 mg to 50 mg ethanol.",
     "res": [
         {
