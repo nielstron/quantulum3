@@ -1504,5 +1504,29 @@
           "uncertainty": null
         }
     ]
+  },
+  {
+    "req": "They were given from 44 ml to 50 mg ethanol and 10 pills.",
+    "res": [
+        {
+          "value": 44,
+          "unit": "cubic centimetre",
+          "surface": "44 ml",
+          "entity": "volume",
+          "uncertainty": null
+        },
+        {
+          "value": 50,
+          "unit": "milligram",
+          "surface": "50 mg",
+          "entity": "mass",
+          "uncertainty": null
+        },
+        {
+          "value": 10,
+          "unit": "dimensionless",
+          "surface": "10"
+        }
+    ]
   }
 ]
