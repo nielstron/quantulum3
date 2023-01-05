@@ -7,9 +7,10 @@ matrix:
     - python: '3.7'
     - python: '3.8'
     - python: '3.9'
+    - python: '3.10'
       env: PRE_COMMIT=1
   fast_finish: true
-dist: xenial
+dist: bionic
 sudo: true
 
 install:
@@ -31,7 +32,9 @@ script:
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_setup
   # Test whether quantulum works without classifier
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_no_classifier
-  # Test requirements.txt
+  # Test language specific non-classifier tasks
+  - coverage run -a --source=quantulum3 setup.py test -s quantulum3._lang.en_US.tests.extract_spellout_values
+  # Test requirements.txt for classifier requirements
   - pip install -r requirements_classifier.txt
   # Lint package, now that all requirements are installed
   - pylint quantulum3
@@ -39,7 +42,6 @@ script:
   # Note that the classifier trained here is included in the target package
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier.ClassifierBuild
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier.ClassifierTest
-  - coverage run -a --source=quantulum3 setup.py test -s quantulum3._lang.en_US.tests.extract_spellout_values
 
 after_success:
   - coverage report

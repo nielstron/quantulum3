@@ -63,7 +63,7 @@ def words_before_span(text, span, k):
 
 
 ###############################################################################
-def get_values(item, context, lang="en_US"):
+def get_values(item, lang="en_US"):
     """
     Extract value from regex hit. context is the enclosing text on which the regex hit.
     """
