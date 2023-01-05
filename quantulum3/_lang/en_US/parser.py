@@ -484,10 +484,12 @@ def name_from_dimensions(dimensions):
 
     return name
 
+
 ###############################################################################
 def is_ranged(quantity1, quantity2, context) -> bool:
+    """ """
     connective = context[quantity1.span[1] : quantity2.span[0]].strip().lower()
-    before = set(words_before_span(context, quantity1.span, 3))
+    before = set(parser.words_before_span(context, quantity1.span, 3))
     if (connective == "to" and "from" not in before) or (
         connective == "and" and "between" in before
     ):
@@ -495,9 +497,11 @@ def is_ranged(quantity1, quantity2, context) -> bool:
     else:
         return False
 
+
 def is_coordinated(quantity1, quantity2, context) -> bool:
     connective = context[quantity1.span[1] : quantity2.span[0]].strip().lower()
     return connective in ["and", "or", "but"]
+
 
 def extract_range_ands(text):
     for range_and in re.finditer(r"(?:^|\s+)between\s+\S+(\s+and\s+)", text):

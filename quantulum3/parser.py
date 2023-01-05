@@ -61,9 +61,11 @@ def words_before_span(text, span, k):
         return []
     return [w.strip().lower() for w in text[: span[0]].split()[-k:]]
 
+
 ###############################################################################
 def is_coordinated(quantity1, quantity2, context, lang="en_US"):
     return _get_parser(lang).is_coordinated(quantity1, quantity2, context)
+
 
 def is_ranged(quantity1, quantity2, context, lang="en_US"):
     return _get_parser(lang).is_ranged(quantity1, quantity2, context)
@@ -433,7 +435,7 @@ def clean_text(text, lang="en_US"):
 
 
 ###############################################################################
-def extract_range_ands(text):
+def extract_range_ands(text, lang="en_US"):
     return _get_parser(lang).extract_range_ands(text)
 
 
@@ -460,8 +462,14 @@ def handle_consecutive_quantities(quantities, context):
                     if q2.value > q1.value:
                         value = (q2.value + q1.value) / 2.0
                         uncertainty = q2.value - value
+                        span = (q1.span[0], q2.span[1])
+                        surface = context[span[0] : span[1]]
                         q1 = q1.with_vals(
-                            uncertainty=uncertainty, value=value, unit=q2.unit
+                            uncertainty=uncertainty,
+                            value=value,
+                            unit=q2.unit,
+                            span=span,
+                            surface=surface,
                         )
                         skip_next = True
         elif is_coordinated(q1, q2, context):
@@ -504,7 +512,7 @@ def parse(text, lang="en_US", verbose=False) -> List[cls.Quantity]:
         _LOGGER.debug("Quantity found: %s", groups)
 
         try:
-            uncert, values = get_values(item, text, lang)
+            uncert, values = get_values(item, lang)
 
             unit, unit_shortening = get_unit(item, text)
             surface, span = get_surface(shifts, orig_text, item, text, unit_shortening)

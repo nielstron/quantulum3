@@ -1418,5 +1418,91 @@
           "uncertainty": null
         }
     ]
+  },
+  {
+    "req": "They were given between 44 and 50 mg ethanol.",
+    "res": [
+        {
+          "value": 47,
+          "unit": "milligram",
+          "surface": "44 and 50 mg",
+          "entity": "mass",
+          "uncertainty": 3
+        }
+    ]
+  },
+  {
+    "req": "They were given between 44 mg and 50 mg ethanol.",
+    "res": [
+        {
+          "value": 47,
+          "unit": "milligram",
+          "surface": "44 mg and 50 mg",
+          "entity": "mass",
+          "uncertainty": 3
+        }
+    ]
+  },
+  {
+    "req": "They were given between 44 mg to 50 mg ethanol.",
+    "res": [
+        {
+          "value": 47,
+          "unit": "milligram",
+          "surface": "44 mg to 50 mg",
+          "entity": "mass",
+          "uncertainty": 3
+        }
+    ]
+  },
+  {
+    "req": "They were given 44 mg to 50 mg ethanol.",
+    "res": [
+        {
+          "value": 47,
+          "unit": "milligram",
+          "surface": "44 mg to 50 mg",
+          "entity": "mass",
+          "uncertainty": 3
+        }
+    ]
+  },
+  {
+    "req": "They were given from 44 mg to 50 mg ethanol.",
+    "res": [
+        {
+          "value": 44,
+          "unit": "milligram",
+          "surface": "44 mg",
+          "entity": "mass",
+          "uncertainty": null
+        },
+        {
+          "value": 50,
+          "unit": "milligram",
+          "surface": "50 mg",
+          "entity": "mass",
+          "uncertainty": null
+        }
+    ]
+  },
+  {
+    "req": "They were given from 44 ml to 50 mg ethanol.",
+    "res": [
+        {
+          "value": 44,
+          "unit": "cubic centimetre",
+          "surface": "44 ml",
+          "entity": "volume",
+          "uncertainty": null
+        },
+        {
+          "value": 50,
+          "unit": "milligram",
+          "surface": "50 mg",
+          "entity": "mass",
+          "uncertainty": null
+        }
+    ]
   }
 ]
