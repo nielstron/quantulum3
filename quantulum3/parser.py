@@ -61,6 +61,13 @@ def words_before_span(text, span, k):
         return []
     return [w.strip().lower() for w in text[: span[0]].split()[-k:]]
 
+###############################################################################
+def is_coordinated(quantity1, quantity2, context, lang="en_US"):
+    return _get_parser(lang).is_coordinated(quantity1, quantity2, context)
+
+def is_ranged(quantity1, quantity2, context, lang="en_US"):
+    return _get_parser(lang).is_ranged(quantity1, quantity2, context)
+
 
 ###############################################################################
 def get_values(item, lang="en_US"):
@@ -426,16 +433,11 @@ def clean_text(text, lang="en_US"):
 
 
 ###############################################################################
-# TODO this is English specific.. but how do we make it general?
 def extract_range_ands(text):
-    for range_and in re.finditer(r"(?:^|\s+)between\s+\S+(\s+and\s+)", text):
-        yield {
-            "old_surface": " and ",
-            "old_span": range_and.span(1),
-            "new_surface": " to ",
-        }
+    return _get_parser(lang).extract_range_ands(text)
 
 
+###############################################################################
 def handle_consecutive_quantities(quantities, context):
     """
     [45] and/or [50 mg] --> add unit to first [45 mg] [50 mg]
@@ -452,11 +454,7 @@ def handle_consecutive_quantities(quantities, context):
         if skip_next:
             skip_next = False
             continue
-        connective = context[q1.span[1] : q2.span[0]].strip().lower()
-        before = set(words_before_span(context, q1.span, 3))
-        if (connective == "to" and "from" not in before) or (
-            connective == "and" and "between" in before
-        ):
+        if is_ranged(q1, q2, context):
             if q1.unit.name == q2.unit.name or q1.unit.name == "dimensionless":
                 if q1.uncertainty == None and q2.uncertainty == None:
                     if q2.value > q1.value:
@@ -466,7 +464,7 @@ def handle_consecutive_quantities(quantities, context):
                             uncertainty=uncertainty, value=value, unit=q2.unit
                         )
                         skip_next = True
-        elif connective in ["and", "or", "but"]:
+        elif is_coordinated(q1, q2, context):
             if q1.unit.name == "dimensionless":
                 q1 = q1.with_vals(unit=q2.unit)
         results.append(q1)
