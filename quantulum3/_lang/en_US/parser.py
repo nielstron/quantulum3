@@ -56,13 +56,6 @@ def clean_surface(surface, span):
 
 
 ###############################################################################
-def word_before_span(text, span):
-    if span[0] == 0:
-        return ""
-    return text[: span[0]].split()[-1]
-
-
-###############################################################################
 def split_spellout_sequence(text, span):
     units = reg.units(lang)
     tens = reg.tens(lang)
@@ -138,7 +131,14 @@ def extract_spellout_values(text):
     for (seq, span) in number_candidates:
         # don't allow "seveal hundred", "couple thousand", "some million years ago"
         # TODO maybe allow "several [scale]", "couple [scale]" and treat as a range?
-        if word_before_span(text, span).lower() in ["several", "couple", "some"]:
+        if (
+            len(
+                set(parser.words_before_span(text, span, 3)).intersection(
+                    {"several", "couple", "some"}
+                )
+            )
+            > 0
+        ):
             continue
         try:
             surface, span = clean_surface(seq, span)
@@ -483,3 +483,29 @@ def name_from_dimensions(dimensions):
     name = name.strip()
 
     return name
+
+
+###############################################################################
+def is_ranged(quantity1, quantity2, context):
+    """
+    returns a new span if it is a range, and None otherwise.
+    """
+    connective = context[quantity1.span[1] : quantity2.span[0]].strip().lower()
+    before = set(parser.words_before_span(context, quantity1.span, 3))
+    if connective == "to":
+        return (quantity1.span[0], quantity2.span[1])
+    elif connective == "and" and "between" in before:
+        start = context.rfind("between", 0, quantity1.span[0])
+        return (start, quantity2.span[1])
+    else:
+        return None
+
+
+def is_coordinated(quantity1, quantity2, context) -> bool:
+    """
+    returns a new span if it is a coordination, and None otherwise.
+    """
+    connective = context[quantity1.span[1] : quantity2.span[0]].strip().lower()
+    if connective in ["and", "or", "but"]:
+        return (quantity1.span[0], quantity2.span[1])
+    return None
