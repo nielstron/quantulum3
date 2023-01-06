@@ -492,7 +492,7 @@ def is_ranged(quantity1, quantity2, context):
     """
     connective = context[quantity1.span[1] : quantity2.span[0]].strip().lower()
     before = set(parser.words_before_span(context, quantity1.span, 3))
-    if connective == "to" and "from" not in before:
+    if connective == "to":
         return (quantity1.span[0], quantity2.span[1])
     elif connective == "and" and "between" in before:
         start = context.rfind("between", 0, quantity1.span[0])

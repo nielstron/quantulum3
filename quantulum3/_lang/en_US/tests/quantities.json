@@ -389,10 +389,11 @@
     "req": "The cost of gallium metal rose from about $350 per kg to $680 per kg",
     "res": [
       {
-        "value": 350,
+        "value": 515,
         "unit": "dollar per kilogram",
-        "surface": "$350 per kg",
+        "surface": "$350 per kg to $680 per kg",
         "entity": "unknown",
+        "uncertainty": 165,
         "dimensions": [
           {
             "base": "dollar",
@@ -403,24 +404,6 @@
             "base": "kilogram",
             "power": -1,
             "surface": "kg"
-          }
-        ]
-      },
-      {
-        "value": 680,
-        "unit": "dollar per kilogram",
-        "surface": "$680 per kg",
-        "entity": "unknown",
-        "dimensions": [
-          {
-            "base": "dollar",
-            "power": 1,
-            "surface": "$"
-          },
-          {
-            "base": "kilogram",
-            "power": -1,
-            "surface": "$"
           }
         ]
       }
@@ -1485,26 +1468,42 @@
     ]
   },
   {
-    "req": "They were given from 44 mg to 50 mg ethanol.",
+    "req": "Treatment was reduced from 44 mg to 50 mg ethanol.",
     "res": [
         {
-          "value": 44,
+          "value": 47,
           "unit": "milligram",
-          "surface": "44 mg",
+          "surface": "44 mg to 50 mg",
           "entity": "mass",
-          "uncertainty": null
-        },
-        {
-          "value": 50,
-          "unit": "milligram",
-          "surface": "50 mg",
-          "entity": "mass",
-          "uncertainty": null
+          "uncertainty": 3
         }
     ]
   },
   {
-    "req": "They were given from 44 ml to 50 mg ethanol.",
+      "req": "temperatures ranged from -18 °C to -34 °C",
+      "res": [
+          {
+              "value": -26,
+              "unit": "degree Celsius",
+              "surface": "-18 °C to -34 °C",
+              "entity": "temperature",
+              "uncertainty": 8
+          }
+      ]
+  },
+  {
+      "req": "This means that the USDA hardiness zones relevant to Britain and Ireland are quite high, from 7 to 10, as shown below",
+      "res": [
+          {
+              "value": 8.5,
+              "unit": "dimensionless",
+              "surface": "7 to 10",
+              "uncertainty": 1.5
+          }
+      ]
+  },
+  {
+    "req": "They were changed from 44 ml to 50 mg ethanol.",
     "res": [
         {
           "value": 44,

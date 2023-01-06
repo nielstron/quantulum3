@@ -444,8 +444,7 @@ def handle_consecutive_quantities(quantities, context):
     """
     [45] and/or [50 mg] --> add unit to first [45 mg] [50 mg]
     between [44 mg] and [50 mg] --> range [47+/-3 mg]
-    from [44 mg] to [50 mg] --> same
-    !from [44 mg] to [50 mg] --> range [47+/-3 mg]
+    [44 mg] to [50 mg] --> range [47+/-3 mg]
     """
     if len(quantities) < 1:
         return quantities
@@ -459,19 +458,23 @@ def handle_consecutive_quantities(quantities, context):
         range_span = is_ranged(q1, q2, context)
         if range_span:
             if q1.unit.name == q2.unit.name or q1.unit.name == "dimensionless":
-                if q1.uncertainty == None and q2.uncertainty == None:
-                    if q2.value > q1.value:
-                        value = (q2.value + q1.value) / 2.0
-                        uncertainty = q2.value - value
-                        surface = context[range_span[0] : range_span[1]]
-                        q1 = q1.with_vals(
-                            uncertainty=uncertainty,
-                            value=value,
-                            unit=q2.unit,
-                            span=range_span,
-                            surface=surface,
-                        )
-                        skip_next = True
+                if (
+                    q1.uncertainty == None
+                    and q2.uncertainty == None
+                    and q1.value != q2.value
+                ):
+                    a, b = (q1, q2) if q2.value > q1.value else (q2, q1)
+                    value = (a.value + b.value) / 2.0
+                    uncertainty = b.value - value
+                    surface = context[range_span[0] : range_span[1]]
+                    q1 = q1.with_vals(
+                        uncertainty=uncertainty,
+                        value=value,
+                        unit=q2.unit,
+                        span=range_span,
+                        surface=surface,
+                    )
+                    skip_next = True
         elif is_coordinated(q1, q2, context):
             if q1.unit.name == "dimensionless":
                 q1 = q1.with_vals(unit=q2.unit)
