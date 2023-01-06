@@ -56,9 +56,25 @@ def substitute_values(text, values):
 
 
 ###############################################################################
+def words_before_span(text, span, k):
+    if span[0] == 0:
+        return []
+    return [w.strip().lower() for w in text[: span[0]].split()[-k:]]
+
+
+###############################################################################
+def is_coordinated(quantity1, quantity2, context, lang="en_US"):
+    return _get_parser(lang).is_coordinated(quantity1, quantity2, context)
+
+
+def is_ranged(quantity1, quantity2, context, lang="en_US"):
+    return _get_parser(lang).is_ranged(quantity1, quantity2, context)
+
+
+###############################################################################
 def get_values(item, lang="en_US"):
     """
-    Extract value from regex hit.
+    Extract value from regex hit. context is the enclosing text on which the regex hit.
     """
 
     def callback(pattern):
@@ -84,6 +100,7 @@ def get_values(item, lang="en_US"):
     range_separator = re.findall(
         r"\d+ ?((?:-\ )?(?:%s)) ?\d" % "|".join(reg.ranges(lang)), value
     )
+
     uncer_separator = re.findall(
         r"\d+ ?(%s) ?\d" % "|".join(reg.uncertainties(lang)), value
     )
@@ -99,7 +116,7 @@ def get_values(item, lang="en_US"):
         ]
         if values[1] < values[0]:
             raise ValueError(
-                "Invalid range, with second item being smaller than the first " "item"
+                "Invalid range, with second item being smaller than the first item"
             )
         mean = sum(values) / len(values)
         uncertainty = mean - min(values)
@@ -418,6 +435,56 @@ def clean_text(text, lang="en_US"):
 
 
 ###############################################################################
+def extract_range_ands(text, lang="en_US"):
+    return _get_parser(lang).extract_range_ands(text)
+
+
+###############################################################################
+def handle_consecutive_quantities(quantities, context):
+    """
+    [45] and/or [50 mg] --> add unit to first [45 mg] [50 mg]
+    between [44 mg] and [50 mg] --> range [47+/-3 mg]
+    [44 mg] to [50 mg] --> range [47+/-3 mg]
+    """
+    if len(quantities) < 1:
+        return quantities
+
+    results = []
+    skip_next = False
+    for q1, q2 in zip(quantities, quantities[1:]):
+        if skip_next:
+            skip_next = False
+            continue
+        range_span = is_ranged(q1, q2, context)
+        if range_span:
+            if q1.unit.name == q2.unit.name or q1.unit.name == "dimensionless":
+                if (
+                    q1.uncertainty == None
+                    and q2.uncertainty == None
+                    and q1.value != q2.value
+                ):
+                    a, b = (q1, q2) if q2.value > q1.value else (q2, q1)
+                    value = (a.value + b.value) / 2.0
+                    uncertainty = b.value - value
+                    surface = context[range_span[0] : range_span[1]]
+                    q1 = q1.with_vals(
+                        uncertainty=uncertainty,
+                        value=value,
+                        unit=q2.unit,
+                        span=range_span,
+                        surface=surface,
+                    )
+                    skip_next = True
+        elif is_coordinated(q1, q2, context):
+            if q1.unit.name == "dimensionless":
+                q1 = q1.with_vals(unit=q2.unit)
+        results.append(q1)
+    if not skip_next:
+        results.append(quantities[-1])
+    return results
+
+
+###############################################################################
 def parse(text, lang="en_US", verbose=False) -> List[cls.Quantity]:
     """
     Extract all quantities from unstructured text.
@@ -460,6 +527,7 @@ def parse(text, lang="en_US", verbose=False) -> List[cls.Quantity]:
     if verbose:  # pragma: no cover
         logging.root.setLevel(prev_level)
 
+    quantities = handle_consecutive_quantities(quantities, text)
     return quantities
 
 

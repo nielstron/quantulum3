@@ -109,9 +109,7 @@ def wiki_test(page="CERN", lang="en_US"):  # pragma: no cover
         Herschel_Space_Observatory
     """
     if not wikipedia:
-        print(
-            "Cannot activate wiki_test. Please install the package wikipedia " "first."
-        )
+        print("Cannot activate wiki_test. Please install the package wikipedia first.")
         return
 
     wikipedia.set_lang(lang)

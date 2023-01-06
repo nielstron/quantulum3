@@ -79,8 +79,10 @@ TEXT_PATTERN = r"""            # Pattern for extracting mixed digit-spelled num
                                       # number
 """
 
-RANGES = {"to", "and"}
-UNCERTAINTIES = {"plus minus"}
+RANGES = {"to"}  # "and" in "between X and" will be converted to "to".
+UNCERTAINTIES = {"plus minus", "plus or minus"}
+
+CONJUNCTIONS = {"and", "or", "but"}
 
 POWERS = {"squared": 2, "cubed": 3}
 EXPONENTS_REGEX = r"(?:(?:\^?\-?[0-9{{superscripts}}]+)?(?:\ (?:{powers}))?)".format(
