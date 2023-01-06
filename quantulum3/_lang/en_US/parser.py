@@ -486,27 +486,26 @@ def name_from_dimensions(dimensions):
 
 
 ###############################################################################
-def is_ranged(quantity1, quantity2, context) -> bool:
-    """ """
+def is_ranged(quantity1, quantity2, context):
+    """
+    returns a new span if it is a range, and None otherwise.
+    """
     connective = context[quantity1.span[1] : quantity2.span[0]].strip().lower()
     before = set(parser.words_before_span(context, quantity1.span, 3))
-    if (connective == "to" and "from" not in before) or (
-        connective == "and" and "between" in before
-    ):
-        return True
+    if connective == "to" and "from" not in before:
+        return (quantity1.span[0], quantity2.span[1])
+    elif connective == "and" and "between" in before:
+        start = context.rfind("between", 0, quantity1.span[0])
+        return (start, quantity2.span[1])
     else:
-        return False
+        return None
 
 
 def is_coordinated(quantity1, quantity2, context) -> bool:
+    """
+    returns a new span if it is a coordination, and None otherwise.
+    """
     connective = context[quantity1.span[1] : quantity2.span[0]].strip().lower()
-    return connective in ["and", "or", "but"]
-
-
-def extract_range_ands(text):
-    for range_and in re.finditer(r"(?:^|\s+)between\s+\S+(\s+and\s+)", text):
-        yield {
-            "old_surface": " and ",
-            "old_span": range_and.span(1),
-            "new_surface": " to ",
-        }
+    if connective in ["and", "or", "but"]:
+        return (quantity1.span[0], quantity2.span[1])
+    return None

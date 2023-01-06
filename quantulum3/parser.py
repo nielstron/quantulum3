@@ -456,19 +456,19 @@ def handle_consecutive_quantities(quantities, context):
         if skip_next:
             skip_next = False
             continue
-        if is_ranged(q1, q2, context):
+        range_span = is_ranged(q1, q2, context)
+        if range_span:
             if q1.unit.name == q2.unit.name or q1.unit.name == "dimensionless":
                 if q1.uncertainty == None and q2.uncertainty == None:
                     if q2.value > q1.value:
                         value = (q2.value + q1.value) / 2.0
                         uncertainty = q2.value - value
-                        span = (q1.span[0], q2.span[1])
-                        surface = context[span[0] : span[1]]
+                        surface = context[range_span[0] : range_span[1]]
                         q1 = q1.with_vals(
                             uncertainty=uncertainty,
                             value=value,
                             unit=q2.unit,
-                            span=span,
+                            span=range_span,
                             surface=surface,
                         )
                         skip_next = True
@@ -500,9 +500,6 @@ def parse(text, lang="en_US", verbose=False) -> List[cls.Quantity]:
 
     text = clean_text(text, lang)
     values = extract_spellout_values(text, lang)
-    values = sorted(
-        list(values) + list(extract_range_ands(text)), key=lambda x: x["old_span"][0]
-    )
     text, shifts = substitute_values(text, values)
 
     quantities = []

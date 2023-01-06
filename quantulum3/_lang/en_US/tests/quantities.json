@@ -1425,7 +1425,7 @@
         {
           "value": 47,
           "unit": "milligram",
-          "surface": "44 and 50 mg",
+          "surface": "between 44 and 50 mg",
           "entity": "mass",
           "uncertainty": 3
         }
@@ -1437,7 +1437,7 @@
         {
           "value": 47,
           "unit": "milligram",
-          "surface": "44 mg and 50 mg",
+          "surface": "between 44 mg and 50 mg",
           "entity": "mass",
           "uncertainty": 3
         }
