@@ -326,17 +326,19 @@ def units_regex(lang="en_US"):
     op_keys = list(operators(lang))
     unit_keys = sorted(
         list(load.units(lang).surfaces.keys()) + list(load.units(lang).symbols.keys()),
-        key=lambda x: (len(x),x),
+        key=lambda x: (len(x), x),
         reverse=True,
     )
     symbol_keys = sorted(
-        list(load.units(lang).prefix_symbols.keys()), key=lambda x:(len(x),x), reverse=True
+        list(load.units(lang).prefix_symbols.keys()),
+        key=lambda x: (len(x), x),
+        reverse=True,
     )
 
     exponent = exponents_regex(lang).format(superscripts=unicode_superscript_regex())
 
     ops = [r"\s*{op}\s*".format(op=re.escape(op)) for op in op_keys]
-    all_ops = "|".join(sorted(ops, key=lambda x:(len(x),x), reverse=True))
+    all_ops = "|".join(sorted(ops, key=lambda x: (len(x), x), reverse=True))
 
     all_units = "|".join([r"{}".format(re.escape(i)) for i in unit_keys])
     all_symbols = "|".join([r"{}".format(re.escape(i)) for i in symbol_keys])
