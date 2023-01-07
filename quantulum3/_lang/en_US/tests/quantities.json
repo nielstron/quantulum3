@@ -1544,5 +1544,437 @@
           "surface": "10"
         }
     ]
+  },
+  {
+    "req": "a total of -34 kg/cm2",
+    "res": [
+      {
+        "value": -34,
+        "unit": "kilogram per square centimetre",
+        "surface": "-34 kg/cm2",
+        "entity": "unknown",
+        "uncertainty": null,
+        "dimensions": [
+          {
+            "base": "kilogram",
+            "power": 1,
+            "surface": "kg"
+          },
+          {
+            "base": "centimetre",
+            "power": -2,
+            "surface": "cm"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "a total of -34kg/cm2",
+    "res": [
+      {
+        "value": -34,
+        "unit": "kilogram per square centimetre",
+        "surface": "-34kg/cm2",
+        "entity": "unknown",
+        "uncertainty": null,
+        "dimensions": [
+          {
+            "base": "kilogram",
+            "power": 1,
+            "surface": "kg"
+          },
+          {
+            "base": "centimetre",
+            "power": -2,
+            "surface": "cm"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "a total of -34kg/ cm2",
+    "res": [
+      {
+        "value": -34,
+        "unit": "kilogram per square centimetre",
+        "surface": "-34kg/ cm2",
+        "entity": "unknown",
+        "uncertainty": null,
+        "dimensions": [
+          {
+            "base": "kilogram",
+            "power": 1,
+            "surface": "kg"
+          },
+          {
+            "base": "centimetre",
+            "power": -2,
+            "surface": "cm"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "a total of -34 kg/ cm2",
+    "res": [
+      {
+        "value": -34,
+        "unit": "kilogram per square centimetre",
+        "surface": "-34 kg/ cm2",
+        "entity": "unknown",
+        "uncertainty": null,
+        "dimensions": [
+          {
+            "base": "kilogram",
+            "power": 1,
+            "surface": "kg"
+          },
+          {
+            "base": "centimetre",
+            "power": -2,
+            "surface": "cm"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "a total of -34 kg / cm2",
+    "res": [
+      {
+        "value": -34,
+        "unit": "kilogram per square centimetre",
+        "surface": "-34 kg / cm2",
+        "entity": "unknown",
+        "uncertainty": null,
+        "dimensions": [
+          {
+            "base": "kilogram",
+            "power": 1,
+            "surface": "kg"
+          },
+          {
+            "base": "centimetre",
+            "power": -2,
+            "surface": "cm"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "a total of -34 kg /cm2",
+    "res": [
+      {
+        "value": -34,
+        "unit": "kilogram per square centimetre",
+        "surface": "-34 kg /cm2",
+        "entity": "unknown",
+        "uncertainty": null,
+        "dimensions": [
+          {
+            "base": "kilogram",
+            "power": 1,
+            "surface": "kg"
+          },
+          {
+            "base": "centimetre",
+            "power": -2,
+            "surface": "cm"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "a total of -39 kg/cm2",
+    "res": [
+      {
+        "value": -39,
+        "unit": "kilogram per square centimetre",
+        "surface": "-39 kg/cm2",
+        "entity": "unknown",
+        "uncertainty": null,
+        "dimensions": [
+          {
+            "base": "kilogram",
+            "power": 1,
+            "surface": "kg"
+          },
+          {
+            "base": "centimetre",
+            "power": -2,
+            "surface": "cm"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "a total of -39kg / cm2",
+    "res": [
+      {
+        "value": -39,
+        "unit": "kilogram per square centimetre",
+        "surface": "-39kg / cm2",
+        "entity": "unknown",
+        "uncertainty": null,
+        "dimensions": [
+          {
+            "base": "kilogram",
+            "power": 1,
+            "surface": "kg"
+          },
+          {
+            "base": "centimetre",
+            "power": -2,
+            "surface": "cm"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "a total of -34kg per cm2",
+    "res": [
+      {
+        "value": -34,
+        "unit": "kilogram per square centimetre",
+        "surface": "-34kg per cm2",
+        "entity": "unknown",
+        "uncertainty": null,
+        "dimensions": [
+          {
+            "base": "kilogram",
+            "power": 1,
+            "surface": "kg"
+          },
+          {
+            "base": "centimetre",
+            "power": -2,
+            "surface": "cm"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "a total of -34 kgcm2",
+    "res": [
+      {
+        "value": -34,
+        "unit": "kilogram square centimetre",
+        "surface": "-34 kgcm2",
+        "entity": "moment of inertia",
+        "uncertainty": null,
+        "dimensions": [
+          {
+            "base": "kilogram",
+            "power": 1,
+            "surface": "kg"
+          },
+          {
+            "base": "centimetre",
+            "power": 2,
+            "surface": "cm"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "a total of -34kg*cm2",
+    "res": [
+      {
+        "value": -34,
+        "unit": "kilogram square centimetre",
+        "surface": "-34kg*cm2",
+        "entity": "moment of inertia",
+        "uncertainty": null,
+        "dimensions": [
+          {
+            "base": "kilogram",
+            "power": 1,
+            "surface": "kg"
+          },
+          {
+            "base": "centimetre",
+            "power": 2,
+            "surface": "cm"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "a total of -34kg* cm2",
+    "res": [
+      {
+        "value": -34,
+        "unit": "kilogram square centimetre",
+        "surface": "-34kg* cm2",
+        "entity": "moment of inertia",
+        "uncertainty": null,
+        "dimensions": [
+          {
+            "base": "kilogram",
+            "power": 1,
+            "surface": "kg"
+          },
+          {
+            "base": "centimetre",
+            "power": 2,
+            "surface": "cm"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "a total of -34 kg cm2",
+    "res": [
+      {
+        "value": -34,
+        "unit": "kilogram square centimetre",
+        "surface": "-34 kg cm2",
+        "entity": "moment of inertia",
+        "uncertainty": null,
+        "dimensions": [
+          {
+            "base": "kilogram",
+            "power": 1,
+            "surface": "kg"
+          },
+          {
+            "base": "centimetre",
+            "power": 2,
+            "surface": "cm"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "a total of -34 kg * cm2",
+    "res": [
+      {
+        "value": -34,
+        "unit": "kilogram square centimetre",
+        "surface": "-34 kg * cm2",
+        "entity": "moment of inertia",
+        "uncertainty": null,
+        "dimensions": [
+          {
+            "base": "kilogram",
+            "power": 1,
+            "surface": "kg"
+          },
+          {
+            "base": "centimetre",
+            "power": 2,
+            "surface": "cm"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "a total of -34 kg *cm2",
+    "res": [
+      {
+        "value": -34,
+        "unit": "kilogram square centimetre",
+        "surface": "-34 kg *cm2",
+        "entity": "moment of inertia",
+        "uncertainty": null,
+        "dimensions": [
+          {
+            "base": "kilogram",
+            "power": 1,
+            "surface": "kg"
+          },
+          {
+            "base": "centimetre",
+            "power": 2,
+            "surface": "cm"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "a total of -39 kg*cm2",
+    "res": [
+      {
+        "value": -39,
+        "unit": "kilogram square centimetre",
+        "surface": "-39 kg*cm2",
+        "entity": "moment of inertia",
+        "uncertainty": null,
+        "dimensions": [
+          {
+            "base": "kilogram",
+            "power": 1,
+            "surface": "kg"
+          },
+          {
+            "base": "centimetre",
+            "power": 2,
+            "surface": "cm"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "a total of -39kg * cm2",
+    "res": [
+      {
+        "value": -39,
+        "unit": "kilogram square centimetre",
+        "surface": "-39kg * cm2",
+        "entity": "moment of inertia",
+        "uncertainty": null,
+        "dimensions": [
+          {
+            "base": "kilogram",
+            "power": 1,
+            "surface": "kg"
+          },
+          {
+            "base": "centimetre",
+            "power": 2,
+            "surface": "cm"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "req": "a total of -34kg times cm2",
+    "res": [
+      {
+        "value": -34,
+        "unit": "kilogram square centimetre",
+        "surface": "-34kg times cm2",
+        "entity": "moment of inertia",
+        "uncertainty": null,
+        "dimensions": [
+          {
+            "base": "kilogram",
+            "power": 1,
+            "surface": "kg"
+          },
+          {
+            "base": "centimetre",
+            "power": 2,
+            "surface": "cm"
+          }
+        ]
+      }
+    ]
   }
 ]
