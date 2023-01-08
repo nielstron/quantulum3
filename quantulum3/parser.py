@@ -277,6 +277,51 @@ def parse_unit(item, unit, slash, lang="en_US"):
     """
     return _get_parser(lang).parse_unit(item, unit, slash)
 
+def compact_matches(item):
+  res = {}
+  starts = {}
+  groups = item.groupdict()
+  unit_index = 1
+  op_index = 1
+  if "prefix" in groups and groups["prefix"]:
+    res["prefix"] = groups["prefix"]
+  if "value" in groups and groups["value"]:
+    res["value"] = groups["value"]
+  op_acum = ""
+  for i in [1,2,3,4]:
+    op = groups.get(f"operator{i}", None)
+    un = groups.get(f"unit{i}", None)
+    if op and un: #op.strip():
+      res[f"operator{op_index}"] = op_acum + op
+      starts[f"operator{op_index}"] = item.start(f"operator{i}")
+      op_index += 1
+      op_acum = ""
+    if op and not un:
+      op_acum += op
+    if un:
+      res[f"unit{unit_index}"] = un
+      starts[f"unit{unit_index}"] = item.start(f"unit{i}")
+      unit_index += 1
+      if op_index < unit_index: op_index = unit_index
+  print("ORIG", groups)
+  print("COMP", res)
+  return FakeItem(res, item, starts)
+  
+class FakeItem:
+  def __init__(self, d, item, starts):
+    print("created with", d)
+    self.d = d
+    self.item = item
+    self.starts = starts
+
+  def group(self, g):
+    return self.d.get(g, None)
+
+  def end(self): return self.item.end()
+  def start(self, g=None):
+    if g is None: return self.item.start()
+    return self.starts[g]
+  
 
 ###############################################################################
 def get_unit(item, text, lang="en_US"):
@@ -288,9 +333,12 @@ def get_unit(item, text, lang="en_US"):
     group_operators = ["operator1", "operator2", "operator3", "operator4"]
     # How much of the end is removed because of an "incorrect" regex match
     unit_shortening = 0
+    print(item.groupdict())
 
     item_units = [item.group(i) for i in group_units if item.group(i)]
+    print("unit:", item_units)
 
+    item = compact_matches(item)
     if len(item_units) == 0:
         unit = load.units(lang).names["dimensionless"]
     else:
@@ -300,6 +348,7 @@ def get_unit(item, text, lang="en_US"):
             unit = item.group(group_units[index])
             operator_index = None if index < 1 else group_operators[index - 1]
             operator = None if index < 1 else item.group(operator_index)
+            print(index, "O", operator, "U", unit)
 
             # disallow spaces as operators in units expressed in their symbols
             # Enforce consistency among multiplication and division operators
@@ -510,6 +559,7 @@ def parse(text, lang="en_US", verbose=False) -> List[cls.Quantity]:
 
         groups = dict([i for i in item.groupdict().items() if i[1] and i[1].strip()])
         _LOGGER.debug("Quantity found: %s", groups)
+        print("XX",groups)
 
         try:
             uncert, values = get_values(item, lang)

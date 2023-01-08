@@ -337,7 +337,7 @@ def units_regex(lang="en_US"):
 
     exponent = exponents_regex(lang).format(superscripts=unicode_superscript_regex())
 
-    ops = [r"\s*{op}\s*".format(op=re.escape(op)) for op in op_keys]
+    ops = [r"{op}".format(op=re.escape(op)) for op in op_keys]
     all_ops = "|".join(sorted(ops, key=lambda x: (len(x), x), reverse=True))
 
     all_units = "|".join([r"{}".format(re.escape(i)) for i in unit_keys])
@@ -347,10 +347,10 @@ def units_regex(lang="en_US"):
         (?<!\w)                                     # "begin" of word
         (?P<prefix>(?:%s)(?![a-zA-Z]))?         # Currencies, mainly
         (?P<value>%s)-?                           # Number
-        (?:(?P<operator1>%s(?=(%s)%s))?(?P<unit1>(?:%s)%s)?)    # Operator + Unit (1)
-        (?:(?P<operator2>%s(?=(%s)%s))?(?P<unit2>(?:%s)%s)?)    # Operator + Unit (2)
-        (?:(?P<operator3>%s(?=(%s)%s))?(?P<unit3>(?:%s)%s)?)    # Operator + Unit (3)
-        (?:(?P<operator4>%s(?=(%s)%s))?(?P<unit4>(?:%s)%s)?)    # Operator + Unit (4)
+        (?:(?P<operator1>(?:\s*)%s(?:\s*)(?=(%s)%s))?(?P<unit1>(?:%s)%s)?)    # Operator + Unit (1)
+        (?:(?P<operator2>(?:\s*)%s(?:\s*)(?=(%s)%s))?(?P<unit2>(?:%s)%s)?)    # Operator + Unit (2)
+        (?:(?P<operator3>(?:\s*)%s(?:\s*)(?=(%s)%s))?(?P<unit3>(?:%s)%s)?)    # Operator + Unit (3)
+        (?:(?P<operator4>(?:\s*)%s(?:\s*)(?=(%s)%s))?(?P<unit4>(?:%s)%s)?)    # Operator + Unit (4)
         (?!\w)                                      # "end" of word
     """ % tuple(
         [all_symbols, range_pattern(lang)]
