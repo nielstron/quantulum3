@@ -33,6 +33,8 @@ script:
   - coverage run --source=quantulum3 scripts/build.py
   # Test basic functionality
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_setup
+  # Test generally that user-facing functions do not throw errors
+  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_hypothesis
   # Test whether quantulum works without classifier
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_no_classifier
   # Test language specific non-classifier tasks

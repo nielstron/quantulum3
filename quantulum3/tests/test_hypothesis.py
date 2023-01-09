@@ -42,5 +42,7 @@ class TestNoErrors(unittest.TestCase):
         p.clean_text(s, lang=lang)
 
 
-if __name__ == "__main__":
+###############################################################################
+if __name__ == "__main__":  # pragma: no cover
+
     unittest.main()
