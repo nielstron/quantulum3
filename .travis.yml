@@ -1,5 +1,11 @@
 language: python
 
+# free travis CI partner queue
+os: linux
+arch:
+  - arm64
+  - ppc64le
+  - s390x
 matrix:
   include:
     - python: '3.5'
