@@ -4,9 +4,7 @@ language: python
 os: linux
 arch:
   - arm64
-  - ppc64le
-  - s390x
-matrix:
+jobs:
   include:
     - python: '3.5'
     - python: '3.6'
@@ -17,7 +15,6 @@ matrix:
       env: PRE_COMMIT=1
   fast_finish: true
 dist: bionic
-sudo: true
 
 install:
   - test ! "$PRE_COMMIT" || pip install pre-commit
