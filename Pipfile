@@ -18,6 +18,7 @@ quantulum3 = {editable = true,path = "."}
 coverage = "*"
 pymagnitude = "*"
 black = "*"
+hypothesis = "*"
 
 [requires]
 python_version = "3.8"
