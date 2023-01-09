@@ -4,17 +4,19 @@
 :mod:`Quantulum` property based tests.
 """
 
-from hypothesis import settings, given, strategies as st
-
-from ..language import LANGUAGES
-from .. import parser as p
-
 import unittest
+
+from hypothesis import given, settings
+from hypothesis import strategies as st
+
+from .. import parser as p
+from ..language import LANGUAGES
 
 multilang_strategy = st.one_of(*(st.just(l) for l in LANGUAGES))
 
 
 class TestNoErrors(unittest.TestCase):
+    # pylint: disable=no-self-use
     @given(st.text(), multilang_strategy)
     @settings(deadline=None)
     def test_parse(self, s, lang):
