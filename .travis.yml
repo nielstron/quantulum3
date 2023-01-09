@@ -1,8 +1,11 @@
 language: python
 
-matrix:
+# free travis CI partner queue
+os: linux
+arch:
+  - arm64
+jobs:
   include:
-    - python: '3.5'
     - python: '3.6'
     - python: '3.7'
     - python: '3.8'
@@ -11,7 +14,6 @@ matrix:
       env: PRE_COMMIT=1
   fast_finish: true
 dist: bionic
-sudo: true
 
 install:
   - test ! "$PRE_COMMIT" || pip install pre-commit
