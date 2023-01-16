@@ -54,14 +54,14 @@ def exponents_regex(lang="en_US"):
 def ranges(lang="en_US"):
     ranges_ = {"-"}
     ranges_.update(_get_regex(lang).RANGES)
-    return ranges_
+    return list(sorted(ranges_))
 
 
 @cached
 def uncertainties(lang="en_US"):
     uncertainties_ = {r"\+/-", r"±"}
     uncertainties_.update(_get_regex(lang).UNCERTAINTIES)
-    return uncertainties_
+    return list(sorted(uncertainties_))
 
 
 ###############################################################################
@@ -153,7 +153,7 @@ def unicode_fractions_regex():
 def multiplication_operators(lang="en_US"):
     mul = {"*", " ", "·", "x"}
     mul.update(_get_regex(lang).MULTIPLICATION_OPERATORS)
-    return mul
+    return sorted(mul)
 
 
 @cached
@@ -172,7 +172,7 @@ def division_operators(lang="en_US"):
 def grouping_operators(lang="en_US"):
     grouping_ops = {" "}
     grouping_ops.update(_get_regex(lang).GROUPING_OPERATORS)
-    return grouping_ops
+    return list(sorted(grouping_ops))
 
 
 def grouping_operators_regex(lang="en_US"):
@@ -323,19 +323,23 @@ def units_regex(lang="en_US"):
 
     """
 
-    op_keys = sorted(list(operators(lang)), key=len, reverse=True)
+    op_keys = list(operators(lang))
     unit_keys = sorted(
         list(load.units(lang).surfaces.keys()) + list(load.units(lang).symbols.keys()),
-        key=len,
+        key=lambda x: (len(x), x),
         reverse=True,
     )
     symbol_keys = sorted(
-        list(load.units(lang).prefix_symbols.keys()), key=len, reverse=True
+        list(load.units(lang).prefix_symbols.keys()),
+        key=lambda x: (len(x), x),
+        reverse=True,
     )
 
     exponent = exponents_regex(lang).format(superscripts=unicode_superscript_regex())
 
-    all_ops = "|".join([r"{}".format(re.escape(i)) for i in op_keys])
+    ops = [r"{op}".format(op=re.escape(op)) for op in op_keys]
+    all_ops = "|".join(sorted(ops, key=lambda x: (len(x), x), reverse=True))
+
     all_units = "|".join([r"{}".format(re.escape(i)) for i in unit_keys])
     all_symbols = "|".join([r"{}".format(re.escape(i)) for i in symbol_keys])
 
@@ -343,10 +347,10 @@ def units_regex(lang="en_US"):
         (?<!\w)                                     # "begin" of word
         (?P<prefix>(?:%s)(?![a-zA-Z]))?         # Currencies, mainly
         (?P<value>%s)-?                           # Number
-        (?:(?P<operator1>%s(?=(%s)%s))?(?P<unit1>(?:%s)%s)?)    # Operator + Unit (1)
-        (?:(?P<operator2>%s(?=(%s)%s))?(?P<unit2>(?:%s)%s)?)    # Operator + Unit (2)
-        (?:(?P<operator3>%s(?=(%s)%s))?(?P<unit3>(?:%s)%s)?)    # Operator + Unit (3)
-        (?:(?P<operator4>%s(?=(%s)%s))?(?P<unit4>(?:%s)%s)?)    # Operator + Unit (4)
+        (?:(?P<operator1>(?:\s*)%s(?:\s*)(?=(%s)%s))?(?P<unit1>(?:%s)%s)?)    # Operator + Unit (1)
+        (?:(?P<operator2>(?:\s*)%s(?:\s*)(?=(%s)%s))?(?P<unit2>(?:%s)%s)?)    # Operator + Unit (2)
+        (?:(?P<operator3>(?:\s*)%s(?:\s*)(?=(%s)%s))?(?P<unit3>(?:%s)%s)?)    # Operator + Unit (3)
+        (?:(?P<operator4>(?:\s*)%s(?:\s*)(?=(%s)%s))?(?P<unit4>(?:%s)%s)?)    # Operator + Unit (4)
         (?!\w)                                      # "end" of word
     """ % tuple(
         [all_symbols, range_pattern(lang)]

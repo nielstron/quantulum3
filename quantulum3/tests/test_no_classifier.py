@@ -42,6 +42,7 @@ class ParsingTest(unittest.TestCase):
                     ),
                 )
                 for index, quant in enumerate(quants):
+                    print(quant.unit)
                     self.assertEqual(test["res"][index].surface, quant.surface)
                     self.assertEqual(test["res"][index], quant)
                     self.assertEqual(
