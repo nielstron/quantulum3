@@ -57,6 +57,7 @@ def clean_surface(surface, span):
 
 ###############################################################################
 def split_spellout_sequence(text, span):
+    negatives = reg.negatives(lang)
     units = reg.units(lang)
     tens = reg.tens(lang)
     scales = reg.scales(lang)
@@ -78,19 +79,22 @@ def split_spellout_sequence(text, span):
         )
         # if should start a new seqquence
         # split on:
+        #   a minus word (minus ten)
         #   unit -> unit (one two three)
         #   unit -> tens (five twenty)
         #   tens -> tens (twenty thirty)
         #   same scale starts  (hundred and one hundred and two)
         should_split = False
-        if prev_word_rank == 1 and rank in [1, 2]:
+        if word in negatives:
+            should_split = True
+        elif prev_word_rank == 1 and rank in [1, 2]:
             should_split = True
         elif prev_word_rank == 2 and rank == 2:
             should_split = True
         elif rank >= 3 and rank == prev_scale:
             should_split = True
             prev_scale = rank
-        if should_split:
+        if should_split and last_word_end > 0:
             # yield up to here
             adjust = 0
             if prev_word.lower() in [
@@ -141,6 +145,7 @@ def extract_spellout_values(text):
         ):
             continue
         try:
+            is_negative = False
             surface, span = clean_surface(seq, span)
             if not surface:
                 continue
@@ -160,6 +165,9 @@ def extract_spellout_values(text):
                 except ValueError:
                     match = re.search(reg.numberwords_regex(), word)
                     scale, increment = reg.numberwords(lang)[match.group(0)]
+                if scale < 0:  # negative, must be the first word in the sequence
+                    is_negative = True
+                    continue
                 if (
                     scale > 0
                     and increment == 0
@@ -178,11 +186,14 @@ def extract_spellout_values(text):
                 if scale > 100 or word == "and":
                     result += curr
                     curr = 0.0
+            value = result + curr
+            if is_negative:
+                value = -value
             values.append(
                 {
                     "old_surface": surface,
                     "old_span": span,
-                    "new_surface": str(result + curr),
+                    "new_surface": str(value),
                 }
             )
         except (KeyError, AttributeError):

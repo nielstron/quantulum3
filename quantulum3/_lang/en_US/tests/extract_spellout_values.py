@@ -35,6 +35,14 @@ TEST_CASES = [
     ("hundred and five hundred and six", ["105.0", "106.0"]),  # this is ambiguous..
     ("hundred and five twenty two", ["105.0", "22.0"]),
     ("hundred and five twenty two million", ["105.0", "22000000.0"]),
+    ## negatives
+    ("minus ten", ["-10.0"]),
+    ("minus a million and a half", ["-1000000.5"]),
+    ("negative million and a half", ["-1000000.5"]),
+    ## negative splitting
+    ("minus twenty five and thirty six", ["-25.0", "36.0"]),
+    ("twenty five and minus thirty six", ["25.0", "-36.0"]),
+    ("negative twenty five and minus thirty six", ["-25.0", "-36.0"]),
 ]
 
 

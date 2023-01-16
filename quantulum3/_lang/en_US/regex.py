@@ -64,6 +64,8 @@ MULTIPLICATION_OPERATORS = {" times "}
 
 DIVISION_OPERATORS = {" per ", " a "}
 
+NEGATIVES = {"minus", "negative"}
+
 GROUPING_OPERATORS = {",", " "}
 DECIMAL_OPERATORS = {"."}
 
