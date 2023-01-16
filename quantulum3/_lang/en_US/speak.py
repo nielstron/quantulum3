@@ -37,6 +37,10 @@ def unit_to_spoken(unit, count=1):
         # derived unit
         denominator_dimensions = [i for i in unit.dimensions if i["power"] > 0]
         denominator_string = parser.name_from_dimensions(denominator_dimensions, lang)
-        plural_denominator_string = load.pluralize(denominator_string)
+        if denominator_string:
+            plural_denominator_string = load.pluralize(denominator_string)
+        else:
+            # in case the denominator is empty, its plural is, too
+            plural_denominator_string = denominator_string
         unit_string = unit.name.replace(denominator_string, plural_denominator_string)
     return unit_string

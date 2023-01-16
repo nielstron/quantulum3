@@ -6,7 +6,7 @@
 
 import unittest
 
-from hypothesis import given, settings
+from hypothesis import example, given, settings
 from hypothesis import strategies as st
 
 from .. import parser as p
@@ -30,6 +30,7 @@ class TestNoErrors(unittest.TestCase):
         p.extract_spellout_values(s, lang=lang)
 
     @given(st.text(), multilang_strategy)
+    @example("0/B", "en_US")
     @settings(deadline=None)
     def test_inline_parse_and_expand(self, s, lang):
         # Just assert that this does not throw any exceptions
