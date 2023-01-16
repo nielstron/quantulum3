@@ -1544,5 +1544,15 @@
           "surface": "10"
         }
     ]
+  },
+    {
+    "req": "The shortest day at Archangel has only 3 hrs.",
+    "res": [
+        {
+          "value": 3,
+          "unit": "hour",
+          "surface": "3 hrs"
+        }
+    ]
   }
 ]

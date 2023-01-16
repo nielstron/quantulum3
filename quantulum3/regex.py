@@ -46,6 +46,10 @@ def powers(lang="en_US"):
     return _get_regex(lang).POWERS
 
 
+def negatives(lang="en_US"):
+    return _get_regex(lang).NEGATIVES
+
+
 def exponents_regex(lang="en_US"):
     return _get_regex(lang).EXPONENTS_REGEX
 
@@ -75,6 +79,8 @@ def numberwords(lang="en_US"):
 
     numwords.update(miscnum(lang))
 
+    for word in negatives(lang):
+        numwords[word] = (-1, 0)
     for idx, word in enumerate(units(lang)):
         numwords[word] = (1, idx)
     for idx, word in enumerate(tens(lang)):
