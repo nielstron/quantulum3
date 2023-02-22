@@ -38,7 +38,6 @@ arguments = [
 def glove_via_magnitude(
     topn=500, min_similarity=None, filename="glove.6B.100d.magnitude", lang="en_US"
 ):
-
     from pymagnitude import Magnitude
 
     v = Magnitude(os.path.join(TOPDIR, filename))

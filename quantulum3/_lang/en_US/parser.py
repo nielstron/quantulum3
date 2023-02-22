@@ -132,7 +132,7 @@ def extract_spellout_values(text):
         for seq, span in split_spellout_sequence(range.group(0), range.span()):
             number_candidates.append((seq, span))
 
-    for (seq, span) in number_candidates:
+    for seq, span in number_candidates:
         # don't allow "seveal hundred", "couple thousand", "some million years ago"
         # TODO maybe allow "several [scale]", "couple [scale]" and treat as a range?
         if (

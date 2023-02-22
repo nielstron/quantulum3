@@ -507,7 +507,6 @@ def parse(text, lang="en_US", verbose=False) -> List[cls.Quantity]:
 
     quantities = []
     for item in reg.units_regex(lang).finditer(text):
-
         groups = dict([i for i in item.groupdict().items() if i[1] and i[1].strip()])
         _LOGGER.debug("Quantity found: %s", groups)
 
