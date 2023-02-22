@@ -72,7 +72,7 @@ def is_ranged(quantity1, quantity2, context, lang="en_US"):
 
 
 ###############################################################################
-def split_range(value: str, range_seperator: str) -> list[str]:
+def split_range(value, range_seperator):
     values = value.split(range_seperator)
     values = [v.strip() for v in values]
 
