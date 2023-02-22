@@ -70,7 +70,6 @@ def download_wiki(store=True, lang="en_US"):  # pragma: no cover
     print()
     objs = []
     for num, page in enumerate(pages):
-
         obj = {
             "_id": page[1],
             "url": "https://{}.wikipedia.org/wiki/{}".format(lang[:2], page[1]),
@@ -108,7 +107,6 @@ def _clean_text_lang(lang):
 def train_classifier(
     parameters=None, ngram_range=(1, 1), store=True, lang="en_US", n_jobs=None
 ):
-
     """
     Train the intent classifier
     TODO auto invoke if sklearn version is new or first install or sth

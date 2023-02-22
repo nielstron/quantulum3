@@ -26,7 +26,6 @@ arguments = [
 ]
 
 if __name__ == "__main__":
-
     logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser(
         "train",

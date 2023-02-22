@@ -21,30 +21,25 @@ class Entity(object):
         dimensions: List[Dict[str, Any]] = [],
         uri: Optional[str] = None,
     ):
-
         self.name = name
         self.dimensions = dimensions
         self.uri = uri
 
     def __repr__(self):
-
         msg = 'Entity(name="%s", uri=%s)'
         msg = msg % (self.name, self.uri)
         return msg
 
     def __eq__(self, other):
-
         if isinstance(other, self.__class__):
             return self.name == other.name and self.dimensions == other.dimensions
         else:
             return False
 
     def __ne__(self, other):
-
         return not self.__eq__(other)
 
     def __hash__(self):
-
         return hash(repr(self))
 
 
@@ -90,7 +85,6 @@ class Unit(object):
         return speak.unit_to_spoken(self, count, lang or self.lang)
 
     def __repr__(self):
-
         msg = 'Unit(name="%s", entity=Entity("%s"), uri=%s)'
         msg = msg % (self.name, self.entity.name, self.uri)
         return msg
@@ -99,7 +93,6 @@ class Unit(object):
         return self.to_spoken()
 
     def __eq__(self, other):
-
         if isinstance(other, self.__class__):
             return (
                 self.name == other.name
@@ -113,11 +106,9 @@ class Unit(object):
             return False
 
     def __ne__(self, other):
-
         return not self.__eq__(other)
 
     def __hash__(self):
-
         return hash(repr(self))
 
 
@@ -138,7 +129,6 @@ class Quantity(object):
         uncertainty: Optional[float] = None,
         lang="en_US",
     ):
-
         self.value = value
         self.unit = unit
         self.surface = surface
@@ -165,13 +155,11 @@ class Quantity(object):
         )
 
     def __repr__(self):
-
         msg = 'Quantity(%g, "%s")'
         msg = msg % (self.value, repr(self.unit))
         return msg
 
     def __eq__(self, other):
-
         if isinstance(other, self.__class__):
             return (
                 self.value == other.value
@@ -184,7 +172,6 @@ class Quantity(object):
             return False
 
     def __ne__(self, other):
-
         return not self.__eq__(other)
 
     def __str__(self):

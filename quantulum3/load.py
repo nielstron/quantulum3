@@ -92,6 +92,7 @@ def _load_json_dict(path_or_string: Union[Path, str, dict]):
 CUSTOM_ENTITIES = defaultdict(dict)
 CUSTOM_UNITS = defaultdict(dict)
 
+
 ###############################################################################
 def to_int_iff_int(value):
     """
