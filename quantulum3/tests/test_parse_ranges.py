@@ -9,7 +9,7 @@ import unittest
 from quantulum3 import parser as p
 
 
-class ParserTest(unittest.TestCase):
+class RangeParse(unittest.TestCase):
     """Test suite for the functions in the parser module."""
 
     def test_split_range(self):
