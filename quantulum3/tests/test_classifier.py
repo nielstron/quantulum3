@@ -10,6 +10,9 @@ import json
 import os
 import unittest
 import urllib.request
+from pathlib import Path
+from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
 import joblib
 import wikipedia
@@ -48,6 +51,8 @@ class ClassifierTest(unittest.TestCase):
 
     def setUp(self):
         add_type_equalities(self)
+        with (Path(TOPDIR) / "data" / "train.json").open() as f:
+            self.custom_training_data = json.load(f)
 
     @multilang
     def test_parse_classifier(self, lang="en_US"):
@@ -134,7 +139,6 @@ class ClassifierTest(unittest.TestCase):
             ),
         )
 
-    @unittest.skip("Skipped, as already run in build")
     @multilang
     def test_training(self, lang="en_US"):
         """Test that classifier training works"""
@@ -145,6 +149,26 @@ class ClassifierTest(unittest.TestCase):
             lang: clf.Classifier(obj=obj, lang=lang)
         }
         self.test_parse_classifier(lang=lang)
+
+    @patch("quantulum3.load.training_set")
+    def test_training_custom_data(self, mock_load_training_set):
+        """Test the classifier training works with custom data"""
+        clf.train_classifier(
+            store=False,
+            training_set=self.custom_training_data,
+        )
+        mock_load_training_set.assert_not_called()
+
+    def test_training_custom_out_path(self):
+        """Test the classifier training works with custom out path"""
+
+        with TemporaryDirectory() as tmpdir:
+            out_path = Path(tmpdir) / "clf.joblib"
+            clf.train_classifier(
+                output_path=out_path,
+            )
+
+            self.assertTrue(out_path.exists())
 
     @multilang(["en_us"])
     def test_wikipedia_pages(self, lang):

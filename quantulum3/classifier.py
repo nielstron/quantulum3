@@ -105,16 +105,44 @@ def _clean_text_lang(lang):
 
 ###############################################################################
 def train_classifier(
-    parameters=None, ngram_range=(1, 1), store=True, lang="en_US", n_jobs=None
+    parameters=None,
+    ngram_range=(1, 1),
+    store=True,
+    lang="en_US",
+    n_jobs=None,
+    training_set=None,
+    output_path=None,
 ):
     """
     Train the intent classifier
     TODO auto invoke if sklearn version is new or first install or sth
     @:param store (bool) store classifier in clf.joblib
+
+    Parameters
+    ----------
+    parameters : dict
+        Parameters for the SGDClassifier (see sklearn.linear_model.SGDClassifier)
+    ngram_range : tuple
+        Range of ngrams to use (see sklearn.feature_extraction.text.TfidfVectorizer)
+    store : bool
+        Save the classifier as a joblib file
+    lang : str
+        Language to use
+    n_jobs : int
+        Number of CPU jobs to use for training
+    training_set : list
+        Training data as a list of dicts with keys "text" and "unit". If None,
+        the training set will be loaded from the training set file. See
+        quantulum3._lang.en_US.train for examples.
+    output_path : str
+        Path to save the classifier to. If None, the classifier will be saved
+        to the default location for the given language.
     """
     _LOGGER.info("Started training, parallelized with {} jobs".format(n_jobs))
     _LOGGER.info("Loading training set")
-    training_set = load.training_set(lang)
+    if training_set is None:
+        training_set = load.training_set(lang)
+
     target_names = list(frozenset([i["unit"] for i in training_set]))
 
     _LOGGER.info("Preparing training set")
@@ -161,7 +189,12 @@ def train_classifier(
         "target_names": target_names,
     }
     if store:  # pragma: no cover
-        path = language.topdir(lang).joinpath("clf.joblib")
+        if output_path is not None:
+            path = output_path
+        else:
+            # legacy behavior
+            path = language.topdir(lang).joinpath("clf.joblib")
+
         _LOGGER.info("Store classifier at {}".format(path))
         with path.open("wb") as file:
             joblib.dump(obj, file)

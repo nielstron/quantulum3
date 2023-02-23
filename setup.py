@@ -59,4 +59,9 @@ setup(
         "Topic :: Text Processing :: Linguistic",
         "Topic :: Scientific/Engineering",
     ],
+    entry_points={
+        "console_scripts": [
+            "quantulum3-training = quantulum3.scripts.train:main",
+        ]
+    },
 )
