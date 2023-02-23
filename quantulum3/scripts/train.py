@@ -12,7 +12,7 @@ from quantulum3.classifier import train_classifier
 _LOGGER = logging.getLogger(__name__)
 
 
-def main():
+def main(args=None):
     logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser(
         "train",
@@ -56,14 +56,19 @@ def main():
         default=None,
     )
 
-    args = parser.parse_args()
+    args = parser.parse_args(args)
 
     if args.data is not None:
         training_set = []
+        args.lang = None
         for file in args.data:
             training_set += json.load(open(file))
     else:
         training_set = None
+
+    if args.output is not None:
+        # override this option if an output file is given, feels intuitive to do
+        args.store = True
 
     _LOGGER.info(
         "Start training for language {}, {}storing the classifier".format(
@@ -79,17 +84,9 @@ def main():
             output_path=args.output,
         )
     except ImportError:
-        classifier_reqs = [
-            "numpy",
-            "scipy",
-            "scikit-learn",
-            "joblib",
-            "wikipedia",
-            "stemming",
-        ]
         _LOGGER.error(
             "Could not train the classifier. Make sure you have the "
-            f"required dependencies installed: {classifier_reqs}. "
+            f"required dependencies installed. "
             "These can be installed in pip using the command "
             "'pip install quantulum3[classifier]'"
         )
