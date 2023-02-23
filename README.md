@@ -21,16 +21,17 @@ the fork of [sohrabtowfighi](https://github.com/sohrabtowfighi/quantulum).
 Installation
 ------------
 
-First, install [`numpy`](https://pypi.org/project/numpy/), [`scipy`](https://www.scipy.org/install.html) and [`sklearn`](http://scikit-learn.org/stable/install.html).
-Quantulum would still work without those packages, but it wouldn\'t be able to
-disambiguate between units with the same name (e.g. *pound* as currency
-or as unit of mass).
-
-Then,
 
 ```bash
 $ pip install quantulum3
 ```
+
+To install dependencies for using or training the disambiguation classifier, use
+```bash
+$ pip install quantulum3[classifier]
+```
+
+The disambiguation classifier is used when the parser find two or more units that are a match for the text.
 
 Usage
 -----
