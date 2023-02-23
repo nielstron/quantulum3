@@ -21,12 +21,12 @@ the fork of [sohrabtowfighi](https://github.com/sohrabtowfighi/quantulum).
 Installation
 ------------
 
-
 ```bash
 $ pip install quantulum3
 ```
 
 To install dependencies for using or training the disambiguation classifier, use
+
 ```bash
 $ pip install quantulum3[classifier]
 ```
@@ -151,14 +151,24 @@ Training the classifier
 -----------------------
 
 If you want to train the classifier yourself, in addition to the packages above, you'll also need
-the packages `stemming` and `wikipedia`. 
+the packages `stemming` and `wikipedia`.
+
+You can get the classifier dependencies by running
+
+```bash
+$ pip install quantulum3[classifier]
+```
 
 You could also [download requirements_classifier.txt](https://raw.githubusercontent.com/nielstron/quantulum3/dev/requirements_classifier.txt)
-and run 
+and run
+
 ```bash
 $ pip install -r requirements_classifier.txt
 ```
-Use the script `scripts/train.py` or the method `train_classifier` in `quantulum3.classifier` to train the classifier.
+
+Use `quantulum3-training` on the command line, the script `quantulum3/scripts/train.py` or the method `train_classifier` in `quantulum3.classifier` to train the classifier.
+
+Example training files can be found in `quantulum3/_lang/<language>/train`.
 
 If you want to create a new or different `similars.json`, install `pymagnitude`.
 
