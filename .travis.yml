@@ -47,6 +47,7 @@ script:
   # Note that the classifier trained here is included in the target package
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier.ClassifierBuild
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier.ClassifierTest
+  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_scripts.TrainScriptTest
 
 after_success:
   - coverage report
