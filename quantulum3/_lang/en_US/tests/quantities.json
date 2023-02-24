@@ -1554,5 +1554,17 @@
           "surface": "3 hrs"
         }
     ]
-  }
+  },
+  {
+  "req": "-78-0 degrees Celsius, DMF, ammonia",
+  "res": [
+      {
+        "value": -39,
+        "unit": "degree Celsius",
+        "surface": "-78-0 degrees Celsius",
+        "entity": "temperature",
+        "uncertainty": 39
+      }
+  ]
+}
 ]

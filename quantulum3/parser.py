@@ -72,6 +72,26 @@ def is_ranged(quantity1, quantity2, context, lang="en_US"):
 
 
 ###############################################################################
+def split_range(value, range_seperator):
+    values = value.split(range_seperator)
+    values = [v.strip() for v in values]
+
+    if range_seperator in ["-", "–", "—"]:
+        # if we have an empty string, this indicates we have a range which is using the
+        # same symbol to seperate the range and the negative sign
+        # add the negative sign to the front of the next value
+        # remove the empty string
+        for ii in range(len(values)):
+            if values[ii] == "":
+                values[ii + 1] = range_seperator + values[ii + 1]
+                values[ii] = None
+
+    values = [v for v in values if v is not None]
+
+    return values
+
+
+###############################################################################
 def get_values(item, lang="en_US"):
     """
     Extract value from regex hit. context is the enclosing text on which the regex hit.
@@ -110,7 +130,7 @@ def get_values(item, lang="en_US"):
     uncertainty = None
     if range_separator:
         # A range just describes an uncertain quantity
-        values = value.split(range_separator[0])
+        values = split_range(value, range_separator[0])
         values = [
             float(re.sub(r"-$", "", v)) * factors[i] for i, v in enumerate(values)
         ]

@@ -37,6 +37,8 @@ script:
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_hypothesis
   # Test whether quantulum works without classifier
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_no_classifier
+  # Test whether quantulum parses ranges correctly
+  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_parse_ranges
   # Test language specific non-classifier tasks
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3._lang.en_US.tests.extract_spellout_values
   # Test requirements.txt for classifier requirements
