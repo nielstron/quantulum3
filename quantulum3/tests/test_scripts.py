@@ -9,6 +9,7 @@ from quantulum3.scripts import train
 TOPDIR = os.path.dirname(__file__) or "."
 
 
+# pylint: disable=no-self-use
 class TrainScriptTest(unittest.TestCase):
     train_classifier_path = "quantulum3.scripts.train.train_classifier"
 
