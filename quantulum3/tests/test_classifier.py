@@ -245,7 +245,6 @@ class ClassifierTest(unittest.TestCase):
             self.assertTrue(out_path.exists())
 
     @multilang(["en_us"])
-    @unittest.skip("Very slow")
     def test_wikipedia_pages(self, lang):
         wikipedia.set_lang(lang[:2])
         err = []
