@@ -94,6 +94,7 @@ class TestCached(unittest.TestCase):
         self._test_cached(_test_function, Path("a"))
 
 
+# pylint: disable=ignore-no-self-use
 class TestLoaders(unittest.TestCase):
     def setUp(self) -> None:
         load.USE_CUSTOM_UNITS = False
