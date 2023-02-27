@@ -235,21 +235,21 @@ class ClassifierTest(unittest.TestCase):
 
             self.assertTrue(out_path.exists())
 
-    # @multilang(["en_us"])
-    # def test_wikipedia_pages(self, lang):
-    #     wikipedia.set_lang(lang[:2])
-    #     err = []
-    #     for unit in load.units(lang).names.values():
-    #         try:
-    #             wikipedia.page(unit.uri.replace("_", " "), auto_suggest=False)
-    #             pass
-    #         except (
-    #             wikipedia.PageError,
-    #             wikipedia.DisambiguationError,
-    #         ) as e:  # pragma: no cover
-    #             err.append((unit, e))
-    #     if err:  # pragma: no cover
-    #         self.fail("Problematic pages:\n{}".format("\n".join(str(e) for e in err)))
+    @multilang(["en_us"])
+    def test_wikipedia_pages(self, lang):
+        wikipedia.set_lang(lang[:2])
+        err = []
+        for unit in load.units(lang).names.values():
+            try:
+                wikipedia.page(unit.uri.replace("_", " "), auto_suggest=False)
+                pass
+            except (
+                wikipedia.PageError,
+                wikipedia.DisambiguationError,
+            ) as e:  # pragma: no cover
+                err.append((unit, e))
+        if err:  # pragma: no cover
+            self.fail("Problematic pages:\n{}".format("\n".join(str(e) for e in err)))
 
 
 ###############################################################################
