@@ -242,6 +242,9 @@ def build_quantity(
     """
     # TODO rerun if change occurred
     # Re parse unit if a change occurred
+
+    units_ = load.units(lang)
+
     dimension_change = True
 
     # Extract "absolute " ...
@@ -250,7 +253,7 @@ def build_quantity(
         unit.name == "dimensionless"
         and _absolute == orig_text[span[0] - len(_absolute) : span[0]]
     ):
-        unit = load.units(lang).names["kelvin"]
+        unit = units_.names["kelvin"]
         unit.original_dimensions = unit.dimensions
         surface = _absolute + surface
         span = (span[0] - len(_absolute), span[1])
@@ -278,7 +281,7 @@ def build_quantity(
             # k/M etc is only applied if non-symbolic surfaces of other units
             # (because colloquial) or currency units
             symbolic = all(
-                dim["surface"] in load.units(lang).names[dim["base"]].symbols
+                dim["surface"] in units_.names[dim["base"]].symbols
                 for dim in unit.original_dimensions[1:]
             )
             if not symbolic:
@@ -430,7 +433,7 @@ def build_quantity(
                 unit.original_dimensions, orig_text, lang, classifier_path
             )
         else:
-            unit = load.units(lang).names["dimensionless"]
+            unit = units_.names["dimensionless"]
 
     # Discard irrelevant txt2float extractions, cardinal numbers, codes etc.
     if (

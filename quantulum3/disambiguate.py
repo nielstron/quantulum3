@@ -17,11 +17,12 @@ def disambiguate_unit(unit_surface, text, lang="en_US", classifier_path=None):
     if clf.USE_CLF:
         base = clf.disambiguate_unit(unit_surface, text, lang, classifier_path).name
     else:
+        units_ = load.units(lang)
         base = (
-            load.units(lang).symbols[unit_surface]
-            or load.units(lang).surfaces[unit_surface]
-            or load.units(lang).surfaces_lower[unit_surface.lower()]
-            or load.units(lang).symbols_lower[unit_surface.lower()]
+            units_.symbols[unit_surface]
+            or units_.surfaces[unit_surface]
+            or units_.surfaces_lower[unit_surface.lower()]
+            or units_.symbols_lower[unit_surface.lower()]
         )
 
         if len(base) > 1:
@@ -42,14 +43,17 @@ def disambiguate_entity(key, text, lang="en_US", classifier_path=None):
     """
     Resolve ambiguity between entities with same dimensionality.
     """
+
+    entities_ = load.entities(lang)
+
     try:
         if clf.USE_CLF:
             ent = clf.disambiguate_entity(key, text, lang, classifier_path)
         else:
-            derived = load.entities().derived[key]
+            derived = entities_.derived[key]
             if len(derived) > 1:
                 ent = no_clf.disambiguate_no_classifier(derived, text, lang)
-                ent = load.entities().names[ent]
+                ent = entities_.names[ent]
             elif len(derived) == 1:
                 ent = next(iter(derived))
             else:

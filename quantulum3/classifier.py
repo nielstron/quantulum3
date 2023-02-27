@@ -271,8 +271,10 @@ def disambiguate_entity(key, text, lang="en_US", classifier_path=None):
     Resolve ambiguity between entities with same dimensionality.
     """
 
-    new_ent = next(iter(load.entities(lang).derived[key]))
-    if len(load.entities(lang).derived[key]) > 1:
+    entities_ = load.entities(lang)
+
+    new_ent = next(iter(entities_.derived[key]))
+    if len(entities_.derived[key]) > 1:
         classifier_: Classifier = classifier(lang, classifier_path)
 
         transformed = classifier_.tfidf_model.transform([clean_text(text, lang)])
@@ -280,13 +282,13 @@ def disambiguate_entity(key, text, lang="en_US", classifier_path=None):
         scores = zip(scores, classifier_.target_names)
 
         # Filter for possible names
-        names = [i.name for i in load.entities(lang).derived[key]]
+        names = [i.name for i in entities_.derived[key]]
         scores = [i for i in scores if i[1] in names]
 
         # Sort by rank
         scores = sorted(scores, key=lambda x: x[0], reverse=True)
         try:
-            new_ent = load.entities(lang).names[scores[0][1]]
+            new_ent = entities_.names[scores[0][1]]
         except IndexError:
             _LOGGER.debug('\tAmbiguity not resolved for "%s"', str(key))
 
@@ -299,14 +301,16 @@ def disambiguate_unit(unit, text, lang="en_US", classifier_path=None):
     Resolve ambiguity between units with same names, symbols or abbreviations.
     """
 
+    units_ = load.units(lang)
+
     new_unit = (
-        load.units(lang).symbols.get(unit)
-        or load.units(lang).surfaces.get(unit)
-        or load.units(lang).surfaces_lower.get(unit.lower())
-        or load.units(lang).symbols_lower.get(unit.lower())
+        units_.symbols.get(unit)
+        or units_.surfaces.get(unit)
+        or units_.surfaces_lower.get(unit.lower())
+        or units_.symbols_lower.get(unit.lower())
     )
     if not new_unit:
-        return load.units(lang).names.get("unk")
+        return units_.names.get("unk")
 
     if len(new_unit) > 1:
         classifier_: Classifier = classifier(lang, classifier_path)
@@ -322,7 +326,7 @@ def disambiguate_unit(unit, text, lang="en_US", classifier_path=None):
         # Sort by rank
         scores = sorted(scores, key=lambda x: x[0], reverse=True)
         try:
-            final = load.units(lang).names[scores[0][1]]
+            final = units_.names[scores[0][1]]
             _LOGGER.debug('\tAmbiguity resolved for "%s" (%s)' % (unit, scores))
         except IndexError:
             _LOGGER.debug('\tAmbiguity not resolved for "%s"' % unit)

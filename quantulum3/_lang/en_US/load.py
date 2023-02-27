@@ -31,6 +31,7 @@ def number_to_words(number):
 ###############################################################################
 def build_common_words():
     # Read raw 4 letter file
+    units_ = load.units(lang)
     path = os.path.join(TOPDIR, "common-units.txt")
     with open(path, "r", encoding="utf-8") as file:
         common_units = {line.strip() for line in file if not line.startswith("#")}
@@ -42,15 +43,15 @@ def build_common_words():
                 continue
             line = line.rstrip()
             if (
-                line not in load.units(lang).surfaces_lower
-                and line not in load.units(lang).symbols
+                line not in units_.surfaces_lower
+                and line not in units_.symbols
                 and line not in common_units
             ):
                 words[len(line)].append(line)
             plural = load.pluralize(line)
             if (
-                plural not in load.units(lang).surfaces_all
-                and plural not in load.units(lang).symbols
+                plural not in units_.surfaces_all
+                and plural not in units_.symbols
                 and plural not in common_units
             ):
                 words[len(plural)].append(plural)
