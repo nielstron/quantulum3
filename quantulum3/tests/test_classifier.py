@@ -56,6 +56,7 @@ class ClassifierTest(unittest.TestCase):
 
     def setUp(self):
         add_type_equalities(self)
+        load.clear_caches()
 
     def _test_parse_classifier(self, lang="en_US", classifier_path=None):
         clf.USE_CLF = True
