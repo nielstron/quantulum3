@@ -126,7 +126,7 @@ class ClassifierTest(unittest.TestCase):
 
         # call.args and call.kwargs have different behavior pre-3.8
         # not interested in working this out for 3.6/3.7 which are EOL or soon to be
-        if sys.version_info > (3, 7):  # pragma: no cover
+        if sys.version_info >= (3, 8):  # pragma: no cover
             with patch(
                 "quantulum3.classifier.classifier", return_value=classifier
             ) as mock_clf_classifier:
