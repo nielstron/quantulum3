@@ -140,13 +140,30 @@ class ClassifierTest(unittest.TestCase):
         )
 
     @multilang
+    def test_classifier_default_model(self, lang="en_US"):
+        """
+        Test that a classifier can be initialized with the default model
+        """
+        clf.Classifier()
+
+    @patch("quantulum3.language")
+    def test_classifier_custom_model(self, mock_language):
+        """
+        Test that a classifier can be initialized with a custom model
+        """
+
+        classifier_path = Path(TOPDIR) / "data" / "clf.joblib"
+        clf.Classifier(classifier_path=classifier_path)
+        mock_language.topdir.assert_not_called()
+
+    @multilang
     def test_training(self, lang="en_US"):
         """Test that classifier training works"""
         # Test that no errors are thrown during training
         obj = clf.train_classifier(store=False, lang=lang)
         # Test that the classifier works with the currently downloaded data
         load._CACHE_DICT[id(clf.classifier)] = {
-            lang: clf.Classifier(obj=obj, lang=lang)
+            lang: clf.Classifier(classifier_object=obj, lang=lang)
         }
         self.test_parse_classifier(lang=lang)
 
