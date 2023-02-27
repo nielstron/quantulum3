@@ -7,6 +7,7 @@ import json
 import logging
 import multiprocessing
 import os
+import warnings
 
 import pkg_resources
 
@@ -23,6 +24,11 @@ try:
 except ImportError:
     SGDClassifier, TfidfVectorizer = None, None
     USE_CLF = False
+
+    warnings.warn(
+        "Classifier dependencies not installed. Run pip install quantulum3[classifier] "
+        "to install them. The classifer helps to dissambiguate units."
+    )
 
 try:
     import wikipedia
