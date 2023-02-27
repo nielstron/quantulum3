@@ -184,12 +184,11 @@ class ClassifierTest(unittest.TestCase):
             ),
         )
 
-    @multilang
-    def test_classifier_default_model(self):
+    def test_classifier_default_model(self, lang="en_US"):
         """
         Test that a classifier can be initialized with the default model
         """
-        clf.Classifier()
+        clf.Classifier(lang=lang)
 
     @patch("quantulum3.language")
     def test_classifier_custom_model(self, mock_language):
