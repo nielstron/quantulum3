@@ -249,26 +249,29 @@ class Classifier(object):
 
 
 @cached
-def classifier(lang="en_US"):
+def classifier(lang: str = "en_US", classifier_path: str = None) -> Classifier:
     """
     Cached classifier object
-    :param lang:
-    :return:
+    :param lang: language
+    :param classifier_path: path to a joblib file containing the classifier
+    :return: Classifier object
     """
-    return Classifier(lang=lang)
+    return Classifier(lang=lang, classifier_path=classifier_path)
 
 
 ###############################################################################
-def disambiguate_entity(key, text, lang="en_US"):
+def disambiguate_entity(key, text, lang="en_US", classifier_path=None):
     """
     Resolve ambiguity between entities with same dimensionality.
     """
 
     new_ent = next(iter(load.entities(lang).derived[key]))
     if len(load.entities(lang).derived[key]) > 1:
-        transformed = classifier(lang).tfidf_model.transform([clean_text(text, lang)])
-        scores = classifier(lang).classifier.predict_proba(transformed).tolist()[0]
-        scores = zip(scores, classifier(lang).target_names)
+        classifier_: Classifier = classifier(lang, classifier_path)
+
+        transformed = classifier_.tfidf_model.transform([clean_text(text, lang)])
+        scores = classifier_.classifier.predict_proba(transformed).tolist()[0]
+        scores = zip(scores, classifier_.target_names)
 
         # Filter for possible names
         names = [i.name for i in load.entities(lang).derived[key]]
@@ -285,7 +288,7 @@ def disambiguate_entity(key, text, lang="en_US"):
 
 
 ###############################################################################
-def disambiguate_unit(unit, text, lang="en_US"):
+def disambiguate_unit(unit, text, lang="en_US", classifier_path=None):
     """
     Resolve ambiguity between units with same names, symbols or abbreviations.
     """
@@ -300,9 +303,11 @@ def disambiguate_unit(unit, text, lang="en_US"):
         return load.units(lang).names.get("unk")
 
     if len(new_unit) > 1:
-        transformed = classifier(lang).tfidf_model.transform([clean_text(text, lang)])
-        scores = classifier(lang).classifier.predict_proba(transformed).tolist()[0]
-        scores = zip(scores, classifier(lang).target_names)
+        classifier_: Classifier = classifier(lang, classifier_path)
+
+        transformed = classifier_.tfidf_model.transform([clean_text(text, lang)])
+        scores = classifier_.classifier.predict_proba(transformed).tolist()[0]
+        scores = zip(scores, classifier_.target_names)
 
         # Filter for possible names
         names = [i.name for i in new_unit]

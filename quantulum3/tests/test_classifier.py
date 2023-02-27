@@ -35,8 +35,6 @@ TOPDIR = os.path.dirname(__file__) or "."
 
 ###############################################################################
 class ClassifierBuild(unittest.TestCase):
-    """Test suite for the quantulum3 project."""
-
     @multilang
     def test_training(self, lang="en_US"):
         """Test that classifier training works"""
@@ -54,16 +52,15 @@ class ClassifierTest(unittest.TestCase):
         with (Path(TOPDIR) / "data" / "train.json").open() as f:
             self.custom_training_data = json.load(f)
 
-    @multilang
-    def test_parse_classifier(self, lang="en_US"):
-        """Test that parsing works with classifier usage"""
-        # forcedly activate classifier
+    def _test_parse_classifier(self, lang="en_US", classifier_path=None):
         clf.USE_CLF = True
 
         all_tests = load_quantity_tests(False, lang=lang)
         for test in sorted(all_tests, key=lambda x: len(x["req"])):
             with self.subTest(input=test["req"]):
-                quants = p.parse(test["req"], lang=lang)
+                quants = p.parse(
+                    test["req"], lang=lang, classifier_path=classifier_path
+                )
 
                 self.assertEqual(
                     len(test["res"]),
@@ -81,7 +78,7 @@ class ClassifierTest(unittest.TestCase):
         total = len(classifier_tests)
         error = []
         for test in sorted(classifier_tests, key=lambda x: len(x["req"])):
-            quants = p.parse(test["req"], lang=lang)
+            quants = p.parse(test["req"], lang=lang, classifier_path=classifier_path)
             if quants == test["res"]:
                 correct += 1
             else:
@@ -96,6 +93,43 @@ class ClassifierTest(unittest.TestCase):
                 "\n".join("{}: {}".format(test[0]["req"], test[1]) for test in error),
             ),
         )
+
+    @multilang
+    def test_parse_classifier(self, lang="en_US"):
+        """Test that parsing works with classifier usage"""
+        self._test_parse_classifier(lang=lang)
+
+    # @multilang
+    # this was causing the test to fail, `en_US` got convereted to lowercase
+    # and the path was not found
+    def test_parse_classifier_custom_classifier(self):
+        """Test parsing with a custom classifier model. Use the same model as
+        the default one, but load it via the classifier_path argument, and ensure
+        that the results are the same."""
+
+        lang = "en_US"
+        classifier_path = Path(TOPDIR).parent / "_lang" / lang / "clf.joblib"
+        self.assertTrue(
+            classifier_path.exists(),
+            f"Classifier path does not exist: {classifier_path}",
+        )
+
+        classifier = clf.classifier(
+            lang=lang,
+            classifier_path=classifier_path,
+        )
+
+        with patch(
+            "quantulum3.classifier.classifier", return_value=classifier
+        ) as mock_clf_classifier:
+            self._test_parse_classifier(classifier_path=classifier_path)
+
+            # check that every call to classifier.classifier is called with the custom
+            # classifier path
+            for call in mock_clf_classifier.call_args_list:
+                assert (
+                    "classifier_path" in call.kwargs or classifier_path in call.args
+                ), "classifier_path not found in call args"
 
     @multilang
     def test_expand(self, lang="en_US"):

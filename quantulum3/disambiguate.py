@@ -9,13 +9,13 @@ from . import no_classifier as no_clf
 
 
 ###############################################################################
-def disambiguate_unit(unit_surface, text, lang="en_US"):
+def disambiguate_unit(unit_surface, text, lang="en_US", classifier_path=None):
     """
     Resolve ambiguity between units with same names, symbols or abbreviations.
     :returns (str) unit name of the resolved unit
     """
     if clf.USE_CLF:
-        base = clf.disambiguate_unit(unit_surface, text, lang).name
+        base = clf.disambiguate_unit(unit_surface, text, lang, classifier_path).name
     else:
         base = (
             load.units(lang).symbols[unit_surface]
@@ -38,13 +38,13 @@ def disambiguate_unit(unit_surface, text, lang="en_US"):
 
 
 ###############################################################################
-def disambiguate_entity(key, text, lang="en_US"):
+def disambiguate_entity(key, text, lang="en_US", classifier_path=None):
     """
     Resolve ambiguity between entities with same dimensionality.
     """
     try:
         if clf.USE_CLF:
-            ent = clf.disambiguate_entity(key, text, lang)
+            ent = clf.disambiguate_entity(key, text, lang, classifier_path)
         else:
             derived = load.entities().derived[key]
             if len(derived) > 1:
