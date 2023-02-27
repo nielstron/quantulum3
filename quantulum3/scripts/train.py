@@ -62,7 +62,8 @@ def main(args=None):
         training_set = []
         args.lang = None
         for file in args.data:
-            training_set += json.load(open(file))
+            with open(file) as f:
+                training_set += json.load(f)
     else:
         training_set = None
 
