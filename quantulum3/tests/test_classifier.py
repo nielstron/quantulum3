@@ -260,7 +260,6 @@ class ClassifierTest(unittest.TestCase):
         if err:  # pragma: no cover
             self.fail("Problematic pages:\n{}".format("\n".join(str(e) for e in err)))
 
-    # pragma: no cover
     def mock_assert_arg_in_all_calls(
         self, mock: MagicMock, arg_name: str, arg_position: int, arg_value: Any
     ):
@@ -276,6 +275,7 @@ class ClassifierTest(unittest.TestCase):
             msg=f"Expected {arg_name}={arg_value} in all calls to {mock}, but there were no calls.",
         )
 
+        # pragma: no cover
         for call in mock.call_args_list:
             try:
                 if arg_name in call.kwargs:
