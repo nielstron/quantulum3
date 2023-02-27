@@ -50,6 +50,7 @@ class ClassifierBuild(unittest.TestCase):
 
 
 ###############################################################################
+# pylint: disable=no-self-use
 class ClassifierTest(unittest.TestCase):
     """Test suite for the quantulum3 project."""
 
