@@ -185,7 +185,7 @@ class ClassifierTest(unittest.TestCase):
         )
 
     @multilang
-    def test_classifier_default_model(self, lang="en_US"):
+    def test_classifier_default_model(self):
         """
         Test that a classifier can be initialized with the default model
         """
