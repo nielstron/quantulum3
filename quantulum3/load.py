@@ -15,7 +15,14 @@ from . import language
 TOPDIR = Path(__file__).parent or Path(".")
 
 ###############################################################################
-_CACHE_DICT = {}
+_CACHE_DICT = defaultdict(dict)
+
+
+def clear_cache():
+    """
+    Useful for testing.
+    """
+    _CACHE_DICT.clear()
 
 
 def cached(funct):
@@ -28,12 +35,15 @@ def cached(funct):
     """
     assert callable(funct)
 
-    def cached_function(lang="en_US"):
+    def cached_function(*args, **kwargs):
+        # create a hash of args and kwargs
+        args_hash = hash((args, frozenset(kwargs.items())))
+
         try:
-            return _CACHE_DICT[id(funct)][lang]
+            return _CACHE_DICT[id(funct)][args_hash]
         except KeyError:
-            result = funct(lang)
-            _CACHE_DICT[id(funct)] = {lang: result}
+            result = funct(*args, **kwargs)
+            _CACHE_DICT[id(funct)].update({args_hash: result})
             return result
 
     return cached_function

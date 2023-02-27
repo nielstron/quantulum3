@@ -184,6 +184,14 @@ converted to a `.magnitude` file on-the-run. Check out
 and [Magnitude](https://github.com/plasticityai/magnitude) for more information.
 
 
+To use your custom model, pass the path to the trained model file to the
+parser:
+
+```pyton
+parser = Parser.parse(classifier_path="path/to/model")
+```
+
+
 Manipulation
 ------------
 

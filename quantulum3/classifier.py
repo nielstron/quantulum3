@@ -7,6 +7,7 @@ import json
 import logging
 import multiprocessing
 import os
+import warnings
 
 import pkg_resources
 
@@ -23,6 +24,11 @@ try:
 except ImportError:
     SGDClassifier, TfidfVectorizer = None, None
     USE_CLF = False
+
+    warnings.warn(
+        "Classifier dependencies not installed. Run pip install quantulum3[classifier] "
+        "to install them. The classifer helps to dissambiguate units."
+    )
 
 try:
     import wikipedia
@@ -203,9 +209,20 @@ def train_classifier(
 
 ###############################################################################
 class Classifier(object):
-    def __init__(self, obj=None, lang="en_US"):
+    def __init__(self, classifier_object=None, lang="en_US", classifier_path=None):
         """
         Load the intent classifier
+
+        Parameters
+        ----------
+        obj : dict
+            Classifier object as returned by train_classifier
+        lang : str
+            Language to use (ignored if a classifier object or path is given)
+        classifier_path : str
+            Path a joblib file containing the classifier. If None, the
+            classifier will be loaded from the default location for the given
+            language.
         """
         self.tfidf_model = None
         self.classifier = None
@@ -214,47 +231,53 @@ class Classifier(object):
         if not USE_CLF:
             return
 
-        if not obj:
-            path = language.topdir(lang).joinpath("clf.joblib")
-            with path.open("rb") as file:
-                obj = joblib.load(file)
+        if not classifier_object:
+            if classifier_path is None:
+                classifier_path = language.topdir(lang).joinpath("clf.joblib")
+            with classifier_path.open("rb") as file:
+                classifier_object = joblib.load(file)
 
         cur_scipy_version = pkg_resources.get_distribution("scikit-learn").version
-        if cur_scipy_version != obj.get("scikit-learn_version"):  # pragma: no cover
+        if cur_scipy_version != classifier_object.get(
+            "scikit-learn_version"
+        ):  # pragma: no cover
             _LOGGER.warning(
                 "The classifier was built using a different scikit-learn "
                 "version (={}, !={}). The disambiguation tool could behave "
                 "unexpectedly. Consider running classifier.train_classfier()".format(
-                    obj.get("scikit-learn_version"), cur_scipy_version
+                    classifier_object.get("scikit-learn_version"), cur_scipy_version
                 )
             )
 
-        self.tfidf_model = obj["tfidf_model"]
-        self.classifier = obj["clf"]
-        self.target_names = obj["target_names"]
+        self.tfidf_model = classifier_object["tfidf_model"]
+        self.classifier = classifier_object["clf"]
+        self.target_names = classifier_object["target_names"]
 
 
 @cached
-def classifier(lang="en_US"):
+def classifier(lang: str = "en_US", classifier_path: str = None) -> Classifier:
     """
     Cached classifier object
-    :param lang:
-    :return:
+    :param lang: language
+    :param classifier_path: path to a joblib file containing the classifier
+    :return: Classifier object
     """
-    return Classifier(lang=lang)
+    return Classifier(lang=lang, classifier_path=classifier_path)
 
 
 ###############################################################################
-def disambiguate_entity(key, text, lang="en_US"):
+def disambiguate_entity(key, text, lang="en_US", classifier_path=None):
     """
     Resolve ambiguity between entities with same dimensionality.
     """
 
     new_ent = next(iter(load.entities(lang).derived[key]))
     if len(load.entities(lang).derived[key]) > 1:
-        transformed = classifier(lang).tfidf_model.transform([clean_text(text, lang)])
-        scores = classifier(lang).classifier.predict_proba(transformed).tolist()[0]
-        scores = zip(scores, classifier(lang).target_names)
+        classifier_: Classifier = classifier(lang, classifier_path)
+
+        transformed = classifier_.tfidf_model.transform([clean_text(text, lang)])
+        scores = classifier_.classifier.predict_proba(transformed).tolist()[0]
+        scores = zip(scores, classifier_.target_names)
 
         # Filter for possible names
         names = [i.name for i in load.entities(lang).derived[key]]
@@ -271,7 +294,7 @@ def disambiguate_entity(key, text, lang="en_US"):
 
 
 ###############################################################################
-def disambiguate_unit(unit, text, lang="en_US"):
+def disambiguate_unit(unit, text, lang="en_US", classifier_path=None):
     """
     Resolve ambiguity between units with same names, symbols or abbreviations.
     """
@@ -286,9 +309,11 @@ def disambiguate_unit(unit, text, lang="en_US"):
         return load.units(lang).names.get("unk")
 
     if len(new_unit) > 1:
-        transformed = classifier(lang).tfidf_model.transform([clean_text(text, lang)])
-        scores = classifier(lang).classifier.predict_proba(transformed).tolist()[0]
-        scores = zip(scores, classifier(lang).target_names)
+        classifier_: Classifier = classifier(lang, classifier_path)
+
+        transformed = classifier_.tfidf_model.transform([clean_text(text, lang)])
+        scores = classifier_.classifier.predict_proba(transformed).tolist()[0]
+        scores = zip(scores, classifier_.target_names)
 
         # Filter for possible names
         names = [i.name for i in new_unit]

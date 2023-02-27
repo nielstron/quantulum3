@@ -50,6 +50,7 @@ script:
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier.ClassifierBuild
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier.ClassifierTest
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_scripts.TrainScriptTest
+  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_load.TestCached
 
 after_success:
   - coverage report

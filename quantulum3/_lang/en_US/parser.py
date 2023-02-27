@@ -234,7 +234,9 @@ def parse_unit(_, unit, slash):
 
 
 ###############################################################################
-def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
+def build_quantity(
+    orig_text, text, item, values, unit, surface, span, uncert, classifier_path=None
+):
     """
     Build a Quantity object out of extracted information.
     """
@@ -425,7 +427,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     if dimension_change:
         if unit.original_dimensions:
             unit = parser.get_unit_from_dimensions(
-                unit.original_dimensions, orig_text, lang
+                unit.original_dimensions, orig_text, lang, classifier_path
             )
         else:
             unit = load.units(lang).names["dimensionless"]

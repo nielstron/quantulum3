@@ -8,6 +8,7 @@ from __future__ import division
 
 import json
 import os
+import sys
 import unittest
 import urllib.request
 from pathlib import Path
@@ -31,12 +32,15 @@ from .test_setup import (
 COLOR1 = "\033[94m%s\033[0m"
 COLOR2 = "\033[91m%s\033[0m"
 TOPDIR = os.path.dirname(__file__) or "."
+TEST_DATA_DIR = Path(TOPDIR) / "data"
+
+
+def get_classifier_path(lang) -> Path:
+    return Path(TOPDIR).parent / "_lang" / lang / "clf.joblib"
 
 
 ###############################################################################
 class ClassifierBuild(unittest.TestCase):
-    """Test suite for the quantulum3 project."""
-
     @multilang
     def test_training(self, lang="en_US"):
         """Test that classifier training works"""
@@ -46,24 +50,22 @@ class ClassifierBuild(unittest.TestCase):
 
 
 ###############################################################################
+# pylint: disable=no-self-use
 class ClassifierTest(unittest.TestCase):
     """Test suite for the quantulum3 project."""
 
     def setUp(self):
         add_type_equalities(self)
-        with (Path(TOPDIR) / "data" / "train.json").open() as f:
-            self.custom_training_data = json.load(f)
 
-    @multilang
-    def test_parse_classifier(self, lang="en_US"):
-        """Test that parsing works with classifier usage"""
-        # forcedly activate classifier
+    def _test_parse_classifier(self, lang="en_US", classifier_path=None):
         clf.USE_CLF = True
 
         all_tests = load_quantity_tests(False, lang=lang)
         for test in sorted(all_tests, key=lambda x: len(x["req"])):
             with self.subTest(input=test["req"]):
-                quants = p.parse(test["req"], lang=lang)
+                quants = p.parse(
+                    test["req"], lang=lang, classifier_path=classifier_path
+                )
 
                 self.assertEqual(
                     len(test["res"]),
@@ -81,7 +83,7 @@ class ClassifierTest(unittest.TestCase):
         total = len(classifier_tests)
         error = []
         for test in sorted(classifier_tests, key=lambda x: len(x["req"])):
-            quants = p.parse(test["req"], lang=lang)
+            quants = p.parse(test["req"], lang=lang, classifier_path=classifier_path)
             if quants == test["res"]:
                 correct += 1
             else:
@@ -96,6 +98,49 @@ class ClassifierTest(unittest.TestCase):
                 "\n".join("{}: {}".format(test[0]["req"], test[1]) for test in error),
             ),
         )
+
+    @multilang
+    def test_parse_classifier(self, lang="en_US"):
+        """Test that parsing works with classifier usage"""
+        self._test_parse_classifier(lang=lang)
+
+    # @multilang
+    # this was causing the test to fail, `en_US` got convereted to lowercase
+    # and the path was not found
+    @unittest.skipIf(sys.version_info < (3, 8), "requires python3.8 or higher")
+    def test_parse_classifier_custom_classifier(self):
+        """Test parsing with a custom classifier model. Use the same model as
+        the default one, but load it via the classifier_path argument, and ensure
+        that the results are the same."""
+
+        lang = "en_US"
+        classifier_path = get_classifier_path(lang)
+        self.assertTrue(
+            classifier_path.exists(),
+            f"Classifier path does not exist: {classifier_path}",
+        )
+
+        classifier = clf.classifier(
+            lang=lang,
+            classifier_path=classifier_path,
+        )
+
+        if sys.version_info <= (3, 8):  # pragma: no cover
+            # call.args and call.kwargs have different behavior pre-3.8
+            # not interested in working this out for 3.6/3.7 which are EOL or soon to be
+            with patch(
+                "quantulum3.classifier.classifier", return_value=classifier
+            ) as mock_clf_classifier:
+                self._test_parse_classifier(classifier_path=classifier_path)
+
+                # check that every call to classifier.classifier is called with the custom
+                # classifier path
+                for call in mock_clf_classifier.call_args_list:
+                    assert (
+                        "classifier_path" in call.kwargs or classifier_path in call.args
+                    ), "classifier_path not found in call args"
+        else:  # pragma: no cover
+            self._test_parse_classifier(classifier_path=classifier_path)
 
     @multilang
     def test_expand(self, lang="en_US"):
@@ -139,6 +184,22 @@ class ClassifierTest(unittest.TestCase):
             ),
         )
 
+    def test_classifier_default_model(self, lang="en_US"):
+        """
+        Test that a classifier can be initialized with the default model
+        """
+        clf.Classifier(lang=lang)
+
+    @patch("quantulum3.language")
+    def test_classifier_custom_model(self, mock_language):
+        """
+        Test that a classifier can be initialized with a custom model
+        """
+
+        classifier_path = get_classifier_path("en_US")
+        clf.Classifier(classifier_path=classifier_path)
+        mock_language.topdir.assert_not_called()
+
     @multilang
     def test_training(self, lang="en_US"):
         """Test that classifier training works"""
@@ -146,13 +207,17 @@ class ClassifierTest(unittest.TestCase):
         obj = clf.train_classifier(store=False, lang=lang)
         # Test that the classifier works with the currently downloaded data
         load._CACHE_DICT[id(clf.classifier)] = {
-            lang: clf.Classifier(obj=obj, lang=lang)
+            lang: clf.Classifier(classifier_object=obj, lang=lang)
         }
         self.test_parse_classifier(lang=lang)
 
     @patch("quantulum3.load.training_set")
     def test_training_custom_data(self, mock_load_training_set):
         """Test the classifier training works with custom data"""
+
+        with (TEST_DATA_DIR / "train.json").open() as f:
+            self.custom_training_data = json.load(f)
+
         clf.train_classifier(
             store=False,
             training_set=self.custom_training_data,
