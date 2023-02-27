@@ -31,6 +31,11 @@ from .test_setup import (
 COLOR1 = "\033[94m%s\033[0m"
 COLOR2 = "\033[91m%s\033[0m"
 TOPDIR = os.path.dirname(__file__) or "."
+TEST_DATA_DIR = Path(TOPDIR) / "data"
+
+
+def get_classifier_path(lang):
+    return Path(TOPDIR).parent / "_lang" / lang / "clf.joblib"
 
 
 ###############################################################################
@@ -49,8 +54,6 @@ class ClassifierTest(unittest.TestCase):
 
     def setUp(self):
         add_type_equalities(self)
-        with (Path(TOPDIR) / "data" / "train.json").open() as f:
-            self.custom_training_data = json.load(f)
 
     def _test_parse_classifier(self, lang="en_US", classifier_path=None):
         clf.USE_CLF = True
@@ -108,7 +111,7 @@ class ClassifierTest(unittest.TestCase):
         that the results are the same."""
 
         lang = "en_US"
-        classifier_path = Path(TOPDIR).parent / "_lang" / lang / "clf.joblib"
+        classifier_path = get_classifier_path(lang)
         self.assertTrue(
             classifier_path.exists(),
             f"Classifier path does not exist: {classifier_path}",
@@ -186,7 +189,7 @@ class ClassifierTest(unittest.TestCase):
         Test that a classifier can be initialized with a custom model
         """
 
-        classifier_path = Path(TOPDIR) / "data" / "clf.joblib"
+        classifier_path = get_classifier_path("en_US")
         clf.Classifier(classifier_path=classifier_path)
         mock_language.topdir.assert_not_called()
 
@@ -204,6 +207,10 @@ class ClassifierTest(unittest.TestCase):
     @patch("quantulum3.load.training_set")
     def test_training_custom_data(self, mock_load_training_set):
         """Test the classifier training works with custom data"""
+
+        with (TEST_DATA_DIR / "train.json").open() as f:
+            self.custom_training_data = json.load(f)
+
         clf.train_classifier(
             store=False,
             training_set=self.custom_training_data,
