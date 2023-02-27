@@ -125,7 +125,7 @@ class ClassifierTest(unittest.TestCase):
             classifier_path=classifier_path,
         )
 
-        if sys.version_info <= (3, 8):
+        if sys.version_info <= (3, 8):  # pragma: no cover
             # call.args and call.kwargs have different behavior pre-3.8
             # not interested in working this out for 3.6/3.7 which are EOL or soon to be
             with patch(
@@ -139,7 +139,7 @@ class ClassifierTest(unittest.TestCase):
                     assert (
                         "classifier_path" in call.kwargs or classifier_path in call.args
                     ), "classifier_path not found in call args"
-        else:
+        else:  # pragma: no cover
             self._test_parse_classifier(classifier_path=classifier_path)
 
     @multilang
