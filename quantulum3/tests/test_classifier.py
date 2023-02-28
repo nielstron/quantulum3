@@ -278,15 +278,14 @@ class ClassifierTest(unittest.TestCase):
             msg=f"Expected {arg_name}={arg_value} in all calls to {mock}, but there were no calls.",
         )
 
-        # pragma: no cover
         for call in mock.call_args_list:
             try:
                 if arg_name in call.kwargs:
-                    if call.kwargs[arg_name] == arg_value:
+                    if call.kwargs[arg_name] == arg_value:  # pragma: no cover
                         trues.append(call)
                 elif arg_value == call.args[arg_position]:
                     trues.append(call)
-            except IndexError:
+            except IndexError:  # pragma: no cover
                 pass
 
         self.assertEqual(
