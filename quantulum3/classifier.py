@@ -234,7 +234,7 @@ class Classifier(object):
         if not classifier_object:
             if classifier_path is None:
                 classifier_path = language.topdir(lang).joinpath("clf.joblib")
-            with classifier_path.open("rb") as file:
+            with open(classifier_path, "rb") as file:
                 classifier_object = joblib.load(file)
 
         cur_scipy_version = pkg_resources.get_distribution("scikit-learn").version
