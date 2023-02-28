@@ -174,10 +174,10 @@ If you want to train the classifier yourself, you will need the dependencies for
 Use `quantulum3-training` on the command line, the script `quantulum3/scripts/train.py` or the method `train_classifier` in `quantulum3.classifier` to train the classifier.
 
 ``` bash
-quantulum3-training --lang <language> --data <path/to/training/data/directory> --output <path/to/output/file.joblib>
+quantulum3-training --lang <language> --data <path/to/training/file.json> --output <path/to/output/file.joblib>
 ```
 
-All .json files in the training data directory will be used for training, and the output is in joblib format.
+You can pass multiple training files in to the training command. The output is in joblib format.
 
 To use your custom model, pass the path to the trained model file to the
 parser:
