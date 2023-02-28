@@ -35,7 +35,7 @@ def _test_function(*args, **kwargs):
     return args, kwargs
 
 
-# pylint: disable=ignore-no-self-use
+# pylint: disable=no-self-use
 class TestCached(unittest.TestCase):
     def setUp(self) -> None:
         clear_cache()
