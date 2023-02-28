@@ -24,6 +24,19 @@ def clear_caches():
     clear_cache()
 
 
+def reset_units_and_entities_loading():
+    global USE_GENERAL_UNITS, USE_GENERAL_ENTITIES, USE_LANGUAGE_UNITS, USE_LANGUAGE_ENTITIES, USE_CUSTOM_UNITS, USE_CUSTOM_ENTITIES, USE_ADDITIONAL_UNITS, USE_ADDITIONAL_ENTITIES
+
+    USE_GENERAL_UNITS = True
+    USE_GENERAL_ENTITIES = True
+    USE_LANGUAGE_UNITS = True
+    USE_LANGUAGE_ENTITIES = True
+    USE_CUSTOM_UNITS = False
+    USE_CUSTOM_ENTITIES = False
+    USE_ADDITIONAL_UNITS = True
+    USE_ADDITIONAL_ENTITIES = True
+
+
 def clear_cache():
     """
     Useful for testing.

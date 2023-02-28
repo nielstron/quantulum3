@@ -55,8 +55,9 @@ class ClassifierTest(unittest.TestCase):
     """Test suite for the quantulum3 project."""
 
     def setUp(self):
-        add_type_equalities(self)
         load.clear_caches()
+        load.reset_units_and_entities_loading()
+        add_type_equalities(self)
 
     def _test_parse_classifier(self, lang="en_US", classifier_path=None):
         clf.USE_CLF = True
@@ -245,11 +246,12 @@ class ClassifierTest(unittest.TestCase):
 
             self.assertTrue(out_path.exists())
 
-    @multilang(["en_us"])
+    @multilang(["en_US"])
     def test_wikipedia_pages(self, lang):
         wikipedia.set_lang(lang[:2])
         err = []
-        for unit in load.units(lang).names.values():
+        units = dict(sorted(load.units(lang).names.items()))
+        for unit in units.values():
             try:
                 wikipedia.page(unit.uri.replace("_", " "), auto_suggest=False)
                 pass
