@@ -202,7 +202,7 @@ def train_classifier(
             path = language.topdir(lang).joinpath("clf.joblib")
 
         _LOGGER.info("Store classifier at {}".format(path))
-        with path.open("wb") as file:
+        with open(path, "wb") as file:
             joblib.dump(obj, file)
     return obj
 
