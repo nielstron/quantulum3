@@ -12,6 +12,7 @@ from quantulum3.load import (
     _CACHE_DICT,
     _CACHED_ENTITIES,
     _CACHED_UNITS,
+    CustomQuantities,
     Entities,
     Units,
     cached,
@@ -184,6 +185,50 @@ class TestLoaders(unittest.TestCase):
         load.USE_GENERAL_UNITS = True
         units(lang=lang)
         self.assertEqual(len(_CACHED_UNITS), 2)
+
+    def test_custom_quantities(self):
+        """
+        Test custom units and entities are loaded via the context manager.
+        """
+        custom_units_path = TEST_DATA_DIR / "units.json"
+        custom_entities_path = TEST_DATA_DIR / "entities.json"
+
+        # current state
+        general_units = load.USE_GENERAL_UNITS
+        general_entities = load.USE_GENERAL_ENTITIES
+        language_units = load.USE_LANGUAGE_UNITS
+        language_entities = load.USE_LANGUAGE_ENTITIES
+        additional_units = load.USE_ADDITIONAL_UNITS
+        additional_entities = load.USE_ADDITIONAL_ENTITIES
+        custom_entities = load.USE_CUSTOM_ENTITIES
+        custom_units = load.USE_CUSTOM_UNITS
+
+        with CustomQuantities(custom_units_path, custom_entities_path):
+            self.assertIsInstance(units(), Units)
+            self.assertIsInstance(entities(), Entities)
+
+            # check default behaviour
+            assert load.USE_CUSTOM_UNITS == True
+            assert load.USE_CUSTOM_ENTITIES == True
+            assert load.USE_GENERAL_UNITS == False
+            assert load.USE_GENERAL_ENTITIES == False
+            assert load.USE_LANGUAGE_UNITS == False
+            assert load.USE_LANGUAGE_ENTITIES == False
+            assert load.USE_ADDITIONAL_UNITS == True
+            assert load.USE_ADDITIONAL_ENTITIES == True
+
+        # check that the state is restored
+        assert load.USE_GENERAL_UNITS == general_units
+        assert load.USE_GENERAL_ENTITIES == general_entities
+        assert load.USE_LANGUAGE_UNITS == language_units
+        assert load.USE_LANGUAGE_ENTITIES == language_entities
+        assert load.USE_ADDITIONAL_UNITS == additional_units
+        assert load.USE_ADDITIONAL_ENTITIES == additional_entities
+        assert load.USE_CUSTOM_UNITS == custom_units
+        assert load.USE_CUSTOM_ENTITIES == custom_entities
+
+        self.assertIsInstance(units(), Units)
+        self.assertIsInstance(entities(), Entities)
 
 
 ###############################################################################

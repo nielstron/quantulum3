@@ -24,7 +24,7 @@ def clear_caches():
     clear_cache()
 
 
-def reset_units_and_entities_loading():
+def reset_quantities():
     global USE_GENERAL_UNITS, USE_GENERAL_ENTITIES, USE_LANGUAGE_UNITS, USE_LANGUAGE_ENTITIES, USE_CUSTOM_UNITS, USE_CUSTOM_ENTITIES, USE_ADDITIONAL_UNITS, USE_ADDITIONAL_ENTITIES
 
     USE_GENERAL_UNITS = True
@@ -42,6 +42,82 @@ def clear_cache():
     Useful for testing.
     """
     _CACHE_DICT.clear()
+
+
+class CustomQuantities:
+    def __init__(
+        self,
+        custom_units: List[Union[str, Path]] = None,
+        custom_entities: List[Union[str, Path]] = None,
+        use_general_units: bool = False,
+        use_language_units: bool = False,
+        use_additional_units: bool = True,
+        use_general_entities: bool = False,
+        use_language_entities: bool = False,
+        use_additional_entities: bool = True,
+    ):
+        """
+        Load custom unites and entities into Quantulum via a context manager.
+
+        :param custom_units: list of paths to custom units
+        :param custom_entities: list of paths to custom entities
+        :param use_general_units: Whether to also load the general units, by default False
+        :param use_language_units: Whether to also load the language specific units, by default False
+        :param use_additional_units: Whether to also load the additional units, by default True
+        """
+        self.custom_units = custom_units
+        self.custom_entities = custom_entities
+        self.use_general_units = use_general_units
+        self.use_language_units = use_language_units
+        self.use_additional_units = use_additional_units
+        self.use_general_entities = use_general_entities
+        self.use_language_entities = use_language_entities
+        self.use_additional_entities = use_additional_entities
+
+    def __enter__(self):
+        self._record_current_state()
+
+        if self.custom_units:
+            load_custom_units(
+                self.custom_units,
+                use_general_units=self.use_general_units,
+                use_language_units=self.use_language_units,
+                use_additional_units=self.use_additional_units,
+            )
+
+        if self.custom_entities:
+            load_custom_entities(
+                self.custom_entities,
+                use_general_entities=self.use_general_entities,
+                use_language_entities=self.use_language_entities,
+                use_additional_entities=self.use_additional_entities,
+            )
+
+    def __exit__(self, exc_type, exc_value, exc_tb):
+        # reset flags
+        self._reset_state()
+
+    def _record_current_state(self):
+        self.previous_general_units = USE_GENERAL_UNITS
+        self.previous_general_entities = USE_GENERAL_ENTITIES
+        self.previous_language_units = USE_LANGUAGE_UNITS
+        self.previous_language_entities = USE_LANGUAGE_ENTITIES
+        self.previous_custom_units = USE_CUSTOM_UNITS
+        self.previous_custom_entities = USE_CUSTOM_ENTITIES
+        self.previous_additional_units = USE_ADDITIONAL_UNITS
+        self.previous_additional_entities = USE_ADDITIONAL_ENTITIES
+
+    def _reset_state(self):
+        global USE_GENERAL_UNITS, USE_GENERAL_ENTITIES, USE_LANGUAGE_UNITS, USE_LANGUAGE_ENTITIES, USE_CUSTOM_UNITS, USE_CUSTOM_ENTITIES, USE_ADDITIONAL_UNITS, USE_ADDITIONAL_ENTITIES
+
+        USE_GENERAL_UNITS = self.previous_general_units
+        USE_GENERAL_ENTITIES = self.previous_general_entities
+        USE_LANGUAGE_UNITS = self.previous_language_units
+        USE_LANGUAGE_ENTITIES = self.previous_language_entities
+        USE_CUSTOM_UNITS = self.previous_custom_units
+        USE_CUSTOM_ENTITIES = self.previous_custom_entities
+        USE_ADDITIONAL_UNITS = self.previous_additional_units
+        USE_ADDITIONAL_ENTITIES = self.previous_additional_entities
 
 
 def cached(funct):

@@ -56,7 +56,7 @@ class ClassifierTest(unittest.TestCase):
 
     def setUp(self):
         load.clear_caches()
-        load.reset_units_and_entities_loading()
+        load.reset_quantities()
         add_type_equalities(self)
 
     def _test_parse_classifier(self, lang="en_US", classifier_path=None):

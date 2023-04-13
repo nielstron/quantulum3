@@ -219,16 +219,31 @@ to the properties of the unit to be created.
 
 It is possible to load a completely custom set of units and entities. This can be done by passing a list of file paths to the load_custom_units and load_custom_entities functions. Loading custom untis and entities will replace the default units and entities that are normally loaded.
 
+The recomended way to load quantities is via a context manager:
+
+```pycon
+>>> from quantulum3 import load, parser
+>>> with load.CustomQuantities(["path/to/units.json"], ["path/to/entities.json"]):
+>>>     parser.parse("This extremely sharp tool is precise up to 0.5 slp")
+
+[Quantity(0.5, "Unit(name="schlurp", entity=Entity("dimensionless"), uri=None)")]
+
+>>> # default units and entities are loaded again
+```
+
+But it is also possible to load custom units and entities manually:
+
 ```pycon
 >>> from quantulum3 import load, parser
 
 >>> load.load_custom_units(["path/to/units.json"])
 >>> load.load_custom_entities(["path/to/entities.json"])
-
->>> # parse text as normal
 >>> parser.parse("This extremely sharp tool is precise up to 0.5 slp")
 
 [Quantity(0.5, "Unit(name="schlurp", entity=Entity("dimensionless"), uri=None)")]
+
+>>> # remove custom units and entities and load default units and entities
+>>> load.reset_quantities()
 ```
 
 See the Developer Guide below for more information about the format of units and entities files.
