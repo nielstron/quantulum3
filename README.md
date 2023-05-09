@@ -116,6 +116,26 @@ dimensionality:
 Unit(name="kilometre per second", entity=Entity("speed"), uri=None)
 ```
 
+### Export
+
+Entities, Units and Quantities can be exported to dictionaries and JSON strings:
+
+```pycon
+>>> quant = parser.parse('I want 2 liters of wine')
+>>> quant[0].to_dict()
+{'value': 2.0, 'unit': 'litre', 'surface': '2 liters', 'span': (7, 15), 'uncertainty': None, 'lang': 'en_US'}
+```
+
+By default, only the unit/entity name is included in the exported dictionary, but these can be included:
+
+```pycon
+>>> quant = parser.parse('I want 2 liters of wine')
+>>> quant[0].to_dict(include_unit_dict=True, include_entity_dict=True)
+{'value': 2.0, 'unit': {'name': 'litre', 'surfaces': ['cubic decimetre', 'cubic decimeter', 'litre', 'liter'], 'entity': {'name': 'volume', 'dimensions': [{'base': 'length', 'power': 3}], 'uri': 'Volume'}, 'uri': 'Litre', 'symbols': ['l', 'L', 'ltr', 'ℓ'], 'dimensions': [{'base': 'decimetre', 'power': 3}], 'original_dimensions': [{'base': 'litre', 'power': 1, 'surface': 'liters'}], 'currency_code': None, 'lang': 'en_US'}, 'entity': 'volume', 'surface': '2 liters', 'span': (7, 15), 'uncertainty': None, 'lang': 'en_US'}
+```
+
+Similar syntax applies to Unit and Entity objects.
+
 ### Disambiguation
 
 If the parser detects an ambiguity, a classifier based on the WikiPedia
@@ -145,7 +165,7 @@ In addition to that, the classifier is trained on the most similar words to
 all of the units surfaces, according to their distance in [GloVe](https://nlp.stanford.edu/projects/glove/)
 vector representation.
 
-## Spoken version
+### Spoken version
 
 Quantulum classes include methods to convert them to a speakable unit.
 
@@ -155,6 +175,8 @@ ten billion gigawatts
 >>> parser.inline_parse_and_expand("Gimme $1e10 now and also 1 TW and 0.5 J!")
 Gimme ten billion dollars now and also one terawatt and zero point five joules!
 ```
+
+
 
 ### Manipulation
 

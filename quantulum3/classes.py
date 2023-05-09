@@ -142,7 +142,7 @@ class Unit(JSONMIxin, object):
     def __hash__(self):
         return hash(repr(self))
 
-    def to_dict(self, include_entity: bool = False) -> Dict:
+    def to_dict(self, include_entity_dict: bool = False) -> Dict:
         """
         Create a dictionary representation of this unit.
 
@@ -162,7 +162,7 @@ class Unit(JSONMIxin, object):
             "lang": self.lang,
         }
 
-        if include_entity:
+        if include_entity_dict:
             ddict["entity"] = self.entity.to_dict()
 
         return ddict
@@ -240,7 +240,9 @@ class Quantity(JSONMIxin, object):
         """
         return speak.quantity_to_spoken(self, lang or self.lang)
 
-    def to_dict(self, include_unit: bool = False, include_entity: bool = False) -> Dict:
+    def to_dict(
+        self, include_unit_dict: bool = False, include_entity_dict: bool = False
+    ) -> Dict:
         """
         Create a dictionary representation of this quantity
 
@@ -252,13 +254,14 @@ class Quantity(JSONMIxin, object):
         ddict = {
             "value": self.value,
             "unit": self.unit.name,
+            "entity": self.unit.entity.name,
             "surface": self.surface,
             "span": self.span,
             "uncertainty": self.uncertainty,
             "lang": self.lang,
         }
 
-        if include_unit:
-            ddict["unit"] = self.unit.to_dict(include_entity)
+        if include_unit_dict:
+            ddict["unit"] = self.unit.to_dict(include_entity_dict)
 
         return ddict
