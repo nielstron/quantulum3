@@ -27,6 +27,21 @@ class JSONMIxin(ABC):
         """
         return json.dumps(self.to_dict(*args, **kwargs))
 
+    @abstractmethod
+    def from_dict(self, ddict: Dict):
+        pass
+
+    @classmethod
+    def from_json(cls, json_str: str):
+        """
+        Create an object from a JSON string.
+
+        :param json_str: JSON string to convert to an object
+
+        :return: Object created from the JSON string
+        """
+        return cls.from_dict(json.loads(json_str))
+
 
 ###############################################################################
 class Entity(JSONMIxin, object):
@@ -72,6 +87,21 @@ class Entity(JSONMIxin, object):
             "dimensions": self.dimensions,
             "uri": self.uri,
         }
+
+    @classmethod
+    def from_dict(cls, ddict: Dict) -> "Entity":
+        """
+        Create an entity from a dictionary representation.
+
+        :param ddict: Dictionary representation of an entity (as produced by to_dict)
+
+        :return: Entity created from the dictionary representation
+        """
+        return cls(
+            name=ddict["name"],
+            dimensions=ddict["dimensions"],
+            uri=ddict["uri"],
+        )
 
 
 ###############################################################################
@@ -166,6 +196,27 @@ class Unit(JSONMIxin, object):
             ddict["entity"] = self.entity.to_dict()
 
         return ddict
+
+    @classmethod
+    def from_dict(cls, ddict: Dict) -> "Unit":
+        """
+        Create a unit from a dictionary representation.
+
+        :param ddict: Dictionary representation of a unit (as produced by to_dict)
+
+        :return: Unit created from the dictionary representation
+        """
+        return cls(
+            name=ddict["name"],
+            surfaces=ddict["surfaces"],
+            entity=Entity.from_dict(ddict["entity"]),
+            uri=ddict["uri"],
+            symbols=ddict["symbols"],
+            dimensions=ddict["dimensions"],
+            original_dimensions=ddict["original_dimensions"],
+            currency_code=ddict["currency_code"],
+            lang=ddict["lang"],
+        )
 
 
 ###############################################################################
@@ -265,3 +316,21 @@ class Quantity(JSONMIxin, object):
             ddict["unit"] = self.unit.to_dict(include_entity_dict)
 
         return ddict
+
+    @classmethod
+    def from_dict(cls, ddict: Dict) -> "Quantity":
+        """
+        Create a quantity from a dictionary representation.
+
+        :param ddict: Dictionary representation of a quantity (as produced by to_dict)
+
+        :return: Quantity created from the dictionary representation
+        """
+        return cls(
+            value=ddict["value"],
+            unit=Unit.from_dict(ddict["unit"]),
+            surface=ddict["surface"],
+            span=tuple(ddict["span"]),
+            uncertainty=ddict["uncertainty"],
+            lang=ddict["lang"],
+        )

@@ -33,6 +33,17 @@ class TestClasses(unittest.TestCase):
         entity_json = self.e.to_json()
         self.assertIsInstance(entity_json, str)
 
+    def test_entity_from_dict(self):
+        entity_dict = self.e.to_dict()
+        entity = Entity.from_dict(entity_dict)
+        self.assertEqual(entity, self.e)
+        self.assertIsInstance(entity, Entity)
+
+    def test_entity_from_json(self):
+        entity_json = self.e.to_json()
+        entity = Entity.from_json(entity_json)
+        self.assertIsInstance(entity, Entity)
+
     def test_unit_to_dict(self):
         unit_dict = self.u.to_dict()
         self.assertIsInstance(unit_dict, dict)
@@ -50,6 +61,18 @@ class TestClasses(unittest.TestCase):
         unit_json = self.u.to_json()
         self.assertIsInstance(unit_json, str)
 
+    def test_unit_from_dict(self):
+        unit_dict = self.u.to_dict(include_entity_dict=True)
+        unit = Unit.from_dict(unit_dict)
+        self.assertEqual(unit, self.u)
+        self.assertIsInstance(unit, Unit)
+
+    def test_unit_from_json(self):
+        unit_json = self.u.to_json(include_entity_dict=True)
+        unit = Unit.from_json(unit_json)
+        self.assertEqual(unit, self.u)
+        self.assertIsInstance(unit, Unit)
+
     def test_quantity_to_dict(self):
         quantity_dict = self.q.to_dict()
         self.assertIsInstance(quantity_dict, dict)
@@ -63,3 +86,15 @@ class TestClasses(unittest.TestCase):
     def test_quantity_to_json(self):
         quantity_json = self.q.to_json()
         self.assertIsInstance(quantity_json, str)
+
+    def test_quantity_from_dict(self):
+        quantity_dict = self.q.to_dict(include_unit_dict=True, include_entity_dict=True)
+        quantity = Quantity.from_dict(quantity_dict)
+        self.assertEqual(quantity, self.q)
+        self.assertIsInstance(quantity, Quantity)
+
+    def test_quantity_from_json(self):
+        quantity_json = self.q.to_json(include_unit_dict=True, include_entity_dict=True)
+        quantity = Quantity.from_json(quantity_json)
+        self.assertEqual(quantity, self.q)
+        self.assertIsInstance(quantity, Quantity)

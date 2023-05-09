@@ -116,25 +116,36 @@ dimensionality:
 Unit(name="kilometre per second", entity=Entity("speed"), uri=None)
 ```
 
-### Export
+### Export/Import
 
 Entities, Units and Quantities can be exported to dictionaries and JSON strings:
 
 ```pycon
 >>> quant = parser.parse('I want 2 liters of wine')
 >>> quant[0].to_dict()
-{'value': 2.0, 'unit': 'litre', 'surface': '2 liters', 'span': (7, 15), 'uncertainty': None, 'lang': 'en_US'}
+{'value': 2.0, 'unit': 'litre', "entity": "volume", 'surface': '2 liters', 'span': (7, 15), 'uncertainty': None, 'lang': 'en_US'}
+>>> quant[0].to_json()
+'{"value": 2.0, "unit": "litre", "entity": "volume", "surface": "2 liters", "span": [7, 15], "uncertainty": null, "lang": "en_US"}'
 ```
 
 By default, only the unit/entity name is included in the exported dictionary, but these can be included:
 
 ```pycon
 >>> quant = parser.parse('I want 2 liters of wine')
->>> quant[0].to_dict(include_unit_dict=True, include_entity_dict=True)
+>>> quant[0].to_dict(include_unit_dict=True, include_entity_dict=True)  # same args apply to .to_json()
 {'value': 2.0, 'unit': {'name': 'litre', 'surfaces': ['cubic decimetre', 'cubic decimeter', 'litre', 'liter'], 'entity': {'name': 'volume', 'dimensions': [{'base': 'length', 'power': 3}], 'uri': 'Volume'}, 'uri': 'Litre', 'symbols': ['l', 'L', 'ltr', 'ℓ'], 'dimensions': [{'base': 'decimetre', 'power': 3}], 'original_dimensions': [{'base': 'litre', 'power': 1, 'surface': 'liters'}], 'currency_code': None, 'lang': 'en_US'}, 'entity': 'volume', 'surface': '2 liters', 'span': (7, 15), 'uncertainty': None, 'lang': 'en_US'}
 ```
 
-Similar syntax applies to Unit and Entity objects.
+Similar export syntax applies to exporting Unit and Entity objects.
+
+You can import Entity, Unit and Quantity objects from dictionaries and JSON. This requires that the object was exported with `include_unit_dict=True` and `include_entity_dict=True` (as appropriate)
+
+```pycon
+>>> quant_dict = quant[0].to_dict(include_unit_dict=True, include_entity_dict=True)
+>>> quant = Quantity.from_dict(quant_dict)
+>>> ent_dict = Entity.to_json()
+>>> ent = Entity.from_json()
+```
 
 ### Disambiguation
 
