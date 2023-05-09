@@ -1,0 +1,57 @@
+{
+  "kelvin": {
+    "surfaces": [
+      "kelvin"
+    ],
+    "entity": "temperature",
+    "URI": "Kelvin",
+    "dimensions": [],
+    "symbols": [
+      "K",
+      "\u00b0K"
+    ]
+  },
+  "degree Celsius": {
+    "surfaces": [
+      "degree celsius",
+      "degree Celsius",
+      "Celsius",
+      "centigrade",
+      "degree centigrade",
+      "degree Centigrade"
+    ],
+    "entity": "temperature",
+    "URI": "Celsius",
+    "dimensions": [],
+    "symbols": [
+      "C",
+      "\u00b0C"
+    ]
+  },
+  "degree fahrenheit": {
+    "surfaces": [
+      "degree fahrenheit",
+      "Fahrenheit"
+    ],
+    "entity": "temperature",
+    "URI": "Fahrenheit",
+    "dimensions": [],
+    "symbols": [
+      "F",
+      "\u00b0F"
+    ]
+  },
+  "degree rankine": {
+    "surfaces": [
+      "degree rankine",
+      "Rankine"
+    ],
+    "entity": "temperature",
+    "URI": "Rankine_scale",
+    "dimensions": [],
+    "symbols": [
+      "\u00b0R",
+      "\u00b0Ra"
+    ]
+  }
+}

@@ -329,15 +329,14 @@ def units_regex(lang="en_US"):
 
     """
 
+    units_ = load.units(lang)
     op_keys = sorted(list(operators(lang)), key=len, reverse=True)
     unit_keys = sorted(
-        list(load.units(lang).surfaces.keys()) + list(load.units(lang).symbols.keys()),
+        list(units_.surfaces.keys()) + list(units_.symbols.keys()),
         key=len,
         reverse=True,
     )
-    symbol_keys = sorted(
-        list(load.units(lang).prefix_symbols.keys()), key=len, reverse=True
-    )
+    symbol_keys = sorted(list(units_.prefix_symbols.keys()), key=len, reverse=True)
 
     exponent = exponents_regex(lang).format(superscripts=unicode_superscript_regex())
 

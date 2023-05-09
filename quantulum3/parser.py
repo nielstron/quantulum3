@@ -282,7 +282,7 @@ def get_entity_from_dimensions(dimensions, text, lang="en_US", classifier_path=N
     final_derived = sorted(new_derived, key=lambda x: x["base"])
     key = load.get_key_from_dimensions(final_derived)
 
-    ent = dis.disambiguate_entity(key, text, lang, classifier_path=classifier_path)
+    ent = dis.disambiguate_entity(key, text, lang, classifier_path)
     if ent is None:
         _LOGGER.debug("\tCould not find entity for: %s", key)
         ent = cls.Entity(name="unknown", dimensions=new_derived)

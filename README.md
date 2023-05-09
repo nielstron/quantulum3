@@ -1,11 +1,11 @@
-quantulum3
-==========
+# quantulum3
+
  [![Travis master build state](https://app.travis-ci.com/nielstron/quantulum3.svg?branch=master "Travis master build state")](https://app.travis-ci.com/nielstron/quantulum3)
  [![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=master)](https://coveralls.io/github/nielstron/quantulum3?branch=master)
  [![PyPI version](https://badge.fury.io/py/quantulum3.svg)](https://pypi.org/project/quantulum3/)
  ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/quantulum3.svg)
  [![PyPI - Status](https://img.shields.io/pypi/status/quantulum3.svg)](https://pypi.org/project/quantulum3/)
- 
+
 Python library for information extraction of quantities, measurements
 and their units from unstructured text. It is able to disambiguate between similar
 looking units based on their *k-nearest neighbours* in their [GloVe](https://nlp.stanford.edu/projects/glove/) vector representation
@@ -18,23 +18,23 @@ Lagi](https://github.com/marcolagi/quantulum).
 The compatibility with the newest version of sklearn is based on
 the fork of [sohrabtowfighi](https://github.com/sohrabtowfighi/quantulum).
 
-Installation
-------------
+## User Guide
+
+### Installation
 
 ```bash
-$ pip install quantulum3
+pip install quantulum3
 ```
 
 To install dependencies for using or training the disambiguation classifier, use
 
 ```bash
-$ pip install quantulum3[classifier]
+pip install quantulum3[classifier]
 ```
 
 The disambiguation classifier is used when the parser find two or more units that are a match for the text.
 
-Usage
------
+### Usage
 
 ```pycon
 >>> from quantulum3 import parser
@@ -79,8 +79,7 @@ this library can also be used for simple number extraction.
 [Quantity(2, 'dimensionless')]
 ```
 
-Units and entities
-------------------
+### Units and entities
 
 All units (e.g. *litre*) and the entities they are associated to (e.g.
 *volume*) are reconciled against WikiPedia:
@@ -117,8 +116,7 @@ dimensionality:
 Unit(name="kilometre per second", entity=Entity("speed"), uri=None)
 ```
 
-Disambiguation
---------------
+### Disambiguation
 
 If the parser detects an ambiguity, a classifier based on the WikiPedia
 pages of the ambiguous units or entities tries to guess the right one:
@@ -147,26 +145,46 @@ In addition to that, the classifier is trained on the most similar words to
 all of the units surfaces, according to their distance in [GloVe](https://nlp.stanford.edu/projects/glove/)
 vector representation.
 
-Training the classifier
------------------------
+## Spoken version
 
-If you want to train the classifier yourself, in addition to the packages above, you'll also need
-the packages `stemming` and `wikipedia`.
+Quantulum classes include methods to convert them to a speakable unit.
 
-You can get the classifier dependencies by running
-
-```bash
-$ pip install quantulum3[classifier]
+```pycon
+>>> parser.parse("Gimme 10e9 GW now!")[0].to_spoken()
+ten billion gigawatts
+>>> parser.inline_parse_and_expand("Gimme $1e10 now and also 1 TW and 0.5 J!")
+Gimme ten billion dollars now and also one terawatt and zero point five joules!
 ```
 
-You could also [download requirements_classifier.txt](https://raw.githubusercontent.com/nielstron/quantulum3/dev/requirements_classifier.txt)
-and run
+### Manipulation
 
-```bash
-$ pip install -r requirements_classifier.txt
-```
+While quantities cannot be manipulated within this library, there are
+many great options out there:
+
+- [pint](https://pint.readthedocs.org/en/latest/)
+- [natu](http://kdavies4.github.io/natu/)
+- [quantities](http://python-quantities.readthedocs.org/en/latest/)
+
+## Extension
+
+### Training the classifier
+
+If you want to train the classifier yourself, you will need the dependencies for the classifier (see installation).
 
 Use `quantulum3-training` on the command line, the script `quantulum3/scripts/train.py` or the method `train_classifier` in `quantulum3.classifier` to train the classifier.
+
+``` bash
+quantulum3-training --lang <language> --data <path/to/training/file.json> --output <path/to/output/file.joblib>
+```
+
+You can pass multiple training files in to the training command. The output is in joblib format.
+
+To use your custom model, pass the path to the trained model file to the
+parser:
+
+```pyton
+parser = Parser.parse(<text>, classifier_path="path/to/model.joblib")
+```
 
 Example training files can be found in `quantulum3/_lang/<language>/train`.
 
@@ -183,44 +201,9 @@ converted to a `.magnitude` file on-the-run. Check out
 [pre-formatted Magnitude formatted word-embeddings](https://github.com/plasticityai/magnitude#pre-converted-magnitude-formats-of-popular-embeddings-models)
 and [Magnitude](https://github.com/plasticityai/magnitude) for more information.
 
+### Additional units
 
-To use your custom model, pass the path to the trained model file to the
-parser:
-
-```pyton
-parser = Parser.parse(classifier_path="path/to/model")
-```
-
-
-Manipulation
-------------
-
-While quantities cannot be manipulated within this library, there are
-many great options out there:
-
--   [pint](https://pint.readthedocs.org/en/latest/)
--   [natu](http://kdavies4.github.io/natu/)
--   [quantities](http://python-quantities.readthedocs.org/en/latest/)
-
-Spoken version
---------------
-
-Quantulum classes include methods to convert them to a speakable unit.
-
-```pycon
->>> parser.parse("Gimme 10e9 GW now!")[0].to_spoken()
-ten billion gigawatts
->>> parser.inline_parse_and_expand("Gimme $1e10 now and also 1 TW and 0.5 J!")
-Gimme ten billion dollars now and also one terawatt and zero point five joules!
-```
-
-Extension
----------
-
-#### Custom units
-
-It is possible to add custom entities to be parsed by quantulum.
-See below code for an example invocation.
+It is possible to add additional entities and units to be parsed by quantulum. These will be added to the default units and entities. See below code for an example invocation:
 
 ```pycon
 >>> from quantulum3.load import add_custom_unit, remove_custom_unit
@@ -232,13 +215,48 @@ See below code for an example invocation.
 The keyword arguments to the function `add_custom_unit` are directly translated
 to the properties of the unit to be created.
 
-#### Extending the set of default units
+### Custom Units and Entities
+
+It is possible to load a completely custom set of units and entities. This can be done by passing a list of file paths to the load_custom_units and load_custom_entities functions. Loading custom untis and entities will replace the default units and entities that are normally loaded.
+
+The recomended way to load quantities is via a context manager:
+
+```pycon
+>>> from quantulum3 import load, parser
+>>> with load.CustomQuantities(["path/to/units.json"], ["path/to/entities.json"]):
+>>>     parser.parse("This extremely sharp tool is precise up to 0.5 slp")
+
+[Quantity(0.5, "Unit(name="schlurp", entity=Entity("dimensionless"), uri=None)")]
+
+>>> # default units and entities are loaded again
+```
+
+But it is also possible to load custom units and entities manually:
+
+```pycon
+>>> from quantulum3 import load, parser
+
+>>> load.load_custom_units(["path/to/units.json"])
+>>> load.load_custom_entities(["path/to/entities.json"])
+>>> parser.parse("This extremely sharp tool is precise up to 0.5 slp")
+
+[Quantity(0.5, "Unit(name="schlurp", entity=Entity("dimensionless"), uri=None)")]
+
+>>> # remove custom units and entities and load default units and entities
+>>> load.reset_quantities()
+```
+
+See the Developer Guide below for more information about the format of units and entities files.
+
+## Developer Guide
+
+### Adding Units and Entities
 
 See *units.json* for the complete list of units and *entities.json* for
 the complete list of entities. The criteria for adding units have been:
 
--   the unit has (or is redirected to) a WikiPedia page
--   the unit is in common use (e.g. not the [premetric Swedish units of
+- the unit has (or is redirected to) a WikiPedia page
+- the unit is in common use (e.g. not the [premetric Swedish units of
     measurement](https://en.wikipedia.org/wiki/Swedish_units_of_measurement#Length)).
 
 It\'s easy to extend these two files to the units/entities of interest.
@@ -251,9 +269,9 @@ Here is an example of an entry in *entities.json*:
 }
 ```
 
--   The *name* of an entity is its key. Names are required to be unique.
--   *URI* is the name of the wikipedia page of the entity. (i.e. `https://en.wikipedia.org/wiki/Speed` => `Speed`)
--   *dimensions* is the dimensionality, a list of dictionaries each
+- The *name* of an entity is its key. Names are required to be unique.
+- *URI* is the name of the wikipedia page of the entity. (i.e. `https://en.wikipedia.org/wiki/Speed` => `Speed`)
+- *dimensions* is the dimensionality, a list of dictionaries each
     having a *base* (the name of another entity) and a *power* (an
     integer, can be negative).
 
@@ -277,24 +295,24 @@ Here is an example of an entry in *units.json*:
 }
 ```
 
--   The *name* of a unit is its key. Names are required to be unique.
--   *URI* follows the same scheme as in the *entities.json*
--   *surfaces* is a list of strings that refer to that unit. The library
+- The *name* of a unit is its key. Names are required to be unique.
+- *URI* follows the same scheme as in the *entities.json*
+- *surfaces* is a list of strings that refer to that unit. The library
     takes care of plurals, no need to specify them.
--   *entity* is the name of an entity in *entities.json*
--   *dimensions* follows the same schema as in *entities.json*, but the
+- *entity* is the name of an entity in *entities.json*
+- *dimensions* follows the same schema as in *entities.json*, but the
     *base* is the name of another unit, not of another entity.
--   *symbols* is a list of possible symbols and abbreviations for that
+- *symbols* is a list of possible symbols and abbreviations for that
     unit.
--   *prefixes* is an optional list. It can contain [Metric](https://en.wikipedia.org/wiki/Metric_prefix) and [Binary prefixes](https://en.wikipedia.org/wiki/Binary_prefix) and
+- *prefixes* is an optional list. It can contain [Metric](https://en.wikipedia.org/wiki/Metric_prefix) and [Binary prefixes](https://en.wikipedia.org/wiki/Binary_prefix) and
     automatically generates according units. If you want to
     add specifics (like different surfaces) you need to create an entry for that
     prefixes version on its own.
 
 All fields are case sensitive.
 
-Contributing
-------------
+### Contributing
+
 `dev` build: 
 
 [![Travis dev build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=dev "Travis dev build state")](https://travis-ci.com/nielstron/quantulum3)
@@ -311,8 +329,8 @@ If you'd like to contribute follow these steps:
 (Optional, will be done automatically after pushing)
 8. Create a Pull Request when having commited and pushed your changes
 
-Language support
-----------------
+### Language support
+
 [![Travis dev build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=language_support "Travis dev build state")](https://travis-ci.com/nielstron/quantulum3)
 [![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=language_support)](https://coveralls.io/github/nielstron/quantulum3?branch=dev)
 
@@ -326,4 +344,3 @@ as in the automatic unittests.
 
 No changes outside the own language submodule folder (i.e. `_lang.de_DE`) should
 be necessary. If there are problems implementing a new language, don't hesitate to open an issue.
-
