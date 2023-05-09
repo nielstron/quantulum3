@@ -27,8 +27,9 @@ class JSONMIxin(ABC):
         """
         return json.dumps(self.to_dict(*args, **kwargs))
 
+    @classmethod
     @abstractmethod
-    def from_dict(self, ddict: Dict):
+    def from_dict(cls, ddict: Dict):
         pass
 
     @classmethod
