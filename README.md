@@ -144,7 +144,7 @@ You can import Entity, Unit and Quantity objects from dictionaries and JSON. Thi
 >>> quant_dict = quant[0].to_dict(include_unit_dict=True, include_entity_dict=True)
 >>> quant = Quantity.from_dict(quant_dict)
 >>> ent_dict = Entity.to_json()
->>> ent = Entity.from_json()
+>>> ent = Entity.from_json(ent_dict)
 ```
 
 ### Disambiguation
