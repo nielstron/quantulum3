@@ -14,7 +14,7 @@ from . import speak
 class JSONMIxin(ABC):
     @abstractmethod
     def to_dict(self):
-        pass
+        pass  # pragma: no cover
 
     def to_json(self, *args, **kwargs) -> str:
         """
@@ -30,7 +30,7 @@ class JSONMIxin(ABC):
     @classmethod
     @abstractmethod
     def from_dict(cls, ddict: Dict):
-        pass
+        pass  # pragma: no cover
 
     @classmethod
     def from_json(cls, json_str: str):
