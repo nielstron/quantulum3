@@ -4,13 +4,32 @@
 :mod:`Quantulum` classes.
 """
 
+import json
+from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional, Tuple
 
 from . import speak
 
 
+class JSONMIxin(ABC):
+    @abstractmethod
+    def to_dict(self):
+        pass
+
+    def to_json(self, *args, **kwargs) -> str:
+        """
+        Create a JSON representation of this object.
+
+        :param args: Arguments to pass to the to_dict method
+        :param kwargs: Keyword arguments to pass to the to_dict method
+
+        :return: JSON representation of this object
+        """
+        return json.dumps(self.to_dict(*args, **kwargs))
+
+
 ###############################################################################
-class Entity(object):
+class Entity(JSONMIxin, object):
     """
     Class for an entity (e.g. "volume").
     """
@@ -42,9 +61,21 @@ class Entity(object):
     def __hash__(self):
         return hash(repr(self))
 
+    def to_dict(self) -> Dict:
+        """
+        Create a dictionary representation of this entity.
+
+        :return: Dictionary representation of this entity
+        """
+        return {
+            "name": self.name,
+            "dimensions": self.dimensions,
+            "uri": self.uri,
+        }
+
 
 ###############################################################################
-class Unit(object):
+class Unit(JSONMIxin, object):
     """
     Class for a unit (e.g. "gallon").
     """
@@ -111,11 +142,36 @@ class Unit(object):
     def __hash__(self):
         return hash(repr(self))
 
+    def to_dict(self, include_entity: bool = False) -> Dict:
+        """
+        Create a dictionary representation of this unit.
+
+        :param include_entity: When False, just the name of the entity is included, when True the full entity is included. Default is False.
+
+        :return: Dictionary representation of this unit
+        """
+        ddict = {
+            "name": self.name,
+            "surfaces": self.surfaces,
+            "entity": self.entity.name,
+            "uri": self.uri,
+            "symbols": self.symbols,
+            "dimensions": self.dimensions,
+            "original_dimensions": self.original_dimensions,
+            "currency_code": self.currency_code,
+            "lang": self.lang,
+        }
+
+        if include_entity:
+            ddict["entity"] = self.entity.to_dict()
+
+        return ddict
+
 
 ###############################################################################
 
 
-class Quantity(object):
+class Quantity(JSONMIxin, object):
     """
     Class for a quantity (e.g. "4.2 gallons").
     """
@@ -183,3 +239,26 @@ class Quantity(object):
         :return: Speakable version of this quantity
         """
         return speak.quantity_to_spoken(self, lang or self.lang)
+
+    def to_dict(self, include_unit: bool = False, include_entity: bool = False) -> Dict:
+        """
+        Create a dictionary representation of this quantity
+
+        :param include_unit: When False, just the name of the unit is included, when True, the full unit is included. Defaults to False
+        :param include_entity: When False, just the name of the entity is included, when True, the full entity is included. Defaults to False. Only used when include_unit is True.
+
+        :return: Dictionary representation of this quantity
+        """
+        ddict = {
+            "value": self.value,
+            "unit": self.unit.name,
+            "surface": self.surface,
+            "span": self.span,
+            "uncertainty": self.uncertainty,
+            "lang": self.lang,
+        }
+
+        if include_unit:
+            ddict["unit"] = self.unit.to_dict(include_entity)
+
+        return ddict
