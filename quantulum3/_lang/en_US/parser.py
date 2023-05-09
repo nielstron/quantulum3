@@ -132,7 +132,7 @@ def extract_spellout_values(text):
         for seq, span in split_spellout_sequence(range.group(0), range.span()):
             number_candidates.append((seq, span))
 
-    for (seq, span) in number_candidates:
+    for seq, span in number_candidates:
         # don't allow "seveal hundred", "couple thousand", "some million years ago"
         # TODO maybe allow "several [scale]", "couple [scale]" and treat as a range?
         if (
@@ -234,12 +234,17 @@ def parse_unit(_, unit, slash):
 
 
 ###############################################################################
-def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
+def build_quantity(
+    orig_text, text, item, values, unit, surface, span, uncert, classifier_path=None
+):
     """
     Build a Quantity object out of extracted information.
     """
     # TODO rerun if change occurred
     # Re parse unit if a change occurred
+
+    units_ = load.units(lang)
+
     dimension_change = True
 
     # Extract "absolute " ...
@@ -248,7 +253,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
         unit.name == "dimensionless"
         and _absolute == orig_text[span[0] - len(_absolute) : span[0]]
     ):
-        unit = load.units(lang).names["kelvin"]
+        unit = units_.names["kelvin"]
         unit.original_dimensions = unit.dimensions
         surface = _absolute + surface
         span = (span[0] - len(_absolute), span[1])
@@ -276,7 +281,7 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
             # k/M etc is only applied if non-symbolic surfaces of other units
             # (because colloquial) or currency units
             symbolic = all(
-                dim["surface"] in load.units(lang).names[dim["base"]].symbols
+                dim["surface"] in units_.names[dim["base"]].symbols
                 for dim in unit.original_dimensions[1:]
             )
             if not symbolic:
@@ -425,10 +430,10 @@ def build_quantity(orig_text, text, item, values, unit, surface, span, uncert):
     if dimension_change:
         if unit.original_dimensions:
             unit = parser.get_unit_from_dimensions(
-                unit.original_dimensions, orig_text, lang
+                unit.original_dimensions, orig_text, lang, classifier_path
             )
         else:
-            unit = load.units(lang).names["dimensionless"]
+            unit = units_.names["dimensionless"]
 
     # Discard irrelevant txt2float extractions, cardinal numbers, codes etc.
     if (

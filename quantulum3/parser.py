@@ -72,6 +72,26 @@ def is_ranged(quantity1, quantity2, context, lang="en_US"):
 
 
 ###############################################################################
+def split_range(value, range_seperator):
+    values = value.split(range_seperator)
+    values = [v.strip() for v in values]
+
+    if range_seperator in ["-", "–", "—"]:
+        # if we have an empty string, this indicates we have a range which is using the
+        # same symbol to seperate the range and the negative sign
+        # add the negative sign to the front of the next value
+        # remove the empty string
+        for ii in range(len(values)):
+            if values[ii] == "":
+                values[ii + 1] = range_seperator + values[ii + 1]
+                values[ii] = None
+
+    values = [v for v in values if v is not None]
+
+    return values
+
+
+###############################################################################
 def get_values(item, lang="en_US"):
     """
     Extract value from regex hit. context is the enclosing text on which the regex hit.
@@ -110,7 +130,7 @@ def get_values(item, lang="en_US"):
     uncertainty = None
     if range_separator:
         # A range just describes an uncertain quantity
-        values = value.split(range_separator[0])
+        values = split_range(value, range_separator[0])
         values = [
             float(re.sub(r"-$", "", v)) * factors[i] for i, v in enumerate(values)
         ]
@@ -207,7 +227,7 @@ def build_unit_name(dimensions, lang="en_US"):
 
 
 ###############################################################################
-def get_unit_from_dimensions(dimensions, text, lang="en_US"):
+def get_unit_from_dimensions(dimensions, text, lang="en_US", classifier_path=None):
     """
     Reconcile a unit based on its dimensionality.
     """
@@ -221,7 +241,7 @@ def get_unit_from_dimensions(dimensions, text, lang="en_US"):
         unit = cls.Unit(
             name=build_unit_name(dimensions, lang),
             dimensions=dimensions,
-            entity=get_entity_from_dimensions(dimensions, text, lang),
+            entity=get_entity_from_dimensions(dimensions, text, lang, classifier_path),
         )
 
     # Carry on original composition
@@ -248,7 +268,7 @@ def infer_name(unit):
 
 
 ###############################################################################
-def get_entity_from_dimensions(dimensions, text, lang="en_US"):
+def get_entity_from_dimensions(dimensions, text, lang="en_US", classifier_path=None):
     """
     Infer the underlying entity of a unit (e.g. "volume" for "m^3") based on
     its dimensionality.
@@ -262,7 +282,7 @@ def get_entity_from_dimensions(dimensions, text, lang="en_US"):
     final_derived = sorted(new_derived, key=lambda x: x["base"])
     key = load.get_key_from_dimensions(final_derived)
 
-    ent = dis.disambiguate_entity(key, text, lang)
+    ent = dis.disambiguate_entity(key, text, lang, classifier_path)
     if ent is None:
         _LOGGER.debug("\tCould not find entity for: %s", key)
         ent = cls.Entity(name="unknown", dimensions=new_derived)
@@ -279,7 +299,7 @@ def parse_unit(item, unit, slash, lang="en_US"):
 
 
 ###############################################################################
-def get_unit(item, text, lang="en_US"):
+def get_unit(item, text, lang="en_US", classifier_path=None):
     """
     Extract unit from regex hit.
     """
@@ -342,10 +362,10 @@ def get_unit(item, text, lang="en_US"):
             # Determine which unit follows
             if unit:
                 unit_surface, power = parse_unit(item, unit, slash, lang)
-                base = dis.disambiguate_unit(unit_surface, text, lang)
+                base = dis.disambiguate_unit(unit_surface, text, lang, classifier_path)
                 derived += [{"base": base, "power": power, "surface": unit_surface}]
 
-        unit = get_unit_from_dimensions(derived, text, lang)
+        unit = get_unit_from_dimensions(derived, text, lang, classifier_path)
 
     _LOGGER.debug("\tUnit: %s", unit)
     _LOGGER.debug("\tEntity: %s", unit.entity)
@@ -404,14 +424,23 @@ def is_quote_artifact(orig_text, span):
 
 ###############################################################################
 def build_quantity(
-    orig_text, text, item, values, unit, surface, span, uncert, lang="en_US"
+    orig_text,
+    text,
+    item,
+    values,
+    unit,
+    surface,
+    span,
+    uncert,
+    lang="en_US",
+    classifier_path=None,
 ):
     """
     Build a Quantity object out of extracted information.
     Takes care of caveats and common errors
     """
     return _get_parser(lang).build_quantity(
-        orig_text, text, item, values, unit, surface, span, uncert
+        orig_text, text, item, values, unit, surface, span, uncert, classifier_path
     )
 
 
@@ -459,8 +488,8 @@ def handle_consecutive_quantities(quantities, context):
         if range_span:
             if q1.unit.name == q2.unit.name or q1.unit.name == "dimensionless":
                 if (
-                    q1.uncertainty == None
-                    and q2.uncertainty == None
+                    q1.uncertainty is None
+                    and q2.uncertainty is None
                     and q1.value != q2.value
                 ):
                     a, b = (q1, q2) if q2.value > q1.value else (q2, q1)
@@ -485,9 +514,28 @@ def handle_consecutive_quantities(quantities, context):
 
 
 ###############################################################################
-def parse(text, lang="en_US", verbose=False) -> List[cls.Quantity]:
+def parse(
+    text, lang="en_US", verbose=False, classifier_path=None
+) -> List[cls.Quantity]:
     """
     Extract all quantities from unstructured text.
+
+    Parameters
+    ----------
+    text : str
+        Text to parse.
+    lang : str
+        Language of the text. Default is "en_US".
+    verbose : bool
+        If True, print debug information. Default is False.
+    classifier_path : str
+        Path to the classifier model. Default is None, which uses the default
+        model for the given language.
+
+    Returns
+    -------
+    quantities : List[Quantity]
+        List of quantities found in the text.
     """
 
     log_format = "%(asctime)s --- %(message)s"
@@ -507,17 +555,25 @@ def parse(text, lang="en_US", verbose=False) -> List[cls.Quantity]:
 
     quantities = []
     for item in reg.units_regex(lang).finditer(text):
-
         groups = dict([i for i in item.groupdict().items() if i[1] and i[1].strip()])
         _LOGGER.debug("Quantity found: %s", groups)
 
         try:
             uncert, values = get_values(item, lang)
 
-            unit, unit_shortening = get_unit(item, text)
+            unit, unit_shortening = get_unit(item, text, lang, classifier_path)
             surface, span = get_surface(shifts, orig_text, item, text, unit_shortening)
             objs = build_quantity(
-                orig_text, text, item, values, unit, surface, span, uncert, lang
+                orig_text,
+                text,
+                item,
+                values,
+                unit,
+                surface,
+                span,
+                uncert,
+                lang,
+                classifier_path,
             )
             if objs is not None:
                 quantities += objs

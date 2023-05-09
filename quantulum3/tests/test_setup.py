@@ -8,6 +8,7 @@ import json
 import os
 import re
 import unittest
+from pathlib import Path
 from typing import Dict, List
 
 from .. import classes as cls
@@ -23,6 +24,37 @@ except ImportError:
 COLOR1 = "\033[94m%s\033[0m"
 COLOR2 = "\033[91m%s\033[0m"
 TOPDIR = os.path.dirname(__file__) or "."
+
+
+def get_classifier_path(lang) -> Path:
+    return Path(TOPDIR).parent / "_lang" / lang / "clf.joblib"
+
+
+def get_unit_entity_paths(unit_entity: str, lang: str) -> List[Path]:
+    """
+    Get the paths to the unit or entity files for a given language
+
+    Parameters
+    ----------
+    unit_entity : str
+        "units" or "entities"
+    lang : str
+        Language code
+    """
+    paths: List[Path] = [
+        Path(TOPDIR).parent / "_lang" / lang / f"{unit_entity}.json",
+        Path(TOPDIR).parent / f"{unit_entity}.json",
+    ]
+
+    return [path for path in paths if path.exists()]
+
+
+def get_unit_paths(lang) -> List[Path]:
+    return get_unit_entity_paths("units", lang)
+
+
+def get_entity_paths(lang) -> List[Path]:
+    return get_unit_entity_paths("entities", lang)
 
 
 def multilang(funct_or_langs):
@@ -245,6 +277,7 @@ class SetupTest(unittest.TestCase):
 
     def setUp(self):
         add_type_equalities(self)
+        load.clear_caches()
 
     @multilang
     def test_load_tests(self, lang="en_US"):
@@ -283,6 +316,7 @@ class SetupTest(unittest.TestCase):
     def test_custom_unit(self):
         """Test if custom units work"""
         load.add_custom_unit(name="schlurp", surfaces=["slp"], entity="dimensionless")
+        self.assertTrue(load.USE_ADDITIONAL_UNITS)
         r = p.parse("This extremely sharp tool is precise up to 0.5 slp")
         self.assertEqual(
             r[0].unit.name, "schlurp", "Custom unit was not added correctly"
@@ -300,6 +334,7 @@ class SetupTest(unittest.TestCase):
         load.add_custom_unit(
             name="schlurp", surfaces=["slp"], entity="crazy new test entity"
         )
+        self.assertTrue(load.USE_ADDITIONAL_ENTITIES)
         p.parse("This extremely sharp tool is precise up to 0.5 slp")
         # would throw an error when trying to create the custom unit
 
@@ -326,5 +361,4 @@ class SetupTest(unittest.TestCase):
 
 ###############################################################################
 if __name__ == "__main__":  # pragma: no cover
-
     unittest.main()

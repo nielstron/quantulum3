@@ -12,11 +12,14 @@ except ImportError:
     print("Please install or upgrade setuptools or pip to continue")
     sys.exit(1)
 
+with open("requirements_classifier.txt") as f:
+    classifier_reqs = f.read().splitlines()
 
 setup(
     name="quantulum3",
     packages=find_packages(),
     package_data={"": ["*.json", "*.joblib"]},
+    extras_require={"classifier": classifier_reqs},
     description="Extract quantities from unstructured text.",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
@@ -56,4 +59,9 @@ setup(
         "Topic :: Text Processing :: Linguistic",
         "Topic :: Scientific/Engineering",
     ],
+    entry_points={
+        "console_scripts": [
+            "quantulum3-training = quantulum3.scripts.train:main",
+        ]
+    },
 )
