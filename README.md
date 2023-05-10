@@ -138,13 +138,13 @@ By default, only the unit/entity name is included in the exported dictionary, bu
 
 Similar export syntax applies to exporting Unit and Entity objects.
 
-You can import Entity, Unit and Quantity objects from dictionaries and JSON. This requires that the object was exported with `include_unit_dict=True` and `include_entity_dict=True` (as appropriate)
+You can import Entity, Unit and Quantity objects from dictionaries and JSON. This requires that the object was exported with `include_unit_dict=True` and `include_entity_dict=True` (as appropriate):
 
 ```pycon
 >>> quant_dict = quant[0].to_dict(include_unit_dict=True, include_entity_dict=True)
 >>> quant = Quantity.from_dict(quant_dict)
->>> ent_dict = Entity.to_json()
->>> ent = Entity.from_json(ent_dict)
+>>> ent_json = "{'name': 'volume', 'dimensions': [{'base': 'length', 'power': 3}], 'uri': 'Volume'}"
+>>> ent = Entity.from_json(ent_json)
 ```
 
 ### Disambiguation
