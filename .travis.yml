@@ -41,6 +41,8 @@ script:
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_parse_ranges
   # Test language specific non-classifier tasks
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3._lang.en_US.tests.extract_spellout_values
+  # Test class methods
+  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classes
   # Test requirements.txt for classifier requirements
   - pip install -r requirements_classifier.txt
   # Lint package, now that all requirements are installed
