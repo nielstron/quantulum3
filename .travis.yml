@@ -6,11 +6,10 @@ arch:
   - arm64
 jobs:
   include:
-    - python: '3.6'
-    - python: '3.7'
     - python: '3.8'
     - python: '3.9'
     - python: '3.10'
+    - python: '3.11'
       env: PRE_COMMIT=1
   fast_finish: true
 dist: bionic
@@ -41,6 +40,8 @@ script:
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_parse_ranges
   # Test language specific non-classifier tasks
   - coverage run -a --source=quantulum3 setup.py test -s quantulum3._lang.en_US.tests.extract_spellout_values
+  # Test class methods
+  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classes
   # Test requirements.txt for classifier requirements
   - pip install -r requirements_classifier.txt
   # Lint package, now that all requirements are installed

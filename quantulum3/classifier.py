@@ -177,7 +177,7 @@ def train_classifier(
 
     if parameters is None:
         parameters = {
-            "loss": "log",
+            "loss": "log_loss",
             "penalty": "l2",
             "tol": 1e-3,
             "n_jobs": n_jobs,
