@@ -1,73 +1,53 @@
 language: python
-
-# free travis CI partner queue
 os: linux
 arch:
-  - arm64
+- arm64
 jobs:
   include:
-    - python: '3.8'
-    - python: '3.9'
-    - python: '3.10'
-    - python: '3.11'
-      env: PRE_COMMIT=1
+  - python: '3.8'
+  - python: '3.9'
+  - python: '3.10'
+  - python: '3.11'
+    env: PRE_COMMIT=1
   fast_finish: true
 dist: bionic
-
 install:
-  - test ! "$PRE_COMMIT" || pip install pre-commit
-  - if [[ $TRAVIS_PYTHON_VERSION == 3.7 ]]; then pip install -U importlib_metadata; fi
-  - pip install pylint
-  - pip install coverage
-  - pip install coveralls
-  - pip install hypothesis
-  # Check if installing works
-  - pip install -e .
-
+- test ! "$PRE_COMMIT" || pip install pre-commit
+- if [[ $TRAVIS_PYTHON_VERSION == 3.7 ]]; then pip install -U importlib_metadata;
+  fi
+- pip install pylint
+- pip install coverage
+- pip install coveralls
+- pip install hypothesis
+- pip install -e .
 script:
-  - test ! "$PRE_COMMIT" || pre-commit run --all-files
-  # Check for import errors
-  - coverage run --source=quantulum3 scripts/test_import_error.py
-  # Build common words
-  - coverage run --source=quantulum3 scripts/build.py
-  # Test basic functionality
-  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_setup
-  # Test generally that user-facing functions do not throw errors
-  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_hypothesis
-  # Test whether quantulum works without classifier
-  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_no_classifier
-  # Test whether quantulum parses ranges correctly
-  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_parse_ranges
-  # Test language specific non-classifier tasks
-  - coverage run -a --source=quantulum3 setup.py test -s quantulum3._lang.en_US.tests.extract_spellout_values
-  # Test class methods
-  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classes
-  # Test requirements.txt for classifier requirements
-  - pip install -r requirements_classifier.txt
-  # Lint package, now that all requirements are installed
-  - pylint quantulum3
-  # Test classifier building and classifier functionality
-  # Note that the classifier trained here is included in the target package
-  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier.ClassifierBuild
-  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier.ClassifierTest
-  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_scripts.TrainScriptTest
-  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_load.TestCached
-  - coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_load.TestLoaders
+- test ! "$PRE_COMMIT" || pre-commit run --all-files
+- coverage run --source=quantulum3 scripts/test_import_error.py
+- coverage run --source=quantulum3 scripts/build.py
+- coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_setup
+- coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_hypothesis
+- coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_no_classifier
+- coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_parse_ranges
+- coverage run -a --source=quantulum3 setup.py test -s quantulum3._lang.en_US.tests.extract_spellout_values
+- coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classes
+- pip install -r requirements_classifier.txt
+- pylint quantulum3
+- coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier.ClassifierBuild
+- coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_classifier.ClassifierTest
+- coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_scripts.TrainScriptTest
+- coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_load.TestCached
+- coverage run -a --source=quantulum3 setup.py test -s quantulum3.tests.test_load.TestLoaders
 after_success:
-  - coverage report
-  - coveralls
-
+- coverage report
+- coveralls
 deploy:
   provider: pypi
   on:
     branch: master
-    python: "3.9"
-  distributions: "sdist bdist_wheel"
+    python: '3.10'
+  distributions: sdist bdist_wheel
   skip_existing: true
-  # Keep the generated classifier
   skip_cleanup: true
-
-  username: "nielstron"
+  username: __token__
   password:
-    secure: "D4z+rdEkCtg3ABCFDeRv+YsO2maKezX7F54wZbDeycxSBOFcRIRvGfKDWDwXzAqmPhtjZbntqQN6Dks1X/I06t1iXXbrvklVFynwlftOqVg+jGXl9Arpp0DUO0XPvma6rDDXPGxKBgVi2f56Q+ulCtYLMjAUnUDObOZIDYBQHHsjbeiKS1u02olwQTrdqJxNaLu8+thmmkcmgOs2mlXpL7CNn+DvJTI7D74KwOckarA7CjOJ3V2Fvyq+WB1/3GCj90CxOoejqlCbxn5CJa4bGyRwutP0C+SHUJFtH+2ZTgv2KayiqBO+rC2nVrEzvE/VmsFXdC2Ai/UryDcCSb1K6RWU4MqyFsHtEGRq7iwdEGr5UNClCYeZU+H+LJAkk066j33rfq+PM5OZ1T9FEasgzMBexa1aZv8g5jbq6Ak9Q/XU7JelLvtUzu39FdF6oy+BTUPKKqpN1Z09OpCWrMmOQZDkQcVDwqhMIaQ6Yp5Kz7hzIL+VeVozgabW6B8thEe/tb/lBqc1hq/Ypy/MGbyu27BlwIe60l4uZ7I/gaXQCxUOAJa9pK03bXozBa+j1+ysoVmeO3G6dXRKMoySnE8iYIVXnzfhlXRrDHyH7UbG3TOOdxSEKsLfKpmW+v6c/Wxgba6raupiW9+l5uY+PoLzNGCtPz6QfgXDdllHbS1HZXc="
-
+    secure: cR8nH+NpVojCmheWDD6949uUNBKg0uvCxJoc/MrITnV71+ql3YoJ7Mt/wphom7PtB/eyNzRdvWLfqlqAcyiXcRNStkaExuBjFFKfhragBW8mBv5OM3SVayobr0ZH61dclZEw3Z5iShb3BCh30rw+6pvSczXhLABnsWe6XnG3t4aCzjm+IUUTZrkuQNF6WKV8af1nChIVY6eZjXQAGhN1mq+FuScjVkvsj8FuJwbcjy5UocvSoRODiLq1d90SvDPk1UlNP2C3Srdam9b+c+0ZVQeegNVVTB8v+yka/apAkMPGIVWaMA2iUaZsv9r5+KhmJyIKP5RGOXkQuQcbq1P9qR1BaKEcKauKvmybQT/bBrmECzt5F10ptHRaf5IR8ZvtVomy5QWawyZHfFb02Yg0FfAQpDsIEN6bZfgqldvRusbidcIChAP4d+wGb2KHKm71QkKoz2gqDQHMDwhYXQ9Upiqt8rKTgIdUrPW1acWaOn5gNeKidoFA32t2wrqkDtaTur+YSv9AgfUETjX5UlgU8GWhHE1zYsx5kczx5QIs+WHnMs3Ul/LIDqV5yanaJafMZplHcdicAjZubZVD/n3zSyf6ti3i5xwZ0BYRpneWgm7YB6geXwEQPEsrL+jgwqDGFdJB9riWEBSx26ZwQx2w/YxHQICk0MsSfvkJbgCOqKU=
