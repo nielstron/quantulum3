@@ -18,7 +18,7 @@ with open("requirements_classifier.txt") as f:
 setup(
     name="quantulum3",
     packages=find_packages(),
-    package_data={"": ["*.json", "*.joblib"]},
+    package_data={"": ["*.json", "*.joblib", "requirements_classifier.txt"]},
     extras_require={"classifier": classifier_reqs},
     description="Extract quantities from unstructured text.",
     long_description=open("README.md").read(),
