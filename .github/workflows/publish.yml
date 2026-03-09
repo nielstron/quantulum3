@@ -18,6 +18,12 @@ jobs:
         with:
           python-version: "3.13"
 
+      - name: Sync dependencies
+        run: uv sync --extra classifier
+
+      - name: Build generated assets
+        run: uv run python scripts/build.py
+
       - name: Build distributions
         run: uv build
 

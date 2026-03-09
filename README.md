@@ -374,7 +374,7 @@ If you'd like to contribute follow these steps:
 2. Run `uv sync --extra classifier`
 3. Commit the generated `uv.lock` changes when dependencies change
 4. Make your changes
-5. Run `scripts/format.sh` and `uv run scripts/build.py` from the package root directory
+5. Run `scripts/format.sh` and `uv run scripts/build.py` from the package root directory. The build step regenerates `common-words.json` and `clf.joblib`.
 6. Test your changes with `uv run pytest`
 7. Create a Pull Request when you have committed and pushed your changes
 
