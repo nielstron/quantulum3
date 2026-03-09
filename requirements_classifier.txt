@@ -1,6 +1,0 @@
-numpy
-scipy
-scikit-learn
-joblib
-wikipedia
-stemming

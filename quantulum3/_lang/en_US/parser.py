@@ -71,11 +71,7 @@ def split_spellout_sequence(text, span):
         rank = (
             1
             if word in units
-            else 2
-            if word in tens
-            else 3 + scales.index(word)
-            if word in scales
-            else 0
+            else 2 if word in tens else 3 + scales.index(word) if word in scales else 0
         )
         # if should start a new seqquence
         # split on:

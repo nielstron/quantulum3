@@ -1,6 +1,6 @@
 # quantulum3
 
- [![Travis master build state](https://app.travis-ci.com/nielstron/quantulum3.svg?branch=master "Travis master build state")](https://app.travis-ci.com/nielstron/quantulum3)
+ [![CI](https://github.com/nielstron/quantulum3/actions/workflows/ci.yml/badge.svg)](https://github.com/nielstron/quantulum3/actions/workflows/ci.yml)
  [![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=master)](https://coveralls.io/github/nielstron/quantulum3?branch=master)
  [![PyPI version](https://badge.fury.io/py/quantulum3.svg)](https://pypi.org/project/quantulum3/)
  ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/quantulum3.svg)
@@ -26,10 +26,22 @@ the fork of [sohrabtowfighi](https://github.com/sohrabtowfighi/quantulum).
 pip install quantulum3
 ```
 
+Or with `uv`:
+
+```bash
+uv add quantulum3
+```
+
 To install dependencies for using or training the disambiguation classifier, use
 
 ```bash
 pip install quantulum3[classifier]
+```
+
+Or with `uv`:
+
+```bash
+uv add "quantulum3[classifier]"
 ```
 
 The disambiguation classifier is used when the parser find two or more units that are a match for the text.
@@ -210,12 +222,18 @@ Use `quantulum3-training` on the command line, the script `quantulum3/scripts/tr
 quantulum3-training --lang <language> --data <path/to/training/file.json> --output <path/to/output/file.joblib>
 ```
 
+With `uv`, you can run the installed entry point without activating an environment:
+
+```bash
+uv run quantulum3-training --lang <language> --data <path/to/training/file.json> --output <path/to/output/file.joblib>
+```
+
 You can pass multiple training files in to the training command. The output is in joblib format.
 
 To use your custom model, pass the path to the trained model file to the
 parser:
 
-```pyton
+```python
 parser = Parser.parse(<text>, classifier_path="path/to/model.joblib")
 ```
 
@@ -346,25 +364,23 @@ All fields are case sensitive.
 
 ### Contributing
 
-`dev` build: 
+`dev` build:
 
-[![Travis dev build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=dev "Travis dev build state")](https://travis-ci.com/nielstron/quantulum3)
+[![CI](https://github.com/nielstron/quantulum3/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/nielstron/quantulum3/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=dev)](https://coveralls.io/github/nielstron/quantulum3?branch=dev)
 
 If you'd like to contribute follow these steps:
 1. Clone a fork of this project into your workspace
-2. Run `pip install -e .` at the root of your development folder.
-3. `pip install pipenv` and `pipenv shell`
-4. Inside the project folder run `pipenv install --dev`
-5. Make your changes
-6. Run `scripts/format.sh` and `scripts/build.py` from the package root directory.
-7. Test your changes with `python3 setup.py test` 
-(Optional, will be done automatically after pushing)
-8. Create a Pull Request when having commited and pushed your changes
+2. Run `uv sync --extra classifier`
+3. Commit the generated `uv.lock` changes when dependencies change
+4. Make your changes
+5. Run `scripts/format.sh` and `uv run scripts/build.py` from the package root directory
+6. Test your changes with `uv run pytest`
+7. Create a Pull Request when you have committed and pushed your changes
 
 ### Language support
 
-[![Travis dev build state](https://travis-ci.com/nielstron/quantulum3.svg?branch=language_support "Travis dev build state")](https://travis-ci.com/nielstron/quantulum3)
+[![CI](https://github.com/nielstron/quantulum3/actions/workflows/ci.yml/badge.svg?branch=language_support)](https://github.com/nielstron/quantulum3/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/nielstron/quantulum3/badge.svg?branch=language_support)](https://coveralls.io/github/nielstron/quantulum3?branch=dev)
 
 There is a branch for language support, namely `language_support`.

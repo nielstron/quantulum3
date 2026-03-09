@@ -3,6 +3,7 @@
 """
 Extract the n nearest neighbours of the ambigous units from the word2vec file
 """
+
 import argparse
 import json
 import os
@@ -66,9 +67,11 @@ def glove_via_magnitude(
             )
     print("Done")
 
-    with language.topdir(lang).joinpath("train/similars.json").open(
-        "w", encoding="utf-8"
-    ) as file:
+    with (
+        language.topdir(lang)
+        .joinpath("train/similars.json")
+        .open("w", encoding="utf-8") as file
+    ):
         json.dump(training_set, file, sort_keys=True, indent=4)
 
 

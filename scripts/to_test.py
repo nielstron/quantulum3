@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-""" Try to create a test case from a sentence """
+"""Try to create a test case from a sentence"""
 
 import json
 import sys

@@ -8,8 +8,7 @@ import logging
 import multiprocessing
 import os
 import warnings
-
-import pkg_resources
+from importlib.metadata import version
 
 from . import language, load
 from .load import cached
@@ -26,7 +25,8 @@ except ImportError:
     USE_CLF = False
 
     warnings.warn(
-        "Classifier dependencies not installed. Run pip install quantulum3[classifier] "
+        "Classifier dependencies not installed. Run `uv sync --extra classifier` or "
+        "`pip install quantulum3[classifier]` "
         "to install them. The classifer helps to dissambiguate units."
     )
 
@@ -189,7 +189,7 @@ def train_classifier(
     _LOGGER.info("Fit SGD Classifier")
     clf = SGDClassifier(**parameters).fit(matrix, train_target)
     obj = {
-        "scikit-learn_version": pkg_resources.get_distribution("scikit-learn").version,
+        "scikit-learn_version": version("scikit-learn"),
         "tfidf_model": tfidf_model,
         "clf": clf,
         "target_names": target_names,
@@ -237,15 +237,16 @@ class Classifier(object):
             with open(classifier_path, "rb") as file:
                 classifier_object = joblib.load(file)
 
-        cur_scipy_version = pkg_resources.get_distribution("scikit-learn").version
-        if cur_scipy_version != classifier_object.get(
+        cur_scikit_learn_version = version("scikit-learn")
+        if cur_scikit_learn_version != classifier_object.get(
             "scikit-learn_version"
         ):  # pragma: no cover
             _LOGGER.warning(
                 "The classifier was built using a different scikit-learn "
                 "version (={}, !={}). The disambiguation tool could behave "
                 "unexpectedly. Consider running classifier.train_classfier()".format(
-                    classifier_object.get("scikit-learn_version"), cur_scipy_version
+                    classifier_object.get("scikit-learn_version"),
+                    cur_scikit_learn_version,
                 )
             )
 

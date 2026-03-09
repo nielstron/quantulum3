@@ -255,18 +255,22 @@ def load_quantity_tests(ambiguity=True, lang="en_US"):
 
 ###############################################################################
 def load_expand_tests(lang="en_US") -> List[Dict[str, str]]:
-    with language.topdir(lang).joinpath("tests", "expand.json").open(
-        "r", encoding="utf-8"
-    ) as testfile:
+    with (
+        language.topdir(lang)
+        .joinpath("tests", "expand.json")
+        .open("r", encoding="utf-8") as testfile
+    ):
         tests = json.load(testfile)
     return tests
 
 
 ###############################################################################
 def load_error_tests(lang="en_US") -> List[str]:
-    with language.topdir(lang).joinpath("tests", "errors.json").open(
-        "r", encoding="utf-8"
-    ) as testfile:
+    with (
+        language.topdir(lang)
+        .joinpath("tests", "errors.json")
+        .open("r", encoding="utf-8") as testfile
+    ):
         tests = json.load(testfile)
     return tests
 

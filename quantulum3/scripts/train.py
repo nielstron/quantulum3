@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-""" Train the disambiguator """
+"""Train the disambiguator"""
 
 import argparse
 import json
