@@ -98,3 +98,8 @@ class TestClasses(unittest.TestCase):
         quantity = Quantity.from_json(quantity_json)
         self.assertEqual(quantity, self.q)
         self.assertIsInstance(quantity, Quantity)
+
+    def test_quantity_to_spoken_large_number(self):
+        quantity = self.q.with_vals(value=1e100, uncertainty=None)
+        spoken = quantity.to_spoken()
+        self.assertIsInstance(spoken, str)

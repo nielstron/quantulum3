@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+      - language_support
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Sync dependencies
+        run: uv sync --extra classifier
+
+      - name: Smoke import
+        run: uv run python scripts/test_import_error.py
+
+      - name: Build generated assets
+        run: uv run python scripts/build.py
+
+      - name: Run test suite
+        run: |
+          uv run pytest \
+            quantulum3/tests/test_setup.py \
+            quantulum3/tests/test_hypothesis.py \
+            quantulum3/tests/test_no_classifier.py \
+            quantulum3/tests/test_parse_ranges.py \
+            quantulum3/_lang/en_US/tests/extract_spellout_values.py \
+            quantulum3/tests/test_classes.py \
+            quantulum3/tests/test_scripts.py \
+            quantulum3/tests/test_load.py
+
+      - name: Run classifier tests
+        run: uv run pytest quantulum3/tests/test_classifier.py -k "not test_wikipedia_pages"

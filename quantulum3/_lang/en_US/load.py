@@ -25,7 +25,10 @@ def pluralize(singular, count=None):
 
 
 def number_to_words(number):
-    return PLURALS.number_to_words(number)
+    try:
+        return PLURALS.number_to_words(number)
+    except inflect.NumOutOfRangeError:
+        return "{:g}".format(number)
 
 
 ###############################################################################

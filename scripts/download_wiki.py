@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-""" Download new WikiPedia pages """
+"""Download new WikiPedia pages"""
 
 import argparse
 

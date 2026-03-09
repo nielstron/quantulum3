@@ -1,3 +1,93 @@
 [build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta:__legacy__"
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quantulum3"
+version = "0.9.2"
+description = "Extract quantities from unstructured text."
+readme = "README.md"
+license = "MIT"
+authors = [
+  { name = "Marco Lagi, nielstron, sohrabtowfighi, grhawk and Rodrigo Castro", email = "n.muendler@web.de" },
+]
+requires-python = ">=3.9"
+dependencies = [
+  "inflect",
+  "num2words",
+]
+keywords = [
+  "information extraction",
+  "quantities",
+  "units",
+  "measurements",
+  "nlp",
+  "natural language processing",
+  "text mining",
+  "text processing",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "Natural Language :: English",
+  "Operating System :: MacOS :: MacOS X",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Text Processing :: Linguistic",
+]
+
+[project.optional-dependencies]
+classifier = [
+  "joblib",
+  "numpy",
+  "scikit-learn",
+  "scipy",
+  "stemming",
+  "wikipedia",
+]
+
+[project.scripts]
+quantulum3-training = "quantulum3.scripts.train:main"
+
+[project.urls]
+Homepage = "https://github.com/nielstron/quantulum3"
+Repository = "https://github.com/nielstron/quantulum3"
+Issues = "https://github.com/nielstron/quantulum3/issues"
+Changelog = "https://github.com/nielstron/quantulum3/blob/master/CHANGES"
+
+[dependency-groups]
+dev = [
+  "black",
+  "coverage",
+  "flake8",
+  "hypothesis",
+  "pylint",
+  "pytest",
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["quantulum3*"]
+
+[tool.setuptools.package-data]
+quantulum3 = ["*.json", "*.joblib", "_lang/**/*.json", "_lang/**/*.txt", "_lang/**/*.joblib"]
+
+[tool.pytest.ini_options]
+testpaths = [
+  "quantulum3/tests",
+  "quantulum3/_lang/en_US/tests",
+]
+
+[tool.uv]
+default-groups = ["dev"]

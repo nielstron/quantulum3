@@ -8,10 +8,9 @@ import logging
 import multiprocessing
 import os
 import warnings
+from importlib.metadata import version
 
-import pkg_resources
-
-from . import language, load
+from . import language, load, no_classifier
 from .load import cached
 
 # Semi-dependencies
@@ -26,7 +25,8 @@ except ImportError:
     USE_CLF = False
 
     warnings.warn(
-        "Classifier dependencies not installed. Run pip install quantulum3[classifier] "
+        "Classifier dependencies not installed. Run `uv sync --extra classifier` or "
+        "`pip install quantulum3[classifier]` "
         "to install them. The classifer helps to dissambiguate units."
     )
 
@@ -189,7 +189,7 @@ def train_classifier(
     _LOGGER.info("Fit SGD Classifier")
     clf = SGDClassifier(**parameters).fit(matrix, train_target)
     obj = {
-        "scikit-learn_version": pkg_resources.get_distribution("scikit-learn").version,
+        "scikit-learn_version": version("scikit-learn"),
         "tfidf_model": tfidf_model,
         "clf": clf,
         "target_names": target_names,
@@ -234,24 +234,36 @@ class Classifier(object):
         if not classifier_object:
             if classifier_path is None:
                 classifier_path = language.topdir(lang).joinpath("clf.joblib")
-            with open(classifier_path, "rb") as file:
-                classifier_object = joblib.load(file)
+            try:
+                with open(classifier_path, "rb") as file:
+                    classifier_object = joblib.load(file)
+            except FileNotFoundError:
+                warnings.warn(
+                    "Classifier model not found at {}. Falling back to heuristic "
+                    "disambiguation.".format(classifier_path)
+                )
+                return
 
-        cur_scipy_version = pkg_resources.get_distribution("scikit-learn").version
-        if cur_scipy_version != classifier_object.get(
+        cur_scikit_learn_version = version("scikit-learn")
+        if cur_scikit_learn_version != classifier_object.get(
             "scikit-learn_version"
         ):  # pragma: no cover
             _LOGGER.warning(
                 "The classifier was built using a different scikit-learn "
                 "version (={}, !={}). The disambiguation tool could behave "
                 "unexpectedly. Consider running classifier.train_classfier()".format(
-                    classifier_object.get("scikit-learn_version"), cur_scipy_version
+                    classifier_object.get("scikit-learn_version"),
+                    cur_scikit_learn_version,
                 )
             )
 
         self.tfidf_model = classifier_object["tfidf_model"]
         self.classifier = classifier_object["clf"]
         self.target_names = classifier_object["target_names"]
+
+    @property
+    def loaded(self):
+        return self.tfidf_model is not None and self.classifier is not None
 
 
 @cached
@@ -276,6 +288,10 @@ def disambiguate_entity(key, text, lang="en_US", classifier_path=None):
     new_ent = next(iter(entities_.derived[key]))
     if len(entities_.derived[key]) > 1:
         classifier_: Classifier = classifier(lang, classifier_path)
+        if not classifier_.loaded:
+            return no_classifier.disambiguate_no_classifier(
+                entities_.derived[key], text, lang
+            )
 
         transformed = classifier_.tfidf_model.transform([clean_text(text, lang)])
         scores = classifier_.classifier.predict_proba(transformed).tolist()[0]
@@ -314,6 +330,8 @@ def disambiguate_unit(unit, text, lang="en_US", classifier_path=None):
 
     if len(new_unit) > 1:
         classifier_: Classifier = classifier(lang, classifier_path)
+        if not classifier_.loaded:
+            return no_classifier.disambiguate_no_classifier(new_unit, text, lang)
 
         transformed = classifier_.tfidf_model.transform([clean_text(text, lang)])
         scores = classifier_.classifier.predict_proba(transformed).tolist()[0]
