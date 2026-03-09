@@ -10,7 +10,7 @@ import os
 import warnings
 from importlib.metadata import version
 
-from . import language, load
+from . import language, load, no_classifier
 from .load import cached
 
 # Semi-dependencies
@@ -234,8 +234,15 @@ class Classifier(object):
         if not classifier_object:
             if classifier_path is None:
                 classifier_path = language.topdir(lang).joinpath("clf.joblib")
-            with open(classifier_path, "rb") as file:
-                classifier_object = joblib.load(file)
+            try:
+                with open(classifier_path, "rb") as file:
+                    classifier_object = joblib.load(file)
+            except FileNotFoundError:
+                warnings.warn(
+                    "Classifier model not found at {}. Falling back to heuristic "
+                    "disambiguation.".format(classifier_path)
+                )
+                return
 
         cur_scikit_learn_version = version("scikit-learn")
         if cur_scikit_learn_version != classifier_object.get(
@@ -253,6 +260,10 @@ class Classifier(object):
         self.tfidf_model = classifier_object["tfidf_model"]
         self.classifier = classifier_object["clf"]
         self.target_names = classifier_object["target_names"]
+
+    @property
+    def loaded(self):
+        return self.tfidf_model is not None and self.classifier is not None
 
 
 @cached
@@ -277,6 +288,10 @@ def disambiguate_entity(key, text, lang="en_US", classifier_path=None):
     new_ent = next(iter(entities_.derived[key]))
     if len(entities_.derived[key]) > 1:
         classifier_: Classifier = classifier(lang, classifier_path)
+        if not classifier_.loaded:
+            return no_classifier.disambiguate_no_classifier(
+                entities_.derived[key], text, lang
+            )
 
         transformed = classifier_.tfidf_model.transform([clean_text(text, lang)])
         scores = classifier_.classifier.predict_proba(transformed).tolist()[0]
@@ -315,6 +330,8 @@ def disambiguate_unit(unit, text, lang="en_US", classifier_path=None):
 
     if len(new_unit) > 1:
         classifier_: Classifier = classifier(lang, classifier_path)
+        if not classifier_.loaded:
+            return no_classifier.disambiguate_no_classifier(new_unit, text, lang)
 
         transformed = classifier_.tfidf_model.transform([clean_text(text, lang)])
         scores = classifier_.classifier.predict_proba(transformed).tolist()[0]

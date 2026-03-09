@@ -6,6 +6,7 @@
 
 import os
 import unittest
+from pathlib import Path
 
 from .. import classifier as clf
 from .. import parser as p
@@ -70,6 +71,14 @@ class ParsingTest(unittest.TestCase):
                 "\n".join("{}: {}".format(test[0]["req"], test[1]) for test in error),
             ),
         )
+
+    def test_missing_classifier_file_falls_back(self):
+        """Missing classifier artifacts should not crash parsing."""
+        clf.USE_CLF = True
+        result = clf.disambiguate_unit(
+            "C", "0C", lang="en_us", classifier_path=Path("missing-clf.joblib")
+        )
+        self.assertIsNotNone(result)
 
 
 ###############################################################################
